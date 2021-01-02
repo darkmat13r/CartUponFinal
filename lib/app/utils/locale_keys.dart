@@ -1,0 +1,34 @@
+class LocaleKeys {
+  static const welcomeTo = 'welcomeTo';
+  static const appName = 'appName';
+  static const signInToContinue = 'signInToContinue';
+  static const hintEmail = 'hintEmail';
+  static const hintPassword = 'hintPassword';
+  static const signIn = 'signIn';
+  static const loginWithGoogle = 'loginWithGoogle';
+  static const loginWithFb = 'loginWithFb';
+  static const forgotPassword = 'forgotPassword';
+  static const dontHaveAccount = 'dontHaveAccount';
+  static const register = 'register';
+  static const or = 'or';
+  static const hintSearchProduct = 'hintSearchProduct';
+  static const category = 'category';
+  static const moreCategory = 'moreCategory';
+  static const flashSale = 'flashSale';
+  static const megaSale = 'megaSale';
+  static const seeMore = 'seeMore';
+  static const selectSize = 'selectSize';
+  static const selectColor = 'selectColor';
+  static const specification = 'specification';
+  static const shown = 'shown';
+  static const style = 'style';
+  static const reviewProduct = 'reviewProduct';
+  static const youMayLike = 'youMayLike';
+  static const addToCart = 'addToCart';
+  static const yourCart = 'yourCart';
+  static const items = 'items';
+  static const shipping = 'shipping';
+  static const tax = 'tax';
+  static const totalPrice = 'totalPrice';
+  static const checkout = 'checkout';
+}
