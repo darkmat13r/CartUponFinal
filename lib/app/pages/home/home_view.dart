@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:coupon_app/app/components/product_item.dart';
 import 'package:coupon_app/app/components/rating.dart';
+import 'package:coupon_app/app/components/search_app_bar.dart';
 import 'package:coupon_app/app/pages/home/home_controller.dart';
 import 'package:coupon_app/app/pages/login/login_view.dart';
 import 'package:coupon_app/app/utils/constants.dart';
@@ -22,48 +23,7 @@ class HomePageView extends ViewState<HomePage, HomeController> {
   @override
   Widget get view => Scaffold(key: globalKey, body: _body);
 
-  Widget get _appBar => Container(
-        height: 72,
-        decoration: BoxDecoration(
-            border: Border.fromBorderSide(
-                BorderSide(color: AppColors.neutralLight))),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(Dimens.spacingMedium, 0, 0, 0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                  child: TextFormField(
-                decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Feather.search,
-                      color: AppColors.primary,
-                    ),
-                    hintText: LocaleKeys.hintSearchProduct.tr()),
-              )),
-              SizedBox(
-                width: Dimens.spacingMedium,
-              ),
-              Ink(
-                decoration: const ShapeDecoration(shape: CircleBorder()),
-                child: IconButton(
-                  icon: Icon(Feather.heart),
-                  color: AppColors.neutralGray,
-                  onPressed: () {},
-                ),
-              ),
-              Ink(
-                decoration: const ShapeDecoration(shape: CircleBorder()),
-                child: IconButton(
-                  icon: Icon(Feather.bell),
-                  color: AppColors.neutralGray,
-                  onPressed: () {},
-                ),
-              )
-            ],
-          ),
-        ),
-      );
+  Widget get _appBar => SearchAppBar();
 
   Widget get _body => SafeArea(
         child: ListView(
@@ -293,3 +253,4 @@ class HomePageView extends ViewState<HomePage, HomeController> {
     );
   }
 }
+

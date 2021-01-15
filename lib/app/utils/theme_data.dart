@@ -8,7 +8,9 @@ const _errorBorderSide =
     BorderSide(color: AppColors.error, width: Dimens.borderWidth);
 const _focusedBorderSide =
     BorderSide(color: AppColors.primary, width: Dimens.borderWidth);
-
+const appBarShape = RoundedRectangleBorder(
+    side: BorderSide(
+        color: AppColors.neutralLight, width: Dimens.borderWidth));
 ThemeData appTheme(BuildContext context) => ThemeData(
     scaffoldBackgroundColor: AppColors.background,
     primaryColor: AppColors.primary,
@@ -18,7 +20,6 @@ ThemeData appTheme(BuildContext context) => ThemeData(
         height: Dimens.buttonHeight,
         buttonColor: AppColors.accent,
         textTheme: ButtonTextTheme.primary,
-
         shape: RoundedRectangleBorder(
             borderRadius:
                 BorderRadius.all(Radius.circular(Dimens.cornerRadius)))),
@@ -34,7 +35,7 @@ ThemeData appTheme(BuildContext context) => ThemeData(
         labelStyle: formText,
         helperStyle: formText,
         hintStyle: formText,
-        contentPadding: EdgeInsets.symmetric(vertical: Dimens.spacingSmall),
+        contentPadding: EdgeInsets.symmetric(vertical: Dimens.spacingSmall, horizontal: Dimens.spacingMedium),
         focusColor: AppColors.primary,
         prefixStyle: TextStyle(color: AppColors.primary),
         errorStyle: TextStyle(

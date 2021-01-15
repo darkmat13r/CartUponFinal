@@ -1,7 +1,9 @@
 import 'package:coupon_app/app/components/cart_item.dart';
+import 'package:coupon_app/app/components/dotted_view.dart';
 import 'package:coupon_app/app/pages/cart/cart_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/app/utils/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -28,9 +30,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
         LocaleKeys.yourCart.tr(),
         style: heading4.copyWith(color: AppColors.neutralDark),
       ),
-      shape: RoundedRectangleBorder(
-          side: BorderSide(
-              color: AppColors.neutralLight, width: Dimens.borderWidth)),
+      shape: appBarShape,
     ),
     body: _body,
   );
@@ -109,47 +109,4 @@ class CartPageState extends ViewState<CartPage, CartController> {
     ],
   );
 
-}
-class DotWidget extends StatelessWidget {
-  final double width;
-  final double height;
-  final double gap;
-  final Color color;
-  final double lineHeight;
-
-  const DotWidget(
-      {this.height = 1.0,
-        this.color = Colors.black,
-        this.width = 2.0,
-        this.gap = 2.0,
-        this.lineHeight = 10.0});
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        final boxWidth = constraints.constrainWidth();
-        final dashWidth = width;
-        final dashHeight = height;
-        final dashCount = (boxWidth / dashWidth).floor();
-        return Container(
-          height: (lineHeight * 2) + height,
-          child: ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            itemCount: dashCount,
-            itemBuilder: (BuildContext context, int index) => Center(
-              child: Container(
-                width: dashWidth,
-                height: dashHeight,
-                margin:
-                EdgeInsets.symmetric(vertical: lineHeight, horizontal: gap),
-                decoration: BoxDecoration(color: color),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 }

@@ -13,8 +13,8 @@ class Resources {
 
 class AppColors {
   static const Color background = const Color(0xFFFFFFFF);
-  static const Color primary = const Color(0xff40BFFF);
-  static const Color accent = const Color(0xff40BFFF);
+  static const Color primary = const Color(0xff04407F);
+  static const Color accent = const Color(0xff04407F);
   static const Color neutralLight = const Color(0xffEBF0FF);
   static const Color neutralGray = const Color(0xff9098B1);
   static const Color neutralDark = const Color(0xff223263);

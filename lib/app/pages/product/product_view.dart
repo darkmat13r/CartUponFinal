@@ -86,7 +86,9 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                         Feather.heart,
                         color: AppColors.neutralGray,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+
+                      },
                     )
                   ],
                 ),
@@ -189,39 +191,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                 SizedBox(
                   height: Dimens.spacingLarge,
                 ),
-                Row(
-                  children: [
-                    Text(
-                      LocaleKeys.reviewProduct.tr() + ":",
-                      style: heading5.copyWith(color: AppColors.neutralDark),
-                    ),
-                    Expanded(child: SizedBox()),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        LocaleKeys.seeMore.tr(),
-                        style: linkText,
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Rating(
-                      size: 20,
-                    ),
-                    Text("4.5",
-                        style: captionNormal1.copyWith(
-                            color: AppColors.neutralGray)),
-                    Text(" (5 Review)",
-                        style: captionNormal2.copyWith(
-                            color: AppColors.neutralGray)),
-                  ],
-                ),
-                SizedBox(
-                  height: Dimens.spacingMedium,
-                ),
-                ReviewItem(),
+                _reviews,
                 _recommended(LocaleKeys.youMayLike.tr())
               ],
             ),
@@ -230,6 +200,50 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
             height: 70,
           )
         ],
+      );
+
+  get _reviews => ControlledWidgetBuilder(
+        builder: (BuildContext context, ProductController controller) {
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    LocaleKeys.reviewProduct.tr() + ":",
+                    style: heading5.copyWith(color: AppColors.neutralDark),
+                  ),
+                  Expanded(child: SizedBox()),
+                  TextButton(
+                    onPressed: () {
+                      controller.reviews();
+                    },
+                    child: Text(
+                      LocaleKeys.seeMore.tr(),
+                      style: linkText,
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Rating(
+                    size: 20,
+                  ),
+                  Text("4.5",
+                      style: captionNormal1.copyWith(
+                          color: AppColors.neutralGray)),
+                  Text(" (5 Review)",
+                      style: captionNormal2.copyWith(
+                          color: AppColors.neutralGray)),
+                ],
+              ),
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              ReviewItem(),
+            ],
+          );
+        },
       );
 
   Widget _recommended(String name) => Column(
@@ -286,10 +300,12 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
             child: SizedBox(
               width: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: Dimens.spacingMedium, horizontal: Dimens.spacingMedium),
+                padding: const EdgeInsets.symmetric(
+                    vertical: Dimens.spacingMedium,
+                    horizontal: Dimens.spacingMedium),
                 child: RaisedButton(
                   onPressed: () {},
-                  child:  Text(LocaleKeys.addToCart.tr(), style: buttonText),
+                  child: Text(LocaleKeys.addToCart.tr(), style: buttonText),
                 ),
               ),
             ),

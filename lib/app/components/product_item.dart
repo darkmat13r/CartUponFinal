@@ -67,7 +67,7 @@ class ProductItemState extends State<ProductItem>{
                       Text(
                         "\$534,33",
                         style: bodyTextNormal2.copyWith(
-                            color: AppColors.neutralGray),
+                            color: AppColors.neutralGray, decoration: TextDecoration.lineThrough),
                       ),
                       SizedBox(
                         width: Dimens.spacingSmall,

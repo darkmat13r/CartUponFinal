@@ -30,6 +30,45 @@
   "shipping" : "Shipping",
   "tax" : "Tax",
   "totalPrice" : "Total Price",
-  "checkout" : "Checkout"
+  "checkout" : "Checkout",
+  "account" : "Account",
+  "profile" : "Profile",
+  "order" : "Order",
+  "address" : "Address",
+  "payment" : "Payment",
+
+  "email" : "Email",
+  "phone" : "Phone Number",
+  "changePassword" : "Change Password",
+
+  "orderAt" : "Order at {location} : {date}",
+  "orderStatus" : "Status",
+  "orderItems" : "Items",
+  "price" : "Price",
+  "orderStatusShipping" : "Shipping",
+  "fmtItemsPurchased" : "{} Items purchases",
+
+  "orderDetails" : "Order Details",
+  "orderStatusPacking" :  "Packing",
+  "orderStatusArriving" :  "Arriving",
+  "orderStatusDelivered"  : "Delivered",
+  "orderShippingDate" :  "Date Shipping",
+  "orderAddress" : "Address",
+  "orderId" : "Order Id",
+  "product"  :  "Product",
+  "shippingDetails" : "Shipping Details",
+  "paymentDetails"  : "Payment Details",
+
+  "reviews" : "{} Review",
+  "allReviews" : "All Reviews",
+  "writeReview" : "Write Review",
+
+  "writeReviewText" : "Please write Overall level of satisfaction with your shipping / Delivery Service",
+  "addPhoto": "Add Photo",
+  "writeYourReview" : "Write Your Review",
+  "writeYourReviewHint" : "Write your review here",
+  "submitReview" : "Submit Review",
+
+  "explore" : "Explore"
 
 }
