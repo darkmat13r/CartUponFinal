@@ -1,29 +1,90 @@
 import 'package:coupon_app/app/pages/login/login_presenter.dart';
+import 'package:coupon_app/app/pages/pages.dart';
+import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/data/utils/constants.dart';
+import 'package:coupon_app/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:coupon_app/app/pages/login/login_presenter.dart';
 import 'package:coupon_app/domain/repositories/local_repository.dart';
 
 class LoginController extends Controller{
-
+  TextEditingController emailTextController;
+  TextEditingController passwordTextController;
   LoginPresenter _homePresenter;
+  bool isLoading =  false;
+  LoginPresenter _loginPresenter;
 
-  LoginController() : _homePresenter = LoginPresenter(){
-
+  LoginController(authRepo) : _loginPresenter = LoginPresenter(authRepo) {
+    emailTextController = TextEditingController();
+    passwordTextController = TextEditingController();
   }
 
   @override
   void initListeners() {
+    _loginPresenter.loginOnComplete = this._loginOnComplete;
+    _loginPresenter.loginOnError = this._loginOnError;
+  }
 
+  void _loginOnComplete(UserEntity user) {
+    dismissLoading();
+    goToHome();
+  }
+
+  void _loginOnError( e) {
+    dismissLoading();
+    showGenericSnackbar(getContext(), e.message, isError: true);
+    refreshUI();
+  }
+
+  void checkForm(Map<String, dynamic> params){
+    dynamic formKey = params['formKey'];
+
+    // Validate params
+    assert(formKey is GlobalKey<FormState>);
+    if (formKey.currentState.validate()) {
+      login();
+    } else {
+      logger.shout('Login failed');
+      showGenericSnackbar(getContext(), Strings.loginFormIncomplete,
+          isError: true);
+    }
+  }
+
+  /// Logs a [User] into the application
+  void login() async {
+    isLoading = true;
+    refreshUI();
+    _loginPresenter.login(
+        email: emailTextController.text, password: passwordTextController.text);
+  }
+
+  void dismissLoading() {
+    isLoading = false;
+    refreshUI();
+  }
+
+  void register() {
+    Navigator.of(getContext()).pushNamed(Pages.register);
+  }
+
+  void forgotPassword() {
+   Navigator.of(getContext()).pushNamed(Pages.forgotPassword);
+  }
+
+  void back() {
+    Navigator.of(getContext()).pop();
   }
 
   void goToHome(){
-    Navigator.of(getContext()).pushNamed('/main');
+    Navigator.of(getContext()).pushNamed(Pages.main);
   }
 
   @override
   void dispose() {
     _homePresenter.dispose();
   }
+
+
 
 }

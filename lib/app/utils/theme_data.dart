@@ -11,44 +11,138 @@ const _focusedBorderSide =
 const appBarShape = RoundedRectangleBorder(
     side: BorderSide(
         color: AppColors.neutralLight, width: Dimens.borderWidth));
+
+TextTheme createTextTheme(BuildContext context) =>
+    GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).copyWith(
+      overline: TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.normal,
+          color: AppColors.neutralDark,
+          letterSpacing: 1.5),
+      caption: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.normal,
+          color: AppColors.neutralDark,
+          letterSpacing: 0.4),
+      button: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: AppColors.neutralDark,
+          letterSpacing: 1.25),
+      bodyText2: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+          color: AppColors.neutralDark,
+          letterSpacing: 0.25),
+      bodyText1: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.normal,
+          color: AppColors.neutralDark,
+          letterSpacing: 0.5),
+      subtitle2: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: AppColors.neutralDark,
+          letterSpacing: 0.1),
+      subtitle1: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.normal,
+          color: AppColors.neutralDark,
+          letterSpacing: 0.15),
+      headline6: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w500,
+          color: AppColors.neutralDark,
+          letterSpacing: 0.15),
+      headline5: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.normal,
+          color: AppColors.neutralDark,
+          letterSpacing: 0),
+      headline4: TextStyle(
+          fontSize: 34,
+          fontWeight: FontWeight.normal,
+          color: AppColors.neutralDark,
+          letterSpacing: 0.25),
+      headline3: TextStyle(
+          fontSize: 48,
+          fontWeight: FontWeight.normal,
+          color: AppColors.neutralDark,
+          letterSpacing: 0),
+      headline2: TextStyle(
+          fontSize: 60,
+          fontWeight: FontWeight.w200,
+          color: AppColors.neutralDark,
+          letterSpacing: -0.5),
+      headline1: TextStyle(
+          fontSize: 96,
+          fontWeight: FontWeight.w200,
+          color: AppColors.neutralDark,
+          letterSpacing: -1.5),
+    );
+
 ThemeData appTheme(BuildContext context) => ThemeData(
-    scaffoldBackgroundColor: AppColors.background,
-    primaryColor: AppColors.primary,
-    textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
-    outlinedButtonTheme: OutlinedButtonThemeData(),
-    buttonTheme: ButtonThemeData(
-        height: Dimens.buttonHeight,
-        buttonColor: AppColors.accent,
-        textTheme: ButtonTextTheme.primary,
-        shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.all(Radius.circular(Dimens.cornerRadius)))),
-    cardTheme: CardTheme(
-        elevation: 0,
-        color: AppColors.background,
-        shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.all(Radius.circular(Dimens.cornerRadius)),
-            side: _borderSide)),
-    textSelectionTheme: TextSelectionThemeData(cursorColor: AppColors.primary),
-    inputDecorationTheme: InputDecorationTheme(
-        labelStyle: formText,
-        helperStyle: formText,
-        hintStyle: formText,
-        contentPadding: EdgeInsets.symmetric(vertical: Dimens.spacingSmall, horizontal: Dimens.spacingMedium),
-        focusColor: AppColors.primary,
-        prefixStyle: TextStyle(color: AppColors.primary),
-        errorStyle: TextStyle(
-            color: AppColors.error,
-            fontSize: null,
-            fontWeight: FontWeight.bold,
-            fontStyle: FontStyle.normal),
-        errorBorder: OutlineInputBorder(
-            borderSide: _errorBorderSide,
-            borderRadius: BorderRadius.circular(Dimens.cornerRadius)),
-        focusedBorder: OutlineInputBorder(
-            borderSide: _focusedBorderSide,
-            borderRadius: BorderRadius.circular(Dimens.cornerRadius)),
-        enabledBorder: OutlineInputBorder(
-            borderSide: _borderSide,
-            borderRadius: BorderRadius.circular(Dimens.cornerRadius))));
+  scaffoldBackgroundColor: AppColors.background,
+  dialogBackgroundColor: AppColors.background,
+  backgroundColor: AppColors.background,
+  primaryColor: AppColors.primary,
+  brightness: Brightness.light,
+  snackBarTheme: SnackBarThemeData(
+    backgroundColor: AppColors.cardBg,
+    actionTextColor: AppColors.neutralDark,
+  ),
+  appBarTheme: AppBarTheme(
+    color: AppColors.background,
+    backgroundColor: AppColors.background,
+    titleTextStyle: heading4,
+  ),
+  textTheme: createTextTheme(context),
+  outlinedButtonTheme: OutlinedButtonThemeData(),
+  buttonTheme: ButtonThemeData(
+      height: Dimens.buttonHeight,
+      buttonColor: AppColors.accent,
+      textTheme: ButtonTextTheme.primary,
+      shape: RoundedRectangleBorder(
+          borderRadius:
+          BorderRadius.all(Radius.circular(Dimens.cornerRadius)))),
+  cardTheme: CardTheme(
+      elevation: 0,
+      color: AppColors.cardBg,
+      shape: RoundedRectangleBorder(
+        borderRadius:
+        BorderRadius.all(Radius.circular(Dimens.cornerRadius)),
+        side: BorderSide(color: AppColors.neutralLight, width: Dimens.borderWidth)
+      )),
+  textSelectionTheme:
+  TextSelectionThemeData(cursorColor: AppColors.primary),
+  inputDecorationTheme: InputDecorationTheme(
+      labelStyle: formText,
+      helperStyle: formText,
+      hintStyle: formHintText,
+      contentPadding: EdgeInsets.symmetric(
+          vertical: Dimens.spacingSmall, horizontal: Dimens.spacingMedium),
+      focusColor: AppColors.neutralGray,
+      fillColor: AppColors.formFieldBg,
+      filled: true,
+      prefixStyle: TextStyle(color: AppColors.accent),
+      errorStyle: TextStyle(
+          color: AppColors.error,
+          fontSize: null,
+          fontWeight: FontWeight.bold,
+          fontStyle: FontStyle.normal),
+      errorBorder: OutlineInputBorder(
+          borderSide: _errorBorderSide,
+          borderRadius: BorderRadius.circular(Dimens.cornerRadius)),
+      focusedBorder: OutlineInputBorder(
+          borderSide: _focusedBorderSide,
+          borderRadius: BorderRadius.circular(Dimens.cornerRadius)),
+      enabledBorder: OutlineInputBorder(
+          borderSide: _borderSide,
+          borderRadius: BorderRadius.circular(Dimens.cornerRadius))),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    backgroundColor: AppColors.background,
+    elevation: 0,
+    unselectedItemColor: AppColors.neutralGray,
+    selectedItemColor: AppColors.accent,
+  ),
+);

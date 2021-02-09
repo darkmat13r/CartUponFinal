@@ -1,3 +1,6 @@
+export 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/src/widgets/framework.dart';
+
 class LocaleKeys {
   static const welcomeTo = 'welcomeTo';
   static const appName = 'appName';
@@ -80,5 +83,53 @@ class LocaleKeys {
   static const writeYourReview = "writeYourReview";
   static const writeYourReviewHint = "writeYourReviewHint";
   static const submitReview = "submitReview";
+
+  //Register
+  static const createAnAccount = "createAnAccount";
+  static const haveAnAccount = "haveAnAccount";
+  static const confirmPassword = "confirmPassword";
+  static const fullName = "fullName";
+  static const letsGetStarted = "letsGetStarted";
+  static const signUp = "signUp";
+
+  static const errorUsernameRequired = "errorUsernameRequired";
+  static const errorPasswordRequired = "errorPasswordRequired";
+
+  static const  filterSearch  = "filterSearch";
+
+  static const  priceRange  = "priceRange";
+  static const  min  = "min";
+  static const  max  = "max";
+  static const  condition  = "condition";
+  static const  color  = "color";
+  static const  brand  = "brand";
+  static const  applyFilter  = "applyFilter";
+
+
+  //Change Password
+  static const  oldPassword  = "oldPassword";
+  static const  newPassword  = "newPassword";
+  static const  confirmNewPassword  = "confirmNewPassword";
+
+  //Add address
+  static const edit  = "edit";
+  static const addAddress  = "addAddress";
+
+  static const countryRegion  = "firstName";
+  static const firstName  = "firstName";
+  static const lastName  = "lastName";
+  static const streetAddress  = "streetAddress";
+  static const streetAddressOption  = "streetAddressOption";
+  static const city  = "city";
+  static const state  = "state";
+  static const zipCode  = "zipCode";
+  static const phoneNumber  = "phoneNumber";
+
+  //Forgot Password
+  static const sendInstructions  = "sendInstructions";
+  static const forgotPasswordTitle  = "forgotPasswordTitle";
+  static const forgotPasswordSubtitle  = "forgotPasswordSubtitle";
+
+
 
 }

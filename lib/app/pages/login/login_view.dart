@@ -1,4 +1,6 @@
+import 'package:coupon_app/app/components/loading_button.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -16,8 +18,8 @@ class LoginPage extends View {
 }
 
 class LoginPageView extends ViewState<LoginPage, LoginController> {
-  LoginPageView() : super(LoginController());
-
+  LoginPageView() : super(LoginController(DataAuthenticationRepository()));
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget get view => Scaffold(
         key: globalKey,
@@ -73,21 +75,7 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
                     style: buttonText.copyWith(color: AppColors.primary),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      LocaleKeys.dontHaveAccount.tr(),
-                    ),
-                    TextButton(
-                      onPressed: () => {},
-                      child: Text(
-                        LocaleKeys.register.tr(),
-                        style: buttonText.copyWith(color: AppColors.primary),
-                      ),
-                    )
-                  ],
-                )
+               _registerButton
               ],
             ),
           ),
@@ -193,40 +181,81 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
         ),
       ]);
 
+  get _registerButton => ControlledWidgetBuilder(builder : (BuildContext context, LoginController controller){
+    return  Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Text(
+        LocaleKeys.dontHaveAccount.tr(),
+      ),
+      TextButton(
+        onPressed: () => {
+        controller.register()
+      },
+        child: Text(
+          LocaleKeys.register.tr(),
+          style: buttonText.copyWith(color: AppColors.primary),
+        ),
+      )
+    ],
+  );
+  });
+
   Widget _loginForm() {
     return ControlledWidgetBuilder<LoginController>(builder: (BuildContext context, LoginController controller) {
-      return Column(
-        children: [
-          TextFormField(
-            decoration: InputDecoration(
-                prefixIcon: Icon(Feather.mail),
-                hintText: LocaleKeys.hintEmail.tr()),
-          ),
-          SizedBox(
-            height: Dimens.spacingMedium,
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              prefixIcon: Icon(Feather.lock),
-              hintText: LocaleKeys.hintPassword.tr(),
-            ),
-          ),
-          SizedBox(
-            height: Dimens.spacingMedium,
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: RaisedButton(
-              onPressed: () {
-                controller.goToHome();
+      return Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            TextFormField(
+              controller: controller.emailTextController,
+              keyboardType: TextInputType.emailAddress,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return LocaleKeys.errorUsernameRequired.tr();
+                }
+                return null;
               },
-              child: Text(
-                LocaleKeys.signIn.tr(),
-                style: buttonText.copyWith(color: Colors.white),
+              decoration: InputDecoration(
+                  prefixIcon: Icon(Feather.mail),
+                  hintText: LocaleKeys.hintEmail.tr()),
+            ),
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            TextFormField(
+              keyboardType: TextInputType.text,
+              controller: controller.passwordTextController,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return LocaleKeys.errorPasswordRequired.tr();
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                prefixIcon: Icon(Feather.lock),
+                hintText: LocaleKeys.hintPassword.tr(),
               ),
             ),
-          ),
-        ],
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: LoadingButton(
+                onPressed: () {
+                  controller.checkForm({
+                    'context': context,
+                    'formKey': _formKey,
+                    'globalKey': globalKey
+                  });
+                },
+                isLoading :  controller.isLoading,
+                text: LocaleKeys.signIn.tr(),
+              ),
+            ),
+          ],
+        ),
       );
     },
     );

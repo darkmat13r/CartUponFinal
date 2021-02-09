@@ -1,0 +1,103 @@
+import 'package:coupon_app/app/components/loading_button.dart';
+import 'package:coupon_app/app/components/rounded_box.dart';
+import 'package:coupon_app/app/pages/account/address/addresses_controller.dart';
+import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/app/utils/theme_data.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+
+class AddressesPage extends View{
+  @override
+  State<StatefulWidget> createState() => AddressesPageState();
+
+}
+
+class AddressesPageState extends ViewState<AddressesPage, AddressesController>{
+  AddressesPageState() : super(AddressesController());
+
+
+  @override
+  Widget get view => Scaffold(
+    appBar: AppBar(
+      elevation: 0,
+      backgroundColor: Colors.white,
+      leading: IconButton(
+        onPressed: () {},
+        icon: Icon(Feather.chevron_left, color: AppColors.neutralGray),
+      ),
+      title: Text(
+        LocaleKeys.address.tr(),
+        style: heading4.copyWith(color: AppColors.neutralDark),
+      ),
+      shape: appBarShape,
+    ),
+    key: globalKey,
+    body: _body,
+  );
+
+  get _body => Padding(
+    padding: const EdgeInsets.all(Dimens.spacingMedium),
+    child: ListView(
+      shrinkWrap: true,
+      children: [
+        _address,
+        SizedBox(
+          height: Dimens.spacingMedium,
+        ),
+        SizedBox(
+          height: Dimens.spacingMedium,
+        ),
+        _addAddress
+      ],
+    ),
+  );
+
+  get _address => ControlledWidgetBuilder(builder: (BuildContext context, AddressesController controller){
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(Dimens.spacingMedium),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Avinash Kumawat", style: heading5,),
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            Text("Udaipur, Rajasthan", style: bodyTextNormal1.copyWith(color: AppColors.neutralGray),),
+            SizedBox(
+              height: Dimens.spacingMedium,
+
+            ),
+            Text("+91 94852 8454", style: bodyTextNormal1.copyWith(color: AppColors.neutralGray),),
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            Row(
+              children: [
+                RaisedButton(onPressed: (){},child: Text(LocaleKeys.edit.tr(), style: buttonText,),),
+                SizedBox(
+                  width: Dimens.spacingMedium,
+                ),
+                IconButton(
+                  onPressed: (){},
+                  icon: Icon(Feather.trash),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  });
+
+  get _addAddress => ControlledWidgetBuilder(builder: (BuildContext context, AddressesController controller){
+    return LoadingButton(onPressed: (){
+      controller.addAddress();
+    }, text: LocaleKeys.addAddress.tr());
+  });
+
+}

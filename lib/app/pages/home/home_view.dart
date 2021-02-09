@@ -50,20 +50,33 @@ class HomePageView extends ViewState<HomePage, HomeController> {
       items: [0, 1, 2, 3, 4, 5].map((i) {
         return Builder(
           builder: (BuildContext context) {
-            return _bannerImage;
+            return _bannerImage(bannerImages[i]);
           },
         );
       }).toList());
 
-  get _bannerImage => Container(
+  var bannerImages = [
+    'https://d-themes.com/react/molla/demo-3/assets/images/home/sliders/slide-2.jpg',
+    'https://d-themes.com/react/molla/demo-3/assets/images/home/banners/banner-1.jpg',
+    'https://d-themes.com/react/molla/demo-3/assets/images/home/banners/banner-2.jpg',
+    'https://d-themes.com/react/molla/demo-3/assets/images/home/banners/banner-1.jpg',
+    'https://d-themes.com/react/molla/demo-3/assets/images/home/banners/banner-2.jpg',
+    'https://d-themes.com/react/molla/demo-3/assets/images/home/sliders/slide-2.jpg',
+    'https://d-themes.com/react/molla/demo-3/assets/images/home/banners/banner-3.jpg',
+  ];
+  Widget _bannerImage(String url) => Container(
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.symmetric(horizontal: 5.0),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(Dimens.cornerRadius),
         child: Stack(
           children: [
-            Image(
-              image: AssetImage(Resources.promotion),
+            SizedBox(
+              height: double.infinity,
+              child: Image.network(
+                url,
+                fit: BoxFit.cover,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(24.0),
@@ -75,14 +88,14 @@ class HomePageView extends ViewState<HomePage, HomeController> {
                     "Super Flash Sale",
                     style: TextStyle(
                         fontSize: 24,
-                        color: Colors.white,
+                        color:AppColors.neutralGray,
                         fontWeight: FontWeight.w900),
                   ),
                   Text(
                     "50% Off",
                     style: TextStyle(
                         fontSize: 24,
-                        color: Colors.white,
+                        color: AppColors.neutralDark,
                         fontWeight: FontWeight.w700),
                   ),
                   SizedBox(
@@ -92,7 +105,7 @@ class HomePageView extends ViewState<HomePage, HomeController> {
                     "08 : 24 : 52",
                     style: TextStyle(
                         fontSize: 28,
-                        color: Colors.white,
+                        color: AppColors.primary,
                         fontWeight: FontWeight.bold),
                   ),
                 ],

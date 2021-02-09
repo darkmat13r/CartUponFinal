@@ -2,16 +2,16 @@ import 'package:coupon_app/app/pages/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
-class SearchController extends Controller{
+class RegisterController extends Controller{
   @override
   void initListeners() {
   }
 
-  void product(){
-    Navigator.of(getContext()).pushNamed(Pages.product);
+  void goToHome() {
+    Navigator.of(getContext()).pushReplacementNamed(Pages.main);
   }
 
-  void filter() {
-    Navigator.of(getContext()).pushNamed(Pages.filter);
+  void login(){
+    Navigator.pop(getContext());
   }
 }

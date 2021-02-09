@@ -31,17 +31,14 @@ class SearchPageState extends ViewState<SearchPage, SearchController>{
           children: [
             Expanded(child: Text("148 Result", style: bodyTextNormal1.copyWith(color: AppColors.neutralGray),), ),
             Text("Electronics Coupons", style: bodyTextNormal1.copyWith(color: AppColors.neutralDark),),
-            Padding(
-              padding: const EdgeInsets.all(4),
-              child: Icon(Feather.chevron_down, color: AppColors.neutralGray,),
-            )
+            _filterButton
           ],
         ),
       ),
       GridView.count(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        childAspectRatio: 0.79,
+        childAspectRatio: 0.7,
         crossAxisCount: 2, children: List.generate(20, (index) => ControlledWidgetBuilder(builder: (BuildContext context, SearchController controller) {
           return ProductItem(()=>{
             controller.product()
@@ -49,5 +46,17 @@ class SearchPageState extends ViewState<SearchPage, SearchController>{
       },)),)
     ],
   );
+
+  get _filterButton => ControlledWidgetBuilder(builder: (BuildContext context, SearchController controller){
+    return InkWell(
+      onTap: (){
+        controller.filter();
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(4),
+        child: Icon(Feather.chevron_down, color: AppColors.neutralGray,),
+      ),
+    );
+  });
 
 }

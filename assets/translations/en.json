@@ -38,6 +38,8 @@
   "payment" : "Payment",
 
   "email" : "Email",
+  "errorUsernameRequired" : "Username is required",
+  "errorPasswordRequired" : "Password is required",
   "phone" : "Phone Number",
   "changePassword" : "Change Password",
 
@@ -69,6 +71,42 @@
   "writeYourReviewHint" : "Write your review here",
   "submitReview" : "Submit Review",
 
-  "explore" : "Explore"
+  "explore" : "Explore",
 
+
+  "createAnAccount" : "Create an new account",
+  "haveAnAccount" : "have an account?",
+  "confirmPassword" : "Password Again",
+  "fullName" : "Full name",
+  "letsGetStarted" : "Let's Get Started",
+  "signUp" : "Sign Up",
+  "filterSearch" : "Filter Search",
+
+  "priceRange" : "Price Range",
+  "min"  : "Min",
+  "max" : "Max",
+  "condition" : "Condition",
+  "color" : "Color",
+  "brand" : "Brand",
+  "applyFilter" : "Apply Filter",
+
+  "oldPassword" : "Old Password",
+  "newPassword" :  "New Password",
+  "confirmNewPassword" : "New Password Again",
+
+  "edit"  : "Edit",
+  "addAddress"  : "Add Address",
+  "countryRegion"  : "Country or region",
+  "firstName" : "First Name",
+  "lastName" : "Last Name",
+  "streetAddress"  : "Street Address",
+  "streetAddressOption" : "Street Address 2 (Optional)",
+  "city" : "City",
+  "state" : "State/Province/Region",
+  "zipCode" : "Zip Code",
+  "phoneNumber" : "Phone Number",
+
+  "sendInstructions":  "Send Reset Link",
+  "forgotPasswordTitle"  : "Did someone forgot their password?",
+  "forgotPasswordSubtitle"  : "That's ok, Just enter the email address you've used to register with us and we will send you a reset link"
 }

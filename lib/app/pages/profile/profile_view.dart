@@ -36,19 +36,21 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
     body: _body,
   );
 
-  get _body => ListView(
-    children: [
-      _optionItem( Feather.mail, LocaleKeys.email.tr(), "avinashkumawat2@gmail.com"),
-      _optionItem( Feather.phone, LocaleKeys.phone.tr(), "+91 94685 6232"),
-      _optionItem( Feather.lock, LocaleKeys.changePassword.tr(), "**************"),
-    ],
-  );
-  Widget _optionItem(icon,name, value) {
+  get _body => ControlledWidgetBuilder(builder: (BuildContext context, ProfileController controller){
+    return ListView(
+      children: [
+        _optionItem( Feather.mail, LocaleKeys.email.tr(), "avinashkumawat2@gmail.com", (){}),
+        _optionItem( Feather.phone, LocaleKeys.phone.tr(), "+91 94685 6232", (){}),
+        _optionItem( Feather.lock, LocaleKeys.changePassword.tr(), "**************", (){
+            controller.changePassword();
+        }),
+      ],
+    );
+  });
+  Widget _optionItem(icon,name, value, Function  onClick) {
     return ControlledWidgetBuilder(builder: (BuildContext context, ProfileController controller) {
-      return GestureDetector(
-        onTap: (){
-         // controller.goToPage(page);
-        },
+      return InkWell(
+        onTap: onClick,
         child: Container(
           child: Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),

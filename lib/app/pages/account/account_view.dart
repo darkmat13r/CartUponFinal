@@ -38,13 +38,13 @@ class AccountPageState extends ViewState<AccountPage, AccountController>{
     children: [
       _optionItem(Pages.profile, Feather.user, LocaleKeys.profile.tr()),
       _optionItem(Pages.orders, Feather.shopping_bag, LocaleKeys.order.tr()),
-      _optionItem(Pages.profile, Feather.map_pin, LocaleKeys.address.tr()),
+      _optionItem(Pages.addresses, Feather.map_pin, LocaleKeys.address.tr()),
       _optionItem(Pages.profile, Feather.credit_card, LocaleKeys.payment.tr()),
     ],
   );
   Widget _optionItem(page,icon,name) {
    return ControlledWidgetBuilder(builder: (BuildContext context, AccountController controller) {
-      return GestureDetector(
+      return InkWell(
         onTap: (){
           controller.goToPage(page);
         },
