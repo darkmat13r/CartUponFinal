@@ -7,17 +7,19 @@ class Resources {
   static const String login_bg = 'assets/images/login_bg.jpg';
   static const String google_logo = 'assets/images/google_logo.png';
   static const String logo = 'assets/images/logo.png';
+  static const String toolbarLogo = 'assets/images/toolbar_logo.png';
   static const String promotion = 'assets/images/promotion.jpg';
   static const String shoe = 'assets/images/shoe.png';
   static const String recommended = 'assets/images/recommended.png';
 }
 
 class AppColors {
-  static const Color background = const Color(0xFFFFFFFF);
-  static const Color primary = const Color(0xff41c1b6);
-  static const Color accent = const Color(0xff41c1b6);
-  static const Color neutralLight = const Color(0xffEBF0FF);
-  static const Color neutralGray = const Color(0xff9098B1);
+  static const Color background = const Color(0xFFf8f8f8);
+  static const Color primary = const Color(0xff053e7c);
+  static const Color accent = const Color(0xff45c2b5);
+  static const Color neutralLight = const Color(0xffffffff);
+  static const Color neutralLightGray = const Color(0xffd9dada);
+  static const Color neutralGray = const Color(0xffadafaf);
   static const Color neutralDark = const Color(0xff2f2f2f);
   static const Color error = const Color(0xffFB7181);
 
@@ -69,7 +71,7 @@ void showGenericDialog(BuildContext context, String title, String message) {
 }
 
 class Dimens {
-  static const double cornerRadius = 0;
+  static const double cornerRadius = 8;
   static const double borderWidth = 1;
   static const double spacingNormal = 8;
   static const double spacingSmall = 4;

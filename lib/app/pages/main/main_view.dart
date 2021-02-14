@@ -25,7 +25,7 @@ class MainPageView extends ViewState<MainPage, MainController> {
     ExplorePage(),
     CartPage(),
     AccountPage(),
-    AccountPage(), 
+    AccountPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -34,8 +34,24 @@ class MainPageView extends ViewState<MainPage, MainController> {
     });
   }
 
+  get _appBar => AppBar(
+    title: SizedBox(
+      width: 120,
+      child: Image.asset(Resources.toolbarLogo, fit: BoxFit.fitHeight,),
+    ),
+    actions: [
+      IconButton(
+        icon: Icon(MaterialIcons.search), onPressed: () {  },
+      ),
+      IconButton(
+        icon: Icon(MaterialIcons.shopping_cart), onPressed: () {  },
+      )
+    ],
+  );
+
   @override
   Widget get view => Scaffold(
+        appBar: _appBar,
         key: globalKey,
         body: _body,
         bottomNavigationBar: _bottomNavigation,
@@ -53,38 +69,34 @@ class MainPageView extends ViewState<MainPage, MainController> {
         child: BottomNavigationBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          unselectedItemColor: AppColors.neutralGray,
+          showUnselectedLabels: true,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Feather.home),
+              icon: Icon(MaterialIcons.home),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-                icon: Icon(Feather.search),
-                label: 'Explore',
+                icon: Icon(MaterialIcons.dashboard),
+                label: 'Categories',
                 backgroundColor: Colors.white),
             BottomNavigationBarItem(
               icon: Stack(
                 children: [
-                  Icon(Feather.shopping_cart),
-                  new Positioned(
-                    // draw a red marble
-                    top: -1.0,
-                    right: -1.0,
-                    child: new Icon(Icons.brightness_1,
-                        size: 12.0, color: AppColors.error),
-                  )
+                  Icon(MaterialIcons.account_circle),
                 ],
               ),
-              label: 'Cart',
+              label: 'Profile',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Feather.user),
-              label: 'Account',
+              icon: Icon(MaterialCommunityIcons.gift),
+              label: 'Wishlist',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(MaterialCommunityIcons.cart),
+              label: 'Cart',
             ),
           ],
           currentIndex: _selectedIndex,
-          selectedItemColor: AppColors.primary,
           onTap: _onItemTapped,
         ),
       );

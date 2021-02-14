@@ -92,9 +92,12 @@ ThemeData appTheme(BuildContext context) => ThemeData(
     actionTextColor: AppColors.neutralDark,
   ),
   appBarTheme: AppBarTheme(
-    color: AppColors.background,
+    color: AppColors.neutralLight,
+    iconTheme: IconThemeData(
+      color: AppColors.primary
+    ),
     backgroundColor: AppColors.background,
-    titleTextStyle: heading4,
+    titleTextStyle: heading4.copyWith(color: AppColors.primary),
   ),
   textTheme: createTextTheme(context),
   outlinedButtonTheme: OutlinedButtonThemeData(),
@@ -106,12 +109,10 @@ ThemeData appTheme(BuildContext context) => ThemeData(
           borderRadius:
           BorderRadius.all(Radius.circular(Dimens.cornerRadius)))),
   cardTheme: CardTheme(
-      elevation: 0,
       color: AppColors.cardBg,
       shape: RoundedRectangleBorder(
         borderRadius:
         BorderRadius.all(Radius.circular(Dimens.cornerRadius)),
-        side: BorderSide(color: AppColors.neutralLight, width: Dimens.borderWidth)
       )),
   textSelectionTheme:
   TextSelectionThemeData(cursorColor: AppColors.primary),
@@ -142,7 +143,7 @@ ThemeData appTheme(BuildContext context) => ThemeData(
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: AppColors.background,
     elevation: 0,
-    unselectedItemColor: AppColors.neutralGray,
+    unselectedItemColor: AppColors.primary,
     selectedItemColor: AppColors.accent,
   ),
 );

@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/pages/splash/splash_view.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: appTheme(context),
-      home: LoginPage(),
+      home: SplashPage(),
       onGenerateRoute: _router.getRoute,
       navigatorObservers: [_router.routeObserver],
       localizationsDelegates: context.localizationDelegates,

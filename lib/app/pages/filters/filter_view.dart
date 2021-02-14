@@ -47,41 +47,46 @@ class FilterPageState extends ViewState<FilterPage, FilterController> {
         ],
       );
 
-  get _priceRange => Padding(
-        padding: const EdgeInsets.all(Dimens.spacingMedium),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              LocaleKeys.priceRange.tr(),
-              style: heading5.copyWith(color: AppColors.neutralDark),
-            ),
-            SizedBox(
-              height: Dimens.spacingMedium,
-            ),
-            Row(
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: TextFormField(
-                    decoration: InputDecoration(hintText: "\$1,120"),
-                  ),
+  get _priceRange => ControlledWidgetBuilder(builder: (BuildContext context, FilterController controller){
+    return Padding(
+      padding: const EdgeInsets.all(Dimens.spacingMedium),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            LocaleKeys.priceRange.tr(),
+            style: heading5.copyWith(color: AppColors.neutralDark),
+          ),
+          SizedBox(
+            height: Dimens.spacingMedium,
+          ),
+          Row(
+            children: [
+              Flexible(
+                flex: 1,
+
+                child: TextFormField(
+                  controller: controller.minPriceController,
+                  decoration: InputDecoration(hintText: "\$1,120"),
                 ),
-                SizedBox(
-                  width: Dimens.spacingMedium,
+              ),
+              SizedBox(
+                width: Dimens.spacingMedium,
+              ),
+              Flexible(
+                flex: 1,
+                child: TextFormField(
+                  controller: controller.maxPriceController,
+                  decoration: InputDecoration(hintText: "\$1,120"),
                 ),
-                Flexible(
-                  flex: 1,
-                  child: TextFormField(
-                    decoration: InputDecoration(hintText: "\$1,120"),
-                  ),
-                )
-              ],
-            ),
-            _priceRangeSlider
-          ],
-        ),
-      );
+              )
+            ],
+          ),
+          _priceRangeSlider
+        ],
+      ),
+    );
+  });
 
   get _priceRangeSlider => ControlledWidgetBuilder(
           builder: (BuildContext context, FilterController controller) {

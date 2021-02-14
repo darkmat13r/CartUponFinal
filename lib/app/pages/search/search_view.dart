@@ -38,7 +38,7 @@ class SearchPageState extends ViewState<SearchPage, SearchController>{
       GridView.count(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        childAspectRatio: 0.7,
+        childAspectRatio: 0.67,
         crossAxisCount: 2, children: List.generate(20, (index) => ControlledWidgetBuilder(builder: (BuildContext context, SearchController controller) {
           return ProductItem(()=>{
             controller.product()

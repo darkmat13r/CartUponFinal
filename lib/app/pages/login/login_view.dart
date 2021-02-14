@@ -68,13 +68,7 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
-                TextButton(
-                  onPressed: () => {},
-                  child: Text(
-                    LocaleKeys.forgotPassword.tr(),
-                    style: buttonText.copyWith(color: AppColors.primary),
-                  ),
-                ),
+                _forgotPassword,
                _registerButton
               ],
             ),
@@ -199,6 +193,18 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
       )
     ],
   );
+  });
+
+  get _forgotPassword => ControlledWidgetBuilder(builder: (BuildContext context, LoginController controller){
+    return TextButton(
+      onPressed: () => {
+        controller.forgotPassword()
+      },
+      child: Text(
+        LocaleKeys.forgotPassword.tr(),
+        style: buttonText.copyWith(color: AppColors.primary),
+      ),
+    );
   });
 
   Widget _loginForm() {

@@ -26,7 +26,6 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
   get _body => ListView(
         shrinkWrap: true,
         children: [
-          SearchAppBar(),
           Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),
             child: Text(
@@ -71,20 +70,20 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(36)),
                 border: Border.all(
-                    color: AppColors.neutralLight,
+                    color: AppColors.neutralGray,
                     width: Dimens.borderWidth)),
             child: Padding(
               padding: const EdgeInsets.all(Dimens.spacingMedium),
               child: Icon(
                 icon,
-                color: AppColors.primary,
+                color: AppColors.accent,
               ),
             ),
           ),
           SizedBox(
             height: Dimens.spacingNormal,
           ),
-          Text(name)
+          Text(name, style: captionNormal1.copyWith(color: AppColors.neutralDark),)
         ],
       ),
     );
