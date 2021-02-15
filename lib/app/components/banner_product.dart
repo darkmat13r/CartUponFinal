@@ -36,7 +36,7 @@ class _BannerProductState extends State<BannerProduct> {
                 ),
                 Text(
                   "Powerey 10000mAh Power Bank with Built-in Cable ",
-                  style: heading3.copyWith(color: AppColors.neutralDark),
+                  style: heading3.copyWith(color: AppColors.primary),
                 ),
                 SizedBox(
                   height: Dimens.spacingMedium,
@@ -44,7 +44,7 @@ class _BannerProductState extends State<BannerProduct> {
                 Text(
                   "Built-in Lightning, Type-C, and also Micro-USB cable",
                   style: heading4.copyWith(
-                      color: AppColors.neutralDark,
+                      color: AppColors.primary,
                       fontWeight: FontWeight.w400),
                 ),
                 SizedBox(
@@ -87,7 +87,7 @@ class _BannerProductState extends State<BannerProduct> {
                         children: [
                           Text(
                             "TIME LEFT",
-                            style: heading4.copyWith(
+                            style: heading6.copyWith(
                               color: AppColors.primary,
                             ),
                           ),

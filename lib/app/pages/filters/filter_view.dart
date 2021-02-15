@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/loading_button.dart';
 import 'package:coupon_app/app/pages/filters/filter_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
@@ -18,25 +19,17 @@ class FilterPageState extends ViewState<FilterPage, FilterController> {
 
   @override
   Widget get view => Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            onPressed: () {},
-            icon: Icon(Feather.chevron_left, color: AppColors.neutralGray),
-          ),
-          title: Text(
-            LocaleKeys.filterSearch.tr(),
-            style: heading4.copyWith(color: AppColors.neutralDark),
-          ),
-          shape: appBarShape,
-        ),
+        appBar: customAppBar(
+            title: Text(
+          LocaleKeys.filterSearch.tr(),
+          style: heading5.copyWith(color: AppColors.primary),
+        )),
         key: globalKey,
         body: _body,
       );
 
   get _body => ListView(
-    shrinkWrap: true,
+        shrinkWrap: true,
         children: [
           _priceRange,
           _condition,
@@ -47,46 +40,46 @@ class FilterPageState extends ViewState<FilterPage, FilterController> {
         ],
       );
 
-  get _priceRange => ControlledWidgetBuilder(builder: (BuildContext context, FilterController controller){
-    return Padding(
-      padding: const EdgeInsets.all(Dimens.spacingMedium),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            LocaleKeys.priceRange.tr(),
-            style: heading5.copyWith(color: AppColors.neutralDark),
-          ),
-          SizedBox(
-            height: Dimens.spacingMedium,
-          ),
-          Row(
+  get _priceRange => ControlledWidgetBuilder(
+          builder: (BuildContext context, FilterController controller) {
+        return Padding(
+          padding: const EdgeInsets.all(Dimens.spacingMedium),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(
-                flex: 1,
-
-                child: TextFormField(
-                  controller: controller.minPriceController,
-                  decoration: InputDecoration(hintText: "\$1,120"),
-                ),
+              Text(
+                LocaleKeys.priceRange.tr(),
+                style: heading5.copyWith(color: AppColors.neutralDark),
               ),
               SizedBox(
-                width: Dimens.spacingMedium,
+                height: Dimens.spacingMedium,
               ),
-              Flexible(
-                flex: 1,
-                child: TextFormField(
-                  controller: controller.maxPriceController,
-                  decoration: InputDecoration(hintText: "\$1,120"),
-                ),
-              )
+              Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: TextFormField(
+                      controller: controller.minPriceController,
+                      decoration: InputDecoration(hintText: "\$1,120"),
+                    ),
+                  ),
+                  SizedBox(
+                    width: Dimens.spacingMedium,
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: TextFormField(
+                      controller: controller.maxPriceController,
+                      decoration: InputDecoration(hintText: "\$1,120"),
+                    ),
+                  )
+                ],
+              ),
+              _priceRangeSlider
             ],
           ),
-          _priceRangeSlider
-        ],
-      ),
-    );
-  });
+        );
+      });
 
   get _priceRangeSlider => ControlledWidgetBuilder(
           builder: (BuildContext context, FilterController controller) {
@@ -105,7 +98,6 @@ class FilterPageState extends ViewState<FilterPage, FilterController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Text(
                 LocaleKeys.color.tr(),
                 style: heading5.copyWith(color: AppColors.neutralDark),
@@ -117,15 +109,18 @@ class FilterPageState extends ViewState<FilterPage, FilterController> {
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio: 2.5, crossAxisCount: 3),
-                children: ["Red", "Blue", "Black"].map((e) => Padding(
-                  padding: const EdgeInsets.all(Dimens.spacingSmall),
-                  child: OutlinedButton(
-                      onPressed: () {},
-                      child: Text(
-                        e,
-                        style: buttonText.copyWith(color: AppColors.primary),
-                      )),
-                )).toList(),
+                children: ["Red", "Blue", "Black"]
+                    .map((e) => Padding(
+                          padding: const EdgeInsets.all(Dimens.spacingSmall),
+                          child: OutlinedButton(
+                              onPressed: () {},
+                              child: Text(
+                                e,
+                                style: buttonText.copyWith(
+                                    color: AppColors.primary),
+                              )),
+                        ))
+                    .toList(),
               ),
             ],
           ),

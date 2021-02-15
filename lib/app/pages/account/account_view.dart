@@ -20,26 +20,38 @@ class AccountPageState extends ViewState<AccountPage, AccountController>{
 
   @override
   Widget get view => Scaffold(
-    appBar: AppBar(
-      elevation: 0,
-      backgroundColor: Colors.white,
-      automaticallyImplyLeading: false,
-      title: Text(
-        LocaleKeys.account.tr(),
-        style: heading4.copyWith(color: AppColors.neutralDark),
-      ),
-      shape: appBarShape,
-    ),
     key: globalKey,
     body: _body,
   );
 
-  get _body => ListView(
+  get _body => Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      _optionItem(Pages.profile, Feather.user, LocaleKeys.profile.tr()),
-      _optionItem(Pages.orders, Feather.shopping_bag, LocaleKeys.order.tr()),
-      _optionItem(Pages.addresses, Feather.map_pin, LocaleKeys.address.tr()),
-      _optionItem(Pages.profile, Feather.credit_card, LocaleKeys.payment.tr()),
+      Padding(
+        padding: const EdgeInsets.all(Dimens.spacingMedium),
+        child: RichText(text: TextSpan(
+            children: [
+              TextSpan( text: "Hello, ", style: heading4.copyWith(color: AppColors.neutralGray)),
+              TextSpan( text: "Avinash", style: heading4.copyWith(color: AppColors.primary)),
+            ]
+        )),
+      ),
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.all(Dimens.spacingLarge),
+          child: GridView(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.5),
+            children: [
+              _optionItem(Pages.profile, MaterialCommunityIcons.account_circle, LocaleKeys.edit.tr()),
+              _optionItem(Pages.orders, MaterialCommunityIcons.cart, LocaleKeys.order.tr()),
+              _optionItem(Pages.changePassword, MaterialCommunityIcons.lock, LocaleKeys.order.tr()),
+              _optionItem(Pages.addresses, MaterialCommunityIcons.pin, LocaleKeys.address.tr()),
+              _optionItem(Pages.profile, MaterialCommunityIcons.credit_card, LocaleKeys.payment.tr()),
+              _optionItem(Pages.addresses, MaterialCommunityIcons.location_exit, "Logout"),
+            ],
+          ),
+        ),
+      )
     ],
   );
   Widget _optionItem(page,icon,name) {
@@ -51,11 +63,11 @@ class AccountPageState extends ViewState<AccountPage, AccountController>{
         child: Container(
           child: Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),
-            child: Row(
+            child: Column(
               children: [
-                Icon(icon, color: AppColors.primary,),
+                Icon(icon, color: AppColors.primary, size: 48,),
                 SizedBox(
-                  width: Dimens.spacingMedium,
+                  height: Dimens.spacingMedium,
                 ),
                 Text(name, style: heading5.copyWith(color: AppColors.neutralDark),)
 

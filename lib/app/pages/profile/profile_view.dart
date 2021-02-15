@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/pages/profile/profile_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
@@ -19,19 +20,11 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
 
   @override
   Widget get view => Scaffold(
-    appBar: AppBar(
-      elevation: 0,
-      backgroundColor: Colors.white,
-      leading: IconButton(onPressed: () { 
-
-      }, icon: Icon(Feather.chevron_left,  color: AppColors.neutralGray),
-      ),
-      title: Text(
-        LocaleKeys.profile.tr(),
-        style: heading4.copyWith(color: AppColors.neutralDark),
-      ),
-      shape: appBarShape,
-    ),
+    appBar: customAppBar(
+        title: Text(
+          LocaleKeys.profile.tr(),
+          style: heading5.copyWith(color: AppColors.primary),
+        )),
     key: globalKey,
     body: _body,
   );

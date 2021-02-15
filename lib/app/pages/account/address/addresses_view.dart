@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/loading_button.dart';
 import 'package:coupon_app/app/components/rounded_box.dart';
 import 'package:coupon_app/app/pages/account/address/addresses_controller.dart';
@@ -22,19 +23,11 @@ class AddressesPageState extends ViewState<AddressesPage, AddressesController>{
 
   @override
   Widget get view => Scaffold(
-    appBar: AppBar(
-      elevation: 0,
-      backgroundColor: Colors.white,
-      leading: IconButton(
-        onPressed: () {},
-        icon: Icon(Feather.chevron_left, color: AppColors.neutralGray),
-      ),
-      title: Text(
-        LocaleKeys.address.tr(),
-        style: heading4.copyWith(color: AppColors.neutralDark),
-      ),
-      shape: appBarShape,
-    ),
+    appBar: customAppBar(
+        title: Text(
+          LocaleKeys.address.tr(),
+          style: heading5.copyWith(color: AppColors.primary),
+        )),
     key: globalKey,
     body: _body,
   );

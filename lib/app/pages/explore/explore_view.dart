@@ -35,7 +35,7 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
           ),
           GridView.count(
             shrinkWrap: true,
-            crossAxisCount: 4,
+            crossAxisCount: 6,
             physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.all(8),
             children: List.generate(
@@ -50,7 +50,7 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
           ),
           GridView.count(
             shrinkWrap: true,
-            crossAxisCount: 4,
+            crossAxisCount: 6,
             physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.all(8),
             children: List.generate(
@@ -67,13 +67,15 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
       child: Column(
         children: [
           Container(
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
+              color: AppColors.neutralLight,
                 borderRadius: BorderRadius.all(Radius.circular(36)),
                 border: Border.all(
-                    color: AppColors.neutralGray,
+                    color: AppColors.neutralLight,
                     width: Dimens.borderWidth)),
-            child: Padding(
-              padding: const EdgeInsets.all(Dimens.spacingMedium),
+            child: Center(
               child: Icon(
                 icon,
                 color: AppColors.accent,

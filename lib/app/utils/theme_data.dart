@@ -97,6 +97,7 @@ ThemeData appTheme(BuildContext context) => ThemeData(
       color: AppColors.primary
     ),
     backgroundColor: AppColors.background,
+    toolbarTextStyle:  heading4.copyWith(color: AppColors.primary),
     titleTextStyle: heading4.copyWith(color: AppColors.primary),
   ),
   textTheme: createTextTheme(context),

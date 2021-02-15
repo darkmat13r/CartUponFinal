@@ -1,3 +1,5 @@
+import 'package:coupon_app/app/components/banner_product.dart';
+import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/product_colors.dart';
 import 'package:coupon_app/app/components/product_item.dart';
 import 'package:coupon_app/app/components/product_sizes.dart';
@@ -16,189 +18,153 @@ class ProductPage extends View {
   @override
   State<StatefulWidget> createState() => ProductPageView();
 }
+class Product{
+  final String title;
+  final String url;
+  final String description;
+  final String fullDescription;
+  final double price;
+  final String timeLeft;
 
+  Product({this.title, this.url, this.description, this.fullDescription, this.price, this.timeLeft});
+}
 class ProductPageView extends ViewState<ProductPage, ProductController> {
   ProductPageView() : super(ProductController());
+
+  final Product product = Product(
+    title:"Save 57% and Enjoy 1 Night stay in a Diplomatic Suite with a Private Pool including Lunch + Breakfast for 2 Persons at The Convention Center & Royal Suites Hotel– Free Zone",
+    description: "Get KD207 Value Service for only KD90",
+    fullDescription: "Surprise your beloved one with an unforgettable Romantic Night in a diplomatic suite with a private warm swimming pool including breakfast & lunch at The Convention Center & Royal Suites Hotel– Free Zone.",
+    url: "https://sheeelcdn.cachefly.net/media/catalog/product/cache/1/image/800x800/4d3ec06b4f2a04ed8140a36497b86d9b/d/e/deluxe-room-3_5_1_2.jpg",
+    price: 8,
+    timeLeft: "101h: 46m: 12s"
+  );
 
   @override
   Widget get view => Scaffold(
         key: globalKey,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: Icon(Feather.chevron_left, color: AppColors.neutralGray),
-            onPressed: () {},
-          ),
-          title: Text(
-            "Nike Air Max 270 Rea...",
-            style: heading4.copyWith(color: AppColors.neutralDark),
-          ),
-          actions: [
-            IconButton(
-                icon: Icon(
-                  Feather.search,
-                  color: AppColors.neutralGray,
-                ),
-                onPressed: () {}),
-            IconButton(
-                icon: Icon(Feather.more_vertical, color: AppColors.neutralGray),
-                onPressed: () {}),
-          ],
-          shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  color: AppColors.neutralLight, width: Dimens.borderWidth)),
-        ),
+    appBar: customAppBar(
+        title: Text(
+          "Yummy Cakes Coupon",
+          style: heading5.copyWith(color: AppColors.primary),
+        )),
         body: _body,
       );
 
   get _productDetails => ListView(
         shrinkWrap: true,
         children: [
-          Container(
-              width: double.infinity,
-              height: 240,
-              decoration: const BoxDecoration(
-                  borderRadius: const BorderRadius.all(
-                      Radius.circular(Dimens.cornerRadius)),
-                  color: AppColors.neutralLight),
-              child: Image(
-                width: double.infinity,
-                image: AssetImage(Resources.shoe),
-              )),
-          SizedBox(
-            height: 0,
+          Image.network(
+            product.url,
+            fit: BoxFit.cover,
           ),
           Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text("Nike Air Zoom Pegasus 36 Miami",
-                          style:
-                              heading4.copyWith(color: AppColors.neutralDark)),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Feather.heart,
-                        color: AppColors.neutralGray,
-                      ),
-                      onPressed: () {
-
-                      },
-                    )
-                  ],
-                ),
-                Rating(
-                  size: 20,
+                Text(
+                  "You save 44 %",
+                  style: heading5.copyWith(color: AppColors.accent),
                 ),
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
                 Text(
-                  "\$299,43",
+                  product.title,
                   style: heading3.copyWith(color: AppColors.primary),
                 ),
                 SizedBox(
-                  height: Dimens.spacingLarge,
+                  height: Dimens.spacingMedium,
                 ),
                 Text(
-                  LocaleKeys.selectSize.tr(),
-                  style: heading5.copyWith(color: AppColors.neutralDark),
+                  product.description,
+                  style: heading4.copyWith(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w400),
                 ),
                 SizedBox(
-                  height: Dimens.spacingNormal,
-                ),
-                ProductSizes(),
-                SizedBox(
-                  height: Dimens.spacingLarge,
+                  height: Dimens.spacingMedium,
                 ),
                 Text(
-                  LocaleKeys.selectColor.tr(),
-                  style: heading5.copyWith(color: AppColors.neutralDark),
+                  product.fullDescription,
+                  style: bodyTextMedium2.copyWith(
+                      color: AppColors.neutralGray,
+                      fontWeight: FontWeight.w400),
                 ),
                 SizedBox(
-                  height: Dimens.spacingNormal,
+                  height: Dimens.spacingMedium,
+                ),
+                Text(
+                  "Colors",
+                  style: heading4.copyWith(
+                    color: AppColors.primary,
+                  ),
+                ),
+                SizedBox(
+                  height: Dimens.spacingMedium,
                 ),
                 ProductColors(),
                 SizedBox(
-                  height: Dimens.spacingLarge,
-                ),
-                Text(
-                  LocaleKeys.specification.tr(),
-                  style: heading5.copyWith(color: AppColors.neutralDark),
-                ),
-                SizedBox(
-                  height: Dimens.spacingNormal,
+                  height: Dimens.spacingMedium,
                 ),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      LocaleKeys.shown.tr() + ":",
-                      style: bodyTextNormal2.copyWith(
-                          color: AppColors.neutralDark),
+                    Icon(MaterialCommunityIcons.timer),
+                    SizedBox(
+                      width: Dimens.spacingMedium,
                     ),
-                    Expanded(child: SizedBox()),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "TIME LEFT",
+                            style: heading6.copyWith(
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          Text(
+                            "04h: 39m : 21s",
+                            style: bodyTextMedium2,
+                          )
+                        ],
+                      ),
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Laser",
-                            style: bodyTextNormal2.copyWith(
-                                color: AppColors.neutralGray)),
-                        Text("Blue/Anthracite/Watermel",
-                            style: bodyTextNormal2.copyWith(
-                                color: AppColors.neutralGray)),
-                        Text("on/White",
-                            style: bodyTextNormal2.copyWith(
-                                color: AppColors.neutralGray)),
+                        Text(
+                          "KD9.5",
+                          style: bodyTextMedium2.copyWith(
+                              color: AppColors.neutralGray,
+                              decoration: TextDecoration.lineThrough),
+                        ),
+                        Text(
+                          "KD5.5",
+                          style: heading4,
+                        )
                       ],
                     )
                   ],
                 ),
                 SizedBox(
-                  height: Dimens.spacingMedium,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      LocaleKeys.style.tr() + ":",
-                      style: bodyTextNormal2.copyWith(
-                          color: AppColors.neutralDark),
-                    ),
-                    Expanded(child: SizedBox()),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text("CD0113-400",
-                            style: bodyTextNormal2.copyWith(
-                                color: AppColors.neutralGray)),
-                      ],
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: Dimens.spacingMedium,
-                ),
-                Text(
-                    "The Nike Air Max 270 React ENG combines a full-length React foam midsole with a 270 Max Air unit for unrivaled comfort and a striking visual experience.",
-                    style:
-                        bodyTextNormal2.copyWith(color: AppColors.neutralGray)),
-                SizedBox(
                   height: Dimens.spacingLarge,
                 ),
-                _reviews,
-                _recommended(LocaleKeys.youMayLike.tr())
+                SizedBox(
+                    width: double.infinity,
+                    child: RaisedButton(
+                      onPressed: () {},
+                      child: Text("Buy Now", style: buttonText,),
+                    ))
               ],
             ),
-          ),
-          SizedBox(
-            height: 70,
           )
+
         ],
       );
 

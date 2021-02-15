@@ -10,6 +10,7 @@ class CartItem extends StatefulWidget {
 }
 
 class CartItemState extends State<CartItem> {
+  String count = "1";
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -42,33 +43,27 @@ class CartItemState extends State<CartItem> {
                     Row(
                       children: [
                         Expanded(child: Text("\$299,43", style: heading6.copyWith(color: AppColors.primary),)),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: const BorderRadius.all( Radius.circular(Dimens.cornerRadius), ),
-                            border:  Border.all(color: AppColors.neutralLight, width: Dimens.borderWidth)
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: Dimens.spacingMicro, horizontal: Dimens.spacingNormal),
-                                child: Icon(MaterialCommunityIcons.minus, color: AppColors.neutralGray, size: 16,),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.neutralLight
-                                ),
-                                child:
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: Dimens.spacingMicro, horizontal: Dimens.spacingMedium),
-                                  child: Text("1",style: bodyTextNormal1.copyWith(color: AppColors.neutralGray),),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: Dimens.spacingMicro, horizontal: Dimens.spacingNormal),
-                                child: Icon(MaterialCommunityIcons.plus, color: AppColors.neutralGray, size: 16,),
-                              )
-                            ],
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              border:  Border.all(color: AppColors.neutralGray, width: Dimens.borderWidth)
+                            ),
+                            child: new DropdownButton<String>(
+                                underline: SizedBox(),
+                              style: bodyTextNormal1.copyWith(color: AppColors.neutralDark),
+                              items: <String>['1', '2', '3', '4'].map((String value) {
+                                return DropdownMenuItem(
+                                  value: value,
+                                  child: Expanded(child: new Text(value, style: bodyTextNormal1.copyWith(color: AppColors.neutralDark),)),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  count = value;
+                                });
+                              },
+                            ),
                           ),
                         )
                       ],

@@ -22,16 +22,6 @@ class CartPageState extends ViewState<CartPage, CartController> {
   // TODO: implement view
   Widget get view => Scaffold(
     key: globalKey,
-    appBar: AppBar(
-      elevation: 0,
-      backgroundColor: Colors.white,
-      automaticallyImplyLeading: false,
-      title: Text(
-        LocaleKeys.yourCart.tr(),
-        style: heading4.copyWith(color: AppColors.neutralDark),
-      ),
-      shape: appBarShape,
-    ),
     body: _body,
   );
 

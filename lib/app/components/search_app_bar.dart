@@ -20,22 +20,11 @@ class SearchAppBar extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-                child: TextFormField(
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(
-                        Feather.search,
-                        color: AppColors.primary,
-                      ),
-                      hintText: LocaleKeys.hintSearchProduct.tr()),
-                )),
-            SizedBox(
-              width: Dimens.spacingMedium,
-            ),
+
             Ink(
               decoration: const ShapeDecoration(shape: CircleBorder()),
               child: IconButton(
-                icon: Icon(Feather.heart),
+                icon: Icon(MaterialCommunityIcons.cart),
                 color: AppColors.neutralGray,
                 onPressed: () {},
               ),
@@ -43,11 +32,12 @@ class SearchAppBar extends StatelessWidget {
             Ink(
               decoration: const ShapeDecoration(shape: CircleBorder()),
               child: IconButton(
-                icon: Icon(Feather.bell),
+                icon: Icon(MaterialCommunityIcons.search_web),
                 color: AppColors.neutralGray,
                 onPressed: () {},
               ),
-            )
+            ),
+
           ],
         ),
       ),

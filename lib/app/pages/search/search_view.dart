@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/product_item.dart';
 import 'package:coupon_app/app/components/search_app_bar.dart';
 import 'package:coupon_app/app/pages/search/search_controller.dart';
@@ -20,11 +21,11 @@ class SearchPageState extends ViewState<SearchPage, SearchController>{
   Widget get view => Scaffold(
     key: globalKey,
     body: _body,
+    appBar: customAppBar(title: Text("Yummy Cakes..", style: heading5.copyWith(color: AppColors.primary),)),
   );
 
   get _body => ListView(
     children: [
-      SearchAppBar(),
       Padding(
         padding: const EdgeInsets.all(Dimens.spacingMedium),
         child: Row(

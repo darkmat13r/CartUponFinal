@@ -70,26 +70,27 @@ class ProductItemState extends State<ProductItem> {
                   SizedBox(
                     height: Dimens.spacingMedium,
                   ),
-                  Text(
-                    "KD299,43",
-                    style: bodyTextMedium1.copyWith(
-                        color: AppColors.primary, fontWeight: FontWeight.w900),
-                  ),
                   Row(
                     children: [
                       Text(
-                        "\$534,33",
-                        style: bodyTextNormal2.copyWith(
-                            color: AppColors.neutralGray,
-                            decoration: TextDecoration.lineThrough),
+                        "KD2",
+                        style: bodyTextMedium1.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w900),
+                      ),
+                      Expanded(
+                       child: SizedBox(),
                       ),
                       SizedBox(
-                        width: Dimens.spacingSmall,
-                      ),
-                      Text(
-                        "24% Off",
-                        style: bodyTextNormal1.copyWith(color: AppColors.error),
-                      ),
+                          height: 36,
+                          child: RaisedButton(
+                            elevation: 0,
+                            onPressed: () {},
+                            child: Text(
+                              "Buy Now",
+                              style: buttonText.copyWith(fontSize: 12),
+                            ),
+                          ))
                     ],
                   ),
                 ],

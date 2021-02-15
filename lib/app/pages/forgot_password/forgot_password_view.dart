@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/loading_button.dart';
 import 'package:coupon_app/app/pages/forgot_password/forgot_password_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
@@ -22,19 +23,11 @@ class ForgotPasswordPageState
   @override
   Widget get view => Scaffold(
         key: globalKey,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            onPressed: () {},
-            icon: Icon(Feather.chevron_left, color: AppColors.neutralGray),
-          ),
+      appBar: customAppBar(
           title: Text(
             LocaleKeys.forgotPassword.tr(),
-            style: heading4.copyWith(color: AppColors.neutralDark),
-          ),
-          shape: appBarShape,
-        ),
+            style: heading5.copyWith(color: AppColors.primary),
+          )),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),

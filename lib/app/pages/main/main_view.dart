@@ -23,9 +23,9 @@ class MainPageView extends ViewState<MainPage, MainController> {
   List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     ExplorePage(),
+    AccountPage(),
     CartPage(),
-    AccountPage(),
-    AccountPage(),
+    CartPage(),
   ];
 
   void _onItemTapped(int index) {

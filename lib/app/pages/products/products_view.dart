@@ -66,10 +66,11 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
                   SizedBox(
                     width: 36,
                     height: 36,
-                    child: FloatingActionButton(
-                      onPressed: () {  },
-                      elevation: 4,
-                      backgroundColor: AppColors.neutralLight,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.neutralLight,
+                        borderRadius: BorderRadius.all(Radius.circular(46))
+                      ),
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.all(Dimens.spacingSmall),

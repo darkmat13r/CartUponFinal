@@ -14,7 +14,7 @@ class Resources {
 }
 
 class AppColors {
-  static const Color background = const Color(0xFFf8f8f8);
+  static const Color background = const Color(0xFFfdfdfd);
   static const Color primary = const Color(0xff053e7c);
   static const Color accent = const Color(0xff45c2b5);
   static const Color neutralLight = const Color(0xffffffff);

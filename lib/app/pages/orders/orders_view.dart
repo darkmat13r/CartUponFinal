@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/dotted_view.dart';
 import 'package:coupon_app/app/components/outlined_box.dart';
 import 'package:coupon_app/app/pages/orders/orders_controller.dart';
@@ -21,19 +22,11 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController>{
 
   @override
   Widget get view => Scaffold(
-    appBar: AppBar(
-      elevation: 0,
-      backgroundColor: Colors.white,
-      leading: IconButton(onPressed: () {
-
-      }, icon: Icon(Feather.chevron_left,  color: AppColors.neutralGray),
-      ),
-      title: Text(
-        LocaleKeys.order.tr(),
-        style: heading4.copyWith(color: AppColors.neutralDark),
-      ),
-      shape: appBarShape,
-    ),
+    appBar: customAppBar(
+        title: Text(
+          LocaleKeys.order.tr(),
+          style: heading5.copyWith(color: AppColors.primary),
+        )),
     key: globalKey,
     body: _body,
   );
@@ -54,7 +47,7 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController>{
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: OutlinedBox(child:
+        child: Card(child:
             Padding(
               padding: const EdgeInsets.all(Dimens.spacingMedium),
               child: Column(
