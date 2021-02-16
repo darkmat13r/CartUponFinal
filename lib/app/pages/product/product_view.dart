@@ -35,7 +35,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
     title:"Save 57% and Enjoy 1 Night stay in a Diplomatic Suite with a Private Pool including Lunch + Breakfast for 2 Persons at The Convention Center & Royal Suites Hotel– Free Zone",
     description: "Get KD207 Value Service for only KD90",
     fullDescription: "Surprise your beloved one with an unforgettable Romantic Night in a diplomatic suite with a private warm swimming pool including breakfast & lunch at The Convention Center & Royal Suites Hotel– Free Zone.",
-    url: "https://sheeelcdn.cachefly.net/media/catalog/product/cache/1/image/800x800/4d3ec06b4f2a04ed8140a36497b86d9b/d/e/deluxe-room-3_5_1_2.jpg",
+    url: "https://5.imimg.com/data5/PM/NW/JS/SELLER-42867842/discount-coupon-500x500.jpg",
     price: 8,
     timeLeft: "101h: 46m: 12s"
   );

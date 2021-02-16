@@ -18,7 +18,7 @@ class _BannerProductState extends State<BannerProduct> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Image.network(
-              "https://sheeelcdn.cachefly.net/media/catalog/product/cache/1/image/800x800/4d3ec06b4f2a04ed8140a36497b86d9b/u/m/umdipb922qa-en.jpg",
+              "https://www.gizbot.com/img/600x10/img/2020/01/amazon-upto50-off-on-fast-charging-power-banks-1580196815.jpg",
               fit: BoxFit.cover,
             ),
           ),

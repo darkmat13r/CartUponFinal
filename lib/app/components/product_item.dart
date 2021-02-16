@@ -37,7 +37,7 @@ class ProductItemState extends State<ProductItem> {
                               Radius.circular(Dimens.cornerRadius)),
                           color: AppColors.neutralLight),
                       child: Image.network(
-                        "https://sheeelcdn.cachefly.net/media/catalog/product/cache/1/image/800x800/4d3ec06b4f2a04ed8140a36497b86d9b/c/h/cheese_cake_copy_3_1_1_1_1_1_1_1_1_1_1_1.jpg",
+                        "https://5.imimg.com/data5/PM/NW/JS/SELLER-42867842/discount-coupon-500x500.jpg",
                         fit: BoxFit.fill,
                       )),
                   SizedBox(

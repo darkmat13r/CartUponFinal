@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:coupon_app/app/components/banner_product.dart';
 import 'package:coupon_app/app/components/product_colors.dart';
 import 'package:coupon_app/app/components/product_item.dart';
+import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/products/products_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,7 +28,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
           SizedBox(
             height: Dimens.spacingLarge,
           ),
-          _recommendedItems
+          _recommendedItems()
         ],
       );
 
@@ -97,35 +98,41 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
         },
       );
 
-  get _recommendedItems => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "More Super Coupons",
-              style: heading4.copyWith(color: AppColors.primary),
-            ),
-          ),
-          GridView.count(
-            // Create a grid with 2 columns. If you change the scrollDirection to
-            // horizontal, this produces 2 rows.
-            crossAxisCount: 2,
-            childAspectRatio: 160 / 240,
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            children: List.generate(20, (index) {
-              return _createProductItem();
-            }),
-          )
-        ],
-      );
+  Widget _recommendedItems(){
+    double cardWidth = MediaQuery.of(context).size.width / 3.3;
+    double cardHeight = MediaQuery.of(context).size.height / 4.1;
+   return Column(
+     crossAxisAlignment: CrossAxisAlignment.start,
+     children: [
+       Padding(
+         padding: const EdgeInsets.all(8.0),
+         child: Text(
+           "More Super Coupons",
+           style: heading4.copyWith(color: AppColors.primary),
+         ),
+       ),
+       GridView.count(
+         // Create a grid with 2 columns. If you change the scrollDirection to
+         // horizontal, this produces 2 rows.
+         crossAxisCount: 2,
+         childAspectRatio: cardWidth / cardHeight,
+         physics: NeverScrollableScrollPhysics(),
+         shrinkWrap: true,
+         children: List.generate(20, (index) {
+           return _createProductItem();
+         }),
+       )
+     ],
+   );
+  }
 
   _createProductItem() {
     return Container(
       width: 200,
       height: 300,
-      child: ProductItem(() => {}),
+      child: ProductItem(() => {
+        Navigator.of(context).pushNamed(Pages.product)
+      }),
     );
   }
 }

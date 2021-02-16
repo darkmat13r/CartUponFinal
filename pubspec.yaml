@@ -48,6 +48,7 @@ dependencies:
 
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.8.0"
   flutter_test:
     sdk: flutter
   integration_test:
@@ -68,3 +69,7 @@ flutter:
     - assets/images/
     - assets/google_fonts/
     - assets/translations/
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
