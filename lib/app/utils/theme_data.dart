@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const _borderSide =
-    BorderSide(color: AppColors.neutralLight, width: Dimens.borderWidth);
+    BorderSide(color: AppColors.neutralGray, width: Dimens.borderWidth);
 const _errorBorderSide =
     BorderSide(color: AppColors.error, width: Dimens.borderWidth);
 const _focusedBorderSide =

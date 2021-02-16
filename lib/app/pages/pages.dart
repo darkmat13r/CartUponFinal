@@ -1,3 +1,5 @@
+import 'package:flutter/src/widgets/navigator.dart';
+
 class Pages{
   static const String home = '/home';
   static const String login = '/login';
@@ -20,4 +22,6 @@ class Pages{
   static const String addresses = "/addresses";
 
   static const String addAddress = "/addAddress";
+
+  static const String cart = "/cart";
 }

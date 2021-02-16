@@ -1,8 +1,10 @@
+import 'package:coupon_app/app/components/navigation_drawer.dart';
 import 'package:coupon_app/app/pages/account/account_view.dart';
 import 'package:coupon_app/app/pages/cart/cart_view.dart';
 import 'package:coupon_app/app/pages/explore/explore_view.dart';
 import 'package:coupon_app/app/pages/home/home_view.dart';
 import 'package:coupon_app/app/pages/main/main_controller.dart';
+import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -33,7 +35,7 @@ class MainPageView extends ViewState<MainPage, MainController> {
       _selectedIndex = index;
     });
   }
-
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   get _appBar => AppBar(
     title: SizedBox(
       width: 120,
@@ -44,7 +46,14 @@ class MainPageView extends ViewState<MainPage, MainController> {
         icon: Icon(MaterialIcons.search), onPressed: () {  },
       ),
       IconButton(
-        icon: Icon(MaterialIcons.shopping_cart), onPressed: () {  },
+        icon: Icon(MaterialIcons.shopping_cart), onPressed: () {
+          Navigator.of(context).pushNamed(Pages.cart);
+      },
+      ),
+      IconButton(
+        icon: Icon(MaterialIcons.menu), onPressed: () {
+        _drawerKey.currentState.openDrawer();
+      },
       )
     ],
   );
@@ -52,8 +61,9 @@ class MainPageView extends ViewState<MainPage, MainController> {
   @override
   Widget get view => Scaffold(
         appBar: _appBar,
-        key: globalKey,
+        key: _drawerKey,
         body: _body,
+        endDrawer: NavigationDrawer(),
         bottomNavigationBar: _bottomNavigation,
       );
 
