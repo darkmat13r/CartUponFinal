@@ -66,6 +66,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/category/
+    - assets/images/social/
     - assets/google_fonts/
     - assets/translations/
 flutter_icons:
