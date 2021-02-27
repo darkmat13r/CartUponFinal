@@ -58,27 +58,11 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
         ),
       );
 
-  final Widget _logo = Center(
-    child: Stack(
-      children: [
-        Container(
-          width: 80,
-          height: 80,
-          decoration: BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-          ),
-        ),
-        Positioned.fill(
-          child: Icon(
-            Icons.card_giftcard_outlined,
-            color: Colors.white,
-            size: 40,
-          ),
-        )
-      ],
-    ),
-  );
+  final Widget _logo = SizedBox(
+      height: 90,
+      child: Image.asset(
+        Resources.logo,
+      ));
 
   get _loginButton => ControlledWidgetBuilder(builder:  (BuildContext context, RegisterController controller){
     return Row(
@@ -100,22 +84,53 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
     );
   });
 
+  String selectedGender = "male";
   Widget _registerForm() {
     return ControlledWidgetBuilder<RegisterController>(
       builder: (BuildContext context, RegisterController controller) {
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
               decoration: InputDecoration(
-                  prefixIcon: Icon(Feather.user),
+                  prefixIcon: Icon(MaterialCommunityIcons.account),
                   hintText: LocaleKeys.fullName.tr()),
+            ),
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            Text(LocaleKeys.gender, style: labelText,),
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            Row(
+              children: [
+                Radio(value: "male", groupValue: selectedGender, onChanged: (value){
+                  setState(() {
+                    selectedGender = value;
+                  });
+                }),
+                 Text(
+                  'Male',
+                  style: new TextStyle(fontSize: 16.0),
+                ),
+                Radio(value: "female", groupValue: selectedGender, onChanged: (value){
+                  setState(() {
+                    selectedGender = value;
+                  });
+                }),
+                Text(
+                  'Female',
+                  style: new TextStyle(fontSize: 16.0),
+                ),
+              ],
             ),
             SizedBox(
               height: Dimens.spacingMedium,
             ),
             TextFormField(
               decoration: InputDecoration(
-                  prefixIcon: Icon(Feather.mail),
+                  prefixIcon: Icon(MaterialCommunityIcons.email),
                   hintText: LocaleKeys.hintEmail.tr()),
             ),
             SizedBox(
@@ -123,7 +138,23 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
             ),
             TextFormField(
               decoration: InputDecoration(
-                prefixIcon: Icon(Feather.lock),
+                  prefixIcon: Icon(MaterialCommunityIcons.calendar),
+                  hintText: LocaleKeys.dob.tr()),
+            ),
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                  prefixIcon: Icon(MaterialCommunityIcons.phone),
+                  hintText: LocaleKeys.phoneNumber.tr()),
+            ),
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                prefixIcon: Icon(MaterialCommunityIcons.lock),
                 hintText: LocaleKeys.hintPassword.tr(),
               ),
             ),
@@ -132,7 +163,7 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
             ),
             TextFormField(
               decoration: InputDecoration(
-                prefixIcon: Icon(Feather.lock),
+                prefixIcon: Icon(MaterialCommunityIcons.lock),
                 hintText: LocaleKeys.confirmPassword.tr(),
               ),
             ),

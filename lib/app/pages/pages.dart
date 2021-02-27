@@ -15,6 +15,7 @@ class Pages{
   static const String reviews = '/reviews';
   static const String createReview = '/reviews/create';
   static const String search = '/search';
+  static const String welcome = '/welcome';
 
   static const String register = "/register";
   static const String filter = "/filter";
@@ -24,4 +25,5 @@ class Pages{
   static const String addAddress = "/addAddress";
 
   static const String cart = "/cart";
+  static const String checkout = "/checkout";
 }

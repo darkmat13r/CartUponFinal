@@ -8,56 +8,81 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-class SearchPage extends View{
+class SearchPage extends View {
   @override
   State<StatefulWidget> createState() => SearchPageState();
-
 }
 
-class SearchPageState extends ViewState<SearchPage, SearchController>{
+class SearchPageState extends ViewState<SearchPage, SearchController> {
   SearchPageState() : super(SearchController());
 
   @override
   Widget get view => Scaffold(
-    key: globalKey,
-    body: _body,
-    appBar: customAppBar(title: Text("Yummy Cakes..", style: heading5.copyWith(color: AppColors.primary),)),
-  );
+        key: globalKey,
+        body: _body,
+        appBar: customAppBar(
+            title: Text(
+          "Yummy Cakes..",
+          style: heading5.copyWith(color: AppColors.primary),
+        )),
+      );
 
-  get _body => ListView(
-    children: [
-      Padding(
-        padding: const EdgeInsets.all(Dimens.spacingMedium),
-        child: Row(
-          children: [
-            Expanded(child: Text("148 Result", style: bodyTextNormal1.copyWith(color: AppColors.neutralGray),), ),
-            Text("Electronics Coupons", style: bodyTextNormal1.copyWith(color: AppColors.neutralDark),),
-            _filterButton
-          ],
+  get _body => ControlledWidgetBuilder(builder: (BuildContext context, SearchController controller){
+    double cardWidth = MediaQuery
+        .of(context)
+        .size
+        .width / 3.3;
+    double cardHeight = MediaQuery
+        .of(context)
+        .size
+        .height / 4.32;
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(Dimens.spacingMedium),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  "148 Result",
+                  style:
+                  bodyTextNormal1.copyWith(color: AppColors.neutralGray),
+                ),
+              ),
+              Text(
+                "Electronics Coupons",
+                style: bodyTextNormal1.copyWith(color: AppColors.neutralDark),
+              ),
+              _filterButton
+            ],
+          ),
         ),
-      ),
-      GridView.count(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        childAspectRatio: 0.67,
-        crossAxisCount: 2, children: List.generate(20, (index) => ControlledWidgetBuilder(builder: (BuildContext context, SearchController controller) {
-          return ProductItem(()=>{
-            controller.product()
-          });
-      },)),)
-    ],
-  );
-
-  get _filterButton => ControlledWidgetBuilder(builder: (BuildContext context, SearchController controller){
-    return InkWell(
-      onTap: (){
-        controller.filter();
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(4),
-        child: Icon(Feather.chevron_down, color: AppColors.neutralGray,),
-      ),
+        GridView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: controller.products.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, childAspectRatio: cardWidth / cardHeight,),
+            itemBuilder: (BuildContext context, int index) {
+              return ProductItem(product: controller.products[index], onClickItem: (){});
+            })
+      ],
     );
   });
 
+  get _filterButton => ControlledWidgetBuilder(
+          builder: (BuildContext context, SearchController controller) {
+        return InkWell(
+          onTap: () {
+            controller.filter();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(4),
+            child: Icon(
+              Feather.chevron_down,
+              color: AppColors.neutralGray,
+            ),
+          ),
+        );
+      });
 }

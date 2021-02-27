@@ -42,11 +42,11 @@ class AccountPageState extends ViewState<AccountPage, AccountController>{
           child: GridView(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.5),
             children: [
-              _optionItem(Pages.profile, MaterialCommunityIcons.account_circle, LocaleKeys.edit.tr()),
+              _optionItem(Pages.profile, MaterialCommunityIcons.account_circle, LocaleKeys.editProfile.tr()),
               _optionItem(Pages.orders, MaterialCommunityIcons.cart, LocaleKeys.order.tr()),
               _optionItem(Pages.changePassword, MaterialCommunityIcons.lock, LocaleKeys.changePassword.tr()),
               _optionItem(Pages.addresses, MaterialCommunityIcons.pin, LocaleKeys.address.tr()),
-              _optionItem(Pages.profile, MaterialCommunityIcons.credit_card, LocaleKeys.payment.tr()),
+              _optionItem(Pages.profile, MaterialCommunityIcons.wallet, LocaleKeys.wallet.tr()),
               _optionItem(Pages.addresses, MaterialCommunityIcons.location_exit, "Logout"),
             ],
           ),

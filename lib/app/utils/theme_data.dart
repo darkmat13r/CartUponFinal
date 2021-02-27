@@ -13,7 +13,7 @@ const appBarShape = RoundedRectangleBorder(
         color: AppColors.neutralLight, width: Dimens.borderWidth));
 
 TextTheme createTextTheme(BuildContext context) =>
-    GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).copyWith(
+    GoogleFonts.amaranteTextTheme(Theme.of(context).textTheme).copyWith(
       overline: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.normal,
@@ -96,11 +96,10 @@ ThemeData appTheme(BuildContext context) => ThemeData(
     iconTheme: IconThemeData(
       color: AppColors.primary
     ),
-    backgroundColor: AppColors.background,
     toolbarTextStyle:  heading4.copyWith(color: AppColors.primary),
     titleTextStyle: heading4.copyWith(color: AppColors.primary),
   ),
-  textTheme: createTextTheme(context),
+  textTheme: GoogleFonts.amaranthTextTheme(),
   outlinedButtonTheme: OutlinedButtonThemeData(),
   buttonTheme: ButtonThemeData(
       height: Dimens.buttonHeight,
@@ -108,7 +107,7 @@ ThemeData appTheme(BuildContext context) => ThemeData(
       textTheme: ButtonTextTheme.primary,
       shape: RoundedRectangleBorder(
           borderRadius:
-          BorderRadius.all(Radius.circular(Dimens.cornerRadius)))),
+          BorderRadius.all(Radius.circular(Dimens.buttonCornerRadius)))),
   cardTheme: CardTheme(
       color: AppColors.cardBg,
       shape: RoundedRectangleBorder(

@@ -33,7 +33,7 @@
   "checkout" : "Checkout",
   "account" : "Account",
   "profile" : "Profile",
-  "order" : "Order",
+  "order" : "Your Order",
   "address" : "Address",
   "payment" : "Payment",
 
@@ -74,12 +74,13 @@
   "explore" : "Explore",
 
 
-  "createAnAccount" : "Create an new account",
+  "createAnAccount" : "Create new account",
   "haveAnAccount" : "have an account?",
-  "confirmPassword" : "Password Again",
+  "confirmPassword" : "Confirm Password",
   "fullName" : "Full name",
   "letsGetStarted" : "Let's Get Started",
-  "signUp" : "Sign Up",
+  "signUp" : "Register",
+  "loginAsGuest" : "Sign In as guest",
   "filterSearch" : "Filter Search",
 
   "priceRange" : "Price Range",
@@ -92,13 +93,15 @@
 
   "oldPassword" : "Old Password",
   "newPassword" :  "New Password",
-  "confirmNewPassword" : "New Password Again",
+  "confirmNewPassword" : "Confirm Password",
 
   "edit"  : "Edit",
+  "editProfile"  : "Edit Profile",
   "addAddress"  : "Add Address",
   "countryRegion"  : "Country or region",
   "firstName" : "First Name",
   "lastName" : "Last Name",
+  "dob" : "DOB",
   "streetAddress"  : "Street Address",
   "streetAddressOption" : "Street Address 2 (Optional)",
   "city" : "City",
@@ -108,5 +111,18 @@
 
   "sendInstructions":  "Send Reset Link",
   "forgotPasswordTitle"  : "Did someone forgot their password?",
-  "forgotPasswordSubtitle"  : "That's ok, Just enter the email address you've used to register with us and we will send you a reset link"
+  "forgotPasswordSubtitle"  : "That's ok, Just enter the email address you've used to register with us and we will send you a reset link",
+  "tabHome" : "Home",
+  "buyNow" : "Buy",
+  "tabCoupons" : "Coupons",
+  "continueShopping" : "Continue Shopping",
+  "message" : "Message",
+  "productAddedToCard" : "Product Successfully Added to Cart",
+  "payNow" : "Pay now",
+  "wallet" : "Wallet",
+  "delete" : "Delete",
+  "completePurchaseFaster" : "Complete your purchase faster",
+  "messageSignIn" : "Sign in or Register to enjoy the latest deals at unbelievable prices!",
+  "gender" : "Gender"
+
 }

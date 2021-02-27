@@ -1,13 +1,20 @@
+import 'package:coupon_app/app/components/buy_now_button.dart';
 import 'package:coupon_app/app/components/rating.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/router.dart';
+import 'package:coupon_app/domain/entities/product_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class ProductItem extends StatefulWidget {
   final Function onClickItem;
+  final ProductEntity product;
 
-  ProductItem(this.onClickItem);
+  ProductItem({
+    @required this.product,
+    @required this.onClickItem,
+  });
 
   @override
   State<StatefulWidget> createState() => ProductItemState();
@@ -20,7 +27,8 @@ class ProductItemState extends State<ProductItem> {
         padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
         child: InkWell(
           onTap: () {
-            widget.onClickItem();
+            if (widget.product != null)
+              AppRouter().productDetails(context, widget.product);
           },
           child: Card(
             child: Padding(
@@ -36,27 +44,37 @@ class ProductItemState extends State<ProductItem> {
                           borderRadius: const BorderRadius.all(
                               Radius.circular(Dimens.cornerRadius)),
                           color: AppColors.neutralLight),
-                      child: Image.network(
-                        "https://5.imimg.com/data5/PM/NW/JS/SELLER-42867842/discount-coupon-500x500.jpg",
-                        fit: BoxFit.fill,
-                      )),
+                      child: widget.product != null &&
+                              widget.product.images[0].startsWith("http")
+                          ? Image.network(
+                              widget.product != null
+                                  ? widget.product.images[0]
+                                  : "",
+                              fit: BoxFit.fill,
+                            )
+                          : Image.asset(widget.product != null
+                              ? widget.product.images[0]
+                              : "",  fit: BoxFit.fill,)),
                   SizedBox(
                     height: Dimens.spacingNormal,
                   ),
                   Text(
-                    "Save 43% on 2 Kg Yummy Cakes of your Choice from Movenpick Free Zone",
+                    widget.product != null ? widget.product.name : "",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: heading6.copyWith(color: AppColors.primary),
                   ),
                   SizedBox(
-                    height: Dimens.spacingMedium,
+                    height: Dimens.spacingNormal,
                   ),
+
+
                   Row(
                     children: [
-                      Icon(
-                        MaterialCommunityIcons.timer,
-                        color: AppColors.neutralDark,
+                      Image.asset(
+                        Resources.timerIcon,
+                        width: 24,
+                        height: 24,
                       ),
                       SizedBox(
                         width: Dimens.spacingNormal,
@@ -67,32 +85,20 @@ class ProductItemState extends State<ProductItem> {
                       )
                     ],
                   ),
-                  SizedBox(
-                    height: Dimens.spacingMedium,
-                  ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        "KD2",
-                        style: bodyTextMedium1.copyWith(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w900),
-                      ),
                       Expanded(
-                       child: SizedBox(),
+                        child: Text(
+                          "KD${widget.product != null ? widget.product.price : ""}",
+                          style: bodyTextMedium1.copyWith(
+                              color: AppColors.accent,
+                              fontWeight: FontWeight.w900),
+                        ),
                       ),
-                      SizedBox(
-                          height: 36,
-                          child: RaisedButton(
-                            elevation: 0,
-                            onPressed: () {},
-                            child: Text(
-                              "Buy Now",
-                              style: buttonText.copyWith(fontSize: 12),
-                            ),
-                          ))
+                      BuyNowButton(),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),

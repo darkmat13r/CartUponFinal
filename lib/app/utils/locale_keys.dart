@@ -1,5 +1,4 @@
 export 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class LocaleKeys {
   static const welcomeTo = 'welcomeTo';
@@ -49,10 +48,13 @@ class LocaleKeys {
   static const order = "order";
   static const address = "address";
   static const payment = "payment";
+  static const wallet = "wallet";
 
   //Profile
+  static const editProfile = "editProfile";
   static const email = "email";
   static const phone = "phone";
+  static const dob = "dob";
   static const changePassword = "changePassword";
 
   //Orders
@@ -118,6 +120,7 @@ class LocaleKeys {
   static const countryRegion  = "firstName";
   static const firstName  = "firstName";
   static const lastName  = "lastName";
+  static const gender  = "gender";
   static const streetAddress  = "streetAddress";
   static const streetAddressOption  = "streetAddressOption";
   static const city  = "city";
@@ -129,6 +132,21 @@ class LocaleKeys {
   static const sendInstructions  = "sendInstructions";
   static const forgotPasswordTitle  = "forgotPasswordTitle";
   static const forgotPasswordSubtitle  = "forgotPasswordSubtitle";
+
+  //Main Page
+  static const tabHome  = "tabHome";
+  static const tabCoupons  = "tabCoupons";
+
+  static const String buyNow = "buyNow";
+  static const String continueShopping = "continueShopping";
+  static const String message = "message";
+  static const String productAddedToCard = "productAddedToCard";
+  static const String payNow = "payNow";
+
+  static const delete = "delete";
+  static const completePurchaseFaster = "completePurchaseFaster";
+  static const messageSignIn = "messageSignIn";
+  static const loginAsGuest = "loginAsGuest";
 
 
 

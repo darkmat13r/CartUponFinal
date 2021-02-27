@@ -20,6 +20,7 @@ class LoginPage extends View {
 class LoginPageView extends ViewState<LoginPage, LoginController> {
   LoginPageView() : super(LoginController(DataAuthenticationRepository()));
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget get view => Scaffold(
         key: globalKey,
@@ -69,7 +70,7 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
                   height: Dimens.spacingMedium,
                 ),
                 _forgotPassword,
-               _registerButton
+                _registerButton
               ],
             ),
           ),
@@ -90,7 +91,6 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
               Icon(
                 FontAwesomeIcons.google,
               ),
-
               Expanded(
                 child: Text(
                   LocaleKeys.loginWithGoogle.tr(),
@@ -118,7 +118,6 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
                 FontAwesomeIcons.facebookF,
                 color: AppColors.facebook,
               ),
-
               Expanded(
                 child: Text(
                   LocaleKeys.loginWithFb.tr(),
@@ -130,27 +129,11 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
           ),
         ),
       );
-  final Widget _logo = Center(
-    child: Stack(
-      children: [
-        Container(
-          width: 80,
-          height: 80,
-          decoration: BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-          ),
-        ),
-        Positioned.fill(
-          child: Icon(
-            Icons.card_giftcard_outlined,
-            color: Colors.white,
-            size: 40,
-          ),
-        )
-      ],
-    ),
-  );
+  final Widget _logo = SizedBox(
+    height: 90,
+      child: Image.asset(
+    Resources.logo,
+  ));
 
   Widget get orDivider => Row(children: <Widget>[
         Expanded(
@@ -175,95 +158,94 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
         ),
       ]);
 
-  get _registerButton => ControlledWidgetBuilder(builder : (BuildContext context, LoginController controller){
-    return  Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Text(
-        LocaleKeys.dontHaveAccount.tr(),
-      ),
-      TextButton(
-        onPressed: () => {
-        controller.register()
-      },
-        child: Text(
-          LocaleKeys.register.tr(),
-          style: buttonText.copyWith(color: AppColors.primary),
-        ),
-      )
-    ],
-  );
-  });
+  get _registerButton => ControlledWidgetBuilder(
+          builder: (BuildContext context, LoginController controller) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              LocaleKeys.dontHaveAccount.tr(),
+            ),
+            TextButton(
+              onPressed: () => {controller.register()},
+              child: Text(
+                LocaleKeys.register.tr(),
+                style: buttonText.copyWith(color: AppColors.primary),
+              ),
+            )
+          ],
+        );
+      });
 
-  get _forgotPassword => ControlledWidgetBuilder(builder: (BuildContext context, LoginController controller){
-    return TextButton(
-      onPressed: () => {
-        controller.forgotPassword()
-      },
-      child: Text(
-        LocaleKeys.forgotPassword.tr(),
-        style: buttonText.copyWith(color: AppColors.primary),
-      ),
-    );
-  });
+  get _forgotPassword => ControlledWidgetBuilder(
+          builder: (BuildContext context, LoginController controller) {
+        return TextButton(
+          onPressed: () => {controller.forgotPassword()},
+          child: Text(
+            LocaleKeys.forgotPassword.tr(),
+            style: buttonText.copyWith(color: AppColors.primary),
+          ),
+        );
+      });
 
   Widget _loginForm() {
-    return ControlledWidgetBuilder<LoginController>(builder: (BuildContext context, LoginController controller) {
-      return Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              controller: controller.emailTextController,
-              keyboardType: TextInputType.emailAddress,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return LocaleKeys.errorUsernameRequired.tr();
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                  prefixIcon: Icon(Feather.mail),
-                  hintText: LocaleKeys.hintEmail.tr()),
-            ),
-            SizedBox(
-              height: Dimens.spacingMedium,
-            ),
-            TextFormField(
-              keyboardType: TextInputType.text,
-              controller: controller.passwordTextController,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return LocaleKeys.errorPasswordRequired.tr();
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                prefixIcon: Icon(Feather.lock),
-                hintText: LocaleKeys.hintPassword.tr(),
-              ),
-            ),
-            SizedBox(
-              height: Dimens.spacingMedium,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: LoadingButton(
-                onPressed: () {
-                  controller.checkForm({
-                    'context': context,
-                    'formKey': _formKey,
-                    'globalKey': globalKey
-                  });
+    return ControlledWidgetBuilder<LoginController>(
+      builder: (BuildContext context, LoginController controller) {
+        return Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: controller.emailTextController,
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return LocaleKeys.errorUsernameRequired.tr();
+                  }
+                  return null;
                 },
-                isLoading :  controller.isLoading,
-                text: LocaleKeys.signIn.tr(),
+                decoration: InputDecoration(
+                    prefixIcon: Icon(Feather.mail),
+                    hintText: LocaleKeys.hintEmail.tr()),
               ),
-            ),
-          ],
-        ),
-      );
-    },
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              TextFormField(
+                keyboardType: TextInputType.text,
+                controller: controller.passwordTextController,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return LocaleKeys.errorPasswordRequired.tr();
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Feather.lock),
+                  hintText: LocaleKeys.hintPassword.tr(),
+                ),
+              ),
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: LoadingButton(
+                  onPressed: () {
+                    controller.checkForm({
+                      'context': context,
+                      'formKey': _formKey,
+                      'globalKey': globalKey
+                    });
+                  },
+                  isLoading: controller.isLoading,
+                  text: LocaleKeys.signIn.tr(),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

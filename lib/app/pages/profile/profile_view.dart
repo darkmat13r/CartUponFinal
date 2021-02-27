@@ -32,9 +32,12 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
   get _body => ControlledWidgetBuilder(builder: (BuildContext context, ProfileController controller){
     return ListView(
       children: [
-        _optionItem( Feather.mail, LocaleKeys.email.tr(), "avinashkumawat2@gmail.com", (){}),
-        _optionItem( Feather.phone, LocaleKeys.phone.tr(), "+91 94685 6232", (){}),
-        _optionItem( Feather.lock, LocaleKeys.changePassword.tr(), "**************", (){
+        _optionItem( MaterialCommunityIcons.account, LocaleKeys.fullName.tr(), "Avinash kumawat", (){}),
+        _optionItem( MaterialCommunityIcons.gender_male_female, LocaleKeys.gender.tr(), "Male", (){}),
+        _optionItem( MaterialCommunityIcons.calendar, LocaleKeys.dob.tr(), "13/06/1985", (){}),
+        _optionItem( MaterialCommunityIcons.mail, LocaleKeys.email.tr(), "avinashkumawat2@gmail.com", (){}),
+        _optionItem( MaterialCommunityIcons.phone, LocaleKeys.phone.tr(), "+91 94685 6232", (){}),
+        _optionItem( MaterialCommunityIcons.lock, LocaleKeys.changePassword.tr(), "**************", (){
             controller.changePassword();
         }),
       ],

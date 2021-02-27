@@ -37,14 +37,16 @@ class AddressesPageState extends ViewState<AddressesPage, AddressesController>{
     child: ListView(
       shrinkWrap: true,
       children: [
+        _addAddress,
+        SizedBox(
+          height: Dimens.spacingMedium,
+        ),
         _address,
+
         SizedBox(
           height: Dimens.spacingMedium,
         ),
-        SizedBox(
-          height: Dimens.spacingMedium,
-        ),
-        _addAddress
+
       ],
     ),
   );
@@ -70,15 +72,13 @@ class AddressesPageState extends ViewState<AddressesPage, AddressesController>{
               height: Dimens.spacingMedium,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                RaisedButton(onPressed: (){},child: Text(LocaleKeys.edit.tr(), style: buttonText,),),
+                TextButton(onPressed: (){},child: Text(LocaleKeys.edit.tr(), style: buttonText.copyWith(color: AppColors.yellow),),),
                 SizedBox(
                   width: Dimens.spacingMedium,
                 ),
-                IconButton(
-                  onPressed: (){},
-                  icon: Icon(Feather.trash),
-                )
+                TextButton(onPressed: (){},child: Text(LocaleKeys.delete.tr(), style: buttonText.copyWith(color: AppColors.error),),),
               ],
             )
           ],
@@ -88,9 +88,23 @@ class AddressesPageState extends ViewState<AddressesPage, AddressesController>{
   });
 
   get _addAddress => ControlledWidgetBuilder(builder: (BuildContext context, AddressesController controller){
-    return LoadingButton(onPressed: (){
+    return RaisedButton(
+      elevation: 0,
+      color: AppColors.neutralLightGray.withAlpha(120),
+        shape:  RoundedRectangleBorder(
+            borderRadius:
+            BorderRadius.all(Radius.circular(0))),
+        onPressed: (){
       controller.addAddress();
-    }, text: LocaleKeys.addAddress.tr());
+    }, child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: Dimens.spacingNormal),
+      child: Column(
+        children: [
+          Icon(MaterialCommunityIcons.plus_circle, color: AppColors.neutralGray,),
+          Text( LocaleKeys.addAddress.tr(), style: buttonText.copyWith(color: AppColors.neutralGray,),)
+        ],
+      ),
+    ));
   });
 
 }

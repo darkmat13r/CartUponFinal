@@ -12,28 +12,45 @@ class NavigationDrawer extends StatefulWidget {
 class _NavigationDrawerState extends State<NavigationDrawer> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Container(
-          color: AppColors.neutralLight,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [Image.asset(Resources.logo), Text("UserName")],
-          ),
+    return Drawer(
+      child: SizedBox(
+        width: 240,
+        child: ListView(
+          children: [
+            Container(
+              color: AppColors.neutralLight,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    Resources.logo,
+                    width: 80,
+                  ),
+                  SizedBox(
+                    height: Dimens.spacingLarge,
+                  ),
+                  Text("UserName"),
+                  SizedBox(
+                    height: Dimens.spacingLarge,
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+              leading: Icon(MaterialCommunityIcons.home),
+              title: Text("Home"),
+            ),
+            ListTile(
+              leading: Icon(MaterialCommunityIcons.view_dashboard),
+              title: Text("Categories"),
+            ),
+            ListTile(
+              leading: Icon(MaterialCommunityIcons.settings),
+              title: Text("Settings"),
+            )
+          ],
         ),
-        ListTile(
-          leading: Icon(MaterialCommunityIcons.home),
-          title: Text("Home"),
-        ),
-        ListTile(
-          leading: Icon(MaterialCommunityIcons.view_dashboard),
-          title: Text("Categories"),
-        ),
-        ListTile(
-          leading: Icon(MaterialCommunityIcons.settings),
-          title: Text("Settings"),
-        )
-      ],
+      ),
     );
   }
 }

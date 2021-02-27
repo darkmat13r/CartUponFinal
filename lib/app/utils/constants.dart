@@ -8,13 +8,37 @@ class Resources {
   static const String google_logo = 'assets/images/google_logo.png';
   static const String logo = 'assets/images/logo.png';
   static const String toolbarLogo = 'assets/images/toolbar_logo.png';
+  static const String toolbarLogo2 = 'assets/images/toolbar_logo_2.png';
+  static const String timerIcon = 'assets/images/icon_timer.png';
   static const String promotion = 'assets/images/promotion.jpg';
   static const String shoe = 'assets/images/shoe.png';
   static const String recommended = 'assets/images/recommended.png';
+
+  static const String mainLogo =  "assets/images/main_logo.png";
+
+  static const String offerTag = "assets/images/tag.png";
+  static const String button = "assets/images/button.png";
+
+
+  static const String categoryFood = "assets/images/category/food.png";
+  static const String categoryHealth = "assets/images/category/health.png";
+  static const String categoryEntertainment = "assets/images/category/entertainment.png";
+  static const String categorySports = "assets/images/category/sports.png";
+  static const String product1 = "assets/images/category/product_image_1.jpg";
+  static const String product2 = "assets/images/category/product_image_2.jpg";
+  static const String product3 = "assets/images/category/product_image_3.jpg";
+  static const String product4 = "assets/images/category/product_image_4.jpeg";
+  static const String product5 = "assets/images/category/product_image_5.jpeg";
+  static const String product6 = "assets/images/category/product_image_6.jpeg";
+  static const String product7 = "assets/images/category/product_image_7.jpeg";
+  static const String product8 = "assets/images/category/product_image_8.jpeg";
+  static const String product9 = "assets/images/category/product_image_9.jpeg";
+  static const String product10 = "assets/images/category/product_image_10.jpeg";
+  static const String product11 = "assets/images/category/product_image_11.jpeg";
 }
 
 class AppColors {
-  static const Color background = const Color(0xFFfdfdfd);
+  static const Color background = const Color(0xFFFCFCFC);
   static const Color primary = const Color(0xff053e7c);
   static const Color accent = const Color(0xff45c2b5);
   static const Color neutralLight = const Color(0xffffffff);
@@ -26,9 +50,10 @@ class AppColors {
   static const Color facebook = const Color(0xff4092FF);
 
   static var yellow = const Color(0xffFFC833);
+  static var warning = const Color(0xffEEA48F);
   static const Color formHintText = const Color(0xff9098B1);
   static const Color formFieldBg = const Color(0xffffffff);
-  static const Color cardBg = const Color(0xffffffff);
+  static const Color cardBg = const Color(0xffFEFEFE);
 }
 
 
@@ -78,7 +103,9 @@ class Dimens {
   static const double spacingMicro = 4;
   static const double spacingMedium = 16;
   static const double spacingLarge = 24;
-  static const double buttonHeight = 57;
+  static const double buttonHeight = 52;
+
+  static const double buttonCornerRadius = 57;
 }
 
 final TextStyle heading1 = TextStyle(fontSize: 36, fontWeight: FontWeight.bold);

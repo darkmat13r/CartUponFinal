@@ -11,7 +11,6 @@ import 'package:coupon_app/domain/repositories/local_repository.dart';
 class LoginController extends Controller{
   TextEditingController emailTextController;
   TextEditingController passwordTextController;
-  LoginPresenter _homePresenter;
   bool isLoading =  false;
   LoginPresenter _loginPresenter;
 
@@ -82,7 +81,7 @@ class LoginController extends Controller{
 
   @override
   void dispose() {
-    _homePresenter.dispose();
+    _loginPresenter.dispose();
   }
 
 

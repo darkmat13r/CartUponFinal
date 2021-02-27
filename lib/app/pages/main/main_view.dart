@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/components/cart_button.dart';
 import 'package:coupon_app/app/components/navigation_drawer.dart';
 import 'package:coupon_app/app/pages/account/account_view.dart';
 import 'package:coupon_app/app/pages/cart/cart_view.dart';
@@ -38,26 +39,27 @@ class MainPageView extends ViewState<MainPage, MainController> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   get _appBar => AppBar(
     title: SizedBox(
-      width: 120,
-      child: Image.asset(Resources.toolbarLogo, fit: BoxFit.fitHeight,),
+      height: 40,
+      child: Image.asset(Resources.toolbarLogo2, fit: BoxFit.fitHeight,),
     ),
     actions: [
       IconButton(
         icon: Icon(MaterialIcons.search), onPressed: () {  },
       ),
-      IconButton(
-        icon: Icon(MaterialIcons.shopping_cart), onPressed: () {
-          Navigator.of(context).pushNamed(Pages.cart);
-      },
-      ),
+      CartButton(),
       IconButton(
         icon: Icon(MaterialIcons.menu), onPressed: () {
-        _drawerKey.currentState.openDrawer();
+          print("OnDrawer menu icon clicked");
+        setState(() {
+          _drawerKey.currentState.openEndDrawer();
+        });
       },
       )
     ],
   );
-
+  void _openEndDrawer() {
+    _drawerKey.currentState.openEndDrawer();
+  }
   @override
   Widget get view => Scaffold(
         appBar: _appBar,

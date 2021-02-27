@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/pages/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
@@ -14,4 +15,10 @@ class WelcomeController extends Controller{
     Navigator.of(getContext()).pushNamed('/home');
   }
 
+  void login() {
+    Navigator.of(getContext()).pushNamed(Pages.login);
+  }
+  void register() {
+    Navigator.of(getContext()).pushNamed(Pages.register);
+  }
 }

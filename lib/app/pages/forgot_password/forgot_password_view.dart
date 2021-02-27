@@ -68,27 +68,11 @@ class ForgotPasswordPageState
         ),
       );
 
-  final Widget _logo = Center(
-    child: Stack(
-      children: [
-        Container(
-          width: 80,
-          height: 80,
-          decoration: BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-          ),
-        ),
-        Positioned.fill(
-          child: Icon(
-            Icons.card_giftcard_outlined,
-            color: Colors.white,
-            size: 40,
-          ),
-        )
-      ],
-    ),
-  );
+  final Widget _logo = SizedBox(
+      height: 90,
+      child: Image.asset(
+        Resources.logo,
+      ));
 
   _forgotPasswordForm() {
     return Form(

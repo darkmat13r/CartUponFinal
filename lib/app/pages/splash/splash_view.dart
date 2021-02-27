@@ -21,8 +21,40 @@ class _SplashPageState extends ViewState<SplashPage, SplashController> {
   get _body => Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Center(
-          child: SizedBox(width: 240, child: Image.asset(Resources.logo)),
+        child: Stack(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                      color: AppColors.accent,
+                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(70), bottomRight: Radius.circular(70))
+                  ),
+
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CircleAvatar(
+                          radius: 36,
+                          backgroundColor: AppColors.neutralLight,
+                          child: Image.asset(Resources.mainLogo, width: 48,),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+            Center(
+              child: SizedBox(width: 240, child: Image.asset(Resources.toolbarLogo)),
+            )
+          ],
         ),
       );
 }

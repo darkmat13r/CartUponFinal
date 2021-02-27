@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:coupon_app/app/components/banner_product.dart';
 import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/product_colors.dart';
@@ -8,6 +9,7 @@ import 'package:coupon_app/app/components/review.dart';
 import 'package:coupon_app/app/pages/product/product_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/domain/entities/product_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -15,79 +17,141 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ProductPage extends View {
+  final ProductEntity product;
+
+  ProductPage(this.product);
+
   @override
   State<StatefulWidget> createState() => ProductPageView();
 }
-class Product{
-  final String title;
-  final String url;
-  final String description;
-  final String fullDescription;
-  final double price;
-  final String timeLeft;
 
-  Product({this.title, this.url, this.description, this.fullDescription, this.price, this.timeLeft});
-}
 class ProductPageView extends ViewState<ProductPage, ProductController> {
   ProductPageView() : super(ProductController());
-
-  final Product product = Product(
-    title:"Save 57% and Enjoy 1 Night stay in a Diplomatic Suite with a Private Pool including Lunch + Breakfast for 2 Persons at The Convention Center & Royal Suites Hotel– Free Zone",
-    description: "Get KD207 Value Service for only KD90",
-    fullDescription: "Surprise your beloved one with an unforgettable Romantic Night in a diplomatic suite with a private warm swimming pool including breakfast & lunch at The Convention Center & Royal Suites Hotel– Free Zone.",
-    url: "https://5.imimg.com/data5/PM/NW/JS/SELLER-42867842/discount-coupon-500x500.jpg",
-    price: 8,
-    timeLeft: "101h: 46m: 12s"
-  );
 
   @override
   Widget get view => Scaffold(
         key: globalKey,
-    appBar: customAppBar(
-        title: Text(
-          "Yummy Cakes Coupon",
+        appBar: customAppBar(
+            title: Text(
+              widget.product != null ? widget.product.name : "",
           style: heading5.copyWith(color: AppColors.primary),
         )),
         body: _body,
       );
 
+  String variantSelected = null;
+
   get _productDetails => ListView(
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         children: [
-          Image.network(
-            product.url,
-            fit: BoxFit.cover,
-          ),
+          CarouselSlider.builder(
+              itemCount: widget.product.images.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    child: widget.product.images[index].startsWith("http")
+                        ? Image.network(
+                            widget.product.images[index],
+                            fit: BoxFit.fill,
+                          )
+                        : Image.asset(
+                            widget.product.images[index],
+                            fit: BoxFit.fill,
+                          ));
+              },
+              options: CarouselOptions(
+                height: 240,
+                aspectRatio: 16 / 9,
+                viewportFraction: 1,
+                initialPage: 0,
+                enableInfiniteScroll: true,
+                reverse: false,
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 3),
+                scrollDirection: Axis.horizontal,
+              )),
           Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "You save 44 %",
-                  style: heading5.copyWith(color: AppColors.accent),
+
+                SizedBox(
+                  width:double.infinity,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "KD${widget.product != null ? widget.product.price : ""}",
+                              style: bodyTextMedium2.copyWith(
+                                  color: AppColors.neutralGray,
+                                  decoration: TextDecoration.lineThrough),
+                            ),
+                            Text(
+                              "KD${widget.product != null ? widget.product.price : ""}",
+                              style: heading4.copyWith(color: AppColors.primary),
+                            )
+                          ],
+                        ),
+                      ),
+                      Stack(
+                        children: [
+                          Image.asset(
+                            Resources.offerTag,
+                            height: 36,
+                          ),
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 0, left: 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text("44%\nOFF",
+                                      style: heading5.copyWith(
+                                          color: AppColors.neutralLight,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w900)),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
                 Text(
-                  product.title,
+                  widget.product != null ? widget.product.name : "",
                   style: heading3.copyWith(color: AppColors.primary),
                 ),
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
                 Text(
-                  product.description,
+                  widget.product != null ? widget.product.description : "",
                   style: heading4.copyWith(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w400),
+                      color: AppColors.primary, fontWeight: FontWeight.w400),
                 ),
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
                 Text(
-                  product.fullDescription,
+                  "Product Description",
                   style: bodyTextMedium2.copyWith(
                       color: AppColors.neutralGray,
                       fontWeight: FontWeight.w400),
@@ -95,16 +159,60 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
-                Text(
-                  "Colors",
-                  style: heading4.copyWith(
-                    color: AppColors.primary,
-                  ),
-                ),
+
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
-                ProductColors(),
+                SizedBox(
+                  width: double.infinity,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.neutralGray)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Dimens.spacingMedium),
+                      child: DropdownButton<String>(
+                        elevation: 8,
+                        underline: SizedBox(),
+                        hint: Text("2 Person"),
+                        value: variantSelected,
+                        isExpanded: true,
+                        icon: Icon(MaterialIcons.arrow_drop_down),
+                        items: <String>[
+                          '2 Person',
+                          '4 Person',
+                          '8 Person',
+                          '9 Person'
+                        ].map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  value,
+                                  style: heading6.copyWith(
+                                      color: AppColors.neutralDark),
+                                ),
+                                Text(
+                                  "KD9",
+                                  style: captionNormal1.copyWith(
+                                      color: AppColors.neutralGray),
+                                )
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            variantSelected = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ),
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
@@ -134,22 +242,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                         ],
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "KD9.5",
-                          style: bodyTextMedium2.copyWith(
-                              color: AppColors.neutralGray,
-                              decoration: TextDecoration.lineThrough),
-                        ),
-                        Text(
-                          "KD5.5",
-                          style: heading4,
-                        )
-                      ],
-                    )
+
                   ],
                 ),
                 SizedBox(
@@ -159,12 +252,14 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                     width: double.infinity,
                     child: RaisedButton(
                       onPressed: () {},
-                      child: Text("Buy Now", style: buttonText,),
+                      child: Text(
+                        "Buy Now",
+                        style: buttonText,
+                      ),
                     ))
               ],
             ),
           )
-
         ],
       );
 
@@ -212,70 +307,52 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
         },
       );
 
-  Widget _recommended(String name) => Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                  child: Text(
-                name,
-                style: heading5.copyWith(color: AppColors.neutralDark),
-              )),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  LocaleKeys.seeMore.tr(),
-                  style: linkText,
-                ),
-              )
-            ],
-          ),
-          Container(
-            height: 300,
-            width: double.infinity,
-            child: ListView(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              children: [
-                _createProductItem(),
-                _createProductItem(),
-                _createProductItem(),
-                _createProductItem(),
-                _createProductItem(),
-                _createProductItem(),
-                _createProductItem(),
-                _createProductItem(),
-                _createProductItem(),
-                _createProductItem(),
-                _createProductItem(),
-              ],
-            ),
-          )
-        ],
-      );
-
-  _createProductItem() {
-    return SizedBox(width: 200, child: ProductItem(() => {}));
-  }
-
-  get _body => Stack(
-        children: [
-          _productDetails,
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: Dimens.spacingMedium,
-                    horizontal: Dimens.spacingMedium),
-                child: RaisedButton(
-                  onPressed: () {},
-                  child: Text(LocaleKeys.addToCart.tr(), style: buttonText),
-                ),
+  Widget _recommended(String name) => ControlledWidgetBuilder(
+          builder: (BuildContext context, ProductController controller) {
+        return Column(
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: Text(
+                    name,
+                    style: heading5.copyWith(color: AppColors.primary),
+                  )),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      LocaleKeys.seeMore.tr(),
+                      style: linkText.copyWith(color: AppColors.accent),
+                    ),
+                  )
+                ],
               ),
             ),
-          )
-        ],
+            Container(
+              height: 305,
+              width: double.infinity,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: controller.similarProducts.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    width: 240,
+                    child: ProductItem(
+                        product: controller.similarProducts[index],
+                        onClickItem: () {}),
+                  );
+                },
+              ),
+            )
+          ],
+        );
+      });
+
+  get _body => ListView(
+        children: [_productDetails, _recommended("Similar Products")],
       );
 }

@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,75 +14,121 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
   WelcomePageView() : super(WelcomeController());
 
   @override
-  Widget get view =>
-      Scaffold(
+  Widget get view => Scaffold(
         key: globalKey,
         body: body,
       );
+  final Widget _logo = SizedBox(
+      height: 90,
+      child: Image.asset(
+        Resources.logo,
+      ));
 
-  Column get body =>
-      Column(
-        children: [
-          banner,
-          SizedBox(
-            height: 24,
-            width: double.infinity,
-          ),
-          Text(
-            "Login",
-            style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.w800, color: Colors.black),
-          ),
+  get body => ControlledWidgetBuilder(builder: (BuildContext context, WelcomeController controller){
+    return ListView(
+      children: [
+        SizedBox(
+          height: 24,
+          width: double.infinity,
+        ),
+        _logo,
+        SizedBox(
+          height: 24,
+          width: double.infinity,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(Dimens.spacingMedium),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(Dimens.spacingMedium),
+                child: Text(
+                  "Login",
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black),
+                ),
+              ),
 
-          Text(
-            "",
-            style: TextStyle(
-                fontSize: 14, fontWeight: FontWeight.w800, color: Colors.black),
+              Text(
+                "Sign/Register to continue",
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.neutralGray),
+              ),
+              SizedBox(
+                height: 50,
+                width: double.infinity,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: RaisedButton(
+                  onPressed: () {
+                    controller.register();
+                  },
+                  child: Text(
+                    LocaleKeys.register.tr(),
+                    style: buttonText,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: FlatButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(Dimens.buttonCornerRadius),
+                      side: BorderSide(color: AppColors.accent)),
+                  onPressed: () {
+                    controller.login();
+                  },
+                  child: Text(
+                    LocaleKeys.signIn.tr(),
+                    style: buttonText.copyWith(color: AppColors.accent),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    LocaleKeys.loginAsGuest.tr(),
+                    style: buttonText.copyWith(color: AppColors.accent),
+                  ))
+            ],
           ),
-          SizedBox(
-            height: 50,
-            width: double.infinity,
-          ),
-          buttonJoinUs,
-          SizedBox(
-            height: 24,
-            width: double.infinity,
-          ),
-          Text(
-            "By continuing, you agree to accept our \nPrivacy Policy & Terms of Service.",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 10, color: Colors.black),
-          ),
-          SizedBox(
-            height: 24,
-            width: double.infinity,
-          ),
-          orDivider,
-          SizedBox(
-            height: 24,
-            width: double.infinity,
-          ),
-          facebookLogin,
-          googleLogin,
+        ),
+        SizedBox(
+          height: 24,
+          width: double.infinity,
+        ),
+        Text(
+          "By continuing, you agree to accept our \nPrivacy Policy & Terms of Service.",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 10, color: Colors.black),
+        ),
+        SizedBox(
+          height: 24,
+          width: double.infinity,
+        ),
+        SizedBox(
+          height: 24,
+          width: double.infinity,
+        ),
+      ],
+    );
+  });
 
-          SizedBox(
-            width: double.infinity,
-            height: 58,
-            child: ControlledWidgetBuilder<WelcomeController>(builder: (context, controller) {
-              return TextButton(
-                child: Text("skip", style: TextStyle(color: Colors.black),),
-                onPressed: () =>
-                {
-                  controller.skip()
-                },
-              );
-            }),
-          )
-        ],
-      );
-
-  Widget get googleLogin =>
-      Padding(
+  Widget get googleLogin => Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 16),
         child: SizedBox(
           width: double.infinity,
@@ -90,7 +137,7 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
             color: Colors.white,
             onPressed: () => {},
             shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               //Center Column contents vertically,
@@ -125,8 +172,7 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
         ),
       );
 
-  Widget get facebookLogin =>
-      Padding(
+  Widget get facebookLogin => Padding(
         padding: const EdgeInsets.fromLTRB(50, 0, 50, 16),
         child: SizedBox(
           width: double.infinity,
@@ -135,7 +181,7 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
             color: Colors.blue.shade800,
             onPressed: () => {},
             shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               //Center Column contents vertically,
@@ -162,14 +208,12 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
         ),
       );
 
-  Container get banner =>
-      Container(
+  Container get banner => Container(
           child: Image.asset(
-            Resources.login_banner,
-          ));
+        Resources.login_banner,
+      ));
 
-  Widget get orDivider =>
-      Row(children: <Widget>[
+  Widget get orDivider => Row(children: <Widget>[
         Expanded(
           child: new Container(
               margin: const EdgeInsets.only(left: 10.0, right: 15.0),
@@ -192,8 +236,7 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
         ),
       ]);
 
-  Widget get buttonJoinUs =>
-      SizedBox(
+  Widget get buttonJoinUs => SizedBox(
         width: double.infinity,
         height: 82,
         child: RaisedButton(
@@ -201,12 +244,10 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
           color: AppColors.accent,
           child: Center(
               child: Text(
-                "Login Now",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.white),
-              )),
+            "Login Now",
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.w900, color: Colors.white),
+          )),
         ),
       );
 }

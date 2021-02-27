@@ -19,7 +19,6 @@ class CartPageState extends ViewState<CartPage, CartController> {
   CartPageState() : super(CartController());
 
   @override
-  // TODO: implement view
   Widget get view => Scaffold(
     key: globalKey,
     body: _body,
@@ -31,7 +30,6 @@ class CartPageState extends ViewState<CartPage, CartController> {
       CartItem(),
       CartItem(),
       CartItem(),
-
       Padding(
         padding: const EdgeInsets.all(Dimens.spacingMedium),
         child: Card(
@@ -42,7 +40,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
                 Row(
                   children: [
                     Expanded(child: Text(LocaleKeys.items.tr(args: ["2"]), style: bodyTextNormal2.copyWith(color: AppColors.neutralGray),)),
-                    Text("\$598.00", style: bodyTextNormal1.copyWith(color: AppColors.neutralDark)),
+                    Text("KD598.00", style: bodyTextNormal1.copyWith(color: AppColors.neutralDark)),
                   ],
                 ),
                 SizedBox(
@@ -51,7 +49,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
                 Row(
                   children: [
                     Expanded(child: Text(LocaleKeys.shipping.tr(), style: bodyTextNormal2.copyWith(color: AppColors.neutralGray),)),
-                    Text("\$40.00", style: bodyTextNormal1.copyWith(color: AppColors.neutralDark)),
+                    Text("KD40.00", style: bodyTextNormal1.copyWith(color: AppColors.neutralDark)),
                   ],
                 ),
                 SizedBox(
@@ -60,7 +58,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
                 Row(
                   children: [
                     Expanded(child: Text(LocaleKeys.tax.tr(), style: bodyTextNormal2.copyWith(color: AppColors.neutralGray),)),
-                    Text("\$128.00", style: bodyTextNormal1.copyWith(color: AppColors.neutralDark)),
+                    Text("KD128.00", style: bodyTextNormal1.copyWith(color: AppColors.neutralDark)),
                   ],
                 ),
                 SizedBox(
@@ -77,7 +75,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
                 Row(
                   children: [
                     Expanded(child: Text(LocaleKeys.totalPrice.tr(), style: heading6.copyWith(color: AppColors.neutralDark),)),
-                    Text("\$766.86", style: heading6.copyWith(color: AppColors.primary)),
+                    Text("KD766.86", style: heading6.copyWith(color: AppColors.primary)),
                   ],
                 ),
                 SizedBox(

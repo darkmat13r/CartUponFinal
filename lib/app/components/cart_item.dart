@@ -10,7 +10,8 @@ class CartItem extends StatefulWidget {
 }
 
 class CartItemState extends State<CartItem> {
-  String count = "1";
+  String selectedCount;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,38 +35,56 @@ class CartItemState extends State<CartItem> {
                   children: [
                     Text(
                       "Nike Air Zoom Pegasus 36 Miami",
-                      style:
-                      heading6.copyWith(color: AppColors.neutralDark),
+                      style: heading6.copyWith(color: AppColors.neutralDark),
                     ),
                     SizedBox(
                       height: Dimens.spacingNormal,
                     ),
                     Row(
                       children: [
-                        Expanded(child: Text("\$299,43", style: heading6.copyWith(color: AppColors.primary),)),
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: AppColors.primary,
-                              border:  Border.all(color: AppColors.neutralGray, width: Dimens.borderWidth)
-                            ),
-                            child: new DropdownButton<String>(
+                                border: Border.all(
+                                    color: AppColors.neutralGray,
+                                    width: Dimens.borderWidth)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: Dimens.spacingMedium),
+                              child: new DropdownButton<String>(
                                 underline: SizedBox(),
-                              style: bodyTextNormal1.copyWith(color: AppColors.neutralDark),
-                              items: <String>['1', '2', '3', '4'].map((String value) {
-                                return DropdownMenuItem(
-                                  value: value,
-                                  child: Expanded(child: new Text(value, style: bodyTextNormal1.copyWith(color: AppColors.neutralDark),)),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  count = value;
-                                });
-                              },
+                                isExpanded: true,
+                                hint: Text("1"),
+                                style: bodyTextNormal1.copyWith(
+                                    color: AppColors.neutralDark),
+                                items: <String>['1', '2', '3', '4']
+                                    .map((String value) {
+                                  return DropdownMenuItem(
+                                    value: value,
+                                    child: new Text(
+                                      value,
+                                      style: bodyTextNormal1.copyWith(
+                                      color: AppColors.neutralDark),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedCount = value;
+                                  });
+                                },
+                              ),
                             ),
                           ),
-                        )
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                          ),
+                        ),
+                        Text(
+                          "KD299,43",
+                          style: heading6.copyWith(color: AppColors.primary),
+                        ),
                       ],
                     )
                   ],
