@@ -1,9 +1,9 @@
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:coupon_app/app/pages/welcome/welcome_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 class WelcomePage extends View {
   @override
@@ -189,7 +189,7 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
               //Center Column contents horizontally,
               children: [
                 Icon(
-                  FontAwesomeIcons.facebookF,
+                  MaterialCommunityIcons.facebook,
                   color: Colors.white,
                 ),
                 SizedBox(

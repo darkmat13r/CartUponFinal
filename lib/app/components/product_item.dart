@@ -87,13 +87,26 @@ class ProductItemState extends State<ProductItem> {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "KD${widget.product != null ? widget.product.price : ""}",
+                            style: captionNormal2.copyWith(
+                                color: AppColors.neutralGray,
+                                decoration: TextDecoration.lineThrough),
+                          ),
+                          Text(
+                            "KD${widget.product != null ? widget.product.price : ""}",
+                            style: bodyTextMedium1.copyWith(color: AppColors.primary),
+                          )
+                        ],
+                      ),
                       Expanded(
-                        child: Text(
-                          "KD${widget.product != null ? widget.product.price : ""}",
-                          style: bodyTextMedium1.copyWith(
-                              color: AppColors.accent,
-                              fontWeight: FontWeight.w900),
+                        child: SizedBox(
                         ),
                       ),
                       BuyNowButton(),

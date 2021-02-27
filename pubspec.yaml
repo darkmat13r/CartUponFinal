@@ -38,6 +38,7 @@ dependencies:
   intl: 0.17.0
   easy_localization: ^2.3.3
   carousel_slider: ^2.3.1
+  smooth_page_indicator: ^0.2.0
 
   # Do not change this version to anything newer for now due to AndroidX dependency issues
   webview_flutter: '0.3.3'

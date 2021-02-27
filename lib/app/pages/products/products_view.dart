@@ -113,7 +113,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
                   return SizedBox(
-                    width: 248,
+                    width: MediaQuery.of(context).size.width/2.1,
                     child: ProductItem(
                         product: controller.products[index],
                         onClickItem: () {}),

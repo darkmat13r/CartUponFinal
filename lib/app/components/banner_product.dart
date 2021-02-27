@@ -8,6 +8,7 @@ import 'package:coupon_app/app/utils/dummy.dart';
 import 'package:coupon_app/domain/entities/product_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class BannerProduct extends StatefulWidget {
   final bool showDescription = false;
@@ -20,6 +21,7 @@ class _BannerProductState extends State<BannerProduct> {
   ProductEntity product = DummyProducts.products()[
       Random().nextInt(DummyProducts.products().length)];
 
+  int sliderImageIndex  = 0;
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(8.0),
@@ -41,12 +43,33 @@ class _BannerProductState extends State<BannerProduct> {
                     aspectRatio: 16 / 9,
                     viewportFraction: 1,
                     initialPage: 0,
+                    onPageChanged: (index, page){
+                      setState(() {
+                        sliderImageIndex =  index;
+                      });
+                    },
                     enableInfiniteScroll: true,
                     reverse: false,
                     autoPlay: true,
                     autoPlayInterval: Duration(seconds: 3),
                     scrollDirection: Axis.horizontal,
                   )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AnimatedSmoothIndicator(
+                      activeIndex: sliderImageIndex,
+                      count:  product.images.length,
+                      effect: WormEffect(
+                          dotWidth: 8,
+                          dotHeight: 8
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(Dimens.spacingMedium),
                 child: Column(

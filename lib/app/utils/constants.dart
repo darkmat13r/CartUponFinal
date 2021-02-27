@@ -35,6 +35,10 @@ class Resources {
   static const String product9 = "assets/images/category/product_image_9.jpeg";
   static const String product10 = "assets/images/category/product_image_10.jpeg";
   static const String product11 = "assets/images/category/product_image_11.jpeg";
+
+  static String facebook = "assets/images/social/facebook.png";
+  static String twitter = "assets/images/social/twitter.png";
+  static String whatsapp = "assets/images/social/whatsapp.png";
 }
 
 class AppColors {

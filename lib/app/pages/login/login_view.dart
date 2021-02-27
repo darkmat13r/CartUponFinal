@@ -4,12 +4,9 @@ import 'package:coupon_app/data/repositories/data_authentication_repository.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:coupon_app/app/components/circular_progress.dart';
 import 'package:coupon_app/app/pages/login/login_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
-import 'package:coupon_app/device/repositories/device_location_repository.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class LoginPage extends View {
@@ -89,7 +86,7 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
             //Center Column contents horizontally,
             children: [
               Icon(
-                FontAwesomeIcons.google,
+                MaterialCommunityIcons.google,
               ),
               Expanded(
                 child: Text(
@@ -115,7 +112,7 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
             //Center Column contents horizontally,
             children: [
               Icon(
-                FontAwesomeIcons.facebookF,
+                MaterialCommunityIcons.facebook,
                 color: AppColors.facebook,
               ),
               Expanded(

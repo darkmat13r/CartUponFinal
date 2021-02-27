@@ -6,7 +6,9 @@ import 'package:coupon_app/app/components/product_item.dart';
 import 'package:coupon_app/app/components/product_sizes.dart';
 import 'package:coupon_app/app/components/rating.dart';
 import 'package:coupon_app/app/components/review.dart';
+import 'package:coupon_app/app/components/social_share.dart';
 import 'package:coupon_app/app/pages/product/product_controller.dart';
+import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/domain/entities/product_entity.dart';
@@ -15,6 +17,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductPage extends View {
   final ProductEntity product;
@@ -33,13 +36,14 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
         key: globalKey,
         appBar: customAppBar(
             title: Text(
-              widget.product != null ? widget.product.name : "",
+          widget.product != null ? widget.product.name : "",
           style: heading5.copyWith(color: AppColors.primary),
         )),
         body: _body,
       );
 
   String variantSelected = null;
+  int sliderImageIndex = 0;
 
   get _productDetails => ListView(
         shrinkWrap: true,
@@ -69,17 +73,38 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                 enableInfiniteScroll: true,
                 reverse: false,
                 autoPlay: true,
+                onPageChanged: (index, page) {
+                  setState(() {
+                    sliderImageIndex = index;
+                  });
+                },
                 autoPlayInterval: Duration(seconds: 3),
                 scrollDirection: Axis.horizontal,
               )),
+
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedSmoothIndicator(
+                  activeIndex: sliderImageIndex,
+                  count:  widget.product.images.length,
+                  effect: WormEffect(
+                    dotWidth: 8,
+                    dotHeight: 8
+                  ),
+                )
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 SizedBox(
-                  width:double.infinity,
+                  width: double.infinity,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -96,7 +121,8 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                             ),
                             Text(
                               "KD${widget.product != null ? widget.product.price : ""}",
-                              style: heading4.copyWith(color: AppColors.primary),
+                              style:
+                                  heading4.copyWith(color: AppColors.primary),
                             )
                           ],
                         ),
@@ -113,7 +139,8 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                             top: 0,
                             bottom: 0,
                             child: Padding(
-                              padding: const EdgeInsets.only(right: 0, left: 16),
+                              padding:
+                                  const EdgeInsets.only(right: 0, left: 16),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -159,7 +186,6 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
-
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
@@ -242,7 +268,6 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                         ],
                       ),
                     ),
-
                   ],
                 ),
                 SizedBox(
@@ -250,13 +275,43 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                 ),
                 SizedBox(
                     width: double.infinity,
-                    child: RaisedButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Buy Now",
-                        style: buttonText,
-                      ),
-                    ))
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () {},
+                            icon: Icon(MaterialCommunityIcons.heart_outline),
+                            label: Text(
+                              "Add to Whishlist",
+                              style: buttonText.copyWith(
+                                  color: AppColors.neutralGray),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: Dimens.spacingLarge,
+                        ),
+                        Expanded(
+                          child: RaisedButton.icon(
+                            onPressed: () {
+                              CartStream().addToCart();
+                            },
+                            icon: Icon(
+                              MaterialCommunityIcons.cart_plus,
+                              color: AppColors.neutralLight,
+                            ),
+                            label: Text(
+                              "Buy Now",
+                              style: buttonText,
+                            ),
+                          ),
+                        )
+                      ],
+                    )),
+                SizedBox(
+                  height: Dimens.spacingLarge,
+                ),
+                SocialShareButtons()
               ],
             ),
           )
@@ -340,7 +395,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
                   return SizedBox(
-                    width: 240,
+                    width: MediaQuery.of(context).size.width/2.1,
                     child: ProductItem(
                         product: controller.similarProducts[index],
                         onClickItem: () {}),
