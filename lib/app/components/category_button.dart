@@ -47,7 +47,6 @@ class _CategoryButtonState extends State<CategoryButton>{
                     ):  Image.asset(
                       widget.category != null ? widget.category.icon : "",
                       width: 16,
-                      color: AppColors.accent,
                     ),
                   ),
                 ),

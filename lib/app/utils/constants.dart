@@ -21,6 +21,8 @@ class Resources {
 
 
   static const String categoryFood = "assets/images/category/food.png";
+  static const String categoryDesserts = "assets/images/category/desserts.png";
+  static const String categoryAuto = "assets/images/category/automotive.png";
   static const String categoryHealth = "assets/images/category/health.png";
   static const String categoryEntertainment = "assets/images/category/entertainment.png";
   static const String categorySports = "assets/images/category/sports.png";
