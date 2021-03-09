@@ -18,6 +18,8 @@ class Constants {
   static const String userKey = 'user_key';
   static const String isAuthenticatedKey = 'isUserAuthenticated';
 
+  static var sliders = '$baseUrl/sliderreadapi';
+
   // Google API
 }
 
