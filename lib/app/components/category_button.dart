@@ -1,10 +1,11 @@
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/domain/entities/category_entity.dart';
+import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CategoryButton extends StatefulWidget{
-  final CategoryEntity category;
+  final CategoryDetailEntity category;
   final Function onClick;
 
   const CategoryButton({this.category, this.onClick}) : super();
@@ -39,11 +40,11 @@ class _CategoryButtonState extends State<CategoryButton>{
                     ),]
                 ),
                 child: Center(
-                  child: widget.category != null && widget.category.icon.startsWith("http") ? Image.network(
-                    widget.category != null ? widget.category.icon : "",
+                  child: widget.category != null && widget.category.mobileImage.startsWith("http") ? Image.network(
+                    widget.category != null ? widget.category.mobileImage : "",
                     width: 36,
                   ):  Image.asset(
-                    widget.category != null ? widget.category.icon : "",
+                    widget.category != null ? widget.category.mobileImage : "",
                     width: 36,
                   ),
                 ),
@@ -56,7 +57,7 @@ class _CategoryButtonState extends State<CategoryButton>{
               child: Text(
                 widget.category != null ? widget.category.name : "",
                 textAlign: TextAlign.center,
-                maxLines: 1,
+                maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: captionNormal2.copyWith(color: AppColors.neutralDark),
               ),

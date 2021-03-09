@@ -5,6 +5,7 @@ import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
 import 'package:coupon_app/domain/entities/category_entity.dart';
+import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -52,7 +53,7 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
         );
       });
 
-  Widget _categoryItem(CategoryEntity category) => ControlledWidgetBuilder(
+  Widget _categoryItem(CategoryDetailEntity category) => ControlledWidgetBuilder(
         builder: (BuildContext context, ExploreController controller) {
           return CategoryButton(
             category: category,

@@ -4,7 +4,9 @@ import 'package:coupon_app/app/components/product_item.dart';
 import 'package:coupon_app/app/pages/coupons/coupons_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/data/repositories/coupon/data_coupon_category_respository.dart';
 import 'package:coupon_app/domain/entities/category_entity.dart';
+import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
 import 'package:coupon_app/domain/entities/product_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -17,7 +19,7 @@ class CouponsPage extends View {
 }
 
 class CouponsPageState extends ViewState<CouponsPage, CouponsController> {
-  CouponsPageState() : super(CouponsController());
+  CouponsPageState() : super(CouponsController(DataCouponCategoryRepository()));
 
   @override
   Widget get view =>
@@ -37,7 +39,7 @@ class CouponsPageState extends ViewState<CouponsPage, CouponsController> {
       ControlledWidgetBuilder(
           builder: (BuildContext context, CouponsController controller) {
             return SizedBox(
-              height: 80,
+              height: 150,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: controller.categories.length,
@@ -47,7 +49,7 @@ class CouponsPageState extends ViewState<CouponsPage, CouponsController> {
             );
           });
 
-  Widget _categoryItem(CategoryEntity category) =>
+  Widget _categoryItem(CategoryDetailEntity category) =>
       ControlledWidgetBuilder(
         builder: (BuildContext context, CouponsController controller) {
           return CategoryButton(

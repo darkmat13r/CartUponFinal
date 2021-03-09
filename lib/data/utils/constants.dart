@@ -20,6 +20,8 @@ class Constants {
 
   static var sliders = '$baseUrl/sliderreadapi';
 
+  static var couponDetails = '$baseUrl/coupon/categoryweb';
+
   // Google API
 }
 

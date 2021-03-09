@@ -7,7 +7,7 @@ import 'package:coupon_app/domain/entities/slider_banner_entity.dart';
 import 'package:coupon_app/generated/json/slider_banner_entity_helper.dart';
 import 'package:coupon_app/domain/entities/user_entity.dart';
 import 'package:coupon_app/generated/json/user_entity_helper.dart';
-import 'package:coupon_app/domain/entities/category_detail_entity.dart';
+import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
 import 'package:coupon_app/generated/json/category_detail_entity_helper.dart';
 import 'package:coupon_app/domain/entities/product_entity.dart';
 import 'package:coupon_app/generated/json/product_entity_helper.dart';
@@ -31,6 +31,8 @@ class JsonConvert<T> {
 				return userEntityFromJson(data as UserEntity, json) as T;
 			case CategoryDetailEntity:
 				return categoryDetailEntityFromJson(data as CategoryDetailEntity, json) as T;
+			case CategoryDetailCategory:
+				return categoryDetailCategoryFromJson(data as CategoryDetailCategory, json) as T;
 			case ProductEntity:
 				return productEntityFromJson(data as ProductEntity, json) as T;
 			case CategoryEntity:
@@ -46,6 +48,8 @@ class JsonConvert<T> {
 				return userEntityToJson(data as UserEntity);
 			case CategoryDetailEntity:
 				return categoryDetailEntityToJson(data as CategoryDetailEntity);
+			case CategoryDetailCategory:
+				return categoryDetailCategoryToJson(data as CategoryDetailCategory);
 			case ProductEntity:
 				return productEntityToJson(data as ProductEntity);
 			case CategoryEntity:
@@ -62,6 +66,8 @@ class JsonConvert<T> {
 			return UserEntity().fromJson(json);
 		}	else if(type == (CategoryDetailEntity).toString()){
 			return CategoryDetailEntity().fromJson(json);
+		}	else if(type == (CategoryDetailCategory).toString()){
+			return CategoryDetailCategory().fromJson(json);
 		}	else if(type == (ProductEntity).toString()){
 			return ProductEntity().fromJson(json);
 		}	else if(type == (CategoryEntity).toString()){
@@ -78,6 +84,8 @@ class JsonConvert<T> {
 			return data.map<UserEntity>((e) => UserEntity().fromJson(e)).toList() as M;
 		}	else if(List<CategoryDetailEntity>() is M){
 			return data.map<CategoryDetailEntity>((e) => CategoryDetailEntity().fromJson(e)).toList() as M;
+		}	else if(List<CategoryDetailCategory>() is M){
+			return data.map<CategoryDetailCategory>((e) => CategoryDetailCategory().fromJson(e)).toList() as M;
 		}	else if(List<ProductEntity>() is M){
 			return data.map<ProductEntity>((e) => ProductEntity().fromJson(e)).toList() as M;
 		}	else if(List<CategoryEntity>() is M){
