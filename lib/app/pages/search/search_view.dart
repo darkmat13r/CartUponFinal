@@ -32,10 +32,7 @@ class SearchPageState extends ViewState<SearchPage, SearchController> {
         .of(context)
         .size
         .width / 3.3;
-    double cardHeight = MediaQuery
-        .of(context)
-        .size
-        .height / 4.32;
+    double cardHeight = 170;
     return ListView(
       children: [
         Padding(

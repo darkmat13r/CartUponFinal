@@ -45,7 +45,7 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
             itemCount: controller.categories.length,
             itemBuilder: (BuildContext context, index) {
               return SizedBox(
-                  width: 100,
+                  width: 75,
                   child: _categoryItem(controller.categories[index]));
             },
           ),

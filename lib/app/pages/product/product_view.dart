@@ -81,7 +81,6 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                 autoPlayInterval: Duration(seconds: 3),
                 scrollDirection: Axis.horizontal,
               )),
-
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -89,11 +88,8 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
               children: [
                 AnimatedSmoothIndicator(
                   activeIndex: sliderImageIndex,
-                  count:  widget.product.images.length,
-                  effect: WormEffect(
-                    dotWidth: 8,
-                    dotHeight: 8
-                  ),
+                  count: widget.product.images.length,
+                  effect: WormEffect(dotWidth: 8, dotHeight: 8),
                 )
               ],
             ),
@@ -246,7 +242,12 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Icon(MaterialCommunityIcons.timer),
+                    Image.asset(
+                      Resources.timerIcon,
+                      width: 24,
+                      height: 24,
+                      color: AppColors.primary,
+                    ),
                     SizedBox(
                       width: Dimens.spacingMedium,
                     ),
@@ -263,7 +264,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                           ),
                           Text(
                             "04h: 39m : 21s",
-                            style: bodyTextMedium2,
+                            style: bodyTextNormal1,
                           )
                         ],
                       ),
@@ -282,7 +283,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                             onPressed: () {},
                             icon: Icon(MaterialCommunityIcons.heart_outline),
                             label: Text(
-                              "Add to Whishlist",
+                              "Whishlist",
                               style: buttonText.copyWith(
                                   color: AppColors.neutralGray),
                             ),
@@ -387,7 +388,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
               ),
             ),
             Container(
-              height: 305,
+              height: 280,
               width: double.infinity,
               child: ListView.builder(
                 shrinkWrap: true,
@@ -395,7 +396,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
                   return SizedBox(
-                    width: MediaQuery.of(context).size.width/2.1,
+                    width: MediaQuery.of(context).size.width / 2,
                     child: ProductItem(
                         product: controller.similarProducts[index],
                         onClickItem: () {}),

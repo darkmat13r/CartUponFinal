@@ -39,7 +39,7 @@ class ProductItemState extends State<ProductItem> {
                 children: [
                   Container(
                       width: double.infinity,
-                      height: 160,
+                      height: 140,
                       decoration: const BoxDecoration(
                           borderRadius: const BorderRadius.all(
                               Radius.circular(Dimens.cornerRadius)),
@@ -61,7 +61,7 @@ class ProductItemState extends State<ProductItem> {
                   Text(
                     widget.product != null ? widget.product.name : "",
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+                    maxLines: 1,
                     style: heading6.copyWith(color: AppColors.primary),
                   ),
                   SizedBox(
@@ -73,15 +73,16 @@ class ProductItemState extends State<ProductItem> {
                     children: [
                       Image.asset(
                         Resources.timerIcon,
-                        width: 24,
-                        height: 24,
+                        width: 16,
+                        height: 16,
+                        color: AppColors.primary,
                       ),
                       SizedBox(
                         width: Dimens.spacingNormal,
                       ),
                       Text(
                         "100h: 42m: 33s",
-                        style: bodyTextMedium2,
+                        style: bodyTextNormal2.copyWith( color: AppColors.primary, fontSize: 12),
                       )
                     ],
                   ),

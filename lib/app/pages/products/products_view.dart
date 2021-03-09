@@ -105,7 +105,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
               ),
             ),
             Container(
-              height: 305,
+              height: 280,
               width: double.infinity,
               child: ListView.builder(
                 shrinkWrap: true,
@@ -113,7 +113,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
                   return SizedBox(
-                    width: MediaQuery.of(context).size.width/2.1,
+                    width: MediaQuery.of(context).size.width/2,
                     child: ProductItem(
                         product: controller.products[index],
                         onClickItem: () {}),

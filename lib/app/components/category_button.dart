@@ -34,20 +34,17 @@ class _CategoryButtonState extends State<CategoryButton>{
                     borderRadius: BorderRadius.all(Radius.circular(46)),
                     boxShadow: [BoxShadow(
                       color: Colors.grey,
-                      offset: Offset(2, 2),
+                      offset: Offset(1, 1),
                       blurRadius: 4.0,
                     ),]
                 ),
                 child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(Dimens.spacingSmall),
-                    child:widget.category != null && widget.category.icon.startsWith("http") ? Image.network(
-                      widget.category != null ? widget.category.icon : "",
-                      width: 16,
-                    ):  Image.asset(
-                      widget.category != null ? widget.category.icon : "",
-                      width: 16,
-                    ),
+                  child: widget.category != null && widget.category.icon.startsWith("http") ? Image.network(
+                    widget.category != null ? widget.category.icon : "",
+                    width: 36,
+                  ):  Image.asset(
+                    widget.category != null ? widget.category.icon : "",
+                    width: 36,
                   ),
                 ),
               ),

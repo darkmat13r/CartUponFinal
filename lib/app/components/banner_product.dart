@@ -213,6 +213,7 @@ class _BannerProductState extends State<BannerProduct> {
                           Resources.timerIcon,
                           width: 24,
                           height: 24,
+                          color: AppColors.primary,
                         ),
                         SizedBox(
                           width: Dimens.spacingMedium,
@@ -230,7 +231,7 @@ class _BannerProductState extends State<BannerProduct> {
                               ),
                               Text(
                                 "04h: 39m : 21s",
-                                style: bodyTextMedium2,
+                                style: bodyTextNormal1,
                               )
                             ],
                           ),

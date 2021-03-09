@@ -14,7 +14,6 @@ class CouponsController extends Controller{
     CategoryEntity(name: "Food", icon: Resources.categoryFood),
     CategoryEntity(name: "Health", icon: Resources.categoryHealth),
     CategoryEntity(name: "Entertainment", icon:Resources.categoryEntertainment),
-    CategoryEntity(name: "Sports", icon: Resources.categorySports),
   ];
 
   List<ProductEntity> products = DummyProducts.products();

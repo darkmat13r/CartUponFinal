@@ -14,7 +14,7 @@ const appBarShape = RoundedRectangleBorder(
     side: BorderSide(color: AppColors.neutralLight, width: Dimens.borderWidth));
 
 TextTheme createTextTheme(BuildContext context) =>
-    GoogleFonts.amaranteTextTheme(Theme.of(context).textTheme).copyWith(
+    GoogleFonts.openSansTextTheme(Theme.of(context).textTheme).copyWith(
       overline: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.normal,
@@ -98,7 +98,7 @@ ThemeData appTheme(BuildContext context) => ThemeData(
         toolbarTextStyle: heading4.copyWith(color: AppColors.primary),
         titleTextStyle: heading4.copyWith(color: AppColors.primary),
       ),
-      textTheme: GoogleFonts.amaranthTextTheme(),
+      textTheme: GoogleFonts.openSansTextTheme(),
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all(AppColors.neutralGray),
