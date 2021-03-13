@@ -148,6 +148,7 @@ class LocaleKeys {
   static const messageSignIn = "messageSignIn";
   static const loginAsGuest = "loginAsGuest";
 
+  static const fmtSearchResult = "fmtSearchResult";
 
 
 }

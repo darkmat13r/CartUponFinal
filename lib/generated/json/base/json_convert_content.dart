@@ -13,6 +13,8 @@ import 'package:coupon_app/domain/entities/product_entity.dart';
 import 'package:coupon_app/generated/json/product_entity_helper.dart';
 import 'package:coupon_app/domain/entities/category_entity.dart';
 import 'package:coupon_app/generated/json/category_entity_helper.dart';
+import 'package:coupon_app/domain/entities/coupons/coupon_entity.dart';
+import 'package:coupon_app/generated/json/coupon_entity_helper.dart';
 
 class JsonConvert<T> {
 	T fromJson(Map<String, dynamic> json) {
@@ -36,7 +38,11 @@ class JsonConvert<T> {
 			case ProductEntity:
 				return productEntityFromJson(data as ProductEntity, json) as T;
 			case CategoryEntity:
-				return categoryEntityFromJson(data as CategoryEntity, json) as T;    }
+				return categoryEntityFromJson(data as CategoryEntity, json) as T;
+			case CouponEntity:
+				return couponEntityFromJson(data as CouponEntity, json) as T;
+			case CouponCouponId:
+				return couponCouponIdFromJson(data as CouponCouponId, json) as T;    }
     return data as T;
   }
 
@@ -54,6 +60,10 @@ class JsonConvert<T> {
 				return productEntityToJson(data as ProductEntity);
 			case CategoryEntity:
 				return categoryEntityToJson(data as CategoryEntity);
+			case CouponEntity:
+				return couponEntityToJson(data as CouponEntity);
+			case CouponCouponId:
+				return couponCouponIdToJson(data as CouponCouponId);
 			}
 			return data as T;
 		}
@@ -72,6 +82,10 @@ class JsonConvert<T> {
 			return ProductEntity().fromJson(json);
 		}	else if(type == (CategoryEntity).toString()){
 			return CategoryEntity().fromJson(json);
+		}	else if(type == (CouponEntity).toString()){
+			return CouponEntity().fromJson(json);
+		}	else if(type == (CouponCouponId).toString()){
+			return CouponCouponId().fromJson(json);
 		}	
 		return null;
 	}
@@ -90,6 +104,10 @@ class JsonConvert<T> {
 			return data.map<ProductEntity>((e) => ProductEntity().fromJson(e)).toList() as M;
 		}	else if(List<CategoryEntity>() is M){
 			return data.map<CategoryEntity>((e) => CategoryEntity().fromJson(e)).toList() as M;
+		}	else if(List<CouponEntity>() is M){
+			return data.map<CouponEntity>((e) => CouponEntity().fromJson(e)).toList() as M;
+		}	else if(List<CouponCouponId>() is M){
+			return data.map<CouponCouponId>((e) => CouponCouponId().fromJson(e)).toList() as M;
 		}
 		return null;
 	}

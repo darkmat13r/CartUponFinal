@@ -3,6 +3,7 @@ import 'package:coupon_app/app/pages/coupons/coupons_presenter.dart';
 import 'package:coupon_app/app/pages/product/product_view.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/dummy.dart';
+import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/category_entity.dart';
 import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
 import 'package:coupon_app/domain/entities/product_entity.dart';
@@ -30,7 +31,9 @@ class CouponsController extends BaseController{
     _presenter.getCouponCategoryOnComplete = getCouponCategoryOnComplete;
   }
 
-
+  void search(CategoryDetailEntity category){
+    AppRouter().categorySearch(getContext(), category);
+  }
 
   getCouponCategoryOnNext(List<CategoryDetailEntity> response) {
     this.categories = response;

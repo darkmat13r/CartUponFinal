@@ -123,6 +123,7 @@
   "delete" : "Delete",
   "completePurchaseFaster" : "Complete your purchase faster",
   "messageSignIn" : "Sign in or Register to enjoy the latest deals at unbelievable prices!",
-  "gender" : "Gender"
+  "gender" : "Gender",
+  "fmtSearchResult" : "{} Result"
 
 }

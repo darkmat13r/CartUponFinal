@@ -2,7 +2,8 @@ import './sensitive.dart';
 
 class Constants {
   // APIs
-  static const String baseUrl = 'https://$baseUrlNoPrefix/v1';
+  static const String schema = "https";
+  static const String baseUrl = '$schema://$baseUrlNoPrefix/v1';
   static const String usersRoute = '$baseUrl/users';
 
   static const String loginRoute = '$baseUrl/login/';
@@ -13,6 +14,7 @@ class Constants {
   // APIs no prefix
   static const String baseUrlNoPrefix = 'cart-upon-api.herokuapp.com';
   static const String forgotPasswordPath = '/forgot-password';
+
   // Local Storage
   static const String tokenKey = 'authentication_token';
   static const String userKey = 'user_key';
@@ -21,8 +23,13 @@ class Constants {
   static var sliders = '$baseUrl/sliderreadapi';
 
   static var couponDetails = '$baseUrl/coupon/categoryweb';
+  static var coupons = '$baseUrl/coupon/couponsdetailapi';
 
-  // Google API
+
+  static String createUriWithParams(String route, Map<String, String> queryParams){
+    return route  + "?" + Uri( queryParameters: queryParams ).query;
+  }
+
 }
 
 class Strings {

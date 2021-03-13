@@ -1,9 +1,11 @@
 import 'package:coupon_app/app/components/category_button.dart';
 import 'package:coupon_app/app/components/search_app_bar.dart';
+import 'package:coupon_app/app/components/state_view.dart';
 import 'package:coupon_app/app/pages/explore/explore_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
+import 'package:coupon_app/data/repositories/coupon/data_coupon_category_respository.dart';
 import 'package:coupon_app/domain/entities/category_entity.dart';
 import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,7 @@ class ExplorePage extends View {
 }
 
 class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
-  ExplorePageState() : super(ExploreController());
+  ExplorePageState() : super(ExploreController(DataCouponCategoryRepository()));
 
   @override
   Widget get view => Scaffold(
@@ -26,14 +28,16 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
         body: _body,
       );
 
-  get _body => ListView(
-        shrinkWrap: true,
-        children: [
-          SizedBox(
-            height: Dimens.spacingMedium,
-          ),
-          _categories],
-      );
+  get _body => ControlledWidgetBuilder(builder: (BuildContext context,  ExploreController controller){
+    return StateView(  controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT, ListView(
+    shrinkWrap: true,
+    children: [
+    SizedBox(
+      height: Dimens.spacingMedium,
+    ),
+    _categories],
+    ));
+  });
 
   get _categories => ControlledWidgetBuilder(
           builder: (BuildContext context, ExploreController controller) {
@@ -58,7 +62,7 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
           return CategoryButton(
             category: category,
             onClick: () {
-              controller.search();
+              controller.search(category);
             },
           );
         },

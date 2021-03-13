@@ -23,23 +23,26 @@ class CouponsPageState extends ViewState<CouponsPage, CouponsController> {
 
   @override
   Widget get view =>
-      ListView(
-        shrinkWrap: true,
-        children: [
-          _categories,
-          BannerProduct(),
-          SizedBox(
-            height: Dimens.spacingLarge,
-          ),
-          _recommendedItems()
-        ],
+      Scaffold(
+        key: globalKey,
+        body: ListView(
+          shrinkWrap: true,
+          children: [
+            _categories,
+            BannerProduct(),
+            SizedBox(
+              height: Dimens.spacingLarge,
+            ),
+            _recommendedItems()
+          ],
+        ),
       );
 
   get _categories =>
       ControlledWidgetBuilder(
           builder: (BuildContext context, CouponsController controller) {
             return SizedBox(
-              height: 150,
+              height: 120,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: controller.categories.length,
@@ -54,7 +57,9 @@ class CouponsPageState extends ViewState<CouponsPage, CouponsController> {
         builder: (BuildContext context, CouponsController controller) {
           return CategoryButton(
             category: category,
-            onClick: () {},
+            onClick: () {
+              controller.search(category);
+            },
           );
         },
       );
