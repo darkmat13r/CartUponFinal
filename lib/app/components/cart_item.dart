@@ -1,10 +1,15 @@
 import 'package:coupon_app/app/components/product_thumbnail.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/domain/mapper/cart_item_mapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class CartItem extends StatefulWidget {
+  CartItemMapper cartItemMapper;
+
+  CartItem(this.cartItemMapper);
+
   @override
   State<StatefulWidget> createState() => CartItemState();
 }
@@ -23,7 +28,7 @@ class CartItemState extends State<CartItem> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ProductThumbnail(),
+              ProductThumbnail(widget.cartItemMapper != null ?  widget.cartItemMapper.image : ""),
               SizedBox(
                 width: Dimens.spacingMedium,
               ),
@@ -34,7 +39,7 @@ class CartItemState extends State<CartItem> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Nike Air Zoom Pegasus 36 Miami",
+                     widget.cartItemMapper != null ? widget.cartItemMapper.name : "-",
                       style: heading6.copyWith(color: AppColors.neutralDark),
                     ),
                     SizedBox(
@@ -60,7 +65,7 @@ class CartItemState extends State<CartItem> {
                                 items: <String>['1', '2', '3', '4']
                                     .map((String value) {
                                   return DropdownMenuItem(
-                                    value: value,
+                                    value: widget.cartItemMapper != null ? widget.cartItemMapper.quantity.toString()  :  0.toString() ,
                                     child: new Text(
                                       value,
                                       style: bodyTextNormal1.copyWith(
@@ -82,7 +87,7 @@ class CartItemState extends State<CartItem> {
                           ),
                         ),
                         Text(
-                          "KD299,43",
+                          "KD${  widget.cartItemMapper != null ? widget.cartItemMapper.price : "-"}",
                           style: heading6.copyWith(color: AppColors.primary),
                         ),
                       ],

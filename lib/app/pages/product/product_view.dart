@@ -295,7 +295,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                         Expanded(
                           child: RaisedButton.icon(
                             onPressed: () {
-                              CartStream().addToCart();
+                              //CartStream().addToCart();
                             },
                             icon: Icon(
                               MaterialCommunityIcons.cart_plus,

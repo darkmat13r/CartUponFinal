@@ -124,6 +124,8 @@
   "completePurchaseFaster" : "Complete your purchase faster",
   "messageSignIn" : "Sign in or Register to enjoy the latest deals at unbelievable prices!",
   "gender" : "Gender",
-  "fmtSearchResult" : "{} Result"
+  "fmtSearchResult" : "{} Result",
+  "noData" : "No data available",
+  "emptyCartMsg" : "Your cart is empty"
 
 }

@@ -1,6 +1,7 @@
 import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/search/search_presenter.dart';
+import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/dummy.dart';
 import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
@@ -15,6 +16,7 @@ class SearchController extends BaseController{
 
   SearchPresenter _presenter;
 
+  final _cartStream =CartStream();
 
   SearchController(CouponRepository couponRepository, {CategoryDetailEntity couponCategory }) : _presenter = SearchPresenter(couponRepository){
     showLoading();
@@ -29,6 +31,9 @@ class SearchController extends BaseController{
   }
 
 
+  void addToCart(CouponEntity couponEntity){
+    _cartStream.addToCart(couponEntity);
+  }
 
   void product(){
     Navigator.of(getContext()).pushNamed(Pages.product);

@@ -87,7 +87,10 @@ class SearchPageState extends ViewState<SearchPage, SearchController> {
                     itemBuilder: (BuildContext context, int index) {
                       return CouponItem(
                           coupon: controller.coupons[index],
-                          onClickItem: () {});
+                          onClickItem: () {},
+                      onAddToCart: (){
+                            controller.addToCart(controller.coupons[index]);
+                      },);
                     })
               ],
             ));

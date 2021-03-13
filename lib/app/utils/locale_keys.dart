@@ -150,5 +150,8 @@ class LocaleKeys {
 
   static const fmtSearchResult = "fmtSearchResult";
 
+  static var noData = "noData";
+  static var emptyCartMsg = "emptyCartMsg";
+
 
 }

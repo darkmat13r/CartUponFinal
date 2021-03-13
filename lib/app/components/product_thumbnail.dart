@@ -2,6 +2,10 @@ import 'package:coupon_app/app/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 
 class ProductThumbnail extends StatefulWidget{
+  String url;
+
+  ProductThumbnail(this.url);
+
   @override
   State<StatefulWidget> createState() => ProductThumbnailState();
 
@@ -17,10 +21,7 @@ class ProductThumbnailState extends State<ProductThumbnail>{
             borderRadius: const BorderRadius.all(
                 Radius.circular(12)),
             color: AppColors.neutralLight),
-        child: Image(
-          width: double.infinity,
-          image: AssetImage(Resources.shoe),
-        ));
+        child: Image.network(widget.url, width: double.infinity,));
   }
 
 }

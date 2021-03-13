@@ -13,11 +13,13 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class CouponItem extends StatefulWidget {
   final Function onClickItem;
+  final Function onAddToCart;
   final CouponEntity coupon;
 
   CouponItem({
     @required this.coupon,
     @required this.onClickItem,
+    this.onAddToCart,
   });
 
   @override
@@ -124,7 +126,9 @@ class CouponItemState extends State<CouponItem> {
                       Expanded(
                         child: SizedBox(),
                       ),
-                      BuyNowButton(),
+                      BuyNowButton(
+                        onAddToCart: widget.onAddToCart,
+                      ),
                     ],
                   )
                 ],
@@ -147,9 +151,7 @@ class CouponItemState extends State<CouponItem> {
       _timer.cancel();
     }
     super.dispose();
-
   }
-
 
   @override
   void deactivate() {
@@ -162,11 +164,14 @@ class CouponItemState extends State<CouponItem> {
   _createTimer() {
     if (_isValidToValid()) {
       _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-        setState(() {
-          _elapsedTime = DateHelper.formatExpiry(
-              DateTime.now(),
-              widget.coupon.couponId.validTo);
-        });
+       if(mounted){
+         setState(() {
+           _elapsedTime = DateHelper.formatExpiry(
+               DateTime.now(), widget.coupon.couponId.validTo);
+         });
+       }else{
+         _timer.cancel();
+       }
       });
     }
   }

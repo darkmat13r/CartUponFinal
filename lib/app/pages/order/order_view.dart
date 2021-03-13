@@ -125,7 +125,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController>{
             padding: const EdgeInsets.all(Dimens.spacingMedium),
             child: Row(
               children: [
-                ProductThumbnail(),
+                ProductThumbnail(""),
                 SizedBox(
                   width: Dimens.spacingMedium,
                 ),

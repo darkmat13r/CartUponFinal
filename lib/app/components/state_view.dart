@@ -1,5 +1,7 @@
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class StateView extends StatefulWidget {
@@ -55,7 +57,18 @@ class _StateViewState extends State<StateView> {
   }
 
   get _emptyState => Container(
-        child: Text("No Data Available"),
+    width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(widget.emptyStateIcon ?? Feather.server, size: 36,),
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            Text(widget.emptyStateMessage ?? LocaleKeys.noData.tr(), style: heading5.copyWith(color: AppColors.neutralGray),)
+          ],
+        ),
       );
 
   get _loader => Container(
