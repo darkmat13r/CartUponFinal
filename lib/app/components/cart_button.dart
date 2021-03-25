@@ -41,7 +41,7 @@ class _CartButtonState extends State<CartButton> {
             },
           ),
         ),
-        _cartItemCount > 0 ? Positioned(
+        (_cartItemCount ?? 0) > 0 ? Positioned(
           top: 10,
           right: 10,
           child: Container(
