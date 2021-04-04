@@ -16,7 +16,7 @@ import 'package:coupon_app/app/pages/reviews/create/create_review_view.dart';
 import 'package:coupon_app/app/pages/reviews/reviews_view.dart';
 import 'package:coupon_app/app/pages/search/search_view.dart';
 import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
-import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
+import 'package:coupon_app/domain/entities/category_entity.dart';
 import 'package:coupon_app/domain/entities/product_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -75,8 +75,8 @@ class AppRouter {
         .push(_buildRoute(RouteSettings(), ProductPage(product)));
   }
 
-  categorySearch(BuildContext context, CategoryDetailEntity category){
-    Navigator.of(context).push(_buildRoute(RouteSettings(), SearchPage(couponCategory:category,)));
+  categorySearch(BuildContext context, CategoryEntity category){
+    Navigator.of(context).push(_buildRoute(RouteSettings(), SearchPage(category:category,)));
   }
 
   MaterialPageRoute _buildRoute(RouteSettings settings, Widget builder) {

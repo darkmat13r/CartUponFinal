@@ -7,7 +7,9 @@ import 'package:coupon_app/app/pages/login/login_view.dart';
 import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:easy_localization/easy_localization.dart';
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   runApp(EasyLocalization(
       supportedLocales: [Locale('en'), Locale('ar')],
       path: 'assets/translations', // <-- change patch to your

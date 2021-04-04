@@ -29,7 +29,6 @@ class DataSliderRepository extends SliderRepository{
 
       return response;
     }catch(error){
-      print( error.stackTrace.toString());
       _logger.warning('Couldn\'t fetch sliders', error);
       rethrow;
     }

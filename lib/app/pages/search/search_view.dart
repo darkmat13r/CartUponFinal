@@ -1,30 +1,29 @@
-import 'package:coupon_app/app/components/coupon_item.dart';
-import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/product_item.dart';
+import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/search_app_bar.dart';
 import 'package:coupon_app/app/components/state_view.dart';
 import 'package:coupon_app/app/pages/search/search_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
-import 'package:coupon_app/data/repositories/coupon/data_coupon_repository.dart';
-import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
+import 'file:///G:/Projects/Flutter/coupon_app/lib/data/repositories/data_product_repository.dart';
+import 'package:coupon_app/domain/entities/category_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class SearchPage extends View {
-  CategoryDetailEntity couponCategory;
+  CategoryEntity category;
 
-  SearchPage({this.couponCategory});
+  SearchPage({this.category});
 
   @override
-  State<StatefulWidget> createState() => SearchPageState(couponCategory);
+  State<StatefulWidget> createState() => SearchPageState(category);
 }
 
 class SearchPageState extends ViewState<SearchPage, SearchController> {
-  SearchPageState(CategoryDetailEntity couponCategory)
-      : super(SearchController(DataCouponRepository(),
+  SearchPageState(CategoryEntity couponCategory)
+      : super(SearchController(DataProductRepository(),
             couponCategory: couponCategory));
 
   @override
@@ -33,7 +32,7 @@ class SearchPageState extends ViewState<SearchPage, SearchController> {
         body: _body,
         appBar: customAppBar(
             title: Text(
-          widget.couponCategory != null ? widget.couponCategory.name : "",
+          widget.category != null ? widget.category.name : "",
           style: heading5.copyWith(color: AppColors.primary),
         )),
       );
@@ -66,8 +65,8 @@ class SearchPageState extends ViewState<SearchPage, SearchController> {
                         ),
                       ),
                       Text(
-                        widget.couponCategory != null
-                            ? widget.couponCategory.name
+                        widget.category != null
+                            ? widget.category.name
                             : "",
                         style: bodyTextNormal1.copyWith(
                             color: AppColors.neutralDark),
@@ -85,12 +84,8 @@ class SearchPageState extends ViewState<SearchPage, SearchController> {
                       childAspectRatio: cardWidth / cardHeight,
                     ),
                     itemBuilder: (BuildContext context, int index) {
-                      return CouponItem(
-                          coupon: controller.coupons[index],
-                          onClickItem: () {},
-                      onAddToCart: (){
-                            controller.addToCart(controller.coupons[index]);
-                      },);
+                      return ProductItem(
+                          product: controller.coupons[index],);
                     })
               ],
             ));

@@ -1,6 +1,11 @@
+import 'dart:async';
+
+import 'package:coupon_app/app/components/app_image.dart';
 import 'package:coupon_app/app/components/buy_now_button.dart';
 import 'package:coupon_app/app/components/rating.dart';
+import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/date_helper.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/product_entity.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,12 +13,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class ProductItem extends StatefulWidget {
-  final Function onClickItem;
   final ProductEntity product;
 
   ProductItem({
     @required this.product,
-    @required this.onClickItem,
   });
 
   @override
@@ -21,14 +24,21 @@ class ProductItem extends StatefulWidget {
 }
 
 class ProductItemState extends State<ProductItem> {
+  String _elapsedTime;
+  final _cartStream =CartStream();
   @override
   Widget build(BuildContext context) {
+    if (_isValidToValid()) {
+      _elapsedTime = DateHelper.formatExpiry(
+          DateTime.now(), widget.product.productId.validTo);
+    }
+    _createTimer();
     return Padding(
         padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
         child: InkWell(
           onTap: () {
-            if (widget.product != null)
-              AppRouter().productDetails(context, widget.product);
+            //if (widget.coupon != null)
+             AppRouter().productDetails(context, widget.product);
           },
           child: Card(
             child: Padding(
@@ -44,17 +54,7 @@ class ProductItemState extends State<ProductItem> {
                           borderRadius: const BorderRadius.all(
                               Radius.circular(Dimens.cornerRadius)),
                           color: AppColors.neutralLight),
-                      child: widget.product != null &&
-                              widget.product.images[0].startsWith("http")
-                          ? Image.network(
-                              widget.product != null
-                                  ? widget.product.images[0]
-                                  : "",
-                              fit: BoxFit.fill,
-                            )
-                          : Image.asset(widget.product != null
-                              ? widget.product.images[0]
-                              : "",  fit: BoxFit.fill,)),
+                      child: AppImage(widget.product.productId.thumbImg)),
                   SizedBox(
                     height: Dimens.spacingNormal,
                   ),
@@ -67,50 +67,54 @@ class ProductItemState extends State<ProductItem> {
                   SizedBox(
                     height: Dimens.spacingNormal,
                   ),
-
-
-                  Row(
-                    children: [
-                      Image.asset(
-                        Resources.timerIcon,
-                        width: 16,
-                        height: 16,
-                        color: AppColors.primary,
-                      ),
-                      SizedBox(
-                        width: Dimens.spacingNormal,
-                      ),
-                      Text(
-                        "100h: 42m: 33s",
-                        style: bodyTextNormal2.copyWith( color: AppColors.primary, fontSize: 12),
-                      )
-                    ],
-                  ),
+                  _elapsedTime != null
+                      ? Row(
+                          children: [
+                            Image.asset(
+                              Resources.timerIcon,
+                              width: 16,
+                              height: 16,
+                              color: AppColors.primary,
+                            ),
+                            SizedBox(
+                              width: Dimens.spacingNormal,
+                            ),
+                            Text(
+                              _elapsedTime != null ? _elapsedTime : "",
+                              style: bodyTextNormal2.copyWith(
+                                  color: AppColors.primary, fontSize: 12),
+                            )
+                          ],
+                        )
+                      : SizedBox(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "KD${widget.product != null ? widget.product.price : ""}",
+                          widget.product != null && double.parse(widget.product.productId.disPer) > 0 ? Text(
+                            "KD${widget.product != null ? widget.product.productId.price : ""}",
                             style: captionNormal2.copyWith(
                                 color: AppColors.neutralGray,
                                 decoration: TextDecoration.lineThrough),
-                          ),
+                          ) : SizedBox(),
                           Text(
-                            "KD${widget.product != null ? widget.product.price : ""}",
-                            style: bodyTextMedium1.copyWith(color: AppColors.primary),
+                            "KD${widget.product != null ? widget.product.productId.salePrice : ""}",
+                            style: bodyTextMedium1.copyWith(
+                                color: AppColors.primary),
                           )
                         ],
                       ),
                       Expanded(
-                        child: SizedBox(
-                        ),
+                        child: SizedBox(),
                       ),
-                      BuyNowButton(),
+                      BuyNowButton(
+                        onAddToCart: (){
+                          _cartStream.addToCart(widget.product);
+                        },
+                      ),
                     ],
                   )
                 ],
@@ -118,5 +122,43 @@ class ProductItemState extends State<ProductItem> {
             ),
           ),
         ));
+  }
+
+  bool _isValidToValid() =>
+      widget.product != null &&
+      widget.product.productId != null &&
+      widget.product.productId.validTo != null;
+
+  Timer _timer;
+
+  @override
+  void dispose() {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    super.dispose();
+  }
+
+  @override
+  void deactivate() {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    super.deactivate();
+  }
+
+  _createTimer() {
+    if (_isValidToValid()) {
+      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+       if(mounted){
+         setState(() {
+           _elapsedTime = DateHelper.formatExpiry(
+               DateTime.now(), widget.product.productId.validTo);
+         });
+       }else{
+         _timer.cancel();
+       }
+      });
+    }
   }
 }

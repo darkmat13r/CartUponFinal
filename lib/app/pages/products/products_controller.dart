@@ -4,8 +4,10 @@ import 'package:coupon_app/app/pages/product/product_presenter.dart';
 import 'package:coupon_app/app/pages/products/products_presenter.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/dummy.dart';
+import 'package:coupon_app/domain/entities/home/home_entity.dart';
 import 'package:coupon_app/domain/entities/product_entity.dart';
 import 'package:coupon_app/domain/repositories/banners/slider_repository.dart';
+import 'package:coupon_app/domain/repositories/home_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
@@ -17,18 +19,18 @@ class ProductsController extends BaseController{
 
   Logger _logger;
 
-  List<SliderBannerEntity> sliders = [];
+  HomeEntity homeResponse;
 
 
-  ProductsController(SliderRepository sliderRepository) : _presenter = ProductsPresenter(sliderRepository){
-  _logger = Logger("ProductsController");
+  ProductsController(HomeRepository homeRepo) : _presenter = ProductsPresenter(homeRepo){
+    _logger = Logger("ProductsController");
   }
 
   @override
   void initListeners() {
-    _presenter.getSlidersOnNext = getSlidersOnNext;
-    _presenter.getSlidersOnError = getSlidersOnError;
-    _presenter.getSlidersOnComplete = getSlidersOnComplete;
+    _presenter.getHomePageOnNext = getHomeOnNext;
+    _presenter.getHomePageOnError = getHomeOnError;
+    _presenter.getHomePageOnComplete = getHomeOnComplete;
     showLoading();
   }
 
@@ -47,26 +49,25 @@ class ProductsController extends BaseController{
     Navigator.of(getContext()).pushNamed(Pages.welcome);
   }
 
-  getSlidersOnNext(List<SliderBannerEntity> sliders) {
-    this.sliders = sliders;
-    _logger.finest("Sliders  ", sliders);
+  getHomeOnNext(HomeEntity res) {
+    this.homeResponse = res;
+    _logger.finest("Sliders  ", res);
     refreshUI();
   }
 
-  getSlidersOnError(NoSuchMethodError e) {
+  getHomeOnError(NoSuchMethodError e) {
     dismissLoading();
     _logger.finest(e);
-    print("Error ${e.stackTrace}");
     showGenericSnackbar(getContext(), e.toString());
   }
 
-  getSlidersOnComplete() {
+  getHomeOnComplete() {
     dismissLoading();
   }
 
   @override
-  void onDisposed(BuildContext context) {
+  void onDisposed() {
     _presenter.dispose();
-    super.onDisposed(context);
+    super.onDisposed();
   }
 }

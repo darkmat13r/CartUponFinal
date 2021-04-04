@@ -5,9 +5,8 @@ import 'package:coupon_app/app/pages/explore/explore_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
-import 'package:coupon_app/data/repositories/coupon/data_coupon_category_respository.dart';
+import 'package:coupon_app/data/repositories/data_category_respository.dart';
 import 'package:coupon_app/domain/entities/category_entity.dart';
-import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -20,7 +19,7 @@ class ExplorePage extends View {
 }
 
 class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
-  ExplorePageState() : super(ExploreController(DataCouponCategoryRepository()));
+  ExplorePageState() : super(ExploreController(DataCategoryRepository()));
 
   @override
   Widget get view => Scaffold(
@@ -57,7 +56,7 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
         );
       });
 
-  Widget _categoryItem(CategoryDetailEntity category) => ControlledWidgetBuilder(
+  Widget _categoryItem(CategoryEntity category) => ControlledWidgetBuilder(
         builder: (BuildContext context, ExploreController controller) {
           return CategoryButton(
             category: category,

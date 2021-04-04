@@ -4,9 +4,8 @@ import 'package:coupon_app/app/components/product_item.dart';
 import 'package:coupon_app/app/pages/coupons/coupons_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/constants.dart';
-import 'package:coupon_app/data/repositories/coupon/data_coupon_category_respository.dart';
+import 'package:coupon_app/data/repositories/data_category_respository.dart';
 import 'package:coupon_app/domain/entities/category_entity.dart';
-import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
 import 'package:coupon_app/domain/entities/product_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -19,7 +18,7 @@ class CouponsPage extends View {
 }
 
 class CouponsPageState extends ViewState<CouponsPage, CouponsController> {
-  CouponsPageState() : super(CouponsController(DataCouponCategoryRepository()));
+  CouponsPageState() : super(CouponsController(DataCategoryRepository()));
 
   @override
   Widget get view =>
@@ -52,7 +51,7 @@ class CouponsPageState extends ViewState<CouponsPage, CouponsController> {
             );
           });
 
-  Widget _categoryItem(CategoryDetailEntity category) =>
+  Widget _categoryItem(CategoryEntity category) =>
       ControlledWidgetBuilder(
         builder: (BuildContext context, CouponsController controller) {
           return CategoryButton(
@@ -104,9 +103,7 @@ class CouponsPageState extends ViewState<CouponsPage, CouponsController> {
       height: 300,
       child:
       ProductItem(
-        onClickItem: () => {Navigator.of(context).pushNamed(Pages.product)},
         product: product,
-
       ),
     );
   }

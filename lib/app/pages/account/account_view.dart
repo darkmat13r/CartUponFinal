@@ -40,6 +40,7 @@ class AccountPageState extends ViewState<AccountPage, AccountController>{
         child: Padding(
           padding: const EdgeInsets.all(Dimens.spacingLarge),
           child: GridView(
+            shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.5),
             children: [
               _optionItem(Pages.profile, MaterialCommunityIcons.account_circle, LocaleKeys.editProfile.tr()),
@@ -65,7 +66,9 @@ class AccountPageState extends ViewState<AccountPage, AccountController>{
             padding: const EdgeInsets.all(Dimens.spacingMedium),
             child: Column(
               children: [
-                Icon(icon, color: AppColors.primary, size: 48,),
+                Flexible(
+                  flex: 2,
+                    child: Icon(icon, color: AppColors.primary, size: 48,)),
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),

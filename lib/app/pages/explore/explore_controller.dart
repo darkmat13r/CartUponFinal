@@ -4,43 +4,42 @@ import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/category_entity.dart';
-import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
-import 'package:coupon_app/domain/repositories/coupon/category_repository.dart';
+import 'package:coupon_app/domain/repositories/category_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 class ExploreController extends BaseController{
   ExplorePresenter _presenter;
 
-  List<CategoryDetailEntity> categories = [ ];
+  List<CategoryEntity> categories = [ ];
 
-  ExploreController(CouponCategoryRepository couponCategoryRepository) : _presenter = ExplorePresenter(couponCategoryRepository){
+  ExploreController(CategoryRepository categoryRepo) : _presenter = ExplorePresenter(categoryRepo){
     showLoading();
   }
 
   @override
   void initListeners() {
-    _presenter.getCouponCategoryOnNext = getCouponCategoryOnNext;
-    _presenter.getCouponCategoryOnError = getCouponCategoryOnError;
-    _presenter.getCouponCategoryOnComplete = getCouponCategoryOnComplete;
+    _presenter.getCategoryOnNext = getCategoryOnNext;
+    _presenter.getCategoryOnError = getCategoryOnError;
+    _presenter.getCategoryOnComplete = getCategoryOnComplete;
   }
 
 
 
-  getCouponCategoryOnNext(List<CategoryDetailEntity> response) {
+  getCategoryOnNext(List<CategoryEntity> response) {
     this.categories = response;
     refreshUI();
   }
 
-  getCouponCategoryOnError(e) {
+  getCategoryOnError(e) {
     dismissLoading();
-    showGenericSnackbar(getContext(), e.message);
+    showGenericSnackbar(getContext(), e);
   }
 
-  getCouponCategoryOnComplete() {
+  getCategoryOnComplete() {
     dismissLoading();
   }
-  void search(CategoryDetailEntity category){
+  void search(CategoryEntity category){
     AppRouter().categorySearch(getContext(), category);
   }
 }

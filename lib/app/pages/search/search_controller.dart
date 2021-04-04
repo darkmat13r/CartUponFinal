@@ -4,21 +4,20 @@ import 'package:coupon_app/app/pages/search/search_presenter.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/dummy.dart';
-import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
-import 'package:coupon_app/domain/entities/coupons/coupon_entity.dart';
+import 'package:coupon_app/domain/entities/category_entity.dart';
 import 'package:coupon_app/domain/entities/product_entity.dart';
-import 'package:coupon_app/domain/repositories/coupon/coupon_repository.dart';
+import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 class SearchController extends BaseController{
-  List<CouponEntity> coupons = [];
+  List<ProductEntity> coupons = [];
 
   SearchPresenter _presenter;
 
-  final _cartStream =CartStream();
 
-  SearchController(CouponRepository couponRepository, {CategoryDetailEntity couponCategory }) : _presenter = SearchPresenter(couponRepository){
+
+  SearchController(ProductRepository couponRepository, {CategoryEntity couponCategory }) : _presenter = SearchPresenter(couponRepository){
     showLoading();
     _presenter.searchCouponCategory(couponCategory);
   }
@@ -31,9 +30,7 @@ class SearchController extends BaseController{
   }
 
 
-  void addToCart(CouponEntity couponEntity){
-    _cartStream.addToCart(couponEntity);
-  }
+
 
   void product(){
     Navigator.of(getContext()).pushNamed(Pages.product);
@@ -44,20 +41,21 @@ class SearchController extends BaseController{
   }
 
   @override
-  void onDisposed(BuildContext context) {
+  void onDisposed() {
     _presenter.dispose();
-    super.onDisposed(context);
+    super.onDisposed();
   }
 
-  getCouponsOnNext(List<CouponEntity> coupons) {
-    this.coupons = coupons;
+  getCouponsOnNext(List<ProductEntity> products) {
+    this.coupons = products;
     refreshUI();
   }
 
   getCouponsOnError(e) {
     dismissLoading();
-    print(e.stackTrace.toString());
     showGenericSnackbar(getContext(), e.message);
+    print(e);
+
   }
 
   getCouponsOnComplete() {

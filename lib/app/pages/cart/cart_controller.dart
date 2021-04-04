@@ -22,9 +22,9 @@ class CartController extends BaseController{
   }
 
   @override
-  void onDisposed(BuildContext context) {
+  void onDisposed() {
     _presenter.dispose();
-    super.onDisposed(context);
+    super.onDisposed();
   }
 
   getCartOnNext(Cart cart) {
@@ -34,7 +34,7 @@ class CartController extends BaseController{
 
   getCartOnError(e) {
     dismissLoading();
-    print(e.stackTrace.toString());
+    print(e);
     showGenericSnackbar(getContext(), e.message);
   }
 

@@ -1,11 +1,10 @@
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/domain/entities/category_entity.dart';
-import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CategoryButton extends StatefulWidget{
-  final CategoryDetailEntity category;
+  final CategoryEntity category;
   final Function onClick;
 
   const CategoryButton({this.category, this.onClick}) : super();

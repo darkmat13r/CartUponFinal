@@ -5,9 +5,8 @@ import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/dummy.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/category_entity.dart';
-import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
 import 'package:coupon_app/domain/entities/product_entity.dart';
-import 'package:coupon_app/domain/repositories/coupon/category_repository.dart';
+import 'package:coupon_app/domain/repositories/category_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
@@ -15,27 +14,27 @@ class CouponsController extends BaseController{
 
   CouponPresenter _presenter;
 
-  List<CategoryDetailEntity> categories = [ ];
+  List<CategoryEntity> categories = [ ];
 
   List<ProductEntity> products = DummyProducts.products();
 
 
-  CouponsController(CouponCategoryRepository couponCategoryRepository) : _presenter = CouponPresenter(couponCategoryRepository){
+  CouponsController(CategoryRepository couponCategoryRepository) : _presenter = CouponPresenter(couponCategoryRepository){
 
   }
 
   @override
   void initListeners() {
-    _presenter.getCouponCategoryOnNext = getCouponCategoryOnNext;
-    _presenter.getCouponCategoryOnError = getCouponCategoryOnError;
-    _presenter.getCouponCategoryOnComplete = getCouponCategoryOnComplete;
+    _presenter.getCategoryOnNext = getCouponCategoryOnNext;
+    _presenter.getCategoryOnError = getCouponCategoryOnError;
+    _presenter.getCategoryOnComplete = getCouponCategoryOnComplete;
   }
 
-  void search(CategoryDetailEntity category){
+  void search(CategoryEntity category){
     AppRouter().categorySearch(getContext(), category);
   }
 
-  getCouponCategoryOnNext(List<CategoryDetailEntity> response) {
+  getCouponCategoryOnNext(List<CategoryEntity> response) {
     this.categories = response;
     refreshUI();
   }

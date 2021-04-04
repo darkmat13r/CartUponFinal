@@ -1,6 +1,6 @@
-import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
-import 'package:coupon_app/domain/repositories/coupon/category_repository.dart';
-import 'package:coupon_app/domain/usercases/coupon/get_coupon_category_use_case.dart';
+import 'package:coupon_app/domain/entities/category_entity.dart';
+import 'package:coupon_app/domain/repositories/category_repository.dart';
+import 'file:///G:/Projects/Flutter/coupon_app/lib/domain/usercases/get_category_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
 class CouponPresenter extends Presenter{
@@ -9,12 +9,12 @@ class CouponPresenter extends Presenter{
 
   Logger _logger;
 
-  Function getCouponCategoryOnComplete;
-  Function getCouponCategoryOnError;
-  Function getCouponCategoryOnNext;
+  Function getCategoryOnComplete;
+  Function getCategoryOnError;
+  Function getCategoryOnNext;
 
 
-  CouponPresenter(CouponCategoryRepository couponCategoryRepository): _categoryUseCase  = GetCouponCategoryUseCase(couponCategoryRepository){
+  CouponPresenter(CategoryRepository couponCategoryRepository): _categoryUseCase  = GetCouponCategoryUseCase(couponCategoryRepository){
     _logger = Logger('CouponPresenter');
     _categoryUseCase.execute(_GetCouponCategoriesObserver(this));
   }
@@ -25,7 +25,7 @@ class CouponPresenter extends Presenter{
   }
 }
 
-class _GetCouponCategoriesObserver extends Observer<List<CategoryDetailEntity>> {
+class _GetCouponCategoriesObserver extends Observer<List<CategoryEntity>> {
   CouponPresenter _presenter;
 
 
@@ -33,19 +33,19 @@ class _GetCouponCategoriesObserver extends Observer<List<CategoryDetailEntity>> 
 
   @override
   void onComplete() {
-    assert(_presenter.getCouponCategoryOnComplete != null);
-    _presenter.getCouponCategoryOnComplete();
+    assert(_presenter.getCategoryOnComplete != null);
+    _presenter.getCategoryOnComplete();
   }
 
   @override
   void onError(e) {
-    assert(_presenter.getCouponCategoryOnError != null);
-    _presenter.getCouponCategoryOnError(e);
+    assert(_presenter.getCategoryOnError != null);
+    _presenter.getCategoryOnError(e);
   }
 
   @override
-  void onNext(List<CategoryDetailEntity> response) {
-    assert(_presenter.getCouponCategoryOnNext != null);
-    _presenter.getCouponCategoryOnNext(response);
+  void onNext(List<CategoryEntity> response) {
+    assert(_presenter.getCategoryOnNext != null);
+    _presenter.getCategoryOnNext(response);
   }
 }

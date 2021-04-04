@@ -31,9 +31,12 @@ class MainPageView extends ViewState<MainPage, MainController> {
     CartPage(),
   ];
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index, MainController controller) {
     setState(() {
       _selectedIndex = index;
+      if(_selectedIndex == 2){
+        controller.fetchProfile();
+      }
     });
   }
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
@@ -49,9 +52,8 @@ class MainPageView extends ViewState<MainPage, MainController> {
       CartButton(),
       IconButton(
         icon: Icon(MaterialIcons.menu), onPressed: () {
-          print("OnDrawer menu icon clicked");
         setState(() {
-          _drawerKey.currentState.openEndDrawer();
+         _openEndDrawer();
         });
       },
       )
@@ -63,57 +65,64 @@ class MainPageView extends ViewState<MainPage, MainController> {
   @override
   Widget get view => Scaffold(
         appBar: _appBar,
-        key: _drawerKey,
+        key: globalKey,
         body: _body,
-        endDrawer: NavigationDrawer(),
+        endDrawer: NavigationDrawer(_drawerKey),
         bottomNavigationBar: _bottomNavigation,
       );
 
-  get _bottomNavigation => Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.neutralGray,
+  get _bottomNavigation => ControlledWidgetBuilder(builder: (BuildContext context, MainController controller){
+   return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.neutralGray,
+          ),
+        ],
+      ),
+      child: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        showUnselectedLabels: true,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(MaterialIcons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(MaterialIcons.dashboard),
+              label: 'Categories',
+              backgroundColor: Colors.white),
+          BottomNavigationBarItem(
+            icon: Stack(
+              children: [
+                Icon(MaterialIcons.account_circle),
+              ],
             ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          showUnselectedLabels: true,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(MaterialIcons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(MaterialIcons.dashboard),
-                label: 'Categories',
-                backgroundColor: Colors.white),
-            BottomNavigationBarItem(
-              icon: Stack(
-                children: [
-                  Icon(MaterialIcons.account_circle),
-                ],
-              ),
-              label: 'Profile',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(MaterialCommunityIcons.gift),
-              label: 'Wishlist',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(MaterialCommunityIcons.cart),
-              label: 'Cart',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-        ),
-      );
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(MaterialCommunityIcons.gift),
+            label: 'Wishlist',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(MaterialCommunityIcons.cart),
+            label: 'Cart',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: (index){
+          _onItemTapped(index, controller);
+        },
+      ),
+    );
+  });
 
   get _body => Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: IndexedStack(
+          index: _selectedIndex,
+          children: _widgetOptions,
+        ),
       );
 }

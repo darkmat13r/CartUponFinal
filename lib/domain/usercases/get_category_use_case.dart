@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
-import 'package:coupon_app/domain/repositories/coupon/category_repository.dart';
+import 'package:coupon_app/domain/entities/category_entity.dart';
+import 'package:coupon_app/domain/repositories/category_repository.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
 class GetCouponCategoryUseCase extends CompletableUseCase<void>{
 
-  CouponCategoryRepository _couponCategoryRepository;
+  CategoryRepository _couponCategoryRepository;
 
   Logger _logger;
   GetCouponCategoryUseCase(this._couponCategoryRepository){
@@ -14,10 +14,10 @@ class GetCouponCategoryUseCase extends CompletableUseCase<void>{
   }
 
   @override
-  Future<Stream<List<CategoryDetailEntity>>> buildUseCaseStream(dynamic params) async {
-    final StreamController<List<CategoryDetailEntity>> controller = StreamController();
+  Future<Stream<List<CategoryEntity>>> buildUseCaseStream(dynamic params) async {
+    final StreamController<List<CategoryEntity>> controller = StreamController();
     try{
-      List<CategoryDetailEntity> categories = await _couponCategoryRepository.getCouponCategories();
+      List<CategoryEntity> categories = await _couponCategoryRepository.getCategories();
       controller.add(categories);
       controller.close();
     }catch(e){

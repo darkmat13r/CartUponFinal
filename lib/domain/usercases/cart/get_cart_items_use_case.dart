@@ -23,7 +23,7 @@ class GetCartItemsUseCase extends CompletableUseCase<void>{
       });
       controller.add(Cart(quantity: quantity, cartItems: items, total: total));
     }catch(e){
-      print(e.stackTrace);
+      print(e);
       controller.addError(e);
     }
     controller.close();

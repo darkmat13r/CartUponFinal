@@ -1,7 +1,6 @@
 import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/dotted_view.dart';
 import 'package:coupon_app/app/components/outlined_box.dart';
-import 'package:coupon_app/app/components/product_item.dart';
 import 'package:coupon_app/app/components/product_thumbnail.dart';
 import 'package:coupon_app/app/pages/order/order_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';

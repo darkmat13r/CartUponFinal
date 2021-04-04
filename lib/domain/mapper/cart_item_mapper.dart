@@ -1,4 +1,4 @@
-import 'package:coupon_app/domain/entities/coupons/coupon_entity.dart';
+import 'package:coupon_app/domain/entities/product_entity.dart';
 import 'package:flutter/cupertino.dart';
 
 class CartItemMapper {
@@ -24,14 +24,14 @@ class CartItemMapper {
       this.fullDescription,
       this.quantity});
 
-  static CartItemMapper withCoupon(CouponEntity coupon) {
+  static CartItemMapper withProduct(ProductEntity product) {
     return CartItemMapper(
-        productId: coupon.id,
-        name: coupon.name,
-        shortDescription: coupon.shortDescription,
-        fullDescription: coupon.fullDescription,
-        price: coupon.couponId.price,
-        image: coupon.couponId.thumbImg,
+        productId: product.id,
+        name: product.name,
+        shortDescription: product.shortDescription,
+        fullDescription: product.fullDescription,
+        price: product.productId.price,
+        image: product.productId.thumbImg,
         type: COUPON,
         quantity: 1);
   }
@@ -50,7 +50,6 @@ class CartItemMapper {
   }
 
   static createFromMap(Map<String, dynamic> e) {
-    print("CreateFromMap ${e}");
     return CartItemMapper(
       productId: e['id'],
       name: e['name'],

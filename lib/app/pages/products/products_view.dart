@@ -1,13 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:coupon_app/app/components/app_image.dart';
 import 'package:coupon_app/app/components/banner_product.dart';
-import 'package:coupon_app/app/components/product_colors.dart';
 import 'package:coupon_app/app/components/product_item.dart';
+import 'package:coupon_app/app/components/product_colors.dart';
 import 'package:coupon_app/app/components/state_view.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/products/products_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/data/repositories/banner/data_slider_repository.dart';
+import 'package:coupon_app/data/repositories/data_home_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -20,7 +22,7 @@ class ProductsPage extends View {
 }
 
 class _ProductsState extends ViewState<ProductsPage, ProductsController> {
-  _ProductsState() : super(ProductsController(DataSliderRepository()));
+  _ProductsState() : super(ProductsController(DataHomeRepository()));
 
   @override
   Widget get view => Scaffold(
@@ -49,16 +51,12 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
   });
 
   get _sliders =>ControlledWidgetBuilder(builder: (BuildContext context, ProductsController controller){
-    return controller.sliders != null && controller.sliders.length  > 0 ? CarouselSlider.builder(
-        itemCount: controller.sliders.length,
+    print("controller.homeResponse ${controller.homeResponse != null ? controller.homeResponse.adBanners : ""}");
+    return controller.homeResponse != null && controller.homeResponse.adBanners != null && controller.homeResponse.adBanners.length  > 0 ? CarouselSlider.builder(
+        itemCount: controller.homeResponse.adBanners.length,
         itemBuilder: (BuildContext context, int index) {
-          var bannerUrl = controller.sliders[index].mobileBanner;
-          return Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.symmetric(horizontal: 5.0),
-              child: bannerUrl.startsWith("http")
-                  ? Image.network(bannerUrl, fit: BoxFit.cover,)
-                  : Image.asset(bannerUrl, fit: BoxFit.cover,));
+          var bannerUrl = controller.homeResponse.adBanners[index].mobileBanner;
+          return AppImage(bannerUrl);
         },
         options: CarouselOptions(
           height: 240,
@@ -160,7 +158,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
                     width: MediaQuery.of(context).size.width / 2,
                     child: ProductItem(
                         product: controller.products[index],
-                        onClickItem: () {}),
+                        ),
                   );
                 },
               ),

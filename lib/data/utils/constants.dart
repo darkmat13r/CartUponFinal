@@ -21,9 +21,10 @@ class Constants {
   static const String isAuthenticatedKey = 'isUserAuthenticated';
 
   static var sliders = '$baseUrl/sliderreadapi';
+  static var categories = '$baseUrl/categoryweb';
+  static var products = '$baseUrl/productweb';
 
-  static var couponDetails = '$baseUrl/coupon/categoryweb';
-  static var coupons = '$baseUrl/coupon/couponsdetailapi';
+  static var home = '$baseUrl/homecommon';
 
 
   static String createUriWithParams(String route, Map<String, String> queryParams){

@@ -1,53 +1,51 @@
+import 'package:coupon_app/domain/entities/home/home_entity.dart';
 import 'package:coupon_app/domain/repositories/banners/slider_repository.dart';
+import 'package:coupon_app/domain/repositories/home_repository.dart';
 import 'package:coupon_app/domain/usercases/banner/get_sliders_use_case.dart';
+import 'package:coupon_app/domain/usercases/get_home_page_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
 import 'package:coupon_app/domain/entities/slider_banner_entity.dart';
 
 class ProductsPresenter extends Presenter{
+  GetHomePageUseCase _getHomePageUseCase;
+  Function getHomePageOnComplete;
+  Function getHomePageOnError;
+  Function getHomePageOnNext;
 
-  GetSlidersUseCase _getSlidersUseCase;
 
-  Function getSlidersOnComplete;
-  Function getSlidersOnNext;
-  Function getSlidersOnError;
-
-  Logger _logger;
-  ProductsPresenter(SliderRepository _sliderRepo) : _getSlidersUseCase = GetSlidersUseCase(_sliderRepo){
-    _logger = Logger("ProductsPresenter");
-     _getSlidersUseCase.execute(_GetSlidersObserver(this));
+  ProductsPresenter(HomeRepository _homeRepo) : _getHomePageUseCase = GetHomePageUseCase(_homeRepo){
+    _getHomePageUseCase.execute(_ProductsObserver(this));
   }
-
 
   @override
   void dispose() {
-    _getSlidersUseCase.dispose();
+    _getHomePageUseCase.dispose();
   }
-
 }
 
-class _GetSlidersObserver extends Observer<List<SliderBannerEntity>> {
-
+class _ProductsObserver extends Observer<HomeEntity>{
   ProductsPresenter _presenter;
 
 
-  _GetSlidersObserver(this._presenter);
+  _ProductsObserver(this._presenter);
 
   @override
   void onComplete() {
-    assert(_presenter.getSlidersOnComplete != null);
-    _presenter.getSlidersOnComplete();
+    assert( _presenter.getHomePageOnComplete != null);
+    _presenter.getHomePageOnComplete();
   }
 
   @override
   void onError(e) {
-    assert(_presenter.getSlidersOnError != null);
-    _presenter.getSlidersOnError(e);
+    assert(_presenter.getHomePageOnError != null);
+    _presenter.getHomePageOnError(e);
   }
 
   @override
-  void onNext(List<SliderBannerEntity> response) {
-    assert(_presenter.getSlidersOnNext != null);
-    _presenter.getSlidersOnNext(response);
+  void onNext(HomeEntity response) {
+    assert(_presenter.getHomePageOnNext != null);
+    _presenter.getHomePageOnNext(response);
   }
+
 }

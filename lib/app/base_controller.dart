@@ -17,10 +17,6 @@ abstract class BaseController extends Controller{
 
 
   handlerUnknownError( e){
-    if(e.stacktrace != null){
-      print(e.stacktrace);
-    }else{
-      print(e);
-    }
+    print(e);
   }
 }

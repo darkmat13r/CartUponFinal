@@ -7,14 +7,14 @@ import 'package:coupon_app/domain/entities/slider_banner_entity.dart';
 import 'package:coupon_app/generated/json/slider_banner_entity_helper.dart';
 import 'package:coupon_app/domain/entities/user_entity.dart';
 import 'package:coupon_app/generated/json/user_entity_helper.dart';
-import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
-import 'package:coupon_app/generated/json/category_detail_entity_helper.dart';
 import 'package:coupon_app/domain/entities/product_entity.dart';
 import 'package:coupon_app/generated/json/product_entity_helper.dart';
+import 'package:coupon_app/domain/entities/home/home_entity.dart';
+import 'package:coupon_app/generated/json/home_entity_helper.dart';
 import 'package:coupon_app/domain/entities/category_entity.dart';
 import 'package:coupon_app/generated/json/category_entity_helper.dart';
-import 'package:coupon_app/domain/entities/coupons/coupon_entity.dart';
-import 'package:coupon_app/generated/json/coupon_entity_helper.dart';
+import 'package:coupon_app/domain/entities/ad_banner_entity.dart';
+import 'package:coupon_app/generated/json/ad_banner_entity_helper.dart';
 
 class JsonConvert<T> {
 	T fromJson(Map<String, dynamic> json) {
@@ -31,18 +31,24 @@ class JsonConvert<T> {
 				return sliderBannerEntityFromJson(data as SliderBannerEntity, json) as T;
 			case UserEntity:
 				return userEntityFromJson(data as UserEntity, json) as T;
-			case CategoryDetailEntity:
-				return categoryDetailEntityFromJson(data as CategoryDetailEntity, json) as T;
-			case CategoryDetailCategory:
-				return categoryDetailCategoryFromJson(data as CategoryDetailCategory, json) as T;
 			case ProductEntity:
 				return productEntityFromJson(data as ProductEntity, json) as T;
+			case ProductProductId:
+				return productProductIdFromJson(data as ProductProductId, json) as T;
+			case ProductProductIdProductGallery:
+				return productProductIdProductGalleryFromJson(data as ProductProductIdProductGallery, json) as T;
+			case ProductProductIdProductVariants:
+				return productProductIdProductVariantsFromJson(data as ProductProductIdProductVariants, json) as T;
+			case ProductProductIdProductVariantsProductVariantValues:
+				return productProductIdProductVariantsProductVariantValuesFromJson(data as ProductProductIdProductVariantsProductVariantValues, json) as T;
+			case HomeEntity:
+				return homeEntityFromJson(data as HomeEntity, json) as T;
 			case CategoryEntity:
 				return categoryEntityFromJson(data as CategoryEntity, json) as T;
-			case CouponEntity:
-				return couponEntityFromJson(data as CouponEntity, json) as T;
-			case CouponCouponId:
-				return couponCouponIdFromJson(data as CouponCouponId, json) as T;    }
+			case CategoryCategory:
+				return categoryCategoryFromJson(data as CategoryCategory, json) as T;
+			case AdBannerEntity:
+				return adBannerEntityFromJson(data as AdBannerEntity, json) as T;    }
     return data as T;
   }
 
@@ -52,18 +58,24 @@ class JsonConvert<T> {
 				return sliderBannerEntityToJson(data as SliderBannerEntity);
 			case UserEntity:
 				return userEntityToJson(data as UserEntity);
-			case CategoryDetailEntity:
-				return categoryDetailEntityToJson(data as CategoryDetailEntity);
-			case CategoryDetailCategory:
-				return categoryDetailCategoryToJson(data as CategoryDetailCategory);
 			case ProductEntity:
 				return productEntityToJson(data as ProductEntity);
+			case ProductProductId:
+				return productProductIdToJson(data as ProductProductId);
+			case ProductProductIdProductGallery:
+				return productProductIdProductGalleryToJson(data as ProductProductIdProductGallery);
+			case ProductProductIdProductVariants:
+				return productProductIdProductVariantsToJson(data as ProductProductIdProductVariants);
+			case ProductProductIdProductVariantsProductVariantValues:
+				return productProductIdProductVariantsProductVariantValuesToJson(data as ProductProductIdProductVariantsProductVariantValues);
+			case HomeEntity:
+				return homeEntityToJson(data as HomeEntity);
 			case CategoryEntity:
 				return categoryEntityToJson(data as CategoryEntity);
-			case CouponEntity:
-				return couponEntityToJson(data as CouponEntity);
-			case CouponCouponId:
-				return couponCouponIdToJson(data as CouponCouponId);
+			case CategoryCategory:
+				return categoryCategoryToJson(data as CategoryCategory);
+			case AdBannerEntity:
+				return adBannerEntityToJson(data as AdBannerEntity);
 			}
 			return data as T;
 		}
@@ -74,42 +86,54 @@ class JsonConvert<T> {
 			return SliderBannerEntity().fromJson(json);
 		}	else if(type == (UserEntity).toString()){
 			return UserEntity().fromJson(json);
-		}	else if(type == (CategoryDetailEntity).toString()){
-			return CategoryDetailEntity().fromJson(json);
-		}	else if(type == (CategoryDetailCategory).toString()){
-			return CategoryDetailCategory().fromJson(json);
 		}	else if(type == (ProductEntity).toString()){
 			return ProductEntity().fromJson(json);
+		}	else if(type == (ProductProductId).toString()){
+			return ProductProductId().fromJson(json);
+		}	else if(type == (ProductProductIdProductGallery).toString()){
+			return ProductProductIdProductGallery().fromJson(json);
+		}	else if(type == (ProductProductIdProductVariants).toString()){
+			return ProductProductIdProductVariants().fromJson(json);
+		}	else if(type == (ProductProductIdProductVariantsProductVariantValues).toString()){
+			return ProductProductIdProductVariantsProductVariantValues().fromJson(json);
+		}	else if(type == (HomeEntity).toString()){
+			return HomeEntity().fromJson(json);
 		}	else if(type == (CategoryEntity).toString()){
 			return CategoryEntity().fromJson(json);
-		}	else if(type == (CouponEntity).toString()){
-			return CouponEntity().fromJson(json);
-		}	else if(type == (CouponCouponId).toString()){
-			return CouponCouponId().fromJson(json);
+		}	else if(type == (CategoryCategory).toString()){
+			return CategoryCategory().fromJson(json);
+		}	else if(type == (AdBannerEntity).toString()){
+			return AdBannerEntity().fromJson(json);
 		}	
 		return null;
 	}
 
   //list is returned by type
 	static M _getListChildType<M>(List data) {
-		if(List<SliderBannerEntity>() is M){
+		if(<SliderBannerEntity>[] is M){
 			return data.map<SliderBannerEntity>((e) => SliderBannerEntity().fromJson(e)).toList() as M;
-		}	else if(List<UserEntity>() is M){
+		}	else if(<UserEntity>[] is M){
 			return data.map<UserEntity>((e) => UserEntity().fromJson(e)).toList() as M;
-		}	else if(List<CategoryDetailEntity>() is M){
-			return data.map<CategoryDetailEntity>((e) => CategoryDetailEntity().fromJson(e)).toList() as M;
-		}	else if(List<CategoryDetailCategory>() is M){
-			return data.map<CategoryDetailCategory>((e) => CategoryDetailCategory().fromJson(e)).toList() as M;
-		}	else if(List<ProductEntity>() is M){
+		}	else if(<ProductEntity>[] is M){
 			return data.map<ProductEntity>((e) => ProductEntity().fromJson(e)).toList() as M;
-		}	else if(List<CategoryEntity>() is M){
+		}	else if(<ProductProductId>[] is M){
+			return data.map<ProductProductId>((e) => ProductProductId().fromJson(e)).toList() as M;
+		}	else if(<ProductProductIdProductGallery>[] is M){
+			return data.map<ProductProductIdProductGallery>((e) => ProductProductIdProductGallery().fromJson(e)).toList() as M;
+		}	else if(<ProductProductIdProductVariants>[] is M){
+			return data.map<ProductProductIdProductVariants>((e) => ProductProductIdProductVariants().fromJson(e)).toList() as M;
+		}	else if(<ProductProductIdProductVariantsProductVariantValues>[] is M){
+			return data.map<ProductProductIdProductVariantsProductVariantValues>((e) => ProductProductIdProductVariantsProductVariantValues().fromJson(e)).toList() as M;
+		}	else if(<HomeEntity>[] is M){
+			return data.map<HomeEntity>((e) => HomeEntity().fromJson(e)).toList() as M;
+		}	else if(<CategoryEntity>[] is M){
 			return data.map<CategoryEntity>((e) => CategoryEntity().fromJson(e)).toList() as M;
-		}	else if(List<CouponEntity>() is M){
-			return data.map<CouponEntity>((e) => CouponEntity().fromJson(e)).toList() as M;
-		}	else if(List<CouponCouponId>() is M){
-			return data.map<CouponCouponId>((e) => CouponCouponId().fromJson(e)).toList() as M;
+		}	else if(<CategoryCategory>[] is M){
+			return data.map<CategoryCategory>((e) => CategoryCategory().fromJson(e)).toList() as M;
+		}	else if(<AdBannerEntity>[] is M){
+			return data.map<AdBannerEntity>((e) => AdBannerEntity().fromJson(e)).toList() as M;
 		}
-		return null;
+		throw Exception("not fond");
 	}
 
   static M fromJsonAsT<M>(json) {

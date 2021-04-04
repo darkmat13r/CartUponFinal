@@ -1,12 +1,12 @@
-import 'package:coupon_app/domain/entities/coupons/category_detail_entity.dart';
-import 'package:coupon_app/domain/entities/coupons/coupon_entity.dart';
-import 'package:coupon_app/domain/repositories/coupon/coupon_repository.dart';
-import 'package:coupon_app/domain/usercases/coupon/get_coupon_list_use_case.dart';
+import 'package:coupon_app/domain/entities/category_entity.dart';
+import 'package:coupon_app/domain/entities/product_entity.dart';
+import 'package:coupon_app/domain/repositories/product_repository.dart';
+import 'package:coupon_app/domain/usercases/get_product_list_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
 class SearchPresenter extends Presenter{
 
-  GetCouponListUseCase _getCouponListUseCase;
+  GetProductListUseCase _getCouponListUseCase;
 
   Function getCouponsOnComplete;
   Function getCouponsOnError;
@@ -14,12 +14,12 @@ class SearchPresenter extends Presenter{
 
   Logger _logger;
 
-  SearchPresenter(CouponRepository couponRepository) : _getCouponListUseCase = GetCouponListUseCase(couponRepository){
+  SearchPresenter(ProductRepository couponRepository) : _getCouponListUseCase = GetProductListUseCase(couponRepository){
     _logger = Logger("SearchPresenter");
   }
 
 
-  searchCouponCategory(CategoryDetailEntity category){
+  searchCouponCategory(CategoryEntity category){
     _logger.finest(category);
     if(category != null){
       _getCouponListUseCase.execute(_GetCouponListObserver(this), CouponFilterParams(categoryId: category.category.id.toString()));
@@ -33,7 +33,7 @@ class SearchPresenter extends Presenter{
   }
 }
 
-class _GetCouponListObserver extends Observer<List<CouponEntity>>{
+class _GetCouponListObserver extends Observer<List<ProductEntity>>{
 
   SearchPresenter _presenter;
 
@@ -53,7 +53,7 @@ class _GetCouponListObserver extends Observer<List<CouponEntity>>{
   }
 
   @override
-  void onNext(List<CouponEntity> response) {
+  void onNext(List<ProductEntity> response) {
     assert(_presenter.getCouponsOnNext != null);
     _presenter.getCouponsOnNext(response);
   }

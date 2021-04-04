@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:coupon_app/data/repositories/cart/data_cart_repository.dart';
-import 'package:coupon_app/domain/entities/coupons/coupon_entity.dart';
+import 'package:coupon_app/domain/entities/product_entity.dart';
 
 class CartStream{
   static final CartStream _instance = CartStream._internal();
@@ -15,9 +15,9 @@ class CartStream{
 
   factory CartStream() => _instance;
 
-  addToCart(CouponEntity couponEntity) async{
+  addToCart(ProductEntity couponEntity) async{
     _cartItem++;
-    await repo.addCouponToCart(couponEntity);
+    await repo.addProductToCart(couponEntity);
     var items = await repo.getQuantity();
     stream.add(items);
   }
