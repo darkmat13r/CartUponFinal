@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:coupon_app/domain/entities/home/home_entity.dart';
+import 'package:coupon_app/domain/entities/models/HomeData.dart';
 import 'package:coupon_app/domain/repositories/home_repository.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
@@ -16,10 +16,10 @@ class GetHomePageUseCase extends CompletableUseCase<void>{
   }
 
   @override
-  Future<Stream<HomeEntity>> buildUseCaseStream(void params) async{
-    final StreamController<HomeEntity> controller  = new StreamController();
+  Future<Stream<HomeData>> buildUseCaseStream(void params) async{
+    final StreamController<HomeData> controller  = new StreamController();
     try{
-      HomeEntity data = await _homeRepository.getHomePage();
+      HomeData data = await _homeRepository.getHomePage();
       controller.add(data);
     }catch(e){
       _logger.finest(e);

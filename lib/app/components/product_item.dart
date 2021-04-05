@@ -7,13 +7,13 @@ import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/date_helper.dart';
 import 'package:coupon_app/app/utils/router.dart';
-import 'package:coupon_app/domain/entities/product_entity.dart';
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class ProductItem extends StatefulWidget {
-  final ProductEntity product;
+  final ProductDetail product;
 
   ProductItem({
     @required this.product,
@@ -30,7 +30,7 @@ class ProductItemState extends State<ProductItem> {
   Widget build(BuildContext context) {
     if (_isValidToValid()) {
       _elapsedTime = DateHelper.formatExpiry(
-          DateTime.now(), widget.product.productId.validTo);
+          DateTime.now(), widget.product.product.valid_to);
     }
     _createTimer();
     return Padding(
@@ -54,7 +54,7 @@ class ProductItemState extends State<ProductItem> {
                           borderRadius: const BorderRadius.all(
                               Radius.circular(Dimens.cornerRadius)),
                           color: AppColors.neutralLight),
-                      child: AppImage(widget.product.productId.thumbImg)),
+                      child: AppImage(widget.product.product.thumb_img)),
                   SizedBox(
                     height: Dimens.spacingNormal,
                   ),
@@ -94,14 +94,14 @@ class ProductItemState extends State<ProductItem> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          widget.product != null && double.parse(widget.product.productId.disPer) > 0 ? Text(
-                            "KD${widget.product != null ? widget.product.productId.price : ""}",
+                          widget.product != null && double.parse(widget.product.product.dis_per) > 0 ? Text(
+                            "KD${widget.product != null ? widget.product.product.price : ""}",
                             style: captionNormal2.copyWith(
                                 color: AppColors.neutralGray,
                                 decoration: TextDecoration.lineThrough),
                           ) : SizedBox(),
                           Text(
-                            "KD${widget.product != null ? widget.product.productId.salePrice : ""}",
+                            "KD${widget.product != null ? widget.product.product.sale_price : ""}",
                             style: bodyTextMedium1.copyWith(
                                 color: AppColors.primary),
                           )
@@ -126,8 +126,8 @@ class ProductItemState extends State<ProductItem> {
 
   bool _isValidToValid() =>
       widget.product != null &&
-      widget.product.productId != null &&
-      widget.product.productId.validTo != null;
+      widget.product.product != null &&
+      widget.product.product.valid_to != null;
 
   Timer _timer;
 
@@ -153,7 +153,7 @@ class ProductItemState extends State<ProductItem> {
        if(mounted){
          setState(() {
            _elapsedTime = DateHelper.formatExpiry(
-               DateTime.now(), widget.product.productId.validTo);
+               DateTime.now(), widget.product.product.valid_to);
          });
        }else{
          _timer.cancel();

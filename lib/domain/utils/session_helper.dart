@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,16 +20,16 @@ class SessionHelper {
   factory SessionHelper() => _instance;
 
   /// Returns the current authenticated `User` from `SharedPreferences`.
-  Future<UserEntity> getCurrentUser() async {
+  Future<Token> getCurrentUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    UserEntity user = UserEntity()
+    Token user = Token
         .fromJson(jsonDecode(preferences.getString(Constants.userKey)));
     return user;
   }
 
   /// Saves the [token] and the [user] in `SharedPreferences`.
   void saveCredentials(
-      {@required String token, @required UserEntity user}) async {
+      {@required String token, @required Token user}) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await Future.wait([

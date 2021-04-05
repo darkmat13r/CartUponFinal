@@ -5,8 +5,8 @@ import 'package:coupon_app/app/pages/coupons/coupons_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/data/repositories/data_category_respository.dart';
-import 'package:coupon_app/domain/entities/category_entity.dart';
-import 'package:coupon_app/domain/entities/product_entity.dart';
+import 'package:coupon_app/domain/entities/models/CategoryType.dart';
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -28,7 +28,7 @@ class CouponsPageState extends ViewState<CouponsPage, CouponsController> {
           shrinkWrap: true,
           children: [
             _categories,
-            BannerProduct(),
+            //TODO add banner product
             SizedBox(
               height: Dimens.spacingLarge,
             ),
@@ -51,7 +51,7 @@ class CouponsPageState extends ViewState<CouponsPage, CouponsController> {
             );
           });
 
-  Widget _categoryItem(CategoryEntity category) =>
+  Widget _categoryItem(CategoryType category) =>
       ControlledWidgetBuilder(
         builder: (BuildContext context, CouponsController controller) {
           return CategoryButton(
@@ -97,7 +97,7 @@ class CouponsPageState extends ViewState<CouponsPage, CouponsController> {
     });
   }
 
-  _createProductItem(ProductEntity product) {
+  _createProductItem(ProductDetail product) {
     return Container(
       width: 200,
       height: 300,

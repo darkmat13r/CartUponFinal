@@ -23,6 +23,7 @@ class HttpHelper {
       response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
       responseBody = jsonDecode(response.body);
     } catch (error) {
+      print('Respoinse error invoike Https ${error}');
       rethrow;
     }
 
@@ -63,21 +64,22 @@ class HttpHelper {
     }
 */
     print("URL =>>>>> ${url}");
+    var uri = Uri.parse(url);
     try {
       switch (type) {
         case RequestType.get:
-          response = await http.get(url, headers: headers);
+          response = await http.get(uri, headers: headers);
           break;
         case RequestType.post:
-          response = await http.post(url,
+          response = await http.post(uri,
               headers: headers, body: body, encoding: encoding);
           break;
         case RequestType.put:
-          response = await http.put(url,
+          response = await http.put(uri,
               headers: headers, body: body, encoding: encoding);
           break;
         case RequestType.delete:
-          response = await http.delete(url, headers: headers);
+          response = await http.delete(uri, headers: headers);
           break;
       }
       dynamic responseBody = jsonDecode(response.body);
@@ -86,6 +88,7 @@ class HttpHelper {
         throw APIException(
             responseBody['message'], response.statusCode, responseBody['statusText']);
       }else{
+        print("${response.statusCode}");
         /*if(responseBody['error']){
           throw APIException(
               responseBody['message'], response.statusCode, responseBody['statusText']);
@@ -93,11 +96,13 @@ class HttpHelper {
       }
       return response;
     } on http.ClientException {
+      print("Client Exception");
       // handle any 404's
       rethrow;
 
       // handle no internet connection
     } on SocketException catch(e) {
+      print("SocketException");
       throw Exception(e.osError.message);
     } catch (error) {
       rethrow;

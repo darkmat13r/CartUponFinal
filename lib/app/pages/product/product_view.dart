@@ -15,7 +15,7 @@ import 'package:coupon_app/app/pages/product/product_controller.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
-import 'package:coupon_app/domain/entities/product_entity.dart';
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -24,7 +24,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductPage extends View {
-  final ProductEntity product;
+  final ProductDetail product;
 
   ProductPage(this.product);
 
@@ -57,10 +57,10 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
       children: [
         CarouselSlider.builder(
             itemCount: widget.product != null
-                ? widget.product.productId.productGallery.length
+                ? widget.product.product.product_gallery.length
                 : 0,
             itemBuilder: (BuildContext context, int index) {
-              var gallery = widget.product.productId.productGallery ?? [];
+              var gallery = widget.product.product.product_gallery ?? [];
               return AppImage(gallery[index].image);
             },
             options: CarouselOptions(
@@ -87,7 +87,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
               AnimatedSmoothIndicator(
                 activeIndex: sliderImageIndex,
                 count: widget.product != null
-                    ? widget.product.productId.productGallery.length
+                    ? widget.product.product.product_gallery.length
                     : 0,
                 effect: WormEffect(dotWidth: 8, dotHeight: 8),
               )
@@ -109,14 +109,14 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          widget.product != null && double.parse(widget.product.productId.disPer) > 0 ? Text(
-                            "KD${widget.product != null ? widget.product.productId.price : ""}",
+                          widget.product != null && double.parse(widget.product.product.dis_per) > 0 ? Text(
+                            "KD${widget.product != null ? widget.product.product.price : ""}",
                             style: bodyTextMedium2.copyWith(
                                 color: AppColors.neutralGray,
                                 decoration: TextDecoration.lineThrough),
                           ) : SizedBox(),
                           Text(
-                            "KD${widget.product != null ? widget.product.productId.salePrice : ""}",
+                            "KD${widget.product != null ? widget.product.product.sale_price : ""}",
                             style:
                             heading4.copyWith(color: AppColors.primary),
                           )
@@ -141,7 +141,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                widget.product != null && double.parse(widget.product.productId.disPer) > 0 ? Text("${widget.product.productId.disPer}%\nOFF",
+                                widget.product != null && double.parse(widget.product.product.dis_per) > 0 ? Text("${widget.product.product.dis_per}%\nOFF",
                                     style: heading5.copyWith(
                                         color: AppColors.neutralLight,
                                         fontSize: 10,
@@ -167,7 +167,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
               ),
               Text(
                 widget.product != null
-                    ? widget.product.shortDescription
+                    ? widget.product.short_description
                     : "",
                 style: heading5.copyWith(
                     color: AppColors.primary, fontWeight: FontWeight.w400),
@@ -179,7 +179,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
-              widget.product != null ?  VariantPicker(widget.product.productId.productVariants) :SizedBox(),
+              widget.product != null ?  VariantPicker(widget.product.product.product_variants) :SizedBox(),
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
@@ -268,7 +268,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
               Text("Description", style: heading6,),
               Text(
                 widget.product != null
-                    ? widget.product.fullDescription
+                    ? widget.product.full_description
                     : "",
                 style: bodyTextMedium2.copyWith(
                     color: AppColors.neutralGray,

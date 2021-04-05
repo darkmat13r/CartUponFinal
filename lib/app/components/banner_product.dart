@@ -8,14 +8,17 @@ import 'package:coupon_app/app/components/product_colors.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/date_helper.dart';
-import 'package:coupon_app/app/utils/dummy.dart';
-import 'package:coupon_app/domain/entities/product_entity.dart';
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class BannerProduct extends StatefulWidget {
   final bool showDescription = false;
+  final ProductDetail productDetail;
+
+
+  BannerProduct(this.productDetail);
 
   @override
   State<StatefulWidget> createState() => _BannerProductState();
@@ -23,8 +26,7 @@ class BannerProduct extends StatefulWidget {
 
 class _BannerProductState extends State<BannerProduct> {
   String variantSelected = null;
-  ProductEntity product = DummyProducts.products()[
-      Random().nextInt(DummyProducts.products().length)];
+
   String _elapsedTime;
   final _cartStream = CartStream();
   int sliderImageIndex = 0;
@@ -33,7 +35,7 @@ class _BannerProductState extends State<BannerProduct> {
   Widget build(BuildContext context) {
     if (_isValidToValid()) {
       _elapsedTime =
-          DateHelper.formatExpiry(DateTime.now(), product.productId.validTo);
+          DateHelper.formatExpiry(DateTime.now(), widget.productDetail.product.valid_to);
     }
     _createTimer();
     return Padding(
@@ -42,11 +44,11 @@ class _BannerProductState extends State<BannerProduct> {
         child: Column(
           children: [
             CarouselSlider.builder(
-                itemCount: product != null
-                    ? product.productId.productGallery.length
+                itemCount:  widget.productDetail != null
+                    ?  widget.productDetail.product.product_gallery.length
                     : 0,
                 itemBuilder: (BuildContext context, int index) {
-                  var gallery = product.productId.productGallery ?? [];
+                  var gallery =  widget.productDetail.product.product_gallery ?? [];
                   return AppImage(gallery[index].image);
                 },
                 options: CarouselOptions(
@@ -72,8 +74,8 @@ class _BannerProductState extends State<BannerProduct> {
                 children: [
                   AnimatedSmoothIndicator(
                     activeIndex: sliderImageIndex,
-                    count: product != null
-                        ? product.productId.productGallery.length
+                    count: widget.productDetail != null
+                        ? widget.productDetail.product.product_gallery.length
                         : 0,
                     effect: WormEffect(dotWidth: 8, dotHeight: 8),
                   )
@@ -95,10 +97,10 @@ class _BannerProductState extends State<BannerProduct> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              product != null &&
-                                      double.parse(product.productId.disPer) > 0
+                              widget.productDetail != null &&
+                                      double.parse(widget.productDetail.product.dis_per) > 0
                                   ? Text(
-                                      "KD${product != null ? product.productId.price : ""}",
+                                      "KD${widget.productDetail != null ? widget.productDetail.product.price : ""}",
                                       style: captionNormal2.copyWith(
                                           color: AppColors.neutralGray,
                                           decoration:
@@ -106,7 +108,7 @@ class _BannerProductState extends State<BannerProduct> {
                                     )
                                   : SizedBox(),
                               Text(
-                                "KD${product.productId.salePrice}",
+                                "KD${widget.productDetail.product.sale_price}",
                                 style:
                                     heading4.copyWith(color: AppColors.primary),
                               )
@@ -131,10 +133,10 @@ class _BannerProductState extends State<BannerProduct> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    product != null &&
-                                            double.parse(product.productId.disPer) >0
+                                    widget.productDetail != null &&
+                                            double.parse(widget.productDetail.product.dis_per) >0
                                         ? Text(
-                                            "${product.productId.disPer}%\nOFF",
+                                            "${widget.productDetail.product.dis_per}%\nOFF",
                                             style: heading5.copyWith(
                                                 color: AppColors.neutralLight,
                                                 fontSize: 10,
@@ -153,14 +155,14 @@ class _BannerProductState extends State<BannerProduct> {
                     height: Dimens.spacingMedium,
                   ),
                   Text(
-                    product.name,
+                    widget.productDetail.name,
                     style: heading3.copyWith(color: AppColors.primary),
                   ),
                   SizedBox(
                     height: Dimens.spacingMedium,
                   ),
                   Text(
-                    product.shortDescription,
+                    widget.productDetail.short_description,
                     style: heading4.copyWith(
                         color: AppColors.primary, fontWeight: FontWeight.w400),
                   ),
@@ -274,9 +276,9 @@ class _BannerProductState extends State<BannerProduct> {
   }
 
   bool _isValidToValid() =>
-      product != null &&
-      product.productId != null &&
-      product.productId.validTo != null;
+      widget.productDetail != null &&
+          widget.productDetail.product != null &&
+          widget.productDetail.product.valid_to != null;
 
   Timer _timer;
 
@@ -302,7 +304,7 @@ class _BannerProductState extends State<BannerProduct> {
         if (mounted) {
           setState(() {
             _elapsedTime = DateHelper.formatExpiry(
-                DateTime.now(), product.productId.validTo);
+                DateTime.now(), widget.productDetail.product.valid_to);
           });
         } else {
           _timer.cancel();

@@ -1,11 +1,12 @@
 import 'package:coupon_app/app/utils/constants.dart';
-import 'package:coupon_app/domain/entities/product_entity.dart';
+import 'package:coupon_app/domain/entities/models/ProductVariant.dart';
+import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class VariantPicker extends StatefulWidget {
-  List<ProductProductIdProductVariants> variants;
+  List<ProductVariant> variants;
 
   VariantPicker(this.variants);
 
@@ -22,19 +23,19 @@ class _VariantPickerState extends State<VariantPicker> {
       shrinkWrap: true,
       children: List.generate(
           widget.variants != null ? widget.variants.length : 0, (index) {
-        if (widget.variants[index].displayAs == "v_list")
+        if (widget.variants[index].display_as == "v_list")
           return dropdownList(widget.variants[index],
-              widget.variants[index].productVariantValues);
-        if (widget.variants[index].displayAs == "h_list")
+              widget.variants[index].product_variant_values);
+        if (widget.variants[index].display_as == "h_list")
           return horizontalList(widget.variants[index],
-              widget.variants[index].productVariantValues);
+              widget.variants[index].product_variant_values);
         return dropdownList(widget.variants[index],
-            widget.variants[index].productVariantValues);
+            widget.variants[index].product_variant_values);
       }),
     );
   }
 
-  Widget horizontalList(ProductProductIdProductVariants variant, List<ProductProductIdProductVariantsProductVariantValues> productVariantValues) {
+  Widget horizontalList(ProductVariant variant, List<ProductVariantValue> productVariantValues) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -91,8 +92,8 @@ class _VariantPickerState extends State<VariantPicker> {
 
     return string[0].toUpperCase() + string.substring(1);
   }
-  Widget dropdownList(ProductProductIdProductVariants variant,
-          List<ProductProductIdProductVariantsProductVariantValues> values) =>
+  Widget dropdownList(ProductVariant variant,
+          List<ProductVariantValue> values) =>
       SizedBox(
         width: double.infinity,
         child: Container(
@@ -109,7 +110,7 @@ class _VariantPickerState extends State<VariantPicker> {
               isExpanded: true,
               icon: Icon(MaterialIcons.arrow_drop_down),
               items: values.map(
-                  (ProductProductIdProductVariantsProductVariantValues value) {
+                  (ProductVariantValue value) {
                 return DropdownMenuItem<int>(
                   value: value.id,
                   child: Column(

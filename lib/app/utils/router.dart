@@ -16,8 +16,8 @@ import 'package:coupon_app/app/pages/reviews/create/create_review_view.dart';
 import 'package:coupon_app/app/pages/reviews/reviews_view.dart';
 import 'package:coupon_app/app/pages/search/search_view.dart';
 import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
-import 'package:coupon_app/domain/entities/category_entity.dart';
-import 'package:coupon_app/domain/entities/product_entity.dart';
+import 'package:coupon_app/domain/entities/models/CategoryType.dart';
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:coupon_app/app/pages/login/login_view.dart';
@@ -70,12 +70,12 @@ class AppRouter {
     }
   }
 
-  productDetails(BuildContext context, ProductEntity product) {
+  productDetails(BuildContext context, ProductDetail product) {
     Navigator.of(context)
         .push(_buildRoute(RouteSettings(), ProductPage(product)));
   }
 
-  categorySearch(BuildContext context, CategoryEntity category){
+  categorySearch(BuildContext context, CategoryType category){
     Navigator.of(context).push(_buildRoute(RouteSettings(), SearchPage(category:category,)));
   }
 

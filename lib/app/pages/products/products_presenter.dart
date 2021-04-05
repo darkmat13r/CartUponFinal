@@ -1,11 +1,10 @@
-import 'package:coupon_app/domain/entities/home/home_entity.dart';
+import 'package:coupon_app/domain/entities/models/HomeData.dart';
 import 'package:coupon_app/domain/repositories/banners/slider_repository.dart';
 import 'package:coupon_app/domain/repositories/home_repository.dart';
 import 'package:coupon_app/domain/usercases/banner/get_sliders_use_case.dart';
 import 'package:coupon_app/domain/usercases/get_home_page_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
-import 'package:coupon_app/domain/entities/slider_banner_entity.dart';
 
 class ProductsPresenter extends Presenter{
   GetHomePageUseCase _getHomePageUseCase;
@@ -24,7 +23,7 @@ class ProductsPresenter extends Presenter{
   }
 }
 
-class _ProductsObserver extends Observer<HomeEntity>{
+class _ProductsObserver extends Observer<HomeData>{
   ProductsPresenter _presenter;
 
 
@@ -43,7 +42,7 @@ class _ProductsObserver extends Observer<HomeEntity>{
   }
 
   @override
-  void onNext(HomeEntity response) {
+  void onNext(HomeData response) {
     assert(_presenter.getHomePageOnNext != null);
     _presenter.getHomePageOnNext(response);
   }

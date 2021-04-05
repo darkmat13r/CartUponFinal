@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:coupon_app/data/utils/http_helper.dart';
+import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:flutter/foundation.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/data/utils/constants.dart';
@@ -42,7 +43,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
             'username': email,
             'password': password,
           });
-      UserEntity user = UserEntity().fromJson(body);
+      Token user = Token.fromJson(body);
       SessionHelper().saveCredentials(token: user.key, user: user);
       _logger.finest('Registration is successful');
 
@@ -58,7 +59,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   /// When successful, it attempts to save the credentials of the `User` to local storage by
   /// calling [_saveCredentials]. Throws an `Exception` if an Internet connection cannot be
   /// established. Throws a `ClientException` if the http object fails.
-  Future<UserEntity> authenticate(
+  Future<Token> authenticate(
       {@required String email, @required String password}) async {
     try {
       // invoke http request to login and convert body to map
@@ -68,7 +69,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       _logger.finest('Login Successful.' + body.toString());
 
       // convert json to User and save credentials in local storage
-      UserEntity user = UserEntity().fromJson(body);
+      Token user = Token.fromJson(body);
       SessionHelper().saveCredentials(token: user.key, user: user);
       return user;
     } catch (error) {
@@ -114,7 +115,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   }
 
   @override
-  Future<UserEntity> getCurrentUser() {
+  Future<Token> getCurrentUser() {
     return SessionHelper().getCurrentUser();
   }
 

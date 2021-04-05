@@ -1,7 +1,5 @@
-
-
-import 'package:coupon_app/domain/entities/product_entity.dart';
+import 'package:coupon_app/domain/entities/models/Product.dart';
 
 abstract class ProductRepository{
-  Future<List<ProductEntity>> getProducts({String categoryId, String country});
+  Future<List<Product>> getProducts({String categoryId, String country});
 }

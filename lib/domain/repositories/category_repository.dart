@@ -1,8 +1,9 @@
 
-import 'package:coupon_app/domain/entities/category_entity.dart';
+import 'package:coupon_app/domain/entities/models/Category.dart';
+import 'package:coupon_app/domain/entities/models/CategoryType.dart';
 
 abstract class CategoryRepository{
-  Future<List<CategoryEntity>> getCategories();
+  Future<List<CategoryType>> getCategories();
 
 
 }

@@ -1,5 +1,5 @@
-import 'package:coupon_app/domain/entities/category_entity.dart';
-import 'package:coupon_app/domain/entities/product_entity.dart';
+import 'package:coupon_app/domain/entities/models/CategoryType.dart';
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:coupon_app/domain/usercases/get_product_list_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -19,7 +19,7 @@ class SearchPresenter extends Presenter{
   }
 
 
-  searchCouponCategory(CategoryEntity category){
+  searchCouponCategory(CategoryType category){
     _logger.finest(category);
     if(category != null){
       _getCouponListUseCase.execute(_GetCouponListObserver(this), CouponFilterParams(categoryId: category.category.id.toString()));
@@ -33,7 +33,7 @@ class SearchPresenter extends Presenter{
   }
 }
 
-class _GetCouponListObserver extends Observer<List<ProductEntity>>{
+class _GetCouponListObserver extends Observer<List<ProductDetail>>{
 
   SearchPresenter _presenter;
 
@@ -53,7 +53,7 @@ class _GetCouponListObserver extends Observer<List<ProductEntity>>{
   }
 
   @override
-  void onNext(List<ProductEntity> response) {
+  void onNext(List<ProductDetail> response) {
     assert(_presenter.getCouponsOnNext != null);
     _presenter.getCouponsOnNext(response);
   }

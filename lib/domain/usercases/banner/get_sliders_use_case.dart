@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:coupon_app/domain/entities/models/BannerSlider.dart';
 import 'package:coupon_app/domain/repositories/banners/slider_repository.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
-import 'package:coupon_app/domain/entities/slider_banner_entity.dart';
 
 class GetSlidersUseCase extends CompletableUseCase<void>{
 
@@ -17,10 +17,10 @@ class GetSlidersUseCase extends CompletableUseCase<void>{
   }
 
   @override
-  Future<Stream<List<SliderBannerEntity>>> buildUseCaseStream(void params) async{
-    final StreamController<List<SliderBannerEntity>> controller = StreamController();
+  Future<Stream<List<BannerSlider>>> buildUseCaseStream(void params) async{
+    final StreamController<List<BannerSlider>> controller = StreamController();
     try{
-      List<SliderBannerEntity> sliders = await _sliderRepository.getAllBanners();
+      List<BannerSlider> sliders = await _sliderRepository.getAllBanners();
       controller.add(sliders);
       controller.close();
     }catch(e){

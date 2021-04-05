@@ -1,6 +1,6 @@
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
-import 'package:coupon_app/domain/entities/home/home_entity.dart';
+import 'package:coupon_app/domain/entities/models/HomeData.dart';
 import 'package:coupon_app/domain/repositories/home_repository.dart';
 import 'package:logging/logging.dart';
 class DataHomeRepository extends HomeRepository{
@@ -17,12 +17,17 @@ class DataHomeRepository extends HomeRepository{
 
 
   @override
-  Future<HomeEntity> getHomePage() async{
+  Future<HomeData> getHomePage() async{
      try{
-       //TODO language and country filter
-       dynamic data = await HttpHelper.invokeHttp("${Constants.home}?country=1&lang=1", RequestType.get);
-       print("-----------> ${data}");
-       return HomeEntity().fromJsonMapper(data);
+
+       var uri = Constants.createUriWithParams(Constants.home, {
+         'country' : '1',
+         'lang' : "0"
+       });
+      dynamic data = await HttpHelper.invokeHttp(uri, RequestType.get);
+       var result =  HomeData.fromJson(data);
+       print("-----------> ${result}");
+       return result;
      }catch(e){
        _logger.finest(e);
        rethrow;

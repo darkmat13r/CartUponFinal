@@ -10,6 +10,7 @@ import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/data/repositories/banner/data_slider_repository.dart';
 import 'package:coupon_app/data/repositories/data_home_repository.dart';
+import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -37,11 +38,11 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
         children: [
           _loginCard,
           _sliders,
-          BannerProduct(),
+          //BannerProduct(),//TODO Banner Products
           SizedBox(
             height: Dimens.spacingNormal,
           ),
-          _flashSaleItems("Food"),
+          _flashSaleItems("Food", ),
           _flashSaleItems("Health"),
           _flashSaleItems("Entertainment"),
           _flashSaleItems("Sports"),
@@ -51,11 +52,11 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
   });
 
   get _sliders =>ControlledWidgetBuilder(builder: (BuildContext context, ProductsController controller){
-    print("controller.homeResponse ${controller.homeResponse != null ? controller.homeResponse.adBanners : ""}");
-    return controller.homeResponse != null && controller.homeResponse.adBanners != null && controller.homeResponse.adBanners.length  > 0 ? CarouselSlider.builder(
-        itemCount: controller.homeResponse.adBanners.length,
+    print("controller.homeResponse ${controller.homeResponse != null ? controller.homeResponse.adbanners : ""}");
+    return controller.homeResponse != null && controller.homeResponse.adbanners != null && controller.homeResponse.adbanners.length  > 0 ? CarouselSlider.builder(
+        itemCount: controller.homeResponse.adbanners.length,
         itemBuilder: (BuildContext context, int index) {
-          var bannerUrl = controller.homeResponse.adBanners[index].mobileBanner;
+          var bannerUrl = controller.homeResponse.adbanners[index].mobile_banner;
           return AppImage(bannerUrl);
         },
         options: CarouselOptions(
@@ -120,7 +121,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
         );
       });
 
-  Widget _flashSaleItems(String name) => ControlledWidgetBuilder(
+  Widget _flashSaleItems(String name, List<Product> products) => ControlledWidgetBuilder(
           builder: (BuildContext context, ProductsController controller) {
         return Column(
           children: [
@@ -151,13 +152,13 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
               width: double.infinity,
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: controller.products.length,
+                itemCount:products.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
                   return SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
                     child: ProductItem(
-                        product: controller.products[index],
+                        product: products[index],
                         ),
                   );
                 },

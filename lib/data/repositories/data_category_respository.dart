@@ -1,6 +1,6 @@
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
-import 'package:coupon_app/domain/entities/category_entity.dart';
+import 'package:coupon_app/domain/entities/models/CategoryType.dart';
 import 'package:coupon_app/domain/repositories/category_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
@@ -18,11 +18,11 @@ class DataCategoryRepository extends CategoryRepository {
   factory DataCategoryRepository() => _instance;
 
   @override
-  Future<List<CategoryEntity>> getCategories() async {
+  Future<List<CategoryType>> getCategories() async {
     try{
       List<dynamic> data = await HttpHelper.invokeHttp(Constants.categories, RequestType.get);
       _logger.finest("Data ", data);
-      dynamic response = data.map((e) => CategoryEntity().fromJson(e)).toList();
+      dynamic response = data.map((e) => CategoryType.fromJson(e)).toList();
       return response;
     }catch(e){
       rethrow;

@@ -1,7 +1,7 @@
 import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
-import 'package:coupon_app/domain/entities/product_entity.dart';
+import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:logging/logging.dart';
 
@@ -19,7 +19,7 @@ class DataProductRepository extends ProductRepository{
 
 
   @override
-  Future<List<ProductEntity>> getProducts({String categoryId, String country}) async{
+  Future<List<Product>> getProducts({String categoryId, String country}) async{
     try{
       var uri = Constants.createUriWithParams(Constants.products, {
         'category' : categoryId,
@@ -28,7 +28,7 @@ class DataProductRepository extends ProductRepository{
       });
       print("URI " + uri.toString());
       List<dynamic> data = await HttpHelper.invokeHttp(uri, RequestType.get);
-      dynamic response =  data.map((e) => ProductEntity().fromJson(e)).toList();
+      dynamic response =  data.map((e) => Product.fromJson(e)).toList();
       return response;
     }catch(e){
       print(e);

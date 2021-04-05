@@ -5,15 +5,15 @@ import 'package:coupon_app/app/components/state_view.dart';
 import 'package:coupon_app/app/pages/search/search_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/domain/entities/models/CategoryType.dart';
 import 'file:///G:/Projects/Flutter/coupon_app/lib/data/repositories/data_product_repository.dart';
-import 'package:coupon_app/domain/entities/category_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class SearchPage extends View {
-  CategoryEntity category;
+  CategoryType category;
 
   SearchPage({this.category});
 
@@ -22,9 +22,9 @@ class SearchPage extends View {
 }
 
 class SearchPageState extends ViewState<SearchPage, SearchController> {
-  SearchPageState(CategoryEntity couponCategory)
+  SearchPageState(CategoryType couponCategory)
       : super(SearchController(DataProductRepository(),
-            couponCategory: couponCategory));
+            category: couponCategory));
 
   @override
   Widget get view => Scaffold(

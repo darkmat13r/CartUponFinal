@@ -1,4 +1,4 @@
-import 'package:coupon_app/domain/entities/product_entity.dart';
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/cupertino.dart';
 
 class CartItemMapper {
@@ -24,14 +24,14 @@ class CartItemMapper {
       this.fullDescription,
       this.quantity});
 
-  static CartItemMapper withProduct(ProductEntity product) {
+  static CartItemMapper withProduct(ProductDetail product) {
     return CartItemMapper(
         productId: product.id,
         name: product.name,
-        shortDescription: product.shortDescription,
-        fullDescription: product.fullDescription,
-        price: product.productId.price,
-        image: product.productId.thumbImg,
+        shortDescription: product.short_description,
+        fullDescription: product.full_description,
+        price: product.product.price,
+        image: product.product.thumb_img,
         type: COUPON,
         quantity: 1);
   }

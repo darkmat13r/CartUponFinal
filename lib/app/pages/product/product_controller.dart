@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/date_helper.dart';
-import 'package:coupon_app/app/utils/dummy.dart';
-import 'package:coupon_app/domain/entities/product_entity.dart';
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 class ProductController extends Controller{
 
-  List<ProductEntity> similarProducts = DummyProducts.products();
-  ProductEntity product;
+  List<ProductDetail> similarProducts = [];
+  ProductDetail product;
 
 
   ProductController(this.product);
@@ -28,8 +27,8 @@ class ProductController extends Controller{
   Timer _timer;
   bool _isValidToValid() =>
       product != null &&
-          product.productId != null &&
-          product.productId.validTo != null;
+          product.product != null &&
+          product.product.valid_to != null;
   @override
   void dispose() {
     if (_timer != null) {
@@ -44,7 +43,7 @@ class ProductController extends Controller{
     if (_isValidToValid()) {
       _timer = Timer.periodic(Duration(seconds: 1), (timer) {
         elapsedTime = DateHelper.formatExpiry(
-            DateTime.now(), product.productId.validTo);
+            DateTime.now(), product.product.valid_to);
       });
     }
   }

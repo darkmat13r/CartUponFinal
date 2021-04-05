@@ -3,23 +3,21 @@ import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/product/product_presenter.dart';
 import 'package:coupon_app/app/pages/products/products_presenter.dart';
 import 'package:coupon_app/app/utils/constants.dart';
-import 'package:coupon_app/app/utils/dummy.dart';
-import 'package:coupon_app/domain/entities/home/home_entity.dart';
-import 'package:coupon_app/domain/entities/product_entity.dart';
+import 'package:coupon_app/domain/entities/models/HomeData.dart';
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/repositories/banners/slider_repository.dart';
 import 'package:coupon_app/domain/repositories/home_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
-import 'package:coupon_app/domain/entities/slider_banner_entity.dart';
 class ProductsController extends BaseController{
-  List<ProductEntity> products = DummyProducts.products();
+  List<ProductDetail> products = [];
 
   ProductsPresenter _presenter;
 
   Logger _logger;
 
-  HomeEntity homeResponse;
+  HomeData homeResponse;
 
 
   ProductsController(HomeRepository homeRepo) : _presenter = ProductsPresenter(homeRepo){
@@ -49,7 +47,7 @@ class ProductsController extends BaseController{
     Navigator.of(getContext()).pushNamed(Pages.welcome);
   }
 
-  getHomeOnNext(HomeEntity res) {
+  getHomeOnNext(HomeData res) {
     this.homeResponse = res;
     _logger.finest("Sliders  ", res);
     refreshUI();

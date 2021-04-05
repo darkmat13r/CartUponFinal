@@ -1,4 +1,4 @@
-import 'package:coupon_app/domain/entities/slider_banner_entity.dart';
+import 'package:coupon_app/domain/entities/models/BannerSlider.dart';
 abstract class SliderRepository{
-  Future<List<SliderBannerEntity>> getAllBanners();
+  Future<List<BannerSlider>> getAllBanners();
 }

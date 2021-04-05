@@ -1,4 +1,4 @@
-import 'package:coupon_app/domain/entities/category_entity.dart';
+import 'package:coupon_app/domain/entities/models/CategoryType.dart';
 import 'package:coupon_app/domain/repositories/category_repository.dart';
 import 'file:///G:/Projects/Flutter/coupon_app/lib/domain/usercases/get_category_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -25,7 +25,7 @@ class CouponPresenter extends Presenter{
   }
 }
 
-class _GetCouponCategoriesObserver extends Observer<List<CategoryEntity>> {
+class _GetCouponCategoriesObserver extends Observer<List<CategoryType>> {
   CouponPresenter _presenter;
 
 
@@ -44,7 +44,7 @@ class _GetCouponCategoriesObserver extends Observer<List<CategoryEntity>> {
   }
 
   @override
-  void onNext(List<CategoryEntity> response) {
+  void onNext(List<CategoryType> response) {
     assert(_presenter.getCategoryOnNext != null);
     _presenter.getCategoryOnNext(response);
   }

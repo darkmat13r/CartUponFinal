@@ -1,5 +1,5 @@
-import 'package:coupon_app/domain/entities/home/home_entity.dart';
+import 'package:coupon_app/domain/entities/models/HomeData.dart';
 
 abstract class HomeRepository {
-  Future<HomeEntity> getHomePage();
+  Future<HomeData> getHomePage();
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
 import 'package:coupon_app/domain/entities/user_entity.dart';
@@ -16,10 +17,10 @@ class LoginUseCase extends CompletableUseCase<LoginUseCaseParams> {
   }
 
   @override
-  Future<Stream<UserEntity>> buildUseCaseStream(LoginUseCaseParams params) async {
-    final StreamController<UserEntity> controller = StreamController();
+  Future<Stream<Token>> buildUseCaseStream(LoginUseCaseParams params) async {
+    final StreamController<Token> controller = StreamController();
     try {
-      UserEntity userEntity  = await _authenticationRepository.authenticate(
+      Token userEntity  = await _authenticationRepository.authenticate(
           email: params._email, password: params._password);
       controller.add(userEntity);
       controller.close();

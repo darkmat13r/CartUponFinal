@@ -2,6 +2,7 @@ import 'package:coupon_app/app/pages/login/login_presenter.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/data/utils/constants.dart';
+import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:coupon_app/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -23,7 +24,7 @@ class LoginController extends Controller{
     _loginPresenter.loginOnError = this._loginOnError;
   }
 
-  void _loginOnComplete(UserEntity user) {
+  void _loginOnComplete(Token user) {
     dismissLoading();
     goToHome();
   }

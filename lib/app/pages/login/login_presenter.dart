@@ -1,3 +1,4 @@
+import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:coupon_app/domain/entities/user_entity.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/usercases/auth/login_usecase.dart';
@@ -29,7 +30,7 @@ class LoginPresenter extends Presenter{
 }
 
 /// The [Observer] used to observe the `Observable` of the [LoginUseCase]
-class _LoginUserCaseObserver implements Observer<UserEntity> {
+class _LoginUserCaseObserver implements Observer<Token> {
 
   // The above presenter
   LoginPresenter _loginPresenter;

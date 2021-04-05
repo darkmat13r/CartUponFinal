@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:flutter/foundation.dart';
 import 'package:coupon_app/domain/entities/user_entity.dart';
 
@@ -15,14 +16,14 @@ abstract class AuthenticationRepository {
       @required String password});
 
   /// Authenticates a user using his [username] and [password]
-  Future<UserEntity> authenticate(
+  Future<Token> authenticate(
       {@required String email, @required String password});
 
   /// Returns whether the [UserEntity] is authenticated.
   Future<bool> isAuthenticated();
 
   /// Returns the current authenticated [UserEntity].
-  Future<UserEntity> getCurrentUser();
+  Future<Token> getCurrentUser();
 
 
 
