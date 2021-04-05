@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:coupon_app/domain/entities/models/Product.dart';
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 
 class Category {
   bool category_status;
@@ -10,7 +12,7 @@ class Category {
   int country;
   int id;
   String slug;
-  List<Product> products;
+  List<ProductDetail> products;
 
   Category(
       {this.category_status,
@@ -35,7 +37,13 @@ class Category {
     if(json.containsKey('products')){
       var products = [];
       products = json.containsKey('products') && json['products'] != null
-          ? (json['products'] as List).map((e) => Product.fromJson(e)).toList()
+          ? (json['products'] as List).map((e){
+            var product = Product.fromJson(e);
+            var prodDetails = product.product_details != null && product.product_details.length > 0 ?
+            product.product_details.firstWhere((element) => element.lang_type ==json['lang_type'] ) : ProductDetail();
+            prodDetails.product = product;
+            return prodDetails;
+      }).toList()
           : [];
       print("Products        " + (json.containsKey('products') ? "true" : "false"));
       cat.products = products;

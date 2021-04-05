@@ -35,25 +35,7 @@ class HomePageView extends ViewState<HomePage, HomeController> {
   ];
   Widget get _body => DefaultTabController(length: _tabs.length,
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-
-          backgroundColor: AppColors.primary,
-          automaticallyImplyLeading: false,
-          title: TabBar(
-            indicatorColor: AppColors.accent,
-            isScrollable: true,
-            tabs: [
-              for (final tab in _tabsText) Tab(text: tab),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            ProductsPage(),
-            CouponsPage(),
-          ],
-        ),
+        body:  ProductsPage(),
       ));
 }
 

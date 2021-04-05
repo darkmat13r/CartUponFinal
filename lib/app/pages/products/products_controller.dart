@@ -5,6 +5,7 @@ import 'package:coupon_app/app/pages/products/products_presenter.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/domain/entities/models/HomeData.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
+import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/repositories/banners/slider_repository.dart';
 import 'package:coupon_app/domain/repositories/home_repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,8 +21,9 @@ class ProductsController extends BaseController{
   HomeData homeResponse;
 
 
-  ProductsController(HomeRepository homeRepo) : _presenter = ProductsPresenter(homeRepo){
+  ProductsController(HomeRepository homeRepo, AuthenticationRepository authRepo) : _presenter = ProductsPresenter(homeRepo, authRepo){
     _logger = Logger("ProductsController");
+
   }
 
   @override
@@ -29,12 +31,9 @@ class ProductsController extends BaseController{
     _presenter.getHomePageOnNext = getHomeOnNext;
     _presenter.getHomePageOnError = getHomeOnError;
     _presenter.getHomePageOnComplete = getHomeOnComplete;
+    initBaseListeners(_presenter);
     showLoading();
   }
-
-
-
-
 
   search(){
     Navigator.of(getContext()).pushNamed(Pages.search);

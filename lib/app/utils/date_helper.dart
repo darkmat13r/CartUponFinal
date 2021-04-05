@@ -4,7 +4,10 @@ class DateHelper {
     var timeRemaining = date.difference(startDate);
     return formatElapsedTime(timeRemaining);
   }
-
+  static String format(DateTime startDate, DateTime serverDate) {
+    var timeRemaining = serverDate.difference(startDate);
+    return formatElapsedTime(timeRemaining);
+  }
   static DateTime parseServerDateTime(String serverDate) {
     return DateTime.parse(serverDate);
   }

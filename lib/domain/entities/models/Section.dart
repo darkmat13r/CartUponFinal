@@ -10,8 +10,11 @@ class Section {
     Section({this.category, this.id, this.lang_type, this.name, this.slug});
 
     factory Section.fromJson(Map<String, dynamic> json) {
+        if(json['category']!= null){
+            json['category']['lang_type'] = json['lang_type'];
+        }
         return Section(
-            category: json['category'] != null ? Category.fromJson(json['category']) : null, 
+            category: json['category'] != null ? Category.fromJson(json['category']) : null,
             id: json['id'], 
             lang_type: json['lang_type'], 
             name: json['name'], 

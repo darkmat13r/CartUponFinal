@@ -24,9 +24,11 @@ class _AppImageState extends State<AppImage> {
             .width,
         margin: EdgeInsets.symmetric(horizontal: 5.0),
         child: CachedNetworkImage(
-          placeholder: (context, url) =>  Image.asset(Resources.placeholder),
+          placeholder: (context, url) =>  Image.asset(Resources.placeholder , fit: BoxFit.cover,),
           imageUrl: widget.url,
-          errorWidget: (context, url, error) =>Image.asset(Resources.placeholder),
+          errorWidget: (context, url, error) => Container(
+            child: Image.asset(Resources.placeholder , fit: BoxFit.cover,),
+          ),
         ));
   }
 

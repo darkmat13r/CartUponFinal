@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/entities/models/ProductGallery.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariant.dart';
 
@@ -18,8 +19,11 @@ class Product {
     String uid;
     String valid_from;
     String valid_to;
+    List<ProductDetail> product_details;
 
-    Product({this.category_type, this.dis_per, this.id, this.price, this.product_gallery, this.product_variants, this.sale_price, this.sku, this.stock, this.thumb_img, this.title, this.uid, this.valid_from, this.valid_to});
+    Product({this.category_type, this.dis_per, this.id, this.price, this.product_gallery,
+        this.product_variants, this.sale_price, this.sku, this.stock, this.thumb_img,
+        this.title, this.uid, this.valid_from, this.valid_to, this.product_details});
 
     factory Product.fromJson(Map<String, dynamic> json) {
         return Product(
@@ -37,6 +41,7 @@ class Product {
             uid: json['uid'],
             valid_from: json['valid_from'] != null ? json['valid_from'] : null,
             valid_to: json['valid_to'] != null ? json['valid_to'] : null,
+            product_details: json['product_detail'] != null ? (json['product_detail'] as List).map((e) => ProductDetail.fromJson(e)).toList() : null,
         );
     }
 
@@ -63,6 +68,9 @@ class Product {
         }
         if (this.valid_to != null) {
             data['valid_to'] = this.valid_to;
+        }
+        if (this.product_details != null) {
+            data['product_detail'] = this.product_details;
         }
         return data;
     }

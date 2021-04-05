@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:coupon_app/domain/entities/models/Product.dart';
 
 class ProductDetail {
@@ -14,17 +16,24 @@ class ProductDetail {
     ProductDetail({this.full_description, this.id, this.lang_type, this.meta_desc, this.meta_title, this.name, this.product, this.short_description, this.slug});
 
     factory ProductDetail.fromJson(Map<String, dynamic> json) {
-        return ProductDetail(
+        var productDetails =  ProductDetail(
             full_description: json['full_description'], 
             id: json['id'], 
             lang_type: json['lang_type'], 
             meta_desc: json['meta_desc'], 
             meta_title: json['meta_title'], 
             name: json['name'], 
-            product: json['product_id'] != null ? Product.fromJson(json['product_id']) : null,
+
             short_description: json['short_description'], 
             slug: json['slug'], 
         );
+        try{
+           // productDetails.product =  json['product_id'] != null ? Product.fromJson(json['product_id']) : null;
+        }catch(e){
+
+        }
+        print("=============> productDetails " + jsonEncode(productDetails));
+        return productDetails;
     }
 
     Map<String, dynamic> toJson() {

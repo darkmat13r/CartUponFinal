@@ -1,20 +1,29 @@
+import 'package:coupon_app/app/auth_presenter.dart';
 import 'package:coupon_app/domain/entities/models/HomeData.dart';
+import 'package:coupon_app/domain/entities/models/Token.dart';
+import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/repositories/banners/slider_repository.dart';
 import 'package:coupon_app/domain/repositories/home_repository.dart';
+import 'package:coupon_app/domain/usercases/auth/get_current_user_usecase.dart';
 import 'package:coupon_app/domain/usercases/banner/get_sliders_use_case.dart';
 import 'package:coupon_app/domain/usercases/get_home_page_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
 
-class ProductsPresenter extends Presenter{
+class ProductsPresenter extends AuthPresenter{
   GetHomePageUseCase _getHomePageUseCase;
+
   Function getHomePageOnComplete;
   Function getHomePageOnError;
   Function getHomePageOnNext;
 
 
-  ProductsPresenter(HomeRepository _homeRepo) : _getHomePageUseCase = GetHomePageUseCase(_homeRepo){
+
+
+  ProductsPresenter(HomeRepository _homeRepo, AuthenticationRepository authRepo) : super(authRepo){
+    _getHomePageUseCase = GetHomePageUseCase(_homeRepo);
     _getHomePageUseCase.execute(_ProductsObserver(this));
+
   }
 
   @override
@@ -38,6 +47,7 @@ class _ProductsObserver extends Observer<HomeData>{
   @override
   void onError(e) {
     assert(_presenter.getHomePageOnError != null);
+    print(e.stackTrace.toString());
     _presenter.getHomePageOnError(e);
   }
 

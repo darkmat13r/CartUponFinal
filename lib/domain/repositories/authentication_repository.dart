@@ -1,5 +1,3 @@
-// Shady Boukhary
-
 import 'dart:async';
 
 import 'package:coupon_app/domain/entities/models/Token.dart';
