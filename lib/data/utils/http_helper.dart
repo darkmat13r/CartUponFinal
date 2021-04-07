@@ -19,6 +19,7 @@ class HttpHelper {
   static Future<T> invokeHttp<T>(dynamic url, RequestType type, {Map<String, String> headers, dynamic body, Encoding encoding}) async {
     http.Response response;
     T responseBody;
+    print("------------ ${body}");
     try {
       response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
       responseBody = jsonDecode(response.body);
@@ -82,9 +83,12 @@ class HttpHelper {
           response = await http.delete(uri, headers: headers);
           break;
       }
+      print("${response.statusCode}");
+      print("Response Body  ${response.body}" );
+
       dynamic responseBody = jsonDecode(response.body);
       // check for any errors
-      if (response.statusCode != 200) {
+      if (response.statusCode != 200 && response.statusCode != 201) {
         throw APIException(
             responseBody['message'], response.statusCode, responseBody['statusText']);
       }else{
@@ -95,11 +99,10 @@ class HttpHelper {
         }*/
       }
       return response;
-    } on http.ClientException {
-      print("Client Exception");
+    } on http.ClientException catch(e){
+      print("Client Exception ${e.message}");
       // handle any 404's
       rethrow;
-
       // handle no internet connection
     } on SocketException catch(e) {
       print("SocketException");

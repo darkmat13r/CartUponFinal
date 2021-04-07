@@ -38,8 +38,16 @@
   "payment" : "Payment",
 
   "email" : "Email",
+
   "errorUsernameRequired" : "Username is required",
   "errorPasswordRequired" : "Password is required",
+  "errorFirstNameRequired" : "First name is required",
+  "errorLastNameRequired" : "Last name is required",
+  "errorEmailRequired" : "Email address is required",
+  "errorDateOfBirthRequired" : "Date of birth is required",
+  "errorPhoneRequired" : "Phone number is required",
+  "errorInvalidEmail" : "Invalid email address",
+
   "phone" : "Phone Number",
   "changePassword" : "Change Password",
 

@@ -42,6 +42,7 @@ dependencies:
   smooth_page_indicator: ^0.2.0
   cached_network_image: ^3.0.0
   flutter_spinkit: "^4.1.2"
+  country_code_picker: ^2.0.1
   # Do not change this version to anything newer for now due to AndroidX dependency issues
   webview_flutter: '0.3.3'
   package_info: ^0.4.0+3

@@ -39,7 +39,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
   get _body => ListView(
         shrinkWrap: false,
         children: [
-          _cartItems,
+         // _cartItems,
           _cartInfo,
           Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),
@@ -137,15 +137,15 @@ class CartPageState extends ViewState<CartPage, CartController> {
     );
   });
 
-  get _cartItems => ControlledWidgetBuilder(
+ /* get _cartItems => ControlledWidgetBuilder(
           builder: (BuildContext context, CartController controller) {
         return ListView.builder(
           shrinkWrap: true,
           itemCount: controller.cart.cartItems.length,
             itemBuilder: (BuildContext context, int index) {
-          return CartItem(controller.cart.cartItems[index]);
+          return CartItemView(controller.cart.cartItems[index]);
         });
-      });
+      });*/
 
   _isCartEmpty(CartController controller) {
     return controller.cart == null ||

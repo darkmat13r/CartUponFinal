@@ -17,7 +17,7 @@ class CartStream{
 
   addToCart(ProductDetail productDetail) async{
     _cartItem++;
-    await repo.addProductToCart(productDetail);
+    await repo.addToCart(productDetail);
     var items = await repo.getQuantity();
     stream.add(items);
   }

@@ -129,7 +129,8 @@ ThemeData appTheme(BuildContext context) => ThemeData(
           hintStyle: formHintText,
           contentPadding: EdgeInsets.symmetric(
               vertical: Dimens.spacingSmall, horizontal: Dimens.spacingMedium),
-          focusColor: AppColors.neutralGray,
+          focusColor: AppColors.neutralDark,
+
           fillColor: AppColors.formFieldBg,
           filled: true,
           prefixStyle: TextStyle(color: AppColors.accent),

@@ -1,7 +1,8 @@
+import 'package:coupon_app/app/components/cart_item.dart';
 import 'package:coupon_app/domain/mapper/cart_item_mapper.dart';
 
 class Cart{
-  List<CartItemMapper> cartItems;
+  List<CartItemView> cartItems;
   int quantity;
   double price;
   double total;

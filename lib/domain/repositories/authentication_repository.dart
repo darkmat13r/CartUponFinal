@@ -7,10 +7,15 @@ import 'package:coupon_app/domain/entities/user_entity.dart';
 /// A repository tasked with user authentication and registration.
 abstract class AuthenticationRepository {
   /// Registers a new user using the provided [username] and [password]
-  Future<void> register(
-      {
-      @required String fullName,
-        @required String email,
+  Future<Token> register(
+      {@required String firstName,
+      @required String lastName,
+      @required String username,
+      @required String email,
+      @required String countryCode,
+      @required String mobileNo,
+      @required String dateOfBirth,
+      @required String isActive,
       @required String password});
 
   /// Authenticates a user using his [username] and [password]
@@ -22,8 +27,6 @@ abstract class AuthenticationRepository {
 
   /// Returns the current authenticated [UserEntity].
   Future<Token> getCurrentUser();
-
-
 
   /// Resets the password of a [UserEntity]
   Future<void> forgotPassword(String email);

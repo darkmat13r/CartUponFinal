@@ -30,7 +30,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
 
   // AuthenticationRepository Methods
 
-  /// Registers a `User` using a [email] and a [password] by making an API call to the server.
+  /* /// Registers a `User` using a [email] and a [password] by making an API call to the server.
   /// It is asynchronous and can throw an `APIException` if the statusCode is not 200.
   Future<void> register(
       {@required String fullName,
@@ -51,8 +51,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       _logger.warning('Could not register new user.', error);
       rethrow;
     }
-  }
-
+  }*/
 
   /// Logs in a `User` using a [email] and a [password] by making an API call to the server.
   /// It is asynchronous and can throw an `APIException` if the statusCode is not 200.
@@ -78,8 +77,6 @@ class DataAuthenticationRepository implements AuthenticationRepository {
     }
   }
 
-
-
   /// Returns whether the current `User` is authenticated.
   Future<bool> isAuthenticated() async {
     try {
@@ -92,9 +89,10 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   }
 
   Future<void> forgotPassword(String email) async {
-
     try {
-      await HttpHelper.invokeHttp(   Constants.forgotPasswordRoute, RequestType.post,  body :{'email': email});
+      await HttpHelper.invokeHttp(
+          Constants.forgotPasswordRoute, RequestType.post,
+          body: {'email': email});
     } catch (error) {
       _logger.warning('Could not send reset password request.', error);
       rethrow;
@@ -119,7 +117,46 @@ class DataAuthenticationRepository implements AuthenticationRepository {
     return SessionHelper().getCurrentUser();
   }
 
+  @override
+  Future<Token> register(
+      {String firstName,
+      String lastName,
+      String username,
+      String email,
+      String countryCode,
+      String mobileNo,
+      String dateOfBirth,
+      String isActive,
+      String password}) async {
+    try {
+      Map<String, String> headers = {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.connectionHeader: "keep-alive",
 
-
-
+      };
+      Map<String, dynamic> body =
+         await HttpHelper.invokeHttp(Constants.registerRoute, RequestType.post,
+              headers: headers,
+              body: jsonEncode({
+                'country_code': countryCode,
+                'mobile_no': mobileNo,
+                'date_of_birth': dateOfBirth,
+                'user': {
+                  'first_name': firstName,
+                  'last_name': lastName,
+                  'username': email,
+                  'email': email,
+                  'password': password,
+                  'is_active': 1,
+                }
+              }));
+      Token token = Token.fromJson(body);
+      SessionHelper().saveCredentials(token: token.key, user: token);
+      _logger.finest('Registration is successful');
+      return token;
+    } catch (error) {
+      _logger.warning('Could not register new user.', error);
+      rethrow;
+    }
+  }
 }

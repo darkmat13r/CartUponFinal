@@ -5,16 +5,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-class CartItem extends StatefulWidget {
+class CartItemView extends StatefulWidget {
   CartItemMapper cartItemMapper;
 
-  CartItem(this.cartItemMapper);
+  CartItemView(this.cartItemMapper);
 
   @override
-  State<StatefulWidget> createState() => CartItemState();
+  State<StatefulWidget> createState() => CartItemViewState();
 }
 
-class CartItemState extends State<CartItem> {
+class CartItemViewState extends State<CartItemView> {
   String selectedCount;
 
   @override

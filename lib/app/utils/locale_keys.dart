@@ -16,6 +16,12 @@ class LocaleKeys {
 
   //Register Page
   static const register = 'register';
+  static const errorFirstNameRequired = 'errorFirstNameRequired';
+  static const errorLastNameRequired = 'errorLastNameRequired';
+  static const errorEmailRequired = 'errorEmailRequired';
+  static const errorDateOfBirthRequired = 'errorDateOfBirthRequired';
+  static const errorPhoneRequired = 'errorPhoneRequired';
+
   static const or = 'or';
   static const hintSearchProduct = 'hintSearchProduct';
   static const category = 'category';
@@ -127,6 +133,7 @@ class LocaleKeys {
   static const state  = "state";
   static const zipCode  = "zipCode";
   static const phoneNumber  = "phoneNumber";
+  static const errorInvalidEmail  = "errorInvalidEmail";
 
   //Forgot Password
   static const sendInstructions  = "sendInstructions";

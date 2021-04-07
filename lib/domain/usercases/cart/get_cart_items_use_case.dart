@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:coupon_app/app/components/cart_item.dart';
 import 'package:coupon_app/domain/entities/cart.dart';
 import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -17,11 +18,11 @@ class GetCartItemsUseCase extends CompletableUseCase<void>{
     try{
       var items = await cartRepository.getCartItems();
       var quantity = await cartRepository.getQuantity();
-      double total = 0;
+      /*double total = 0;
       items.forEach((element) {
         total += double.parse(element.price) * element.quantity ;
       });
-      controller.add(Cart(quantity: quantity, cartItems: items, total: total));
+      controller.add(Cart(quantity: quantity, cartItems: items, total: total));*/
     }catch(e){
       print(e);
       controller.addError(e);
