@@ -1,5 +1,8 @@
-import './sensitive.dart';
+import 'dart:io';
 
+import 'package:coupon_app/domain/utils/session_helper.dart';
+
+import './sensitive.dart';
 class Constants {
   // APIs
   static const String schema = "https";
@@ -9,7 +12,9 @@ class Constants {
   static const String loginRoute = '$baseUrl/login/';
   static const String forgotPasswordRoute = '$baseUrl/forgot-password';
   static const String registerRoute = '$baseUrl/customerwebapi/';
-  static const String addressRoute = '$baseUrl/addresswebapi';
+  static const String areaRoute = '$baseUrl/areawebapi/';
+  static const String blockRoute = '$baseUrl/blockwebapi/';
+  static const String addressRoute = '$baseUrl/addresswebapi/';
   static const String cartRoute = '$baseUrl/cartwebapi';
   static const String userRoute = '$baseUrl/user';
 
@@ -46,4 +51,12 @@ class Strings {
       'Enter the email address associated with the forgotten account. Further instructions will be sent the account email.';
 
   static String loginFormIncomplete = "Form must be filled out";
+}
+
+extension AuthHeader on String{
+  createAuthHeader() async{
+    return {
+      HttpHeaders.authorizationHeader : "Token ${await SessionHelper().getToken()}"
+    };
+  }
 }

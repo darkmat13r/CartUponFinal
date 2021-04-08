@@ -19,7 +19,7 @@ class HttpHelper {
   static Future<T> invokeHttp<T>(dynamic url, RequestType type, {Map<String, String> headers, dynamic body, Encoding encoding}) async {
     http.Response response;
     T responseBody;
-    print("------------ ${body}");
+    print("------------ ${headers}");
     try {
       response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
       responseBody = jsonDecode(response.body);
@@ -54,17 +54,9 @@ class HttpHelper {
   /// Invoke the `http` request, returning the [http.Response] unparsed.
   static Future<http.Response> _invoke(dynamic url, RequestType type, {Map<String, String> headers, dynamic body, Encoding encoding}) async {
     http.Response response;
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-   /* var authorization = 'Bearer ${await preferences.getString(Constants.tokenKey)}';
-    if(headers == null || headers.isEmpty){
-      headers = {
-        'Authorization' : authorization
-      };
-    }else {
-      headers['Authorization'] = authorization;
-    }
-*/
+
     print("URL =>>>>> ${url}");
+    print("headers----------> ${headers}");
     var uri = Uri.parse(url);
     try {
       switch (type) {

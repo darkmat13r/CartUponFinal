@@ -19,7 +19,7 @@ class ProductController extends BaseController {
 
   ProductPresenter _presenter;
 
-  ProductVariantValue _selectedProductVariant;
+  ProductVariantValue selectedProductVariant;
 
   ProductController(this.product, ProductRepository productRepository)
       : _presenter = ProductPresenter(product, productRepository);
@@ -59,7 +59,7 @@ class ProductController extends BaseController {
   }
 
   onSelectVariant(ProductVariantValue variantValue){
-    this._selectedProductVariant = variantValue;
+    this.selectedProductVariant = variantValue;
     showGenericSnackbar(getContext(), "Variant Seleected");
     refreshUI();
 

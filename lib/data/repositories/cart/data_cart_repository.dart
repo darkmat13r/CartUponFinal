@@ -2,6 +2,7 @@ import 'package:coupon_app/app/components/cart_item.dart';
 import 'package:coupon_app/data/utils/database_helper.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
+import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
 import 'package:coupon_app/domain/mapper/cart_item_mapper.dart';
 import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:sqflite/sqflite.dart';
@@ -14,8 +15,8 @@ class DataCartRepository extends CartRepository {
   factory DataCartRepository() => _instance;
 
   @override
-  Future<void> addToCart(ProductDetail product) async {
-    final Database db = await DatabaseHelper().getDatabase();
+  Future<CartItem> addToCart(ProductDetail product, ProductVariantValue variantValue) async {
+
   /*  CartItem cartItem = await findItem(product.id, CartItemMapper.COUPON);
     if (cartItem == null)
       await db.insert('cart_items', CartItemMapper.withProduct(product).toMap());

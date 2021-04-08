@@ -18,6 +18,8 @@ class CreateAddressUseCase extends CompletableUseCase<Address>{
     StreamController<Address> controller = StreamController();
     try {
       var data = await _repository.saveAddress(
+          firstName: params.first_name,
+          lastName: params.last_name,
           area: params.area,
           address: params.address,
           phoneNo: params.phone_no,

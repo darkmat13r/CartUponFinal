@@ -282,7 +282,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                           Expanded(
                             child: RaisedButton.icon(
                               onPressed: () {
-                                CartStream().addToCart(controller.product);
+                                CartStream().addToCart(controller.product, controller.selectedProductVariant);
                               },
                               icon: Icon(
                                 MaterialCommunityIcons.cart_plus,
@@ -403,7 +403,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
               ),
             ),
             Container(
-              height: 280,
+              height: 260,
               width: double.infinity,
               child: ListView.builder(
                 shrinkWrap: true,
@@ -424,6 +424,6 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
       });
 
   get _body => ListView(
-        children: [_productDetails, _recommended(LocaleKeys.similarProducts)],
+        children: [_productDetails, _recommended(LocaleKeys.similarProducts.tr()), SizedBox(height: Dimens.spacingLarge,)],
       );
 }

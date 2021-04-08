@@ -56,4 +56,10 @@ class SessionHelper {
       _logger.warning('Credentials could not be stored.');
     }
   }
+
+  getToken() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var token =  preferences.getString(Constants.tokenKey);
+    return token;
+  }
 }

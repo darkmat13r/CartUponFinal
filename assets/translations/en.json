@@ -151,6 +151,24 @@
   "loginSignup" : "Sign In/Sign Up",
   "updateProfile" : "Update Profile",
   "update" : "Update",
-  "profileUpdated" : "Profile Updated"
-
+  "floorFlat" : "Floor/Flat",
+  "building" : "Building",
+  "area" : "Area",
+  "block" : "Block",
+  "txtDefaultAddress" : "Set this address your default address",
+  "errorFloorFlatRequired" : "Floor/Flat is required",
+  "errorBuildingRequired" : "Building is required",
+  "errorAddressRequired" : "Address is required",
+  "errorBlockRequired" : "Block is required",
+  "errorAreaRequired" : "Area is required",
+  "chooseArea" : "Choose Area",
+  "chooseBlock" : "Choose Block",
+  "hintFirstName" : "Enter your first name",
+  "hintLastName" : "Enter your last name",
+  "hintArea" : "Select Area",
+  "hintBlock" : "Select Block",
+  "hintFlat" : "Enter your floor/flat number",
+  "hintBuilding" : "Enter building number",
+  "hintPhone" : "Enter your phone number",
+  "hintAddress": "Enter your address"
 }

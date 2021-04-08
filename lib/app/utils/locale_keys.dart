@@ -177,6 +177,27 @@ class LocaleKeys {
   static var updateProfile = "updateProfile";
   static var update = "update";
   static var profileUpdated = "profileUpdated";
+  static var floorFlat = "floorFlat";
+  static var building = "building";
+  static var area = "area";
+  static var block = "block";
+  static var txtDefaultAddress = "txtDefaultAddress";
+  static var errorFloorFlatRequired = "errorFloorFlatRequired";
+  static var errorBuildingRequired = "errorBuildingRequired";
+  static var errorAddressRequired = "errorAddressRequired";
+  static var errorBlockRequired = "errorBlockRequired";
+  static var errorAreaRequired = "errorAreaRequired";
+  static var chooseArea = "chooseArea";
+  static var chooseBlock = "chooseBlock";
+
+  static var hintFirstName = "hintFirstName";
+  static var hintLastName = "hintLastName";
+  static var hintArea = "hintArea";
+  static var hintBlock = "hintBlock";
+  static var hintFlat = "hintFlat";
+  static var hintBuilding = "hintBuilding";
+  static var hintPhone = "hintPhone";
+  static var hintAddress = "hintAddress";
 
 
 }

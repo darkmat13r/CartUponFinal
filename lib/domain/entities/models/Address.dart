@@ -1,4 +1,6 @@
 class Address {
+    String first_name;
+    String last_name;
     String address;
     String area;
     String block;
@@ -9,12 +11,14 @@ class Address {
     String phone_no;
     int user;
 
-    Address({this.address, this.area, this.block, this.building, this.floor_flat, this.id, this.is_default, this.phone_no, this.user});
+    Address({this.first_name, this.last_name,this.address, this.area, this.block, this.building, this.floor_flat, this.id, this.is_default, this.phone_no, this.user});
 
     factory Address.fromJson(Map<String, dynamic> json) {
         return Address(
-            address: json['address'], 
-            area: json['area'], 
+            first_name: json['first_name'],
+            last_name: json['last_name'],
+            address: json['address'],
+            area: json['area'],
             block: json['block'], 
             building: json['building'], 
             floor_flat: json['floor_flat'], 
@@ -27,6 +31,8 @@ class Address {
 
     Map<String, dynamic> toJson() {
         final Map<String, dynamic> data = new Map<String, dynamic>();
+        data['first_name'] = this.first_name;
+        data['last_name'] = this.last_name;
         data['address'] = this.address;
         data['area'] = this.area;
         data['block'] = this.block;
