@@ -39,11 +39,9 @@ class AddressesController extends BaseController {
     _presenter.deleteAddressOnNext = (res){
     };
     _presenter.deleteAddressOnError = (e){
-      Navigator.of(getContext()).pop();
       showGenericSnackbar(getContext(), e.message, isError: true);
     };
     _presenter.deleteAddressOnComplete = (){
-      Navigator.of(getContext()).pop();
       _presenter.fetchAddresses();
     };
   }
