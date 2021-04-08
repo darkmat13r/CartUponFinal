@@ -41,6 +41,7 @@ class AddressesPageState extends ViewState<AddressesPage, AddressesController> {
             SizedBox(
               height: Dimens.spacingMedium,
             ),
+            _addresses,
             SizedBox(
               height: Dimens.spacingMedium,
             ),
@@ -51,6 +52,8 @@ class AddressesPageState extends ViewState<AddressesPage, AddressesController> {
   get _addresses => ControlledWidgetBuilder(
           builder: (BuildContext context, AddressesController controller) {
         return ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             itemCount:
                 controller.addresses != null ? controller.addresses.length : 0,
             itemBuilder: (BuildContext context, int index) {

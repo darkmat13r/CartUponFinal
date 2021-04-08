@@ -198,6 +198,12 @@ class LocaleKeys {
   static var hintBuilding = "hintBuilding";
   static var hintPhone = "hintPhone";
   static var hintAddress = "hintAddress";
+  static var ok = "ok";
+  static var cancel = "cancel";
+  static var warning = "warning";
+  static var error = "error";
+  static var alert = "alert";
+  static var confirmDelete = "confirmDelete";
 
 
 }

@@ -72,7 +72,6 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       SessionHelper().saveCredentials(token: user.key, user: user);
       return user;
     } catch (error) {
-      _logger.warning(error.message);
       rethrow;
     }
   }
@@ -163,8 +162,12 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   Future<Token> getProfile() async {
     try {
       Token currentUser = await getCurrentUser();
+
       Map<String, dynamic> profileData = await HttpHelper.invokeHttp(
-          "${Constants.registerRoute}${currentUser.id}", RequestType.get);
+          "${Constants.registerRoute}${currentUser.id}", RequestType.get,  headers: {
+        HttpHeaders.authorizationHeader : "Token ${ (await SessionHelper().getToken())}"
+      },);
+
       Token token = Token.fromJson(profileData);
       SessionHelper().updateUser(user: token);
       return token;

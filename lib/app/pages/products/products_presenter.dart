@@ -47,7 +47,6 @@ class _ProductsObserver extends Observer<HomeData>{
   @override
   void onError(e) {
     assert(_presenter.getHomePageOnError != null);
-    print(e.stackTrace.toString());
     _presenter.getHomePageOnError(e);
   }
 

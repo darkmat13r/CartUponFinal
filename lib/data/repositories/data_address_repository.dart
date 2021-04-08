@@ -24,7 +24,7 @@ class DataAddressRepository extends AddressRepository {
   Future<void> delete(String id) async {
     try {
       await HttpHelper.invokeHttp(
-          "${Constants.addressRoute}/${id}", RequestType.delete);
+          "${Constants.addressRoute}${id}", RequestType.delete);
     } catch (e) {
       _logger.shout(e);
       rethrow;
@@ -38,7 +38,9 @@ class DataAddressRepository extends AddressRepository {
       var url = Constants.createUriWithParams(
           "${Constants.addressRoute}", {'user_id': token.user.id.toString()});
       List<dynamic> addressesData =
-          await HttpHelper.invokeHttp2(url, RequestType.get);
+          await HttpHelper.invokeHttp2(url, RequestType.get,headers: {
+            HttpHeaders.authorizationHeader : "Token ${ (await SessionHelper().getToken())}"
+          },);
       List<Address> addresses =
           addressesData.map((e) => Address.fromJson(e)).toList();
       return addresses;
@@ -62,9 +64,6 @@ class DataAddressRepository extends AddressRepository {
       String phoneNo}) async {
     try {
       Token token = await SessionHelper().getCurrentUser();
-
-      print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Token ${(await SessionHelper().getCurrentUser())}");
-      var headers = (await SessionHelper().getToken()).toString().createAuthHeader();
       Map<String, dynamic> data = await HttpHelper.invokeHttp(
           "${Constants.addressRoute}", RequestType.post,
           headers: {
@@ -79,13 +78,12 @@ class DataAddressRepository extends AddressRepository {
             'building': building,
             'floor_flat': floorFlat,
             'address': address,
-            'phone': phoneNo,
+            'phone_no': phoneNo,
             'is_default': isDefault ? "1" : "0"
           });
       Address addressObj = Address.fromJson(data);
       return addressObj;
     } catch (e) {
-      print("`````````````````${e.stackTrace}");
       _logger.shout(e);
       rethrow;
     }
@@ -104,7 +102,10 @@ class DataAddressRepository extends AddressRepository {
       String phoneNo}) async {
     try {
       Map<String, dynamic> data = await HttpHelper.invokeHttp(
-          "${Constants.addressRoute}/${id}", RequestType.put,
+          "${Constants.addressRoute}${id}", RequestType.put,
+          headers: {
+            HttpHeaders.authorizationHeader : "Token ${ (await SessionHelper().getToken())}"
+          },
           body: {
             'first_name': firstName,
             'last_name': lastName,

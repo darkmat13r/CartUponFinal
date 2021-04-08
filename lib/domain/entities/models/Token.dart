@@ -14,7 +14,7 @@ class Token {
         return Token(
             country_code: json['country_code'] ?? "",
             date_of_birth: json['date_of_birth'] ?? "",
-            id: json['id'] ?? "",
+            id: json['id'] ?? 0,
             key: json['key'] ?? "",
             mobile_no: json['mobile_no'] ?? "",
             user: json['user'] != null ? User.fromJson(json['user']) : null, 

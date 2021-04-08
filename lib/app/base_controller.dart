@@ -20,6 +20,7 @@ abstract class BaseController extends Controller {
     };
     authPresenter.logoutOnComplete = (){
       onLoggedOut();
+
     };
     authPresenter.logoutOnError = (e){
       dismissLoading();
@@ -34,6 +35,7 @@ abstract class BaseController extends Controller {
   onAuthError(e) {}
 
   onLoggedOut(){
+    currentUser = null;
     refreshUI();
   }
 
@@ -41,6 +43,7 @@ abstract class BaseController extends Controller {
     if(_authPresenter != null){
       _authPresenter.logout();
     }
+    refreshUI();
   }
 
   showLoading() {

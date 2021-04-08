@@ -24,7 +24,6 @@ class HttpHelper {
       response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
       responseBody = jsonDecode(response.body);
     } catch (error) {
-      print('Respoinse error invoike Https ${error}');
       rethrow;
     }
 
@@ -81,14 +80,26 @@ class HttpHelper {
       dynamic responseBody = jsonDecode(response.body);
       // check for any errors
       if (response.statusCode != 200 && response.statusCode != 201) {
+        print("====================>${response.statusCode}");
+        if(responseBody is Map){
+          var values = (responseBody as Map).entries.first.value;
+          print("---------------->${values}");
+          if(values is List){
+            throw APIException(
+                values.first.toString(), response.statusCode,  values.first.toString());
+          }else{
+            throw APIException(
+                values, response.statusCode,  values.toString());
+          }
+
+        }else{
+          print("----------------> response map");
+        }
         throw APIException(
-            responseBody['message'], response.statusCode, responseBody['statusText']);
+           "Something went wrong!", response.statusCode,  "api_error");
       }else{
         print("${response.statusCode}");
-        /*if(responseBody['error']){
-          throw APIException(
-              responseBody['message'], response.statusCode, responseBody['statusText']);
-        }*/
+
       }
       return response;
     } on http.ClientException catch(e){

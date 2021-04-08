@@ -44,7 +44,6 @@ class _RegisterObserver extends Observer<Token>{
   void onError(e) {
     assert(_presenter.registerOnError != null);
     print("============>error");
-    print("============>error "  + e.stackTrace.toString());
     _presenter.registerOnError(e);
   }
 

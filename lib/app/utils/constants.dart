@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -95,13 +96,53 @@ void showGenericDialog(BuildContext context, String title, String message) {
           TextButton(onPressed: () {
             Navigator.pop(ctx);
           },
-            child: Text("OK", style: buttonText,),
+            child: Text("OK", style: buttonText.copyWith(color: AppColors.neutralGray),),
 
           )
         ],
       ));
 }
+void showLoadingDialog(BuildContext context){
+  showDialog(context: context, builder: (ctx){
+    return AlertDialog(
+      content: Container(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+  });
+}
+void showGenericConfirmDialog(BuildContext context, String title, String message, {Function onCancel, Function onConfirm}) {
+  var dialog = showDialog(
+      context: context,
+      builder: (ctx) => new AlertDialog(
+        title: new Text(title),
+        content: new Text(message),
+        actions: [
+          TextButton(onPressed: () {
+            if(onCancel!= null){
+              onCancel();
+            }
+            Navigator.pop(ctx);
+          },
+            child: Text(LocaleKeys.cancel.tr(), style: buttonText.copyWith(color: AppColors.neutralGray),),
 
+          ),
+          RaisedButton(
+            color: AppColors.error,
+            onPressed: () {
+            if(onConfirm!= null){
+              onConfirm();
+            }
+            Navigator.pop(ctx);
+          },
+            child: Text(LocaleKeys.ok.tr(), style: buttonText.copyWith(color: AppColors.neutralLight),),
+
+          )
+        ],
+      ));
+}
 class Dimens {
   static const double cornerRadius = 8;
   static const double borderWidth = 1;

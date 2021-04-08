@@ -170,5 +170,11 @@
   "hintFlat" : "Enter your floor/flat number",
   "hintBuilding" : "Enter building number",
   "hintPhone" : "Enter your phone number",
-  "hintAddress": "Enter your address"
+  "hintAddress": "Enter your address",
+  "ok" : "Ok",
+  "cancel" : "Cancel",
+  "warning" : "Warning!",
+  "error" : "Error",
+  "confirmDelete"  : "Do you really want to delete?",
+  "alert" : "Alert"
 }
