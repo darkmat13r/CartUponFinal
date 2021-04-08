@@ -5,8 +5,9 @@ import 'package:coupon_app/app/components/state_view.dart';
 import 'package:coupon_app/app/pages/search/search_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/data/repositories/data_category_respository.dart';
+import 'package:coupon_app/data/repositories/data_product_repository.dart';
 import 'package:coupon_app/domain/entities/models/CategoryType.dart';
-import 'file:///G:/Projects/Flutter/coupon_app/lib/data/repositories/data_product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -14,37 +15,40 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class SearchPage extends View {
   CategoryType category;
+  String  categoryId;
 
-  SearchPage({this.category});
+  SearchPage({this.category, this.categoryId});
 
   @override
-  State<StatefulWidget> createState() => SearchPageState(category);
+  State<StatefulWidget> createState() => SearchPageState(categoryType : category,categoryId: categoryId);
 }
 
 class SearchPageState extends ViewState<SearchPage, SearchController> {
-  SearchPageState(CategoryType couponCategory)
-      : super(SearchController(DataProductRepository(),
-            category: couponCategory));
+  SearchPageState({CategoryType categoryType, String categoryId})
+      : super(SearchController(DataProductRepository(), DataCategoryRepository(),
+      categoryType: categoryType, categoryId : categoryId));
 
   @override
-  Widget get view => Scaffold(
-        key: globalKey,
-        body: _body,
-        appBar: customAppBar(
-            title: Text(
-          widget.category != null ? widget.category.name : "",
-          style: heading5.copyWith(color: AppColors.primary),
-        )),
-      );
+  Widget get view => ControlledWidgetBuilder(builder: (BuildContext context, SearchController controller){
+    return Scaffold(
+      key: globalKey,
+      body: _body,
+      appBar: customAppBar(
+          title: Text(
+            controller.categoryType != null ? controller.categoryType.name : "",
+            style: heading5.copyWith(color: AppColors.primary),
+          )),
+    );
+  });
 
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, SearchController controller) {
         double cardWidth = MediaQuery.of(context).size.width / 3.3;
-        double cardHeight = 170;
+        double cardHeight = 156;
         return StateView(
             controller.isLoading
                 ? EmptyState.LOADING
-                : controller.coupons == null || controller.coupons.length == 0
+                : controller.products == null || controller.products.length == 0
                     ? EmptyState.EMPTY
                     : EmptyState.CONTENT,
             ListView(
@@ -56,20 +60,13 @@ class SearchPageState extends ViewState<SearchPage, SearchController> {
                       Expanded(
                         child: Text(
                           LocaleKeys.fmtSearchResult.tr(args: [
-                            controller.coupons != null
-                                ? controller.coupons.length.toString()
+                            controller.products != null
+                                ? controller.products.length.toString()
                                 : 0.toString()
                           ]),
                           style: bodyTextNormal1.copyWith(
                               color: AppColors.neutralGray),
                         ),
-                      ),
-                      Text(
-                        widget.category != null
-                            ? widget.category.name
-                            : "",
-                        style: bodyTextNormal1.copyWith(
-                            color: AppColors.neutralDark),
                       ),
                       _filterButton
                     ],
@@ -78,14 +75,14 @@ class SearchPageState extends ViewState<SearchPage, SearchController> {
                 GridView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: controller.coupons.length,
+                    itemCount: controller.products.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: cardWidth / cardHeight,
                     ),
                     itemBuilder: (BuildContext context, int index) {
                       return ProductItem(
-                          product: controller.coupons[index],);
+                          product: controller.products[index],);
                     })
               ],
             ));
@@ -100,7 +97,7 @@ class SearchPageState extends ViewState<SearchPage, SearchController> {
           child: Padding(
             padding: const EdgeInsets.all(4),
             child: Icon(
-              Feather.chevron_down,
+              Feather.filter,
               color: AppColors.neutralGray,
             ),
           ),

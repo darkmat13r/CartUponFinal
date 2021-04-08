@@ -7,8 +7,11 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class VariantPicker extends StatefulWidget {
   List<ProductVariant> variants;
+  Function onPickVariant;
 
-  VariantPicker(this.variants);
+  VariantPicker(this.variants, {this.onPickVariant});
+
+
 
   @override
   State<StatefulWidget> createState() => _VariantPickerState();
@@ -16,11 +19,13 @@ class VariantPicker extends StatefulWidget {
 
 class _VariantPickerState extends State<VariantPicker> {
   var variantSelected;
+  ProductVariantValue _selectVariantValue;
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
       children: List.generate(
           widget.variants != null ? widget.variants.length : 0, (index) {
         if (widget.variants[index].display_as == "v_list")
@@ -39,9 +44,12 @@ class _VariantPickerState extends State<VariantPicker> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(capitalize(variant.name), style: heading5,),
         SizedBox(
           height: Dimens.spacingMedium,
+        ),
+        Text(capitalize(variant.name), style: heading5,),
+        SizedBox(
+          height: Dimens.spacingSmall,
         ),
         SizedBox(
           height: 48,
@@ -51,25 +59,39 @@ class _VariantPickerState extends State<VariantPicker> {
             scrollDirection: Axis.horizontal,
             children: List.generate(productVariantValues.length, (index) {
               var value = productVariantValues[index];
-                return Padding(padding: EdgeInsets.only(right :  8.0),
-                child: value.value.startsWith('#') ? Container(
-                  width: 48,
-                  height: 36,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(36)),
-                      color: _getColorFromHex(value.value)
-                  ),
-                ): Container(
-                  width: 48,
-                  child: Center(child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(value.value),
-                  )),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.neutralGray),
+              var isSelected = _selectVariantValue != null && value.id ==  _selectVariantValue.id;
+              var selectedColor =  isSelected  ? AppColors.accent : AppColors.neutralGray;
+                return InkWell(
+                  onTap: (){
+                    setState(() {
+                      _selectVariantValue = value;
+                      if(widget.onPickVariant != null){
+                        widget.onPickVariant(value);
+                      }
+                    });
+                  },
+                  child: Padding(padding: EdgeInsets.only(right :  8.0),
+                  child: value.value.startsWith('#') ? Container(
+                    width: 48,
+                    height: 36,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(36)),
+                        border: Border.all(color: selectedColor, width: isSelected ? 2 : 0),
+                        color: _getColorFromHex(value.value)
+                    ),
+                  ): Container(
+                    width: 48,
+                    child: Center(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(value.value),
+                    )),
+                    decoration: BoxDecoration(
 
-                  ),
-                ),);
+                      border: Border.all(color:selectedColor , width: 2 ),
+
+                    ),
+                  ),),
+                );
             }),
           ),
         ),
@@ -102,17 +124,17 @@ class _VariantPickerState extends State<VariantPicker> {
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
-            child: DropdownButton<int>(
+            child: DropdownButton<ProductVariantValue>(
               elevation: 8,
               underline: SizedBox(),
               hint: Text(variant.name),
-              value: variantSelected,
+              value: _selectVariantValue,
               isExpanded: true,
               icon: Icon(MaterialIcons.arrow_drop_down),
               items: values.map(
                   (ProductVariantValue value) {
-                return DropdownMenuItem<int>(
-                  value: value.id,
+                return DropdownMenuItem<ProductVariantValue>(
+                  value: value,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +154,10 @@ class _VariantPickerState extends State<VariantPicker> {
               }).toList(),
               onChanged: (value) {
                 setState(() {
-                  variantSelected = value;
+                  _selectVariantValue = value;
+                  if(widget.onPickVariant != null){
+                    widget.onPickVariant(value);
+                  }
                 });
               },
             ),

@@ -10,15 +10,18 @@ import 'package:coupon_app/app/components/product_sizes.dart';
 import 'package:coupon_app/app/components/rating.dart';
 import 'package:coupon_app/app/components/review.dart';
 import 'package:coupon_app/app/components/social_share.dart';
+import 'package:coupon_app/app/components/state_view.dart';
 import 'package:coupon_app/app/components/variant_picker.dart';
 import 'package:coupon_app/app/pages/product/product_controller.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/data/repositories/data_product_repository.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -33,7 +36,9 @@ class ProductPage extends View {
 }
 
 class ProductPageView extends ViewState<ProductPage, ProductController> {
-  ProductPageView(product) : super(ProductController(product));
+  ProductPageView(product)
+      : super(ProductController(product, DataProductRepository()));
+
   @override
   Widget get view => Scaffold(
         key: globalKey,
@@ -42,244 +47,281 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
           widget.product != null ? widget.product.name : "",
           style: heading5.copyWith(color: AppColors.primary),
         )),
-        body: _body,
+        body: _view,
       );
 
   String variantSelected = null;
   int sliderImageIndex = 0;
 
-
-
-  get _productDetails => ControlledWidgetBuilder(builder: (BuildContext context, ProductController controller){
-    return ListView(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      children: [
-        CarouselSlider.builder(
-            itemCount: widget.product != null
-                ? widget.product.product.product_gallery.length
-                : 0,
-            itemBuilder: (BuildContext context, int index) {
-              var gallery = widget.product.product.product_gallery ?? [];
-              return AppImage(gallery[index].image);
-            },
-            options: CarouselOptions(
-              height: 240,
-              aspectRatio: 16 / 9,
-              viewportFraction: 1,
-              initialPage: 0,
-              enableInfiniteScroll: true,
-              reverse: false,
-              autoPlay: true,
-              onPageChanged: (index, page) {
-                setState(() {
-                  sliderImageIndex = index;
-                });
-              },
-              autoPlayInterval: Duration(seconds: 3),
-              scrollDirection: Axis.horizontal,
-            )),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnimatedSmoothIndicator(
-                activeIndex: sliderImageIndex,
-                count: widget.product != null
-                    ? widget.product.product.product_gallery.length
-                    : 0,
-                effect: WormEffect(dotWidth: 8, dotHeight: 8),
-              )
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(Dimens.spacingMedium),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          widget.product != null && double.parse(widget.product.product.dis_per) > 0 ? Text(
-                            "KD${widget.product != null ? widget.product.product.price : ""}",
-                            style: bodyTextMedium2.copyWith(
-                                color: AppColors.neutralGray,
-                                decoration: TextDecoration.lineThrough),
-                          ) : SizedBox(),
-                          Text(
-                            "KD${widget.product != null ? widget.product.product.sale_price : ""}",
-                            style:
-                            heading4.copyWith(color: AppColors.primary),
-                          )
-                        ],
-                      ),
-                    ),
-                    Stack(
-                      children: [
-                        Image.asset(
-                          Resources.offerTag,
-                          height: 36,
-                        ),
-                        Positioned(
-                          left: 0,
-                          right: 0,
-                          top: 0,
-                          bottom: 0,
-                          child: Padding(
-                            padding:
-                            const EdgeInsets.only(right: 0, left: 16),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                widget.product != null && double.parse(widget.product.product.dis_per) > 0 ? Text("${widget.product.product.dis_per}%\nOFF",
-                                    style: heading5.copyWith(
-                                        color: AppColors.neutralLight,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w900)) : SizedBox(),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: Dimens.spacingMedium,
-              ),
-              Text(
-                widget.product != null ? widget.product.name : "",
-                style: heading4.copyWith(color: AppColors.primary),
-              ),
-              SizedBox(
-                height: Dimens.spacingMedium,
-              ),
-              Text(
-                widget.product != null
-                    ? widget.product.short_description
-                    : "",
-                style: heading5.copyWith(
-                    color: AppColors.primary, fontWeight: FontWeight.w400),
-              ),
-              SizedBox(
-                height: Dimens.spacingMedium,
-              ),
-
-              SizedBox(
-                height: Dimens.spacingMedium,
-              ),
-              widget.product != null ?  VariantPicker(widget.product.product.product_variants) :SizedBox(),
-              SizedBox(
-                height: Dimens.spacingMedium,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
+  get _productDetails => ControlledWidgetBuilder(
+          builder: (BuildContext context, ProductController controller) {
+        return ListView(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            controller.product != null &&
+                    controller.product.product != null &&
+                    controller.product.product.product_gallery != null
+                ? CarouselSlider.builder(
+                    itemCount: controller.product != null &&
+                            controller.product.product != null &&
+                            controller.product.product.product_gallery != null
+                        ? controller.product.product.product_gallery.length
+                        : 0,
+                    itemBuilder: (BuildContext context, int index) {
+                      var gallery =
+                          controller.product.product.product_gallery ?? [];
+                      return AppImage(gallery[index].image);
+                    },
+                    options: CarouselOptions(
+                      height: 240,
+                      aspectRatio: 16 / 9,
+                      viewportFraction: 1,
+                      initialPage: 0,
+                      enableInfiniteScroll: true,
+                      reverse: false,
+                      autoPlay: true,
+                      onPageChanged: (index, page) {
+                        setState(() {
+                          sliderImageIndex = index;
+                        });
+                      },
+                      autoPlayInterval: Duration(seconds: 3),
+                      scrollDirection: Axis.horizontal,
+                    ))
+                : SizedBox(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child:controller.elapsedTime != null ? Row(
+                  AnimatedSmoothIndicator(
+                    activeIndex: sliderImageIndex,
+                    count: controller.product != null &&
+                            controller.product.product != null &&
+                            controller.product.product.product_gallery != null
+                        ? controller.product.product.product_gallery.length
+                        : 0,
+                    effect: WormEffect(dotWidth: 8, dotHeight: 8),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(Dimens.spacingMedium),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Image.asset(
-                          Resources.timerIcon,
-                          width: 24,
-                          height: 24,
-                          color: AppColors.primary,
-                        ),
-                        SizedBox(
-                          width: Dimens.spacingMedium,
-                        ),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              controller.product != null &&
+                                      double.parse(controller
+                                              .product.product.dis_per) >
+                                          0
+                                  ? Text(
+                                      "KD${controller.product != null ? controller.product.product.price : ""}",
+                                      style: captionNormal1.copyWith(
+                                          color: AppColors.neutralGray,
+                                          decoration:
+                                              TextDecoration.lineThrough),
+                                    )
+                                  : SizedBox(),
                               Text(
-                                "TIME LEFT",
-                                style: heading6.copyWith(
-                                  color: AppColors.primary,
-                                ),
-                              ),
-                              Text(
-                                controller.elapsedTime != null ? controller.elapsedTime : "",
-                                style: bodyTextNormal2.copyWith(
-                                    color: AppColors.primary, fontSize: 12),
+                                "KD${controller.product != null ? controller.product.product.sale_price : ""}",
+                                style: bodyTextNormal1.copyWith(
+                                    color: AppColors.primary),
                               )
                             ],
                           ),
-                        )
+                        ),
+                        controller.product != null &&
+                                double.parse(
+                                        controller.product.product.dis_per) >
+                                    0
+                            ? Stack(
+                                children: [
+                                  Image.asset(
+                                    Resources.offerTag,
+                                    height: 36,
+                                  ),
+                                  Positioned(
+                                    left: 0,
+                                    right: 0,
+                                    top: 0,
+                                    bottom: 0,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 0, left: 16),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                              "${NumberFormat("#.##").format(double.parse(controller.product.product.dis_per))}%\nOFF",
+                                              style: heading5.copyWith(
+                                                  color: AppColors.neutralLight,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w900)),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                            : SizedBox(),
                       ],
-                    ): SizedBox(),
-                  ) ,
-                ],
-              ),
-              SizedBox(
-                height: Dimens.spacingLarge,
-              ),
-              SizedBox(
-                  width: double.infinity,
-                  child: Row(
+                    ),
+                  ),
+                  SizedBox(
+                    height: Dimens.spacingMedium,
+                  ),
+                  Text(
+                    controller.product != null ? controller.product.name : "",
+                    style: heading5.copyWith(color: AppColors.primary),
+                  ),
+                  SizedBox(
+                    height: Dimens.spacingSmall,
+                  ),
+                  Text(
+                    controller.product != null
+                        ? controller.product.short_description
+                        : "",
+                    style: bodyTextNormal1.copyWith(
+                        color: AppColors.primary, fontWeight: FontWeight.w400),
+                  ),
+                  SizedBox(
+                    height: Dimens.spacingNormal,
+                  ),
+                  controller.product != null
+                      ? VariantPicker(
+                          controller.product.product.product_variants,
+                          onPickVariant: controller.onSelectVariant,
+                        )
+                      : SizedBox(),
+                  SizedBox(
+                    height: Dimens.spacingMedium,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: () {},
-                          icon: Icon(MaterialCommunityIcons.heart_outline),
-                          label: Text(
-                            "Whishlist",
-                            style: buttonText.copyWith(
-                                color: AppColors.neutralGray),
-                          ),
-                        ),
+                        child: controller.elapsedTime != null
+                            ? Row(
+                                children: [
+                                  Image.asset(
+                                    Resources.timerIcon,
+                                    width: 24,
+                                    height: 24,
+                                    color: AppColors.primary,
+                                  ),
+                                  SizedBox(
+                                    width: Dimens.spacingMedium,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          LocaleKeys.timeLeft.tr(),
+                                          style: bodyTextMedium1.copyWith(
+                                            color: AppColors.primary,
+                                          ),
+                                        ),
+                                        Text(
+                                          controller.elapsedTime != null
+                                              ? controller.elapsedTime
+                                              : "",
+                                          style: bodyTextNormal2.copyWith(
+                                              color: AppColors.primary,
+                                              fontSize: 12),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              )
+                            : SizedBox(),
                       ),
-                      SizedBox(
-                        width: Dimens.spacingLarge,
-                      ),
-                      Expanded(
-                        child: RaisedButton.icon(
-                          onPressed: () {
-                            CartStream().addToCart(widget.product);
-                          },
-                          icon: Icon(
-                            MaterialCommunityIcons.cart_plus,
-                            color: AppColors.neutralLight,
-                          ),
-                          label: Text(
-                            "Buy Now",
-                            style: buttonText,
-                          ),
-                        ),
-                      )
                     ],
-                  )),
-              SizedBox(
-                height: Dimens.spacingLarge,
+                  ),
+                  SizedBox(
+                    height: Dimens.spacingLarge,
+                  ),
+                  SizedBox(
+                      width: double.infinity,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              onPressed: () {},
+                              icon: Icon(MaterialCommunityIcons.heart_outline),
+                              label: Text(
+                                LocaleKeys.whishlist.tr(),
+                                style: buttonText.copyWith(
+                                    color: AppColors.neutralGray),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: Dimens.spacingLarge,
+                          ),
+                          Expanded(
+                            child: RaisedButton.icon(
+                              onPressed: () {
+                                CartStream().addToCart(controller.product);
+                              },
+                              icon: Icon(
+                                MaterialCommunityIcons.cart_plus,
+                                color: AppColors.neutralLight,
+                              ),
+                              label: Text(
+                                LocaleKeys.buyNow.tr(),
+                                style: buttonText,
+                              ),
+                            ),
+                          )
+                        ],
+                      )),
+                  SizedBox(
+                    height: Dimens.spacingLarge,
+                  ),
+                  SocialShareButtons(),
+                  SizedBox(
+                    height: Dimens.spacingLarge,
+                  ),
+                  Text(
+                    LocaleKeys.description.tr(),
+                    style: heading6,
+                  ),
+                  SizedBox(
+                    height: Dimens.spacingNormal,
+                  ),
+                  Html(
+                    data: controller.product != null
+                        ? controller.product.full_description
+                        : "",
+                    shrinkWrap: true,
+                  ),
+                ],
               ),
-              SocialShareButtons(),
-              Text("Description", style: heading6,),
-              Text(
-                widget.product != null
-                    ? widget.product.full_description
-                    : "",
-                style: bodyTextMedium2.copyWith(
-                    color: AppColors.neutralGray,
-                    fontWeight: FontWeight.w400),
-              ),
-            ],
-          ),
-        )
-      ],
-    );
-  });
+            )
+          ],
+        );
+      });
 
   get _reviews => ControlledWidgetBuilder(
         builder: (BuildContext context, ProductController controller) {
@@ -325,6 +367,13 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
         },
       );
 
+  get _view => ControlledWidgetBuilder(
+          builder: (BuildContext context, ProductController controller) {
+        return StateView(
+            controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT,
+            _body);
+      });
+
   Widget _recommended(String name) => ControlledWidgetBuilder(
           builder: (BuildContext context, ProductController controller) {
         return Column(
@@ -340,7 +389,11 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                     style: heading5.copyWith(color: AppColors.primary),
                   )),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (controller.product.product != null)
+                        controller.search(
+                            controller.product.product.category_id.toString());
+                    },
                     child: Text(
                       LocaleKeys.seeMore.tr(),
                       style: linkText.copyWith(color: AppColors.accent),
@@ -360,8 +413,8 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                   return SizedBox(
                     width: MediaQuery.of(context).size.width / 2,
                     child: ProductItem(
-                        product: controller.similarProducts[index],
-                        ),
+                      product: controller.similarProducts[index],
+                    ),
                   );
                 },
               ),
@@ -371,7 +424,6 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
       });
 
   get _body => ListView(
-        children: [_productDetails, _recommended("Similar Products")],
+        children: [_productDetails, _recommended(LocaleKeys.similarProducts)],
       );
-
 }

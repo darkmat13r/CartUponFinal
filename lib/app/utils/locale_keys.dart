@@ -160,5 +160,11 @@ class LocaleKeys {
   static var noData = "noData";
   static var emptyCartMsg = "emptyCartMsg";
 
+  static var whishlist = "whishlist";
+  static var timeLeft = "timeLeft";
+  static var description = "description";
+  static var similarProducts = "similarProducts";
+  static var errorInvalidCategory = "errorInvalidCategory";
+
 
 }

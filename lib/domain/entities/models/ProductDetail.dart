@@ -22,13 +22,12 @@ class ProductDetail {
             lang_type: json['lang_type'], 
             meta_desc: json['meta_desc'], 
             meta_title: json['meta_title'], 
-            name: json['name'], 
-
-            short_description: json['short_description'], 
+            name: json['name'],
+            short_description: json['short_description'],
             slug: json['slug'], 
         );
         try{
-           // productDetails.product =  json['product_id'] != null ? Product.fromJson(json['product_id']) : null;
+            productDetails.product =  json['product_id'] != null ? Product.fromJson(json['product_id']) : null;
         }catch(e){
 
         }

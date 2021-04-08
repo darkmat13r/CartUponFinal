@@ -48,7 +48,7 @@ class ProductItemState extends State<ProductItem> {
                         borderRadius: const BorderRadius.all(
                             Radius.circular(Dimens.cornerRadius)),
                         color: AppColors.neutralLight),
-                    child: AppImage(widget.product.product.thumb_img)),
+                    child: AppImage(widget.product.product != null ? widget.product.product.thumb_img : "")),
                 Padding(
                   padding: const EdgeInsets.all(Dimens.spacingMedium),
                   child: Column(
@@ -110,6 +110,7 @@ class ProductItemState extends State<ProductItem> {
   }
 
   _countdownView(ProductDetail product) {
+    if(product.product == null) return SizedBox();
     if (product.product.valid_to != null &&
         product.product.valid_from != null) {
       return CountdownView(

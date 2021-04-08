@@ -134,6 +134,12 @@
   "gender" : "Gender",
   "fmtSearchResult" : "{} Result",
   "noData" : "No data available",
-  "emptyCartMsg" : "Your cart is empty"
+  "emptyCartMsg" : "Your cart is empty",
+
+  "whishlist" : "Whishlist",
+  "timeLeft" : "Time Left",
+  "description" : "Description",
+  "similarProducts" : "Similar Products",
+  "errorInvalidCategory" : "Invalid Category"
 
 }

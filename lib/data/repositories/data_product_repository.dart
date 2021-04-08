@@ -1,7 +1,9 @@
 import 'package:coupon_app/app/utils/config.dart';
+import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
 import 'package:coupon_app/domain/entities/models/Product.dart';
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:logging/logging.dart';
 
@@ -19,17 +21,27 @@ class DataProductRepository extends ProductRepository{
 
 
   @override
-  Future<List<Product>> getProducts({String categoryId, String country}) async{
+  Future<List<ProductDetail>> getProducts({String categoryId, String country}) async{
     try{
       var uri = Constants.createUriWithParams(Constants.products, {
         'category' : categoryId,
-        //'lang' : Config().locale.languageCode
-        'lang' : "0"
+        'lang' :  Config().getLanguageId().toString()
       });
-      print("URI " + uri.toString());
       List<dynamic> data = await HttpHelper.invokeHttp(uri, RequestType.get);
-      dynamic response =  data.map((e) => Product.fromJson(e)).toList();
+      dynamic response =  data.map((e) => ProductDetail.fromJson(e)).toList();
       return response;
+    }catch(e){
+      print(e);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ProductDetail> getById(String productId) async{
+    try{
+      Map<String, dynamic>  data = await HttpHelper.invokeHttp("${Constants.products}$productId", RequestType.get);
+      ProductDetail  product = ProductDetail.fromJson(data);
+      return product;
     }catch(e){
       print(e);
       rethrow;

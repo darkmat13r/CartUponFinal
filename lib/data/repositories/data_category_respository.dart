@@ -29,6 +29,18 @@ class DataCategoryRepository extends CategoryRepository {
     }
   }
 
+  @override
+  Future<CategoryType> getCategory(String categoryId) async {
+    try{
+      Map<String, dynamic> data = await HttpHelper.invokeHttp("${Constants.categories}/$categoryId", RequestType.get);
+      CategoryType response = CategoryType.fromJson(data);
+      return response;
+    }catch(e){
+      rethrow;
+    }
+  }
+
+
 
 
 }

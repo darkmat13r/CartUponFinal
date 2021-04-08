@@ -89,8 +89,8 @@ ThemeData appTheme(BuildContext context) => ThemeData(
       primaryColor: AppColors.primary,
       brightness: Brightness.light,
       snackBarTheme: SnackBarThemeData(
-        backgroundColor: AppColors.cardBg,
-        actionTextColor: AppColors.neutralDark,
+        backgroundColor: AppColors.neutralDark,
+        actionTextColor: AppColors.accent,
       ),
       appBarTheme: AppBarTheme(
         color: AppColors.neutralLight,

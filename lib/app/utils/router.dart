@@ -78,7 +78,9 @@ class AppRouter {
   categorySearch(BuildContext context, CategoryType category){
     Navigator.of(context).push(_buildRoute(RouteSettings(), SearchPage(category:category,)));
   }
-
+  categorySearchById(BuildContext context, String categoryId){
+    Navigator.of(context).push(_buildRoute(RouteSettings(), SearchPage(categoryId:categoryId,)));
+  }
   MaterialPageRoute _buildRoute(RouteSettings settings, Widget builder) {
     return new MaterialPageRoute(settings: settings, builder: (ctx) => builder);
   }
