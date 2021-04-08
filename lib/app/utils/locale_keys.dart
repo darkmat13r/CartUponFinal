@@ -165,6 +165,18 @@ class LocaleKeys {
   static var description = "description";
   static var similarProducts = "similarProducts";
   static var errorInvalidCategory = "errorInvalidCategory";
+  static var greetings = "greetings";
+  static var logout = "logout";
+
+  static var descUpdateProfile = "descUpdateProfile";
+  static var descUpdatePassword = "descUpdatePassword";
+  static var descOrder = "descOrder";
+  static var descAddress = "descAddress";
+  static var descWallet = "descWallet";
+  static var loginSignup = "loginSignup";
+  static var updateProfile = "updateProfile";
+  static var update = "update";
+  static var profileUpdated = "profileUpdated";
 
 
 }

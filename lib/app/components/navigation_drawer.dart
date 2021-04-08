@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class NavigationDrawer extends StatefulWidget {
-  GlobalKey key;
 
-  NavigationDrawer(this.key);
+  NavigationDrawer();
 
   @override
   State<StatefulWidget> createState() => _NavigationDrawerState();
@@ -17,7 +16,6 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      key: widget.key,
       child: SizedBox(
         width: 240,
         child: ListView(

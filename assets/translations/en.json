@@ -140,6 +140,17 @@
   "timeLeft" : "Time Left",
   "description" : "Description",
   "similarProducts" : "Similar Products",
-  "errorInvalidCategory" : "Invalid Category"
+  "errorInvalidCategory" : "Invalid Category",
+  "greetings" : "Hello, ",
+  "logout" : "Logout",
+  "descUpdateProfile" : "Update your profile",
+  "descUpdatePassword" : "Update your password",
+  "descOrder" : "Check your order status",
+  "descAddress" : "Manage your address book",
+  "descWallet" : "Check you wallet",
+  "loginSignup" : "Sign In/Sign Up",
+  "updateProfile" : "Update Profile",
+  "update" : "Update",
+  "profileUpdated" : "Profile Updated"
 
 }

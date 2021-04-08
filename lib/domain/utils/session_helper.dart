@@ -26,6 +26,20 @@ class SessionHelper {
         .fromJson(jsonDecode(preferences.getString(Constants.userKey)));
     return user;
   }
+  void updateUser(
+      {@required Token user}) async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await Future.wait([
+        preferences.setBool(Constants.isAuthenticatedKey, true),
+        preferences.setString(Constants.userKey, jsonEncode(user))
+      ]);
+      _logger.finest('Credentials successfully stored.');
+    } catch (error) {
+      _logger.warning('Credentials could not be stored.');
+    }
+  }
+
 
   /// Saves the [token] and the [user] in `SharedPreferences`.
   void saveCredentials(

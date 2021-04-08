@@ -54,23 +54,20 @@ class AddressesPageState extends ViewState<AddressesPage, AddressesController>{
   get _address => ControlledWidgetBuilder(builder: (BuildContext context, AddressesController controller){
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(Dimens.spacingMedium),
+        padding: const EdgeInsets.only(left: Dimens.spacingMedium , right: Dimens.spacingMedium , top: Dimens.spacingMedium),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Avinash Kumawat", style: heading5,),
             SizedBox(
-              height: Dimens.spacingMedium,
+              height: Dimens.spacingNormal,
             ),
             Text("Udaipur, Rajasthan", style: bodyTextNormal1.copyWith(color: AppColors.neutralGray),),
             SizedBox(
-              height: Dimens.spacingMedium,
+              height: Dimens.spacingNormal,
 
             ),
             Text("+91 94852 8454", style: bodyTextNormal1.copyWith(color: AppColors.neutralGray),),
-            SizedBox(
-              height: Dimens.spacingMedium,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

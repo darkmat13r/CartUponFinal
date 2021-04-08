@@ -65,9 +65,9 @@ class MainPageView extends ViewState<MainPage, MainController> {
   @override
   Widget get view => Scaffold(
         appBar: _appBar,
-        key: globalKey,
+        key: _drawerKey,
         body: _body,
-        endDrawer: NavigationDrawer(_drawerKey),
+        endDrawer: NavigationDrawer(),
         bottomNavigationBar: _bottomNavigation,
       );
 

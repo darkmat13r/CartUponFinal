@@ -132,10 +132,9 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       Map<String, String> headers = {
         HttpHeaders.contentTypeHeader: "application/json",
         HttpHeaders.connectionHeader: "keep-alive",
-
       };
       Map<String, dynamic> body =
-         await HttpHelper.invokeHttp(Constants.registerRoute, RequestType.post,
+          await HttpHelper.invokeHttp(Constants.registerRoute, RequestType.post,
               headers: headers,
               body: jsonEncode({
                 'country_code': countryCode,
@@ -147,7 +146,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
                   'username': email,
                   'email': email,
                   'password': password,
-                  'is_active': 1,
+                  'is_active': "1",
                 }
               }));
       Token token = Token.fromJson(body);
@@ -156,6 +155,63 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       return token;
     } catch (error) {
       _logger.warning('Could not register new user.', error);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Token> getProfile() async {
+    try {
+      Token currentUser = await getCurrentUser();
+      Map<String, dynamic> profileData = await HttpHelper.invokeHttp(
+          "${Constants.registerRoute}${currentUser.id}", RequestType.get);
+      Token token = Token.fromJson(profileData);
+      SessionHelper().updateUser(user: token);
+      return token;
+    } catch (error) {
+      _logger.warning('Could not send reset password request.', error);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Token> update(
+      {String firstName,
+      String lastName,
+      String username,
+      String email,
+      String countryCode,
+      String mobileNo,
+      String dateOfBirth,
+      String isActive}) async{
+    try {
+      Map<String, String> headers = {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.acceptHeader: "application/json",
+        HttpHeaders.connectionHeader: "keep-alive",
+      };
+      Token currentUser = await getCurrentUser();
+      Map<String, dynamic> body =
+          await HttpHelper.invokeHttp( "${Constants.registerRoute}${currentUser.id}", RequestType.put,
+          headers: headers,
+          body: jsonEncode({
+            'country_code': countryCode,
+            'mobile_no': mobileNo,
+            'date_of_birth': dateOfBirth,
+            'user': {
+              'first_name': firstName,
+              'last_name': lastName,
+              'username': email,
+              'email': email,
+              'is_active': "1",
+            }
+          }));
+      Token token = Token.fromJson(body);
+      SessionHelper().updateUser(user: token);
+      _logger.finest('Update is successful');
+      return token;
+    } catch (error) {
+      _logger.warning('Could not Update user.', error);
       rethrow;
     }
   }

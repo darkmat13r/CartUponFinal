@@ -27,10 +27,13 @@ abstract class AuthenticationRepository {
 
   /// Returns the current authenticated [UserEntity].
   Future<Token> getCurrentUser();
+  Future<Token> getProfile();
 
   /// Resets the password of a [UserEntity]
   Future<void> forgotPassword(String email);
 
   /// Logs out the [UserEntity]
   Future<void> logout();
+
+  Future<Token> update({String firstName, String lastName, String username, String email, String countryCode, String mobileNo, String dateOfBirth, String isActive});
 }
