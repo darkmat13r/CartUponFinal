@@ -22,11 +22,15 @@ class _AppImageState extends State<AppImage> {
             .of(context)
             .size
             .width,
-        child: CachedNetworkImage(
-          placeholder: (context, url) =>  Image.asset(Resources.placeholder , fit: BoxFit.cover,),
-          imageUrl: widget.url,
-          errorWidget: (context, url, error) => Container(
-            child: Image.asset(Resources.placeholder , fit: BoxFit.cover,),
+
+        child: Container(
+
+          child: CachedNetworkImage(
+            placeholder: (context, url) =>  Image.asset(Resources.placeholder , fit: BoxFit.cover,),
+            imageUrl: widget.url,
+            errorWidget: (context, url, error) => Container(
+              child: Image.asset(Resources.placeholder , fit: BoxFit.cover,),
+            ),
           ),
         ));
   }

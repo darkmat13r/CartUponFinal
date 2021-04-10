@@ -3,6 +3,7 @@ import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/product/product_presenter.dart';
 import 'package:coupon_app/app/pages/products/products_presenter.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/models/HomeData.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
@@ -35,8 +36,8 @@ class ProductsController extends BaseController{
     showLoading();
   }
 
-  search(){
-    Navigator.of(getContext()).pushNamed(Pages.search);
+  void search(String categoryId) {
+    AppRouter().categorySearchById(getContext(), categoryId);
   }
 
   login(){

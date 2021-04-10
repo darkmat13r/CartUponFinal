@@ -144,7 +144,7 @@ void showGenericConfirmDialog(BuildContext context, String title, String message
       ));
 }
 class Dimens {
-  static const double cornerRadius = 8;
+  static const double cornerRadius = 4;
   static const double borderWidth = 1;
   static const double spacingNormal = 8;
   static const double spacingSmall = 4;
@@ -154,6 +154,10 @@ class Dimens {
   static const double buttonHeight = 52;
 
   static const double buttonCornerRadius = 57;
+
+  static const  double thumbImageHeight = 140;
+
+  static const double elevation = 0;
 }
 
 final TextStyle heading1 = TextStyle(fontSize: 36, fontWeight: FontWeight.bold);
@@ -192,7 +196,7 @@ final TextStyle formText =
     TextStyle(fontSize: 14, fontWeight: FontWeight.normal);
 final TextStyle labelText =
 TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.neutralDark);
-final TextStyle linkText = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+final TextStyle linkText = TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
 final TextStyle linkTextSmall =
     TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
 

@@ -163,8 +163,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
     try {
       Token currentUser = await getCurrentUser();
       print("Current User ${currentUser.toJson()}");
-      var uri = Constants.createUriWithParams(Constants.registerRoute,
-          {"user_id" : currentUser.user.id.toString()});
+      var uri = "${Constants.userProfileRoute}${currentUser.user.id}/";
       Map<String, dynamic> profileData = await HttpHelper.invokeHttp(
           uri, RequestType.get,  headers: {
         HttpHeaders.authorizationHeader : "Token ${ (await SessionHelper().getToken())}"

@@ -16,6 +16,7 @@ import 'package:coupon_app/app/pages/reviews/create/create_review_view.dart';
 import 'package:coupon_app/app/pages/reviews/reviews_view.dart';
 import 'package:coupon_app/app/pages/search/search_view.dart';
 import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
+import 'package:coupon_app/app/pages/whishlist/whishlist_view.dart';
 import 'package:coupon_app/domain/entities/models/CategoryType.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,8 @@ class AppRouter {
         return _buildRoute(settings, RegisterPage());
       case Pages.home:
         return _buildRoute(settings, HomePage());
+      case Pages.whishlist:
+        return _buildRoute(settings, WhishlistPage());
 
       case Pages.main:
         return _buildRoute(settings, MainPage());
@@ -75,12 +78,22 @@ class AppRouter {
         .push(_buildRoute(RouteSettings(), ProductPage(product)));
   }
 
-  categorySearch(BuildContext context, CategoryType category){
-    Navigator.of(context).push(_buildRoute(RouteSettings(), SearchPage(category:category,)));
+  categorySearch(BuildContext context, CategoryType category) {
+    Navigator.of(context).push(_buildRoute(
+        RouteSettings(),
+        SearchPage(
+          category: category,
+        )));
   }
-  categorySearchById(BuildContext context, String categoryId){
-    Navigator.of(context).push(_buildRoute(RouteSettings(), SearchPage(categoryId:categoryId,)));
+
+  categorySearchById(BuildContext context, String categoryId) {
+    Navigator.of(context).push(_buildRoute(
+        RouteSettings(),
+        SearchPage(
+          categoryId: categoryId,
+        )));
   }
+
   MaterialPageRoute _buildRoute(RouteSettings settings, Widget builder) {
     return new MaterialPageRoute(settings: settings, builder: (ctx) => builder);
   }

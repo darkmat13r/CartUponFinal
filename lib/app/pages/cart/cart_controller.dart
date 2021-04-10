@@ -15,7 +15,9 @@ class CartController extends BaseController{
 
   Cart cart;
 
-  CartController(CartRepository cartRepository) : this._presenter = CartPresenter(cartRepository);
+  CartController(CartRepository cartRepository) : this._presenter = CartPresenter(cartRepository){
+    showLoading();
+  }
 
   @override
   void initListeners() {

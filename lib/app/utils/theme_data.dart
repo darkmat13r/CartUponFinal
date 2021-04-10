@@ -117,7 +117,9 @@ ThemeData appTheme(BuildContext context) => ThemeData(
                   Radius.circular(Dimens.buttonCornerRadius)))),
       cardTheme: CardTheme(
           color: AppColors.cardBg,
+          elevation: Dimens.elevation,
           shape: RoundedRectangleBorder(
+            side: BorderSide(color: AppColors.neutralLightGray, width: Dimens.borderWidth),
             borderRadius:
                 BorderRadius.all(Radius.circular(Dimens.cornerRadius)),
           )),

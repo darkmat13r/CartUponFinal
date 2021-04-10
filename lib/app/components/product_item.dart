@@ -8,6 +8,7 @@ import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/date_helper.dart';
 import 'package:coupon_app/app/utils/router.dart';
+import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,14 +44,10 @@ class ProductItemState extends State<ProductItem> {
               children: [
                 Container(
                     width: double.infinity,
-                    height: 140,
-                    decoration: const BoxDecoration(
-                        borderRadius: const BorderRadius.all(
-                            Radius.circular(Dimens.cornerRadius)),
-                        color: AppColors.neutralLight),
+                    height: Dimens.thumbImageHeight,
                     child: AppImage(widget.product.product != null ? widget.product.product.thumb_img : "")),
                 Padding(
-                  padding: const EdgeInsets.all(Dimens.spacingMedium),
+                  padding: const EdgeInsets.symmetric(horizontal : Dimens.spacingMedium, vertical : Dimens.spacingNormal),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -58,12 +55,21 @@ class ProductItemState extends State<ProductItem> {
                         widget.product != null ? widget.product.name : "",
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: bodyTextNormal1,
+                        style: bodyTextNormal1.copyWith(color: AppColors.primary),
+                      ),
+                      Text(
+                        widget.product != null ? widget.product.short_description : "",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: captionNormal1.copyWith(color: AppColors.neutralGray),
                       ),
                       SizedBox(
                         height: Dimens.spacingSmall,
                       ),
                       _countdownView(widget.product),
+                      SizedBox(
+                        height: Dimens.spacingSmall,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,14 +81,14 @@ class ProductItemState extends State<ProductItem> {
                                   double.parse(widget.product.product.dis_per) >
                                       0
                                   ? Text(
-                                "KD${widget.product != null ? widget.product.product.price : ""}",
+                                Utility.currencyFormat(widget.product != null ? widget.product.product.price : "0"),
                                 style: captionNormal2.copyWith(
                                     color: AppColors.neutralGray,
                                     decoration: TextDecoration.lineThrough),
                               )
                                   : SizedBox(),
                               Text(
-                                "KD${widget.product != null ? widget.product.product.sale_price : ""}",
+                                Utility.currencyFormat(widget.product != null ? widget.product.product.sale_price : "0"),
                                 style: bodyTextNormal1.copyWith(
                                     color: AppColors.primary),
                               )
@@ -91,10 +97,9 @@ class ProductItemState extends State<ProductItem> {
                           Expanded(
                             child: SizedBox(),
                           ),
-                          IconButton(
-                            icon: Icon(MaterialCommunityIcons.cart_plus),
-                            color: AppColors.accent,
-                            onPressed: () {
+                          InkWell(
+                            child: Icon(MaterialCommunityIcons.cart_plus, color: AppColors.accent,),
+                            onTap: () {
                               _cartStream.addToCart(widget.product.product, null);
                             },
                           ),

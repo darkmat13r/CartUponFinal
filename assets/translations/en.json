@@ -178,5 +178,7 @@
   "confirmDelete"  : "Do you really want to delete?",
   "alert" : "Alert",
   "fmtQty" : "Qty : {}",
+  "itemAddedToWhishlist" : "Item added to your whishlist.",
+  "itemAddedToCart" : "Item added to your cart.",
   "confirmRemoveCartItem" : "Do you want to remove this item from cart?"
 }

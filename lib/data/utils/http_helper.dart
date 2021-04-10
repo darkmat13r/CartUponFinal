@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coupon_app/data/exceptions/authentication_exception.dart';
@@ -60,6 +61,16 @@ class HttpHelper {
   static Future<http.Response> _invoke(dynamic url, RequestType type, {Map<String, String> headers, dynamic body, Encoding encoding}) async {
     http.Response response;
 
+    if(headers == null || headers.isEmpty){
+      var token = await SessionHelper().getToken();
+      if(token != null){
+        headers = {
+          HttpHeaders.authorizationHeader : "Token ${token}"
+        };
+      }
+    }else if(!headers.containsKey(HttpHeaders.authorizationHeader)){
+      headers[HttpHeaders.authorizationHeader] = "Token ${await SessionHelper().getToken()}";
+    }
     print("URL =>>>>> ${url}");
     print("headers----------> ${headers}");
     print("Uri.parse(url)----------> ${Uri.parse(url)}");

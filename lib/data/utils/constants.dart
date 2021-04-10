@@ -12,10 +12,12 @@ class Constants {
   static const String loginRoute = '$baseUrl/login/';
   static const String forgotPasswordRoute = '$baseUrl/forgot-password';
   static const String registerRoute = '$baseUrl/customerwebapi/';
+  static const String userProfileRoute = '$baseUrl/UserCustomerWebAPI/';
   static const String areaRoute = '$baseUrl/areawebapi/';
   static const String blockRoute = '$baseUrl/blockwebapi/';
   static const String addressRoute = '$baseUrl/addresswebapi/';
   static const String cartRoute = '$baseUrl/cartwebapi/';
+  static const String whishlistRoute = '$baseUrl/wishlistapi/';
   static const String userRoute = '$baseUrl/user';
 
   // APIs no prefix

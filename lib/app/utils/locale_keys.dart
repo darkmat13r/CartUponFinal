@@ -206,6 +206,8 @@ class LocaleKeys {
   static var confirmDelete = "confirmDelete";
   static var fmtQty = "fmtQty";
   static var confirmRemoveCartItem = "confirmRemoveCartItem";
+  static var itemAddedToWhishlist = "itemAddedToWhishlist";
+  static var itemAddedToCart = "itemAddedToCart";
 
 
 }

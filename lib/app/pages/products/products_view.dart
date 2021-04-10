@@ -202,7 +202,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
                           )),
                       TextButton(
                         onPressed: () {
-                          controller.search();
+                          controller.search(section.category.id.toString());
                         },
                         child: Text(
                           LocaleKeys.seeMore.tr(),
@@ -213,7 +213,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
                   ),
                 ),
                 Container(
-                  height: 260,
+                  height: 250,
                   width: double.infinity,
                   child: ListView.builder(
                     shrinkWrap: true,

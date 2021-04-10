@@ -4,6 +4,8 @@ import 'package:coupon_app/domain/entities/models/CartItem.dart';
 class Utility{
 
   static String currencyFormat(dynamic price){
+    if(price is String)
+    return NumberFormat.compactCurrency(symbol: "KD").format(double.tryParse(price));
     return NumberFormat.compactCurrency(symbol: "KD").format(price);
   }
 

@@ -16,7 +16,9 @@ import 'package:coupon_app/app/pages/product/product_controller.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/data/repositories/data_product_repository.dart';
+import 'package:coupon_app/data/repositories/data_whishlist_repository.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -37,7 +39,8 @@ class ProductPage extends View {
 
 class ProductPageView extends ViewState<ProductPage, ProductController> {
   ProductPageView(product)
-      : super(ProductController(product, DataProductRepository()));
+      : super(ProductController(
+            product, DataProductRepository(), DataWhishlistRepository()));
 
   @override
   Widget get view => Scaffold(
@@ -127,7 +130,10 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                                               .product.product.dis_per) >
                                           0
                                   ? Text(
-                                      "KD${controller.product != null ? controller.product.product.price : ""}",
+                                      Utility.currencyFormat(
+                                          controller.product != null
+                                              ? controller.product.product.price
+                                              : 0),
                                       style: captionNormal1.copyWith(
                                           color: AppColors.neutralGray,
                                           decoration:
@@ -135,7 +141,10 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                                     )
                                   : SizedBox(),
                               Text(
-                                "KD${controller.product != null ? controller.product.product.sale_price : ""}",
+                                Utility.currencyFormat(
+                                    controller.product != null
+                                        ? controller.product.product.sale_price
+                                        : 0),
                                 style: bodyTextNormal1.copyWith(
                                     color: AppColors.primary),
                               )
@@ -200,7 +209,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                         color: AppColors.primary, fontWeight: FontWeight.w400),
                   ),
                   SizedBox(
-                    height: Dimens.spacingNormal,
+                    height: Dimens.spacingMedium,
                   ),
                   controller.product != null
                       ? VariantPicker(
@@ -211,53 +220,7 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                   SizedBox(
                     height: Dimens.spacingMedium,
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: controller.elapsedTime != null
-                            ? Row(
-                                children: [
-                                  Image.asset(
-                                    Resources.timerIcon,
-                                    width: 24,
-                                    height: 24,
-                                    color: AppColors.primary,
-                                  ),
-                                  SizedBox(
-                                    width: Dimens.spacingMedium,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          LocaleKeys.timeLeft.tr(),
-                                          style: bodyTextMedium1.copyWith(
-                                            color: AppColors.primary,
-                                          ),
-                                        ),
-                                        Text(
-                                          controller.elapsedTime != null
-                                              ? controller.elapsedTime
-                                              : "",
-                                          style: bodyTextNormal2.copyWith(
-                                              color: AppColors.primary,
-                                              fontSize: 12),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              )
-                            : SizedBox(),
-                      ),
-                    ],
-                  ),
+                  _eleapsedTime(controller),
                   SizedBox(
                     height: Dimens.spacingLarge,
                   ),
@@ -265,35 +228,11 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
                       width: double.infinity,
                       child: Row(
                         children: [
-                          Expanded(
-                            child: OutlinedButton.icon(
-                              onPressed: () {},
-                              icon: Icon(MaterialCommunityIcons.heart_outline),
-                              label: Text(
-                                LocaleKeys.whishlist.tr(),
-                                style: buttonText.copyWith(
-                                    color: AppColors.neutralGray),
-                              ),
-                            ),
-                          ),
+                          _whishlistButton(controller),
                           SizedBox(
                             width: Dimens.spacingLarge,
                           ),
-                          Expanded(
-                            child: RaisedButton.icon(
-                              onPressed: () {
-                                CartStream().addToCart(controller.product.product, controller.selectedProductVariant);
-                              },
-                              icon: Icon(
-                                MaterialCommunityIcons.cart_plus,
-                                color: AppColors.neutralLight,
-                              ),
-                              label: Text(
-                                LocaleKeys.buyNow.tr(),
-                                style: buttonText,
-                              ),
-                            ),
-                          )
+                          _addToCartButton(controller)
                         ],
                       )),
                   SizedBox(
@@ -322,6 +261,89 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
           ],
         );
       });
+
+  Row _eleapsedTime(ProductController controller) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Expanded(
+          child: controller.elapsedTime != null
+              ? Row(
+                  children: [
+                    Image.asset(
+                      Resources.timerIcon,
+                      width: 24,
+                      height: 24,
+                      color: AppColors.primary,
+                    ),
+                    SizedBox(
+                      width: Dimens.spacingMedium,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            LocaleKeys.timeLeft.tr(),
+                            style: bodyTextMedium1.copyWith(
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          Text(
+                            controller.elapsedTime != null
+                                ? controller.elapsedTime
+                                : "",
+                            style: bodyTextNormal2.copyWith(
+                                color: AppColors.primary, fontSize: 12),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              : SizedBox(),
+        ),
+      ],
+    );
+  }
+
+  Expanded _addToCartButton(ProductController controller) {
+    return Expanded(
+      child: RaisedButton.icon(
+        onPressed: () {
+          CartStream().addToCart(
+              controller.product.product, controller.selectedProductVariant);
+        },
+        icon: Icon(
+          MaterialCommunityIcons.cart_plus,
+          color: AppColors.neutralLight,
+        ),
+        label: Text(
+          LocaleKeys.buyNow.tr(),
+          style: buttonText,
+        ),
+      ),
+    );
+  }
+
+  Expanded _whishlistButton(ProductController controller) {
+    return Expanded(
+      child: OutlinedButton.icon(
+        onPressed: () {
+          controller.addItemToWhishlist(controller.product.product);
+        },
+        icon: Icon(!controller.isAddedToWhishlist
+            ? MaterialCommunityIcons.heart_outline
+            : MaterialCommunityIcons.heart,color:  controller.isAddedToWhishlist ? AppColors.error : AppColors.neutralGray),
+        label: Text(
+          LocaleKeys.whishlist.tr(),
+          style: buttonText.copyWith(color: AppColors.neutralGray),
+        ),
+      ),
+    );
+  }
 
   get _reviews => ControlledWidgetBuilder(
         builder: (BuildContext context, ProductController controller) {
@@ -424,6 +446,12 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
       });
 
   get _body => ListView(
-        children: [_productDetails, _recommended(LocaleKeys.similarProducts.tr()), SizedBox(height: Dimens.spacingLarge,)],
+        children: [
+          _productDetails,
+          _recommended(LocaleKeys.similarProducts.tr()),
+          SizedBox(
+            height: Dimens.spacingLarge,
+          )
+        ],
       );
 }

@@ -6,6 +6,7 @@ import 'package:coupon_app/app/pages/explore/explore_view.dart';
 import 'package:coupon_app/app/pages/home/home_view.dart';
 import 'package:coupon_app/app/pages/main/main_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
+import 'package:coupon_app/app/pages/whishlist/whishlist_view.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -27,7 +28,7 @@ class MainPageView extends ViewState<MainPage, MainController> {
     HomePage(),
     ExplorePage(),
     AccountPage(),
-    CartPage(),
+    WhishlistPage(),
     CartPage(),
   ];
 
@@ -120,9 +121,6 @@ class MainPageView extends ViewState<MainPage, MainController> {
   });
 
   get _body => Center(
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: _widgetOptions,
-        ),
+        child: _widgetOptions[_selectedIndex],
       );
 }
