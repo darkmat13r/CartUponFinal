@@ -28,10 +28,11 @@ class CreateAddressUseCase extends CompletableUseCase<Address>{
           building: params.building,
           block: params.block);
       controller.add(data);
+      controller.close();
     } catch (e) {
       controller.addError(e);
     }
-    controller.close();
+
     return controller.stream;
   }
 

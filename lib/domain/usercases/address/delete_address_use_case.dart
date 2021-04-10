@@ -18,10 +18,11 @@ class DeleteAddressUseCase extends  CompletableUseCase<String>{
     try{
       var data = await _repository.delete(params);
       controller.add(data);
+      controller.close();
     }catch(e){
       controller.addError(e);
     }
-    controller.close();
+
     return controller.stream;
   }
 

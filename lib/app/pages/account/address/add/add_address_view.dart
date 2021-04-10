@@ -80,7 +80,9 @@ class AddAddressPageState
                           focusNode: areaFocusNode,
                           onTap: () {
                             areaFocusNode.unfocus();
-                            showAreaDialog(controller);
+                            if(controller.areas != null ){
+                              showAreaDialog(controller);
+                            }
                           },
                           validation: (value) {
                             if (value.isEmpty) {
@@ -99,7 +101,9 @@ class AddAddressPageState
                           focusNode: blockFocusNode,
                           onTap: () {
                             blockFocusNode.unfocus();
-                            showBlockDialog(controller);
+                           if(controller.blocks != null){
+                             showBlockDialog(controller);
+                           }
                           },
                           textEditingController: controller.blockText,
                           validation: (value) {

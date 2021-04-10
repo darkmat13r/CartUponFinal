@@ -6,9 +6,6 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 class AccountPresenter extends AuthPresenter{
   AccountPresenter(AuthenticationRepository authRepo) : super(authRepo);
 
-
-
-
   @override
   void dispose() {
 

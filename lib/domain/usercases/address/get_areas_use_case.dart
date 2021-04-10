@@ -20,10 +20,11 @@ class GetAreasUseCase extends CompletableUseCase<void>{
     try{
       List<Area> areas = await addressRepository.getAreas();
       controller.add(areas);
+      controller.close();
     }catch(e){
       controller.addError(e);
     }
-    controller.close();
+
     return controller.stream;
   }
 

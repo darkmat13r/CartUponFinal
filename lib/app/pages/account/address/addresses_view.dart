@@ -102,7 +102,7 @@ class AddressesPageState extends ViewState<AddressesPage, AddressesController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${address.floor_flat}, ${address.block} , ${address.building}}",
+              "${address.floor_flat}, ${address.block} , ${address.building}",
               style: heading5,
             ),
             SizedBox(

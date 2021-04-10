@@ -21,11 +21,12 @@ class GetHomePageUseCase extends CompletableUseCase<void>{
     try{
       HomeData data = await _homeRepository.getHomePage();
       controller.add(data);
+      controller.close();
     }catch(e){
       _logger.finest(e);
       controller.addError(e);
     }
-    controller.close();
+
     return controller.stream;
   }
 

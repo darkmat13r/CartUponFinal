@@ -32,7 +32,9 @@ abstract class BaseController extends Controller {
     refreshUI();
   }
 
-  onAuthError(e) {}
+  onAuthError(e) {
+    showGenericSnackbar(getContext(), e.message, isError : true);
+  }
 
   onLoggedOut(){
     currentUser = null;

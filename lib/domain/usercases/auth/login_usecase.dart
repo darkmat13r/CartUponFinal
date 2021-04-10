@@ -25,9 +25,7 @@ class LoginUseCase extends CompletableUseCase<LoginUseCaseParams> {
       controller.add(userEntity);
       controller.close();
     } catch (e) {
-
       controller.addError(e);
-      print("-------------------->Login.stackTrace.toString() ${e.stackTrace.toString()}");
     }
     return controller.stream;
   }

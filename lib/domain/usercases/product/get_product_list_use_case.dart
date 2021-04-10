@@ -18,10 +18,11 @@ class GetProductListUseCase extends CompletableUseCase<ProductFilterParams>{
     try{
       List<ProductDetail> products = await _productRepository.getProducts(categoryId: params.categoryId);
       controller.add(products);
+      controller.close();
     }catch(e){
       controller.addError(e);
     }
-    controller.close();
+
     return controller.stream;
   }
 

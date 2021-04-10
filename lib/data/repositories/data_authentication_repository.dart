@@ -162,9 +162,9 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   Future<Token> getProfile() async {
     try {
       Token currentUser = await getCurrentUser();
-
+      print("Current User ${currentUser.toJson()}");
       Map<String, dynamic> profileData = await HttpHelper.invokeHttp(
-          "${Constants.registerRoute}${currentUser.id}", RequestType.get,  headers: {
+          "${Constants.registerRoute}${currentUser.user.id}", RequestType.get,  headers: {
         HttpHeaders.authorizationHeader : "Token ${ (await SessionHelper().getToken())}"
       },);
 

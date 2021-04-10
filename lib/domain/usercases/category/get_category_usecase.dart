@@ -20,10 +20,11 @@ class GetCategoryUseCase extends CompletableUseCase<String>{
     try{
       CategoryType category = await _repository.getCategory(categoryId);
       controller.add(category);
+      controller.close();
     }catch(e){
       controller.addError(e);
     }
-    controller.close();
+
     return controller.stream;
   }
 

@@ -21,10 +21,11 @@ class GetBlocksUseCase extends CompletableUseCase<String>{
     try{
       List<Block> blocks = await addressRepository.getBlocks(areaId);
       controller.add(blocks);
+      controller.close();
     }catch(e){
       controller.addError(e);
     }
-    controller.close();
+
     return controller.stream;
   }
 

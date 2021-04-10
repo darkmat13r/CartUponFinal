@@ -23,11 +23,12 @@ class UpdateProfileUseCase extends CompletableUseCase<UpdateProfileParams>{
           username: params.email, email: params.email, countryCode: params.countryCode,
           mobileNo: params.mobileNo, dateOfBirth: params.dateOfBirth, isActive: "1");
       controller.add(user);
+      controller.close();
     }catch(e){
       _logger.shout(e);
       controller.addError(e);
     }
-    controller.close();
+
     return controller.stream;
   }
 

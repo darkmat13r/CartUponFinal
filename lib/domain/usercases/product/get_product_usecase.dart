@@ -22,10 +22,11 @@ class GetProductUseCase extends CompletableUseCase<String> {
     try{
       ProductDetail productDetail = await productRepository.getById(productId);
       controller.add(productDetail);
+      controller.close();
     }catch(e){
       controller.addError(e);
     }
-    controller.close();
+
     return controller.stream;
 
   }

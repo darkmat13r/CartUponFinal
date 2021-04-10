@@ -46,8 +46,9 @@ class AddressesController extends BaseController {
     };
   }
 
-  void addAddress() {
-    Navigator.of(getContext()).pushNamed(Pages.addAddress);
+  void addAddress() async{
+   await Navigator.of(getContext()).pushNamed(Pages.addAddress);
+   _presenter.fetchAddresses();
   }
 
   delete(Address address) {
