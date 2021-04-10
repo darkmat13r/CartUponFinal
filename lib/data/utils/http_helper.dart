@@ -59,6 +59,9 @@ class HttpHelper {
     var uri = Uri.parse(url);
     try {
       switch (type) {
+        case RequestType.patch:
+          response = await http.patch(uri, headers: headers);
+          break;
         case RequestType.get:
           response = await http.get(uri, headers: headers);
           break;
@@ -117,4 +120,4 @@ class HttpHelper {
 }
 
 // types used by the helper
-enum RequestType { get, post, put, delete }
+enum RequestType { get, post, put, patch, delete }

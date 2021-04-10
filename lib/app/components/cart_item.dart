@@ -1,12 +1,15 @@
 import 'package:coupon_app/app/components/product_thumbnail.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/app/utils/utility.dart';
+import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:coupon_app/domain/mapper/cart_item_mapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class CartItemView extends StatefulWidget {
-  CartItemMapper cartItemMapper;
+  CartItem cartItemMapper;
 
   CartItemView(this.cartItemMapper);
 
@@ -28,7 +31,7 @@ class CartItemViewState extends State<CartItemView> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ProductThumbnail(widget.cartItemMapper != null ?  widget.cartItemMapper.image : ""),
+              ProductThumbnail(widget.cartItemMapper != null && widget.cartItemMapper.product_id != null ?  widget.cartItemMapper.product_id.thumb_img : ""),
               SizedBox(
                 width: Dimens.spacingMedium,
               ),
@@ -39,7 +42,8 @@ class CartItemViewState extends State<CartItemView> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                     widget.cartItemMapper != null ? widget.cartItemMapper.name : "-",
+                     widget.cartItemMapper != null  && widget.cartItemMapper.product_id != null
+                         ? widget.cartItemMapper.product_id.title ?? "-" : "-",
                       style: heading6.copyWith(color: AppColors.neutralDark),
                     ),
                     SizedBox(
@@ -48,52 +52,25 @@ class CartItemViewState extends State<CartItemView> {
                     Row(
                       children: [
                         Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: AppColors.neutralGray,
-                                    width: Dimens.borderWidth)),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: Dimens.spacingMedium),
-                              child: new DropdownButton<String>(
-                                underline: SizedBox(),
-                                isExpanded: true,
-                                hint: Text("1"),
-                                style: bodyTextNormal1.copyWith(
-                                    color: AppColors.neutralDark),
-                                items: <String>['1', '2', '3', '4']
-                                    .map((String value) {
-                                  return DropdownMenuItem(
-                                    value: widget.cartItemMapper != null ? widget.cartItemMapper.quantity.toString()  :  0.toString() ,
-                                    child: new Text(
-                                      value,
-                                      style: bodyTextNormal1.copyWith(
-                                      color: AppColors.neutralDark),
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedCount = value;
-                                  });
-                                },
-                              ),
-                            ),
-                          ),
+                          child: Text(widget.cartItemMapper != null
+                              && widget.cartItemMapper.product_id != null
+                              ? LocaleKeys.fmtQty.tr(args: [widget.cartItemMapper.qty.toString()]) : "0", style: bodyTextNormal1,),
                         ),
                         Expanded(
                           child: SizedBox(
                           ),
                         ),
                         Text(
-                          "KD${  widget.cartItemMapper != null ? widget.cartItemMapper.price : "-"}",
+                          Utility.getCartItemPrice(widget.cartItemMapper),
                           style: heading6.copyWith(color: AppColors.primary),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
+              ),
+              Container(
+                child: IconButton(onPressed: (){}, icon: Icon(MaterialCommunityIcons.trash_can), color: AppColors.error,),
               )
             ],
           ),
@@ -101,4 +78,5 @@ class CartItemViewState extends State<CartItemView> {
       ),
     );
   }
+
 }

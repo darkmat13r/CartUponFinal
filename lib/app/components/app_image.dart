@@ -22,7 +22,6 @@ class _AppImageState extends State<AppImage> {
             .of(context)
             .size
             .width,
-        margin: EdgeInsets.symmetric(horizontal: 5.0),
         child: CachedNetworkImage(
           placeholder: (context, url) =>  Image.asset(Resources.placeholder , fit: BoxFit.cover,),
           imageUrl: widget.url,

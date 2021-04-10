@@ -16,13 +16,8 @@ class GetCartItemsUseCase extends CompletableUseCase<void>{
   Future<Stream<Cart>> buildUseCaseStream(void params) async {
     StreamController<Cart> controller = new StreamController();
     try{
-      var items = await cartRepository.getCartItems();
-      var quantity = await cartRepository.getQuantity();
-      /*double total = 0;
-      items.forEach((element) {
-        total += double.parse(element.price) * element.quantity ;
-      });
-      controller.add(Cart(quantity: quantity, cartItems: items, total: total));*/
+      var items = await cartRepository.getCart();
+      controller.add(items);
     }catch(e){
       print(e);
       controller.addError(e);

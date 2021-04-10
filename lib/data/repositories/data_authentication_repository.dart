@@ -195,7 +195,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       };
       Token currentUser = await getCurrentUser();
       Map<String, dynamic> body =
-          await HttpHelper.invokeHttp( "${Constants.registerRoute}${currentUser.id}", RequestType.put,
+          await HttpHelper.invokeHttp( "${Constants.registerRoute}${currentUser.id}", RequestType.patch,
           headers: headers,
           body: jsonEncode({
             'country_code': countryCode,

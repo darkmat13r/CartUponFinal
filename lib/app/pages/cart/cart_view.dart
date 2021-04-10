@@ -5,6 +5,7 @@ import 'package:coupon_app/app/pages/cart/cart_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
+import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/data/repositories/cart/data_cart_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -39,7 +40,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
   get _body => ListView(
         shrinkWrap: false,
         children: [
-         // _cartItems,
+          _cartItems,
           _cartInfo,
           Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),
@@ -63,11 +64,11 @@ class CartPageState extends ViewState<CartPage, CartController> {
                 children: [
                   Expanded(
                       child: Text(
-                        LocaleKeys.items.tr(args: ["2"]),
+                        LocaleKeys.items.tr(args: [controller.cart.quantity.toString()]),
                         style: bodyTextNormal2.copyWith(
                             color: AppColors.neutralGray),
                       )),
-                  Text("KD${controller.cart.total ?? 0}",
+                  Text(Utility.currencyFormat(controller.cart.total ?? 0),
                       style: bodyTextNormal1.copyWith(
                           color: AppColors.neutralDark)),
                 ],
@@ -75,40 +76,9 @@ class CartPageState extends ViewState<CartPage, CartController> {
               SizedBox(
                 height: Dimens.spacingNormal,
               ),
-              Row(
-                children: [
-                  Expanded(
-                      child: Text(
-                        LocaleKeys.shipping.tr(),
-                        style: bodyTextNormal2.copyWith(
-                            color: AppColors.neutralGray),
-                      )),
-                  Text("KD0",
-                      style: bodyTextNormal1.copyWith(
-                          color: AppColors.neutralDark)),
-                ],
-              ),
-              SizedBox(
-                height: Dimens.spacingNormal,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: Text(
-                        LocaleKeys.tax.tr(),
-                        style: bodyTextNormal2.copyWith(
-                            color: AppColors.neutralGray),
-                      )),
-                  Text("KD0",
-                      style: bodyTextNormal1.copyWith(
-                          color: AppColors.neutralDark)),
-                ],
-              ),
-              SizedBox(
-                height: Dimens.spacingNormal,
-              ),
+
               DotWidget(
-                color: AppColors.neutralLight,
+                color: AppColors.neutralGray,
                 width: 8,
                 height: Dimens.borderWidth,
               ),
@@ -123,7 +93,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
                         style:
                         heading6.copyWith(color: AppColors.neutralDark),
                       )),
-                  Text("KD${controller.cart.total ?? 0}",
+                  Text(Utility.currencyFormat(controller.cart.total ?? 0),
                       style: heading6.copyWith(color: AppColors.primary)),
                 ],
               ),
@@ -137,7 +107,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
     );
   });
 
- /* get _cartItems => ControlledWidgetBuilder(
+  get _cartItems => ControlledWidgetBuilder(
           builder: (BuildContext context, CartController controller) {
         return ListView.builder(
           shrinkWrap: true,
@@ -145,7 +115,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
             itemBuilder: (BuildContext context, int index) {
           return CartItemView(controller.cart.cartItems[index]);
         });
-      });*/
+      });
 
   _isCartEmpty(CartController controller) {
     return controller.cart == null ||

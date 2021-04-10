@@ -176,5 +176,6 @@
   "warning" : "Warning!",
   "error" : "Error",
   "confirmDelete"  : "Do you really want to delete?",
-  "alert" : "Alert"
+  "alert" : "Alert",
+  "fmtQty" : "Qty : {}"
 }

@@ -1,21 +1,24 @@
+import 'package:coupon_app/domain/entities/models/Product.dart';
+import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
+
 class CartItem {
     int id;
     int is_type;
-    int product_id;
+    Product product_id;
     int qty;
     int user_id;
-    int variant_id;
+    ProductVariantValue variant_value_id;
 
-    CartItem({this.id, this.is_type, this.product_id, this.qty, this.user_id, this.variant_id});
+    CartItem({this.id, this.is_type, this.product_id, this.qty, this.user_id, this.variant_value_id});
 
     factory CartItem.fromJson(Map<String, dynamic> json) {
         return CartItem(
             id: json['id'], 
             is_type: json['is_type'], 
-            product_id: json['product_id'], 
+            product_id: json['product_id'] is Map ? Product.fromJson(json['product_id']) : null,
             qty: json['qty'], 
             user_id: json['user_id'], 
-            variant_id: json['variant_id'], 
+            variant_value_id: (json['variant_value_id'] is Map) ? ProductVariantValue.fromJson(json['variant_value_id']) : null,
         );
     }
 
@@ -26,7 +29,7 @@ class CartItem {
         data['product_id'] = this.product_id;
         data['qty'] = this.qty;
         data['user_id'] = this.user_id;
-        data['variant_id'] = this.variant_id;
+        data['variant_value_id'] = this.variant_value_id;
         return data;
     }
 }

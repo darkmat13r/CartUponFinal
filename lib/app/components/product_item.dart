@@ -95,7 +95,7 @@ class ProductItemState extends State<ProductItem> {
                             icon: Icon(MaterialCommunityIcons.cart_plus),
                             color: AppColors.accent,
                             onPressed: () {
-                              _cartStream.addToCart(widget.product, null);
+                              _cartStream.addToCart(widget.product.product, null);
                             },
                           ),
                         ],

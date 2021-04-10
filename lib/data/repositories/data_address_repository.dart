@@ -102,7 +102,7 @@ class DataAddressRepository extends AddressRepository {
       String phoneNo}) async {
     try {
       Map<String, dynamic> data = await HttpHelper.invokeHttp(
-          "${Constants.addressRoute}${id}", RequestType.put,
+          "${Constants.addressRoute}${id}", RequestType.patch,
           headers: {
             HttpHeaders.authorizationHeader : "Token ${ (await SessionHelper().getToken())}"
           },

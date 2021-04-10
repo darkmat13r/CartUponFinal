@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/components/app_image.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -21,7 +22,7 @@ class ProductThumbnailState extends State<ProductThumbnail>{
             borderRadius: const BorderRadius.all(
                 Radius.circular(12)),
             color: AppColors.neutralLight),
-        child: Image.network(widget.url, width: double.infinity,));
+        child: AppImage(widget.url));
   }
 
 }

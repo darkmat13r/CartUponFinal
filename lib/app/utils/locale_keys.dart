@@ -204,6 +204,7 @@ class LocaleKeys {
   static var error = "error";
   static var alert = "alert";
   static var confirmDelete = "confirmDelete";
+  static var fmtQty = "fmtQty";
 
 
 }
