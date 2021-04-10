@@ -24,7 +24,9 @@ class DataAddressRepository extends AddressRepository {
   Future<void> delete(String id) async {
     try {
       await HttpHelper.invokeHttp(
-          "${Constants.addressRoute}${id}", RequestType.delete);
+          "${Constants.addressRoute}${id}/", RequestType.delete,headers: {
+      HttpHeaders.authorizationHeader : "Token ${ (await SessionHelper().getToken())}"
+      });
     } catch (e) {
       _logger.shout(e);
       rethrow;

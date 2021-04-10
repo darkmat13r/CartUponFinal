@@ -22,7 +22,9 @@ class HttpHelper {
     print("------------ ${headers}");
     try {
       response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
-      responseBody = jsonDecode(response.body);
+      if(response.body.length > 0){
+        responseBody = jsonDecode(response.body);
+      }
     } catch (error) {
       rethrow;
     }
@@ -46,7 +48,11 @@ class HttpHelper {
     } on SocketException {
       rethrow;
     }
-    responseBody = jsonDecode(response.body);
+    try{
+      responseBody = jsonDecode(response.body);
+    }catch(e){
+      print(e);
+    }
     return responseBody;
   }
 
@@ -56,8 +62,10 @@ class HttpHelper {
 
     print("URL =>>>>> ${url}");
     print("headers----------> ${headers}");
-    var uri = Uri.parse(url);
+    print("Uri.parse(url)----------> ${Uri.parse(url)}");
+    print("type----------> ${type}");
     try {
+      var uri = Uri.parse(url);
       switch (type) {
         case RequestType.patch:
           response = await http.patch(uri, headers: headers);
@@ -78,32 +86,36 @@ class HttpHelper {
           break;
       }
       print("${response.statusCode}");
-      print("Response Body  ${response.body}" );
+      print("Response Body  ${url} : ${response.body}" );
 
-      dynamic responseBody = jsonDecode(response.body);
+
+
       // check for any errors
       if (response.statusCode != 200 && response.statusCode != 201) {
         print("====================>${response.statusCode}");
-        if(responseBody is Map){
-          var values = (responseBody as Map).entries.first.value;
-          print("---------------->${values}");
-          if(values is List){
-            throw APIException(
-                values.first.toString(), response.statusCode,  values.first.toString());
-          }else{
-            throw APIException(
-                values, response.statusCode,  values.toString());
-          }
+        print("====================>response.body ${response.body.length}");
+        if(response.body.length > 0){
+          dynamic responseBody = jsonDecode(response.body);
+          if(responseBody is Map){
+            var values = (responseBody as Map).entries.first.value;
+            print("---------------->${values}");
+            if(values is List){
+              throw APIException(
+                  values.first.toString(), response.statusCode,  values.first.toString());
+            }else{
+              throw APIException(
+                  values, response.statusCode,  values.toString());
+            }
 
-        }else{
-          print("----------------> response map");
+          }else{
+            print("----------------> response map");
+          }
+          throw APIException(
+              "Something went wrong!", response.statusCode,  "api_error");
         }
-        throw APIException(
-           "Something went wrong!", response.statusCode,  "api_error");
-      }else{
-        print("${response.statusCode}");
 
       }
+      print("Return ${response.statusCode}");
       return response;
     } on http.ClientException catch(e){
       print("Client Exception ${e.message}");

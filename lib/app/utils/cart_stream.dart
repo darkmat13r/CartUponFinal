@@ -25,7 +25,7 @@ class CartStream{
 
   addToCart(Product productDetail, ProductVariantValue variantValue) async{
     _cartItem++;
-    await _repo.addToCart(productDetail.id.toString(),variantValue != null ?  variantValue.id : "");
+    await _repo.addToCart(productDetail.id.toString(),variantValue != null ?  variantValue.id.toString() : "");
     fetchQuantity();
   }
 

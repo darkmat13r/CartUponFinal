@@ -177,5 +177,6 @@
   "error" : "Error",
   "confirmDelete"  : "Do you really want to delete?",
   "alert" : "Alert",
-  "fmtQty" : "Qty : {}"
+  "fmtQty" : "Qty : {}",
+  "confirmRemoveCartItem" : "Do you want to remove this item from cart?"
 }

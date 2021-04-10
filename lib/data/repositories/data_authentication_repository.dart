@@ -163,8 +163,10 @@ class DataAuthenticationRepository implements AuthenticationRepository {
     try {
       Token currentUser = await getCurrentUser();
       print("Current User ${currentUser.toJson()}");
+      var uri = Constants.createUriWithParams(Constants.registerRoute,
+          {"user_id" : currentUser.user.id.toString()});
       Map<String, dynamic> profileData = await HttpHelper.invokeHttp(
-          "${Constants.registerRoute}${currentUser.user.id}", RequestType.get,  headers: {
+          uri, RequestType.get,  headers: {
         HttpHeaders.authorizationHeader : "Token ${ (await SessionHelper().getToken())}"
       },);
 
@@ -172,7 +174,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       SessionHelper().updateUser(user: token);
       return token;
     } catch (error) {
-      _logger.warning('Could not send reset password request.', error);
+      _logger.warning('Could not get profile request.', error);
       rethrow;
     }
   }

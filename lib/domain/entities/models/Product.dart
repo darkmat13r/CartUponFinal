@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/entities/models/ProductGallery.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariant.dart';
@@ -20,6 +21,7 @@ class Product {
   String valid_from;
   int category_id;
   String valid_to;
+  ProductDetail product_detail;
   List<ProductDetail> product_details;
 
   Product(
@@ -38,17 +40,11 @@ class Product {
       this.uid,
       this.valid_from,
       this.valid_to,
+      this.product_detail,
       this.product_details});
 
   factory Product.fromJson(Map<String, dynamic> json) {
-    try {
-      // category_id: json.containsKey('category_id') ? json['category_id'] : 0,
-      print("does contain categoryid ${json.containsKey('category_id')}");
-      print(" categoryid ${json['category_id']}");
-    } catch (e) {
-      print("Exception ${e}");
-    }
-    return Product(
+    var product = Product(
       category_type: json['category_type'],
       dis_per: json['dis_per'],
       id: json['id'],
@@ -78,6 +74,13 @@ class Product {
               .toList()
           : null,
     );
+    try {
+      if (product.product_details != null) {
+        product.product_detail = product.product_details.firstWhere(
+            (element) => element.lang_type == Config().getLanguageId());
+      }
+    } catch (e) {}
+    return product;
   }
 
   Map<String, dynamic> toJson() {

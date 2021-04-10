@@ -4,28 +4,30 @@ import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:coupon_app/domain/usercases/cart/add_to_cart_use_case.dart';
 import 'package:coupon_app/domain/usercases/cart/delete_cart_item_use_case.dart';
 import 'package:coupon_app/domain/usercases/cart/get_cart_items_use_case.dart';
+import 'package:coupon_app/domain/usercases/cart/update_cart_quanity_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 class CartPresenter extends Presenter{
 
   GetCartItemsUseCase _cartItemsUseCase;
   DeleteCartItemUseCase _deleteCartItemUseCase;
-  AddToCartUseCase _addToCartUseCase;
+  UpdateCartQuantity _addToCartUseCase;
 
   Function getCartOnNext;
   Function getCartOnError;
   Function getCartOnComplete;
 
-  Function addToCartOnNext;
-  Function addToCartOnComplete;
-  Function addToCartOnError;
+  Function updateCartOnNext;
+  Function updateCartOnComplete;
+  Function updateCartOnError;
 
   Function deleteCartItemOnNext;
   Function deleteCartItemOnComplete;
   Function deleteCartItemOnError;
 
   CartPresenter(CartRepository repository):_cartItemsUseCase = GetCartItemsUseCase(repository),
-        _deleteCartItemUseCase = DeleteCartItemUseCase(repository), _addToCartUseCase = AddToCartUseCase(repository){
+        _deleteCartItemUseCase = DeleteCartItemUseCase(repository),
+        _addToCartUseCase = UpdateCartQuantity(repository){
     fetchCart();
   }
 
@@ -38,8 +40,8 @@ class CartPresenter extends Presenter{
   }
 
 
-  addToCart(CartItem item){
-    _addToCartUseCase.execute(_GetCartObserver(this), item);
+  updateQty(CartItem item){
+    _addToCartUseCase.execute(_AddToCartItemObserver(this), UpdateQuantityParams(item.id, item.qty));
   }
 
 
@@ -56,20 +58,20 @@ class _AddToCartItemObserver extends Observer<CartItem>{
   _AddToCartItemObserver(this._presenter);
   @override
   void onComplete() {
-    assert(_presenter.addToCartOnComplete != null);
-    _presenter.addToCartOnComplete();
+    assert(_presenter.updateCartOnComplete != null);
+    _presenter.updateCartOnComplete();
   }
 
   @override
   void onError(e) {
-   assert(_presenter.addToCartOnError != null);
-   _presenter.addToCartOnError(e);
+   assert(_presenter.updateCartOnError != null);
+   _presenter.updateCartOnError(e);
   }
 
   @override
   void onNext(CartItem response) {
-    assert(_presenter.addToCartOnNext != null);
-    _presenter.addToCartOnNext(response);
+    assert(_presenter.updateCartOnNext != null);
+    _presenter.updateCartOnNext(response);
   }
 
 }

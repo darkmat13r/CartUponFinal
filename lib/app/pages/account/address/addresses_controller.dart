@@ -36,27 +36,27 @@ class AddressesController extends BaseController {
       showGenericSnackbar(getContext(), e.message);
     };
 
-    _presenter.deleteAddressOnNext = (res){
-    };
-    _presenter.deleteAddressOnError = (e){
+    _presenter.deleteAddressOnNext = (res) {};
+    _presenter.deleteAddressOnError = (e) {
       showGenericSnackbar(getContext(), e.message, isError: true);
     };
-    _presenter.deleteAddressOnComplete = (){
+    _presenter.deleteAddressOnComplete = () {
       _presenter.fetchAddresses();
     };
   }
 
-  void addAddress() async{
-   await Navigator.of(getContext()).pushNamed(Pages.addAddress);
-   _presenter.fetchAddresses();
+  void addAddress() async {
+    await Navigator.of(getContext()).pushNamed(Pages.addAddress);
+    _presenter.fetchAddresses();
   }
 
   delete(Address address) {
     showGenericConfirmDialog(
         getContext(), LocaleKeys.warning.tr(), LocaleKeys.confirmDelete.tr(),
         onConfirm: () {
-          Navigator.of(getContext()).pop();
-          showLoadingDialog(getContext());
+      Navigator.of(getContext()).pop();
+      showLoadingDialog(getContext());
+      addresses.remove(address);
       _presenter.delete(address);
     });
   }

@@ -1,4 +1,5 @@
 import 'package:coupon_app/app/components/cart_item.dart';
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/database_helper.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
@@ -12,10 +13,12 @@ import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:logging/logging.dart';
+
 class DataCartRepository extends CartRepository {
   static DataCartRepository _instance = DataCartRepository._internal();
 
   Logger _logger;
+
   DataCartRepository._internal() {
     _logger = Logger("DataCartRepository");
   }
@@ -23,60 +26,80 @@ class DataCartRepository extends CartRepository {
   factory DataCartRepository() => _instance;
 
   @override
-  Future<CartItem> addToCart(String productId, String variantValueId) async {
-    try{
-      Token token = await SessionHelper().getCurrentUser();
-      Map<String, dynamic> cart = await HttpHelper.invokeHttp(Constants.cartRoute, RequestType.post, body: {
-        "user_id" : token.user.id.toString(),
-        "product_id" : productId,
-        "qty" : "1",
-        "variant_value_id" : variantValueId
-      });
+  Future<CartItem> updateQuantity(int cartId, int qty) async {
+    try {
+      print("----------qty ${qty}");
+      Map<String, dynamic> cart = await HttpHelper.invokeHttp(
+          "${Constants.cartRoute}${cartId}/", RequestType.patch,
+          body: {
+            "qty": (qty ?? 1).toString(),
+          });
       CartItem cartItem = CartItem.fromJson(cart);
       return cartItem;
-    }catch(e){
+    } catch (e) {
       _logger.finest(e);
       rethrow;
     }
   }
 
   @override
-  Future<Cart> getCart() async{
-    try{
+  Future<CartItem> addToCart(String productId, String variantValueId,
+      {int qty}) async {
+    try {
       Token token = await SessionHelper().getCurrentUser();
-      var url = Constants.createUriWithParams(Constants.cartRoute, {
-        "user_id" : token.user.id.toString()
-      });
+      Map<String, dynamic> cart = await HttpHelper.invokeHttp(
+          Constants.cartRoute, RequestType.post,
+          body: {
+            "user_id": token.user.id.toString(),
+            "product_id": productId,
+            "qty": (qty ?? 1).toString(),
+            "variant_value_id": variantValueId
+          });
+      CartItem cartItem = CartItem.fromJson(cart);
+      return cartItem;
+    } catch (e) {
+      _logger.finest(e);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Cart> getCart() async {
+    try {
+      Token token = await SessionHelper().getCurrentUser();
+      var url = Constants.createUriWithParams(
+          Constants.cartRoute, {"user_id": token.user.id.toString(),
+        "lang" : Config().getLanguageId().toString()});
       List<dynamic> items = await HttpHelper.invokeHttp(url, RequestType.get);
-      List<CartItem> cartItems = items.map((e) => CartItem.fromJson(e)).toList();
+      List<CartItem> cartItems =
+          items.map((e) => CartItem.fromJson(e)).toList();
 
       double total = 0;
       int quantity = 0;
       cartItems.forEach((element) {
         String price = "0";
-        if(element.variant_value_id != null){
+        if (element.variant_value_id != null) {
           price = element.variant_value_id.price;
-        }else{
+        } else {
           price = element.product_id.sale_price;
         }
-        total += double.parse(price) * element.qty ;
+        total += double.parse(price) * element.qty;
         quantity += element.qty;
       });
 
       return Cart(quantity: quantity, cartItems: cartItems, total: total);
-    }catch(e){
+    } catch (e) {
       _logger.finest(e);
       rethrow;
     }
   }
 
   @override
-  Future<void> remove(CartItem cartItem) async{
-    try{
-      List<dynamic> items = await HttpHelper.invokeHttp("${Constants.cartRoute}${cartItem.id}",
-          RequestType.delete);
-
-    }catch(e){
+  Future<void> remove(CartItem cartItem) async {
+    try {
+     await HttpHelper.invokeHttp(
+          "${Constants.cartRoute}${cartItem.id}/", RequestType.delete);
+    } catch (e) {
       _logger.finest(e);
       rethrow;
     }
@@ -87,17 +110,16 @@ class DataCartRepository extends CartRepository {
     final Database db = await DatabaseHelper().getDatabase();
     List<Map<String, dynamic>> cartItems = await db
         .query("cart_items", where: "id=? AND type=?", whereArgs: [id, type]);
-    if(cartItems.length == 0){
+    if (cartItems.length == 0) {
       return null;
     }
-    return
-      cartItems
-          .map((e) => CartItemMapper.createFromMap(e)).first;
+    return cartItems.map((e) => CartItemMapper.createFromMap(e)).first;
   }
 
   @override
   Future<int> getQuantity() async {
     final Database db = await DatabaseHelper().getDatabase();
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT SUM(quantity) as quantity FROM cart_items'));
+    return Sqflite.firstIntValue(
+        await db.rawQuery('SELECT SUM(quantity) as quantity FROM cart_items'));
   }
 }

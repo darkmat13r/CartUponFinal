@@ -9,7 +9,8 @@ import 'package:coupon_app/domain/mapper/cart_item_mapper.dart';
 abstract class CartRepository{
   Future<Cart> getCart();
   Future<CartItem> findItem(int id, String type);
+  Future<CartItem> updateQuantity(int cartItemId, int quantity);
   Future<int> getQuantity();
-  Future<CartItem> addToCart(String productId, String variantValueId);
+  Future<CartItem> addToCart(String productId, String variantValueId, {int qty});
   Future<void> remove(CartItem productMapper);
 }

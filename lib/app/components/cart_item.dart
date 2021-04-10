@@ -1,4 +1,5 @@
 import 'package:coupon_app/app/components/product_thumbnail.dart';
+import 'package:coupon_app/app/components/quantity_button.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/utility.dart';
@@ -9,9 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class CartItemView extends StatefulWidget {
-  CartItem cartItemMapper;
+  final CartItem item;
 
-  CartItemView(this.cartItemMapper);
+  final Function onAdd;
+  final Function onDelete;
+  final Function onRemove;
+
+  CartItemView(this.item, {this.onAdd, this.onDelete, this.onRemove});
 
   @override
   State<StatefulWidget> createState() => CartItemViewState();
@@ -24,59 +29,89 @@ class CartItemViewState extends State<CartItemView> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
-          Dimens.spacingMedium, Dimens.spacingNormal, Dimens.spacingMedium, 0),
+          Dimens.spacingNormal, Dimens.spacingNormal, Dimens.spacingNormal, 0),
       child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(Dimens.spacingMedium),
+        child: IntrinsicHeight(
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ProductThumbnail(widget.cartItemMapper != null && widget.cartItemMapper.product_id != null ?  widget.cartItemMapper.product_id.thumb_img : ""),
-              SizedBox(
-                width: Dimens.spacingMedium,
+              Padding(
+                padding: const EdgeInsets.all(Dimens.spacingNormal),
+                child: ProductThumbnail(widget.item != null &&
+                        widget.item.product_id != null
+                    ? widget.item.product_id.thumb_img
+                    : ""),
               ),
-              Flexible(
-                flex: 1,
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                     widget.cartItemMapper != null  && widget.cartItemMapper.product_id != null
-                         ? widget.cartItemMapper.product_id.title ?? "-" : "-",
-                      style: heading6.copyWith(color: AppColors.neutralDark),
+                    SizedBox(
+                      height: Dimens.spacingMedium,
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: Dimens.spacingMedium),
+                      child: Text(
+                        widget.item != null &&
+                                widget.item.product_id != null && widget.item.product_id.product_detail != null
+                            ? widget.item.product_id.product_detail.name ?? "-"
+                            : "-",
+                        style: heading6.copyWith(color: AppColors.neutralDark),
+                      ),
                     ),
                     SizedBox(
                       height: Dimens.spacingNormal,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(widget.cartItemMapper != null
-                              && widget.cartItemMapper.product_id != null
-                              ? LocaleKeys.fmtQty.tr(args: [widget.cartItemMapper.qty.toString()]) : "0", style: bodyTextNormal1,),
-                        ),
-                        Expanded(
-                          child: SizedBox(
+                    Padding(
+                      padding:
+                      const EdgeInsets.only(left: Dimens.spacingMedium),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              Utility.getCartItemPrice(widget.item),
+                              style: heading6.copyWith(color: AppColors.primary),
+                            ),
                           ),
-                        ),
-                        Text(
-                          Utility.getCartItemPrice(widget.cartItemMapper),
-                          style: heading6.copyWith(color: AppColors.primary),
-                        ),
-                      ],
+                          QuantityButton(
+                            widget.item.qty,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            max: widget.item.variant_value_id != null
+                                ? widget.item.variant_value_id.stock
+                                : widget.item.product_id.stock,
+                            onAdd: (qty){
+                              if(widget.onAdd != null){
+                                widget.onAdd(widget.item, qty);
+                              }
+                            },
+                            onDelete: (){
+                              if(widget.onDelete != null){
+                                widget.onDelete(widget.item);
+                              }
+                            },
+                            onRemove: (qty){
+                              if(widget.onRemove != null){
+                                widget.onRemove(widget.item, qty);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-              Container(
-                child: IconButton(onPressed: (){}, icon: Icon(MaterialCommunityIcons.trash_can), color: AppColors.error,),
-              )
+
+              SizedBox(
+                width: Dimens.spacingMedium,
+              ),
             ],
           ),
         ),
       ),
     );
   }
-
 }

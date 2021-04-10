@@ -19,8 +19,8 @@ class AddToCartUseCase extends CompletableUseCase<CartItem>{
   Future<Stream<void>> buildUseCaseStream(CartItem params) async{
     final StreamController<CartItem> controller =  StreamController();
     try{
-      CartItem response = await _cartRepository.addToCart(params.product_id.toString(),
-          params.variant_value_id != null  ? params.variant_value_id.id.toString() : null);
+      CartItem response = await _cartRepository.addToCart(params.product_id.id.toString(),
+          params.variant_value_id != null  ? params.variant_value_id.id.toString() : null, qty: params.qty);
       controller.add(response);
       controller.close();
     }catch(e){
