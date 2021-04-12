@@ -13,8 +13,8 @@ abstract class AddressRepository {
       {
       @required String firstName,
       @required String lastName,
-      @required String area,
-      @required String block,
+      @required Area area,
+      @required Block block,
       @required String building,
       @required String floorFlat,
       @required String address,
@@ -27,8 +27,8 @@ abstract class AddressRepository {
       {
         @required String firstName,
         @required String lastName,
-        @required String area,
-      @required String block,
+        @required Area area,
+      @required Block block,
       @required String building,
       @required String floorFlat,
       @required String address,

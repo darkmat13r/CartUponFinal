@@ -3,6 +3,7 @@ import 'package:coupon_app/app/pages/account/address/addresses_presenter.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/repositories/address_repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,6 +34,7 @@ class AddressesController extends BaseController {
 
     _presenter.getAddressesOnError = (e) {
       dismissLoading();
+
       showGenericSnackbar(getContext(), e.message);
     };
 
@@ -50,13 +52,19 @@ class AddressesController extends BaseController {
     _presenter.fetchAddresses();
   }
 
+  edit(Address address)async{
+    await  AppRouter().editAddress(getContext(), address);
+    _presenter.fetchAddresses();
+  }
+
   delete(Address address) {
     showGenericConfirmDialog(
         getContext(), LocaleKeys.warning.tr(), LocaleKeys.confirmDelete.tr(),
         onConfirm: () {
+          addresses.remove(address);
       Navigator.of(getContext()).pop();
       showLoadingDialog(getContext());
-      addresses.remove(address);
+
       _presenter.delete(address);
     });
   }

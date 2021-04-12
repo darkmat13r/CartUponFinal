@@ -7,6 +7,7 @@ import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/usercases/address/create_address_use_case.dart';
 import 'package:coupon_app/domain/usercases/address/get_areas_use_case.dart';
 import 'package:coupon_app/domain/usercases/address/get_blocks_use_case.dart';
+import 'package:coupon_app/domain/usercases/address/update_address_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
 
@@ -26,17 +27,25 @@ class AddAddressPresenter extends AuthPresenter {
   Function createAddressOnError;
   Function createAddressOnNext;
 
+
+  UpdateAddressUseCase _updateAddressUseCase;
+
   Logger _logger;
 
   AddAddressPresenter(AddressRepository addressRepository, AuthenticationRepository authRepo)
       : _getAreasUseCase = GetAreasUseCase(addressRepository),
         _getBlocksUseCase = GetBlocksUseCase(addressRepository),
+        _updateAddressUseCase = UpdateAddressUseCase(addressRepository),
         _createAddressUseCase = CreateAddressUseCase(addressRepository), super(authRepo) {
     _logger = Logger("AddAddressPresenter");
   }
 
   createAddress(Address address){
     _createAddressUseCase.execute(_CreateAddressObserver(this), address);
+  }
+
+  updateAddress(Address address){
+    _updateAddressUseCase.execute(_CreateAddressObserver(this), address);
   }
 
   fetchAreas(){

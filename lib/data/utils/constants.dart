@@ -16,6 +16,7 @@ class Constants {
   static const String areaRoute = '$baseUrl/areawebapi/';
   static const String blockRoute = '$baseUrl/blockwebapi/';
   static const String addressRoute = '$baseUrl/addresswebapi/';
+  static const String addressGetRoute = '$baseUrl/addressGetwebapi/';
   static const String cartRoute = '$baseUrl/cartwebapi/';
   static const String whishlistRoute = '$baseUrl/wishlistapi/';
   static const String userRoute = '$baseUrl/user';

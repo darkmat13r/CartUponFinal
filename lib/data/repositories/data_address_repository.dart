@@ -38,7 +38,7 @@ class DataAddressRepository extends AddressRepository {
     try {
       Token token = await SessionHelper().getCurrentUser();
       var url = Constants.createUriWithParams(
-          "${Constants.addressRoute}", {'user_id': token.user.id.toString()});
+          "${Constants.addressGetRoute}", {'user_id': token.user.id.toString()});
       List<dynamic> addressesData =
           await HttpHelper.invokeHttp2(url, RequestType.get,headers: {
             HttpHeaders.authorizationHeader : "Token ${ (await SessionHelper().getToken())}"
@@ -57,8 +57,8 @@ class DataAddressRepository extends AddressRepository {
       {
         String firstName,
         String lastName,
-        String area,
-      String block,
+        Area area,
+      Block block,
       String building,
       String floorFlat,
       String address,
@@ -75,8 +75,8 @@ class DataAddressRepository extends AddressRepository {
             'user': token.user.id.toString(),
             'first_name': firstName,
             'last_name': lastName,
-            'area': area.toString(),
-            'block': block.toString(),
+            'area': area != null ? area.id.toString() : "",
+            'block':block != null ?  block.id.toString() : "",
             'building': building,
             'floor_flat': floorFlat,
             'address': address,
@@ -95,8 +95,8 @@ class DataAddressRepository extends AddressRepository {
   Future<Address> updateAddress(String id,
       {  String firstName,
         String lastName,
-        String area,
-      String block,
+        Area area,
+      Block block,
       String building,
       String floorFlat,
       String address,
@@ -104,15 +104,15 @@ class DataAddressRepository extends AddressRepository {
       String phoneNo}) async {
     try {
       Map<String, dynamic> data = await HttpHelper.invokeHttp(
-          "${Constants.addressRoute}${id}", RequestType.patch,
+          "${Constants.addressRoute}${id}/", RequestType.patch,
           headers: {
             HttpHeaders.authorizationHeader : "Token ${ (await SessionHelper().getToken())}"
           },
           body: {
             'first_name': firstName,
             'last_name': lastName,
-            'area': area,
-            'block': block,
+            'area': area != null ? area.id.toString() : "",
+            'block':block != null ?  block.id.toString() : "",
             'building': building,
             'floor_flat': floorFlat,
             'address': address,

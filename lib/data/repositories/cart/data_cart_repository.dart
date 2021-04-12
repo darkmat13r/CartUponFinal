@@ -33,6 +33,7 @@ class DataCartRepository extends CartRepository {
           "${Constants.cartRoute}${cartId}/", RequestType.patch,
           body: {
             "qty": (qty ?? 1).toString(),
+            "lang" : Config().getLanguageId().toString()
           });
       CartItem cartItem = CartItem.fromJson(cart);
       return cartItem;

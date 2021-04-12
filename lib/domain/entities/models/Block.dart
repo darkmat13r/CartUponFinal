@@ -1,7 +1,7 @@
 import 'package:coupon_app/domain/entities/models/Area.dart';
 
 class Block {
-    Area area;
+    int area;
     String block_name;
     bool block_status;
     int id;
@@ -10,7 +10,7 @@ class Block {
 
     factory Block.fromJson(Map<String, dynamic> json) {
         return Block(
-            area: json['area'] != null ? Area.fromJson(json['area']) : null, 
+            area: json['area'] ,
             block_name: json['block_name'], 
             block_status: json['block_status'], 
             id: json['id'], 
@@ -23,7 +23,7 @@ class Block {
         data['block_status'] = this.block_status;
         data['id'] = this.id;
         if (this.area != null) {
-            data['area'] = this.area.toJson();
+            data['area'] = this.area;
         }
         return data;
     }

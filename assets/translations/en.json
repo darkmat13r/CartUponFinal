@@ -180,5 +180,6 @@
   "fmtQty" : "Qty : {}",
   "itemAddedToWhishlist" : "Item added to your whishlist.",
   "itemAddedToCart" : "Item added to your cart.",
+  "editAddress" : "Edit Address",
   "confirmRemoveCartItem" : "Do you want to remove this item from cart?"
 }

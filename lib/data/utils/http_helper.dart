@@ -21,6 +21,7 @@ class HttpHelper {
     http.Response response;
     T responseBody;
     print("------------ ${headers}");
+    print("url; ${url} _=-Body ${body}");
     try {
       response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
       if(response.body.length > 0){

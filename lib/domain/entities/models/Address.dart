@@ -1,9 +1,12 @@
+import 'package:coupon_app/domain/entities/models/Area.dart';
+import 'package:coupon_app/domain/entities/models/Block.dart';
+
 class Address {
     String first_name;
     String last_name;
     String address;
-    String area;
-    String block;
+    Area area;
+    Block block;
     String building;
     String floor_flat;
     int id;
@@ -18,8 +21,8 @@ class Address {
             first_name: json['first_name'],
             last_name: json['last_name'],
             address: json['address'],
-            area: json['area'].toString(),
-            block: json['block'].toString(),
+            area: (json['area'] !=  null && json['area'] is Map) ? Area.fromJson(json['area']) : null,
+            block: (json['block'] !=  null && json['block'] is Map) ? Block.fromJson(json['block']) : null,
             building: json['building'], 
             floor_flat: json['floor_flat'], 
             id: json['id'], 
@@ -34,8 +37,8 @@ class Address {
         data['first_name'] = this.first_name;
         data['last_name'] = this.last_name;
         data['address'] = this.address;
-        data['area'] = this.area;
-        data['block'] = this.block;
+        data['area'] = this.area != null ? this.area.toJson() : "";
+        data['block'] = this.block != null ?  this.block : "";
         data['building'] = this.building;
         data['floor_flat'] = this.floor_flat;
         data['id'] = this.id;

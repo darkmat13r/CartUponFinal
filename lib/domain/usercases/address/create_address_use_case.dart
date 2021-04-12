@@ -20,7 +20,7 @@ class CreateAddressUseCase extends CompletableUseCase<Address>{
       var data = await _repository.saveAddress(
           firstName: params.first_name,
           lastName: params.last_name,
-          area: params.area,
+          area: params.area ,
           address: params.address,
           phoneNo: params.phone_no,
           floorFlat: params.floor_flat,

@@ -33,7 +33,7 @@ abstract class BaseController extends Controller {
   }
 
   onAuthError(e) {
-    showGenericSnackbar(getContext(), e.message, isError : true);
+   // showGenericSnackbar(getContext(), e.message, isError : true);
   }
 
   onLoggedOut(){

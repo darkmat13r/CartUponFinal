@@ -34,7 +34,10 @@ class AddAddressController extends BaseController {
 
   Logger _logger;
 
+  Address address;
+
   AddAddressController(
+      this.address,
       AddressRepository addressRepository, AuthenticationRepository authRepo)
       : _presenter = AddAddressPresenter(addressRepository, authRepo) {
     _logger = Logger("AddAddressController");
@@ -50,6 +53,30 @@ class AddAddressController extends BaseController {
     isLoadingAreas = true;
     refreshUI();
     _presenter.fetchAreas();
+    fillValues();
+  }
+
+  fillValues(){
+    if(this.address != null){
+        firstNameText.text = this.address.first_name;
+        lastNameText.text = this.address.last_name;
+        flatText.text = this.address.floor_flat;
+        buildingText.text = this.address.building;
+        addressText.text = this.address.address;
+        phoneText.text= this.address.phone_no;
+
+        if(this.address.area != null){
+          areaText.text = this.address.area.area_name;
+          selectedArea = this.address.area;
+        }
+        if(this.address.block != null){
+          blockText.text = this.address.block.block_name;
+          selectedBlock = this.address.block;
+        }
+        isDefault = this.address.is_default;
+
+
+    }
   }
 
   onSelectArea(Area area) {
@@ -129,20 +156,39 @@ class AddAddressController extends BaseController {
     };
   }
 
-  void addAddress() {
+  void editAddress(){
     showLoading();
-    Address address = Address(
+    Address data = Address(
+        id: address!= null ? address.id : null,
         first_name: firstNameText.text,
         last_name: lastNameText.text,
-        area: selectedArea.id.toString(),
-        block: selectedBlock.id.toString(),
+        area: selectedArea,
+        block: selectedBlock,
         floor_flat: flatText.text,
         building: buildingText.text,
         address: addressText.text,
         phone_no: phoneText.text,
         is_default: isDefault);
-    print("===============> Address ${address.toJson()}");
-    _presenter.createAddress(address);
+
+    print("Update Address ${data.toJson()}");
+    _presenter.updateAddress(data);
+  }
+
+  void addAddress() {
+    showLoading();
+    Address data = Address(
+
+        first_name: firstNameText.text,
+        last_name: lastNameText.text,
+        area: selectedArea,
+        block: selectedBlock,
+        floor_flat: flatText.text,
+        building: buildingText.text,
+        address: addressText.text,
+        phone_no: phoneText.text,
+        is_default: isDefault);
+
+    _presenter.createAddress(data);
   }
 
   @override
@@ -156,7 +202,11 @@ class AddAddressController extends BaseController {
     // Validate params
     assert(formKey is GlobalKey<FormState>);
     if (formKey.currentState.validate()) {
-      addAddress();
+      if(address == null){
+        addAddress();
+      }else{
+        editAddress();
+      }
     }
   }
 }

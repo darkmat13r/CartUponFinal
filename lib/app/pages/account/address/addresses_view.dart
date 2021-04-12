@@ -102,15 +102,20 @@ class AddressesPageState extends ViewState<AddressesPage, AddressesController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${address.floor_flat}, ${address.block} , ${address.building}",
+              "${address.first_name} ${address.last_name}",
               style: heading5,
             ),
             SizedBox(
               height: Dimens.spacingNormal,
             ),
             Text(
-              "${address.area} ${address.address}",
-              style: bodyTextNormal1.copyWith(color: AppColors.neutralGray),
+              "${address.floor_flat}, ${address.block != null ? address.block.block_name : ""} , ${address.building}",
+              style: captionNormal1.copyWith(color: AppColors.neutralGray),
+            ),
+
+            Text(
+              "${address.area != null ? address.area.area_name : ""} ${address.address}",
+              style: captionNormal1.copyWith(color: AppColors.neutralGray),
             ),
             SizedBox(
               height: Dimens.spacingNormal,
@@ -123,7 +128,9 @@ class AddressesPageState extends ViewState<AddressesPage, AddressesController> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.edit(address);
+                  },
                   child: Text(
                     LocaleKeys.edit.tr(),
                     style: buttonText.copyWith(color: AppColors.yellow),

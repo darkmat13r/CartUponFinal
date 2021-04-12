@@ -208,6 +208,7 @@ class LocaleKeys {
   static var confirmRemoveCartItem = "confirmRemoveCartItem";
   static var itemAddedToWhishlist = "itemAddedToWhishlist";
   static var itemAddedToCart = "itemAddedToCart";
+  static var editAddress = "editAddress";
 
 
 }

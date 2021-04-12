@@ -17,6 +17,7 @@ import 'package:coupon_app/app/pages/reviews/reviews_view.dart';
 import 'package:coupon_app/app/pages/search/search_view.dart';
 import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
 import 'package:coupon_app/app/pages/whishlist/whishlist_view.dart';
+import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/CategoryType.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +86,13 @@ class AppRouter {
           category: category,
         )));
   }
-
+  editAddress(BuildContext context, Address address) {
+    Navigator.of(context).push(_buildRoute(
+        RouteSettings(),
+        AddAddressPage(
+          address: address,
+        )));
+  }
   categorySearchById(BuildContext context, String categoryId) {
     Navigator.of(context).push(_buildRoute(
         RouteSettings(),

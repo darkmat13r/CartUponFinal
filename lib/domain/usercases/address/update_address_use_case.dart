@@ -21,6 +21,8 @@ class UpdateAddressUseCase extends CompletableUseCase<Address> {
       var data = await _repository.updateAddress(params.id.toString(),
           area: params.area,
           address: params.address,
+          firstName:  params.first_name,
+          lastName:  params.last_name,
           phoneNo: params.phone_no,
           floorFlat: params.floor_flat,
           isDefault: params.is_default,

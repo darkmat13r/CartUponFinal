@@ -8,6 +8,7 @@ import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
 import 'package:coupon_app/data/repositories/data_address_repository.dart';
 import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
+import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/Area.dart';
 import 'package:coupon_app/domain/entities/models/Block.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +17,18 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class AddAddressPage extends View {
+  Address address;
+
+  AddAddressPage({this.address});
+
   @override
-  State<StatefulWidget> createState() => AddAddressPageState();
+  State<StatefulWidget> createState() => AddAddressPageState(address);
 }
 
 class AddAddressPageState
     extends ViewState<AddAddressPage, AddAddressController> {
-  AddAddressPageState()
-      : super(AddAddressController(
+  AddAddressPageState(Address address)
+      : super(AddAddressController(address,
             DataAddressRepository(), DataAuthenticationRepository()));
   final _formKey = GlobalKey<FormState>();
 
@@ -34,7 +39,7 @@ class AddAddressPageState
   Widget get view => Scaffold(
         appBar: customAppBar(
             title: Text(
-          LocaleKeys.addAddress.tr(),
+          widget.address == null ? LocaleKeys.addAddress.tr() : LocaleKeys.editAddress.tr(),
           style: heading5.copyWith(color: AppColors.primary),
         )),
         key: globalKey,
