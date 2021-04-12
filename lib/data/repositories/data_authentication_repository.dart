@@ -149,7 +149,9 @@ class DataAuthenticationRepository implements AuthenticationRepository {
                 }
               }));
       Token token = Token.fromJson(body);
-      SessionHelper().saveCredentials(token: token.key, user: token);
+      print("Registration =-=---------------- ${ token.token}");
+      print("Registration =-=---------------- ${ token.toJson()}");
+      SessionHelper().saveCredentials(token: token.token, user: token);
       _logger.finest('Registration is successful');
       return token;
     } catch (error) {

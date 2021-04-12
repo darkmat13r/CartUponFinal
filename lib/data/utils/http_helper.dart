@@ -80,7 +80,7 @@ class HttpHelper {
       var uri = Uri.parse(url);
       switch (type) {
         case RequestType.patch:
-          response = await http.patch(uri, headers: headers);
+          response = await http.patch(uri, headers: headers,body: body, encoding: encoding);
           break;
         case RequestType.get:
           response = await http.get(uri, headers: headers);

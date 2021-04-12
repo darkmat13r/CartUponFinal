@@ -47,11 +47,11 @@ class DataCartRepository extends CartRepository {
   Future<CartItem> addToCart(String productId, String variantValueId,
       {int qty}) async {
     try {
-      Token token = await SessionHelper().getCurrentUser();
+      String userId = await SessionHelper().getUserId();
       Map<String, dynamic> cart = await HttpHelper.invokeHttp(
           Constants.cartRoute, RequestType.post,
           body: {
-            "user_id": token.user.id.toString(),
+            "user_id": userId,
             "product_id": productId,
             "qty": (qty ?? 1).toString(),
             "variant_value_id": variantValueId
@@ -67,9 +67,9 @@ class DataCartRepository extends CartRepository {
   @override
   Future<Cart> getCart() async {
     try {
-      Token token = await SessionHelper().getCurrentUser();
+      String userId = await SessionHelper().getUserId();
       var url = Constants.createUriWithParams(
-          Constants.cartRoute, {"user_id": token.user.id.toString(),
+          Constants.cartRoute, {"user_id": userId,
         "lang" : Config().getLanguageId().toString()});
       List<dynamic> items = await HttpHelper.invokeHttp(url, RequestType.get);
       List<CartItem> cartItems =

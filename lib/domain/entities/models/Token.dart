@@ -5,10 +5,11 @@ class Token {
     String date_of_birth;
     int id;
     String key;
+    String token;
     String mobile_no;
     User user;
 
-    Token({this.country_code, this.date_of_birth, this.id, this.key, this.mobile_no, this.user});
+    Token({this.country_code, this.date_of_birth, this.id, this.key,this.token, this.mobile_no, this.user});
 
     factory Token.fromJson(Map<String, dynamic> json) {
         return Token(
@@ -16,6 +17,7 @@ class Token {
             date_of_birth: json['date_of_birth'] ?? "",
             id: json['id'] ?? 0,
             key: json['key'] ?? "",
+            token: json['token'] ?? "",
             mobile_no: json['mobile_no'] ?? "",
             user: json['user'] != null ? User.fromJson(json['user']) : null, 
         );

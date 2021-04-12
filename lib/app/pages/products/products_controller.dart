@@ -48,6 +48,15 @@ class ProductsController extends BaseController{
   }
 
   getHomeOnNext(HomeData res) {
+    var itemsToRemove = [];
+    res.sections.forEach((element) {
+      if(element.category.products == null || element.category.products.length == 0){
+        itemsToRemove.add(element);
+      }
+    });
+    itemsToRemove.forEach((element) {
+      res.sections.remove(element);
+    });
     this.homeResponse = res;
     _logger.finest("Sliders  ", res);
     refreshUI();

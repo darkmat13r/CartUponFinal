@@ -152,7 +152,7 @@ class AddAddressPageState
                     }),
                 formField(
                     label: LocaleKeys.phone.tr(),
-                    hint: LocaleKeys.hintPhone,
+                    hint: LocaleKeys.hintPhone.tr(),
                     inputType: TextInputType.phone,
                     prefix: Text(
                       controller.currentUser.country_code,

@@ -125,6 +125,7 @@ class _CreateAddressObserver extends Observer<Address> {
   @override
   void onError(e) {
     assert(_presenter.createAddressOnError != null);
+    print("asdasd ${e.stackTrace}");
     _presenter.createAddressOnError(e);
   }
 

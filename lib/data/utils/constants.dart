@@ -12,7 +12,7 @@ class Constants {
   static const String loginRoute = '$baseUrl/login/';
   static const String forgotPasswordRoute = '$baseUrl/forgot-password';
   static const String registerRoute = '$baseUrl/customerwebapi/';
-  static const String userProfileRoute = '$baseUrl/UserCustomerWebAPI/';
+  static const String userProfileRoute = '$baseUrl/userCustomerapi/';
   static const String areaRoute = '$baseUrl/areawebapi/';
   static const String blockRoute = '$baseUrl/blockwebapi/';
   static const String addressRoute = '$baseUrl/addresswebapi/';
@@ -27,6 +27,7 @@ class Constants {
 
   // Local Storage
   static const String tokenKey = 'authentication_token';
+  static const String tempIdKey = 'user_temp_id_key';
   static const String userKey = 'user_key';
   static const String isAuthenticatedKey = 'isUserAuthenticated';
 

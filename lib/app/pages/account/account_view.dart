@@ -49,10 +49,13 @@ class AccountPageState extends ViewState<AccountPage, AccountController> {
           _optionItem(Pages.profile, MaterialCommunityIcons.wallet,
               LocaleKeys.wallet.tr(), LocaleKeys.descWallet.tr()),
           controller.currentUser != null
-              ? _optionItemClickable(Pages.addresses,
-                  MaterialCommunityIcons.location_exit, LocaleKeys.logout.tr(), null, (){
-                controller.logout();
-              })
+              ? _optionItemClickable(
+                  Pages.addresses,
+                  MaterialCommunityIcons.location_exit,
+                  LocaleKeys.logout.tr(),
+                  null, () {
+                  controller.logout();
+                })
               : SizedBox(),
         ];
         return Column(
@@ -82,16 +85,16 @@ class AccountPageState extends ViewState<AccountPage, AccountController> {
           builder: (BuildContext context, AccountController controller) {
         return Padding(
           padding: const EdgeInsets.all(Dimens.spacingMedium),
-          child: RichText(
+          child:controller.currentUser.user != null ? RichText(
               text: TextSpan(children: [
             TextSpan(
                 text: LocaleKeys.greetings.tr(),
                 style: heading4.copyWith(color: AppColors.neutralGray)),
             TextSpan(
                 text:
-                    "${controller.currentUser.user.first_name} ${controller.currentUser.user.last_name}",
+                    "${controller.currentUser.user != null ? controller.currentUser.user.first_name : ""} ${controller.currentUser.user.last_name}",
                 style: heading4.copyWith(color: AppColors.primary)),
-          ])),
+          ])):  SizedBox(),
         );
       });
 
@@ -161,35 +164,38 @@ class AccountPageState extends ViewState<AccountPage, AccountController> {
           ],
         );
       });
-  Widget _optionItemClickable(page, icon, name, description, Function onPressed) {
+
+  Widget _optionItemClickable(
+      page, icon, name, description, Function onPressed) {
     return ControlledWidgetBuilder(
         builder: (BuildContext context, AccountController controller) {
-          return InkWell(
-            onTap: () {
-              onPressed();
-            },
-            child: ListTile(
-              leading: Icon(
-                icon,
-                color: AppColors.neutralGray,
-                size: 24,
-              ),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(name,
-                      style: heading5.copyWith(color: AppColors.neutralDark)),
-                  description != null
-                      ? Text(description,
+      return InkWell(
+        onTap: () {
+          onPressed();
+        },
+        child: ListTile(
+          leading: Icon(
+            icon,
+            color: AppColors.neutralGray,
+            size: 24,
+          ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(name,
+                  style: heading5.copyWith(color: AppColors.neutralDark)),
+              description != null
+                  ? Text(description,
                       style:
-                      captionNormal1.copyWith(color: AppColors.neutralGray))
-                      : SizedBox(),
-                ],
-              ),
-            ),
-          );
-        });
+                          captionNormal1.copyWith(color: AppColors.neutralGray))
+                  : SizedBox(),
+            ],
+          ),
+        ),
+      );
+    });
   }
+
   Widget _optionItem(page, icon, name, description) {
     return ControlledWidgetBuilder(
         builder: (BuildContext context, AccountController controller) {

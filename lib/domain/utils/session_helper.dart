@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:coupon_app/domain/entities/models/Token.dart';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,9 +24,13 @@ class SessionHelper {
   /// Returns the current authenticated `User` from `SharedPreferences`.
   Future<Token> getCurrentUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    Token user = Token
-        .fromJson(jsonDecode(preferences.getString(Constants.userKey)));
-    return user;
+    String json = preferences.getString(Constants.userKey);
+    if(json != null){
+      Token user = Token
+          .fromJson(jsonDecode(json));
+      return user;
+    }
+    return null;
   }
   void updateUser(
       {@required Token user}) async {
@@ -61,5 +67,34 @@ class SessionHelper {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var token =  preferences.getString(Constants.tokenKey);
     return token;
+  }
+
+  getTempId()async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return  preferences.getInt(Constants.tempIdKey);
+  }
+  /// Saves the [token] and the [user] in `SharedPreferences`.
+  void saveTempId(
+      {@required int tempId}) async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await Future.wait([
+        preferences.setInt(Constants.tempIdKey, tempId),
+      ]);
+    } catch (error) {
+      _logger.warning('TempId could not be stored.');
+    }
+  }
+  getUserId()async{
+    Token token = await getCurrentUser();
+    if(token == null || token.user == null){
+      var tempId = await getTempId();
+      if(tempId == null || tempId == 0 || tempId == -1){
+        tempId = DateTime.now().millisecondsSinceEpoch~/1000;
+        await saveTempId(tempId: tempId);
+      }
+      return tempId.toString();
+    }
+    return token.user.id.toString();
   }
 }
