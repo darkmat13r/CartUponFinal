@@ -27,7 +27,7 @@ class _VariantPickerState extends State<VariantPicker> {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       children: List.generate(
-          widget.variants != null ? widget.variants.length : 0, (index) {
+          widget.variants != null ? widget.variants.length  : 0, (index) {
         if (widget.variants[index].display_as == "v_list")
           return dropdownList(widget.variants[index],
               widget.variants[index].product_variant_values);
@@ -57,7 +57,7 @@ class _VariantPickerState extends State<VariantPicker> {
           child: ListView(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            children: List.generate(productVariantValues.length, (index) {
+            children: List.generate(productVariantValues.length , (index) {
               var value = productVariantValues[index];
               var isSelected = _selectVariantValue != null && value.id ==  _selectVariantValue.id;
               var selectedColor =  isSelected  ? AppColors.accent : AppColors.neutralGray;
@@ -115,54 +115,56 @@ class _VariantPickerState extends State<VariantPicker> {
     return string[0].toUpperCase() + string.substring(1);
   }
   Widget dropdownList(ProductVariant variant,
-          List<ProductVariantValue> values) =>
-      SizedBox(
-        width: double.infinity,
-        child: Container(
-          decoration:
-              BoxDecoration(border: Border.all(color: AppColors.neutralGray)),
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
-            child: DropdownButton<ProductVariantValue>(
-              elevation: 8,
-              underline: SizedBox(),
-              hint: Text(variant.name),
-              value: _selectVariantValue,
-              isExpanded: true,
-              icon: Icon(MaterialIcons.arrow_drop_down),
-              items: values.map(
-                  (ProductVariantValue value) {
-                return DropdownMenuItem<ProductVariantValue>(
-                  value: value,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        value.value,
-                        style: heading6.copyWith(color: AppColors.neutralDark),
-                      ),
-                      Text(
-                        "KD${value.price}",
-                        style: captionNormal1.copyWith(
-                            color: AppColors.neutralGray),
-                      )
-                    ],
-                  ),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  _selectVariantValue = value;
-                  if(widget.onPickVariant != null){
-                    widget.onPickVariant(value);
-                  }
-                });
-              },
-            ),
+          List<ProductVariantValue> values){
+
+    return  SizedBox(
+      width: double.infinity,
+      child: Container(
+        decoration:
+        BoxDecoration(border: Border.all(color: AppColors.neutralGray)),
+        child: Padding(
+          padding:
+          const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+          child: DropdownButton<ProductVariantValue>(
+            elevation: 8,
+            underline: SizedBox(),
+            hint: Text(variant.name),
+            value: _selectVariantValue,
+            isExpanded: true,
+            icon: Icon(MaterialIcons.arrow_drop_down),
+            items: values.map(
+                    (ProductVariantValue value) {
+                  return DropdownMenuItem<ProductVariantValue>(
+                    value: value,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          value.value  == null ? "Select" : value.value,
+                          style: heading6.copyWith(color: AppColors.neutralDark),
+                        ),
+                        value.value  != null  ? Text(
+                          "KD${value.price}",
+                          style: captionNormal1.copyWith(
+                              color: AppColors.neutralGray),
+                        ) : SizedBox()
+                      ],
+                    ),
+                  );
+                }).toList(),
+            onChanged: (value) {
+              setState(() {
+                _selectVariantValue = value;
+                if(widget.onPickVariant != null){
+                  widget.onPickVariant(value);
+                }
+              });
+            },
           ),
         ),
-      );
+      ),
+    );
+  }
 }
 

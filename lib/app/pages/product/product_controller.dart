@@ -13,6 +13,7 @@ import 'package:coupon_app/domain/entities/models/ProductVariant.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:coupon_app/domain/repositories/whishlist_repository.dart';
+import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
@@ -38,12 +39,18 @@ class ProductController extends BaseController {
     _initAddToWhishlistListeners();
   }
 
-  addItemToWhishlist(Product product){
-    isAddedToWhishlist = true;
-    refreshUI();
-    if(product != null){
-      _presenter.addToWhishlist(product);
+  addItemToWhishlist(Product product) async {
+    var currentUser = await SessionHelper().getCurrentUser();
+    if(currentUser == null){
+      Navigator.of(getContext()).pushNamed(Pages.login);
+    }else{
+      if(product != null){
+        isAddedToWhishlist = true;
+        refreshUI();
+        _presenter.addToWhishlist(product);
+      }
     }
+
   }
 
   _initAddToWhishlistListeners(){

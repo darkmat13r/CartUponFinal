@@ -78,7 +78,7 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
                 decoration: InputDecoration(
                     hintText: LocaleKeys.lastName.tr()),
               ),
-              SizedBox(
+             /* SizedBox(
                 height: Dimens.spacingMedium,
               ),
               TextFormField(
@@ -93,11 +93,10 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
                   }
                   return null;
                 },
-
                 decoration: InputDecoration(
                     prefixIcon: Icon(MaterialCommunityIcons.email),
                     hintText: LocaleKeys.hintEmail.tr()),
-              ),
+              ),*/
               SizedBox(
                 height: Dimens.spacingMedium,
               ),

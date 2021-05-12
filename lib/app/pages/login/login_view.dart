@@ -54,7 +54,7 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
                 SizedBox(
                   height: Dimens.spacingLarge,
                 ),
-                orDivider,
+               /* orDivider,
                 SizedBox(
                   height: Dimens.spacingLarge,
                 ),
@@ -62,11 +62,11 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
-                facebookLogin,
+                facebookLogin,*/
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
-                _forgotPassword,
+               _forgotPassword,
                 _registerButton
               ],
             ),
@@ -211,6 +211,7 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
               TextFormField(
                 keyboardType: TextInputType.text,
                 controller: controller.passwordTextController,
+                obscureText: true,
                 validator: (value) {
                   if (value.isEmpty) {
                     return LocaleKeys.errorPasswordRequired.tr();

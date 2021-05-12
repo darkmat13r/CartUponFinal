@@ -118,6 +118,8 @@ class LocaleKeys {
   static const  oldPassword  = "oldPassword";
   static const  newPassword  = "newPassword";
   static const  confirmNewPassword  = "confirmNewPassword";
+  static const  passwordChanged  = "passwordChanged";
+  static const  passwordDontMatch  = "passwordDontMatch";
 
   //Add address
   static const edit  = "edit";
@@ -209,6 +211,9 @@ class LocaleKeys {
   static var itemAddedToWhishlist = "itemAddedToWhishlist";
   static var itemAddedToCart = "itemAddedToCart";
   static var editAddress = "editAddress";
+
+  static var errorIncompleteForm = "errorIncompleteForm";
+  static var passwordResetLinkSent = "passwordResetLinkSent";
 
 
 }

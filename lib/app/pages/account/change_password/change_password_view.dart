@@ -4,6 +4,7 @@ import 'package:coupon_app/app/pages/account/change_password/change_password_con
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
+import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -16,8 +17,8 @@ class ChangePasswordPage extends View {
 
 class ChangePasswordPageState
     extends ViewState<ChangePasswordPage, ChangePasswordController> {
-  ChangePasswordPageState() : super(ChangePasswordController());
-
+  ChangePasswordPageState() : super(ChangePasswordController(DataAuthenticationRepository()));
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget get view => Scaffold(
     appBar: customAppBar(
@@ -31,27 +32,27 @@ class ChangePasswordPageState
 
   get _body => Padding(
     padding: const EdgeInsets.all(Dimens.spacingMedium),
-    child: ListView(
-          shrinkWrap: true,
-          children: [
-            _oldPassword,
-            SizedBox(
-              height: Dimens.spacingMedium,
-            ),
-            _newPassword,
-            SizedBox(
-              height: Dimens.spacingMedium,
-            ),
-            _confirmNewPassword,
-            SizedBox(
-              height: Dimens.spacingMedium,
-            ),
-            SizedBox(
-              height: Dimens.spacingMedium,
-            ),
-            _save
-          ],
-        ),
+    child: Form(
+      key: _formKey,
+      child: ListView(
+            shrinkWrap: true,
+            children: [
+
+              _newPassword,
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              _confirmNewPassword,
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              _save
+            ],
+          ),
+    ),
   );
 
   get _oldPassword => ControlledWidgetBuilder(
@@ -67,6 +68,7 @@ class ChangePasswordPageState
               height: Dimens.spacingNormal,
             ),
             TextFormField(
+              obscureText: true,
               decoration: InputDecoration(
                   prefixIcon: Icon(Feather.lock), hintText: "*************"),
             )
@@ -87,6 +89,14 @@ class ChangePasswordPageState
               height: Dimens.spacingNormal,
             ),
             TextFormField(
+              obscureText: true,
+              controller: controller.newPasswordController,
+              validator: (value){
+                if(value.isEmpty){
+                  return LocaleKeys.errorPasswordRequired.tr();
+                }
+                return null;
+              },
               decoration: InputDecoration(
                   prefixIcon: Icon(Feather.lock), hintText: "*************"),
             )
@@ -107,6 +117,17 @@ class ChangePasswordPageState
               height: Dimens.spacingNormal,
             ),
             TextFormField(
+              controller: controller.confirmPasswordController,
+              obscureText: true,
+              validator: (value){
+                if(value.isEmpty){
+                  return LocaleKeys.errorPasswordRequired.tr();
+                }
+                if(value != controller.newPasswordController.text){
+                  return LocaleKeys.passwordDontMatch.tr();
+                }
+                return null;
+              },
               decoration: InputDecoration(
                   prefixIcon: Icon(Feather.lock), hintText: "*************"),
             )
@@ -117,7 +138,11 @@ class ChangePasswordPageState
   get _save => ControlledWidgetBuilder(
       builder: (BuildContext context, ChangePasswordController controller) {
         return LoadingButton(onPressed: (){
-          controller.save();
-        }, text: LocaleKeys.changePassword.tr());
+          controller.checkForm({
+            'context' : context,
+            'formKey' : _formKey,
+            'globalKey' : globalKey
+          });
+        }, isLoading: controller.isLoading, text: LocaleKeys.changePassword.tr());
       });
 }

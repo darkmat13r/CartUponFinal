@@ -99,7 +99,9 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
                 height: Dimens.spacingMedium,
               ),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.back();
+                  },
                   child: Text(
                     LocaleKeys.loginAsGuest.tr(),
                     style: buttonText.copyWith(color: AppColors.accent),

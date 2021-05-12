@@ -10,7 +10,7 @@ class Constants {
   static const String usersRoute = '$baseUrl/users';
 
   static const String loginRoute = '$baseUrl/login/';
-  static const String forgotPasswordRoute = '$baseUrl/forgot-password';
+  static const String forgotPasswordRoute = '$baseUrl/password/reset/';
   static const String registerRoute = '$baseUrl/customerwebapi/';
   static const String userProfileRoute = '$baseUrl/userCustomerapi/';
   static const String areaRoute = '$baseUrl/areawebapi/';
@@ -36,6 +36,8 @@ class Constants {
   static var products = '$baseUrl/productweb/';
 
   static var home = '$baseUrl/homecommon';
+
+  static var changePassword = "$baseUrl/password/change/";
 
 
   static String createUriWithParams(String route, Map<String, String> queryParams){

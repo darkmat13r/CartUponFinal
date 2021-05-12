@@ -110,13 +110,26 @@ class HttpHelper {
           dynamic responseBody = jsonDecode(response.body);
           if(responseBody is Map){
             var values = (responseBody as Map).entries.first.value;
-            print("---------------->${values}");
+            print("----------------> is ${values is List}");
+            print("----------------> is map ${values is Map}");
             if(values is List){
               throw APIException(
                   values.first.toString(), response.statusCode,  values.first.toString());
-            }else{
+            } else if (values is Map) {
+              var firstValue = (values as Map).entries.first.value;
+              if(firstValue is List){
+                throw APIException(
+                    firstValue.first.toString(),
+                    response.statusCode,  firstValue.first.toString());
+              }else{
+                throw APIException(
+                    firstValue.toString(),
+                    response.statusCode, firstValue.toString());
+              }
+
+            } else {
               throw APIException(
-                  values, response.statusCode,  values.toString());
+                  values, response.statusCode, values.toString());
             }
 
           }else{

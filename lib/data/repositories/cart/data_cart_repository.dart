@@ -87,7 +87,6 @@ class DataCartRepository extends CartRepository {
         total += double.parse(price) * element.qty;
         quantity += element.qty;
       });
-
       return Cart(quantity: quantity, cartItems: cartItems, total: total);
     } catch (e) {
       _logger.finest(e);

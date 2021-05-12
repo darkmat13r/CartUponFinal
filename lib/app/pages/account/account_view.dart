@@ -104,12 +104,7 @@ class AccountPageState extends ViewState<AccountPage, AccountController> {
           children: [
             Column(
               children: [
-                SizedBox(
-                  height: 100,
-                  child: Container(
-                    color: AppColors.neutralDark.withAlpha(120),
-                  ),
-                ),
+              
                 SizedBox(
                   height: 80,
                   child: Container(
@@ -127,24 +122,7 @@ class AccountPageState extends ViewState<AccountPage, AccountController> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: AppColors.neutralLight,
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(Dimens.cornerRadius)),
-                          border: Border.all(
-                              color: AppColors.neutralGray, width: 2)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(Dimens.spacingMedium),
-                        child: Icon(
-                          Feather.user,
-                          size: 60,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: Dimens.spacingMedium,
-                    ),
+
                     Expanded(
                         child: controller.currentUser == null
                             ? RaisedButton(

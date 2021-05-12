@@ -117,7 +117,7 @@ class DataAddressRepository extends AddressRepository {
             'floor_flat': floorFlat,
             'address': address,
             'phone': phoneNo,
-            'is_default': isDefault
+            'is_default': isDefault ? "1"  :  "0"
           });
       Address addressObj = Address.fromJson(data);
       return addressObj;

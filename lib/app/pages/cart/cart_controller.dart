@@ -50,10 +50,32 @@ class CartController extends BaseController{
 
   updateCart(CartItem cartItem , int qty){
     cartItem.qty = qty;
+    var foundItem = cart.cartItems.firstWhere((element) => element.id == cartItem.id);
+    if(foundItem != null){
+      foundItem.qty = qty;
+      getCartOnNext(cart);
+    }
+    cart =  getCart(cart.cartItems);
     _presenter.updateQty(cartItem);
     refreshUI();
   }
 
+  getCart( List<CartItem> cartItems ){
+    double total = 0;
+    int quantity = 0;
+    cartItems.forEach((element) {
+      String price = "0";
+      if (element.variant_value_id != null) {
+        price = element.variant_value_id.price;
+      } else {
+        price = element.product_id.sale_price;
+      }
+      total += double.parse(price) * element.qty;
+      quantity += element.qty;
+    });
+
+    return Cart(quantity: quantity, cartItems: cartItems, total: total);
+  }
   removeItem(CartItem cartItem){
     showGenericConfirmDialog(getContext(), LocaleKeys.alert.tr() , LocaleKeys.confirmRemoveCartItem.tr(),onConfirm: (){
       cart.cartItems.remove(cartItem);

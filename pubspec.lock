@@ -469,7 +469,7 @@ packages:
       name: process
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.0"
+    version: "4.2.1"
   provider:
     dependency: transitive
     description:
@@ -580,6 +580,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
+  strcolor:
+    dependency: "direct main"
+    description:
+      name: strcolor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
   stream_channel:
     dependency: transitive
     description:
@@ -621,7 +628,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.19"
+    version: "0.3.0"
   typed_data:
     dependency: transitive
     description:
@@ -677,7 +684,7 @@ packages:
       name: vm_service
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.1-nullsafety.1"
+    version: "6.1.0+1"
   wakelock:
     dependency: transitive
     description:

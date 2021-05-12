@@ -46,7 +46,8 @@ class RegisterController extends BaseController {
     };
     _presenter.registerOnError = (e) {
       _logger.shout(e);
-      showGenericSnackbar(getContext(), e.message);
+      showGenericSnackbar(getContext(), e.message,
+          isError: true);
     };
   }
 

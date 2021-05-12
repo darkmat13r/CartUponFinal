@@ -4,6 +4,7 @@ import 'package:coupon_app/app/pages/forgot_password/forgot_password_controller.
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
+import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -16,7 +17,7 @@ class ForgotPasswordPage extends View {
 
 class ForgotPasswordPageState
     extends ViewState<ForgotPasswordPage, ForgotPasswordController> {
-  ForgotPasswordPageState() : super(ForgotPasswordController());
+  ForgotPasswordPageState() : super(ForgotPasswordController(DataAuthenticationRepository()));
 
   final _formKey = GlobalKey<FormState>();
 
@@ -73,32 +74,42 @@ class ForgotPasswordPageState
       child: Image.asset(
         Resources.logo,
       ));
-
   _forgotPasswordForm() {
-    return Form(
-        child: Column(
-      children: [
-        _emailAddress,
-        SizedBox(
-          height: Dimens.spacingLarge,
-        ),
-        SizedBox(
-          height: Dimens.spacingLarge,
-        ),
-        SizedBox(
-          width: double.infinity,
-            child: LoadingButton(
-          onPressed: () {},
-          text: LocaleKeys.sendInstructions,
-        ))
-      ],
-    ));
+    return ControlledWidgetBuilder(builder: (BuildContext context, ForgotPasswordController controller ){
+      return  Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              _emailAddress,
+              SizedBox(
+                height: Dimens.spacingLarge,
+              ),
+              SizedBox(
+                height: Dimens.spacingLarge,
+              ),
+              SizedBox(
+                  width: double.infinity,
+                  child: LoadingButton(
+                    isLoading: controller.isLoading,
+                    onPressed: () {
+                      controller.checkForm({
+                        'context': context,
+                        'formKey': _formKey,
+                        'globalKey': globalKey
+                      });
+                    },
+                    text: LocaleKeys.sendInstructions.tr(),
+                  ))
+            ],
+          ));
+    });
   }
 
   get _emailAddress => ControlledWidgetBuilder(
           builder: (BuildContext context, ForgotPasswordController controller) {
         return TextFormField(
           keyboardType: TextInputType.emailAddress,
+          controller: controller.emailTextController,
           validator: (value) {
             if (value.isEmpty) {
               return LocaleKeys.errorUsernameRequired.tr();

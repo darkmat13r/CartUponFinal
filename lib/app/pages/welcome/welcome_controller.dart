@@ -12,7 +12,7 @@ class WelcomeController extends Controller{
   }
 
   void skip(){
-    Navigator.of(getContext()).pushNamed('/home');
+    Navigator.of(getContext()).pushNamed(Pages.home);
   }
 
   void login() {
@@ -20,5 +20,9 @@ class WelcomeController extends Controller{
   }
   void register() {
     Navigator.of(getContext()).pushNamed(Pages.register);
+  }
+
+  void back() {
+    Navigator.of(getContext()).pop();
   }
 }

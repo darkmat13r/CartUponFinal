@@ -28,30 +28,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
 
   factory DataAuthenticationRepository() => _instance;
 
-  // AuthenticationRepository Methods
 
-  /* /// Registers a `User` using a [email] and a [password] by making an API call to the server.
-  /// It is asynchronous and can throw an `APIException` if the statusCode is not 200.
-  Future<void> register(
-      {@required String fullName,
-      @required String email,
-      @required String password}) async {
-    try {
-      Map<String, dynamic> body =await HttpHelper.invokeHttp(Constants.registerRoute, RequestType.post,
-          body: {
-            'fullName': fullName,
-            'username': email,
-            'password': password,
-          });
-      Token user = Token.fromJson(body);
-      SessionHelper().saveCredentials(token: user.key, user: user);
-      _logger.finest('Registration is successful');
-
-    } catch (error) {
-      _logger.warning('Could not register new user.', error);
-      rethrow;
-    }
-  }*/
 
   /// Logs in a `User` using a [email] and a [password] by making an API call to the server.
   /// It is asynchronous and can throw an `APIException` if the statusCode is not 200.
@@ -202,7 +179,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       };
       Token currentUser = await getCurrentUser();
       Map<String, dynamic> body =
-          await HttpHelper.invokeHttp( "${Constants.registerRoute}${currentUser.id}/", RequestType.patch,
+          await HttpHelper.invokeHttp( "${Constants.registerRoute}${currentUser.user.id}/", RequestType.patch,
           headers: headers,
           body: jsonEncode({
             'country_code': countryCode,
@@ -211,11 +188,34 @@ class DataAuthenticationRepository implements AuthenticationRepository {
             'user': {
               'first_name': firstName,
               'last_name': lastName,
-              'username': email,
-              'email': email,
               'is_active': "1",
             }
           }));
+      Token token = Token.fromJson(body);
+      SessionHelper().updateUser(user: token);
+      _logger.finest('Update is successful');
+      return token;
+    } catch (error) {
+      _logger.warning('Could not Update user.', error);
+      rethrow;
+    }
+  }
+  @override
+  Future<Token> updatePassword(
+      {String password,}) async{
+    try {
+      Map<String, String> headers = {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.acceptHeader: "application/json",
+        HttpHeaders.connectionHeader: "keep-alive",
+      };
+      Token currentUser = await getCurrentUser();
+      Map<String, dynamic> body =
+      await HttpHelper.invokeHttp( "${Constants.changePassword}", RequestType.post,
+          body: {
+              'new_password1' : password,
+              'new_password2' : password
+          });
       Token token = Token.fromJson(body);
       SessionHelper().updateUser(user: token);
       _logger.finest('Update is successful');
