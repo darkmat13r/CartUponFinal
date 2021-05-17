@@ -7,6 +7,7 @@ import 'package:coupon_app/app/components/rating.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/date_helper.dart';
+import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
@@ -22,10 +23,11 @@ class ProductItem extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => ProductItemState();
+  State<StatefulWidget> createState() => _ProductItemState();
 }
 
-class ProductItemState extends State<ProductItem> {
+
+class _ProductItemState extends State<ProductItem> with TickerProviderStateMixin {
   final _cartStream = CartStream();
 
   @override
@@ -37,83 +39,96 @@ class ProductItemState extends State<ProductItem> {
             //if (widget.coupon != null)
             AppRouter().productDetails(context, widget.product);
           },
-          child: Card(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                    width: double.infinity,
-                    height: Dimens.thumbImageHeight,
-                    child: AppImage(widget.product.product != null ? widget.product.product.thumb_img : "")),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal : Dimens.spacingMedium, vertical : Dimens.spacingNormal),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.product != null ? widget.product.name : "",
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: bodyTextNormal1.copyWith(color: AppColors.primary),
-                      ),
-                      Text(
-                        widget.product != null ? widget.product.short_description : "",
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: captionNormal1.copyWith(color: AppColors.neutralGray),
-                      ),
-                      SizedBox(
-                        height: Dimens.spacingSmall,
-                      ),
-                      _countdownView(widget.product),
-                      SizedBox(
-                        height: Dimens.spacingSmall,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              widget.product != null &&
-                                  double.parse(widget.product.product.dis_per) >
-                                      0
-                                  ? Text(
-                                Utility.currencyFormat(widget.product != null ? widget.product.product.price : "0"),
-                                style: captionNormal2.copyWith(
-                                    color: AppColors.neutralGray,
-                                    decoration: TextDecoration.lineThrough),
-                              )
-                                  : SizedBox(),
-                              Text(
-                                Utility.currencyFormat(widget.product != null ? widget.product.product.sale_price : "0"),
-                                style: bodyTextNormal1.copyWith(
-                                    color: AppColors.primary),
-                              )
-                            ],
-                          ),
-                          Expanded(
-                            child: SizedBox(),
-                          ),
-                          InkWell(
-                            child: Icon(MaterialCommunityIcons.cart_plus, color: AppColors.accent,),
-                            onTap: () {
-                              _cartStream.addToCart(widget.product.product, null);
-                            },
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+          child: Stack(
+            children: [
+              _buildProductCard()
+            ],
           ),
         ));
   }
 
+  Widget _buildProductCard(){
+   return  Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+              width: double.infinity,
+              height: Dimens.thumbImageHeight,
+              child: AppImage(widget.product.product != null ? widget.product.product.thumb_img : "")),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal : Dimens.spacingMedium, vertical : Dimens.spacingNormal),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.product != null ? widget.product.name : "",
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: bodyTextNormal1.copyWith(color: AppColors.primary),
+                ),
+                Text(
+                  widget.product != null ? widget.product.short_description : "",
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: captionNormal1.copyWith(color: AppColors.neutralGray),
+                ),
+                SizedBox(
+                  height: Dimens.spacingSmall,
+                ),
+                _countdownView(widget.product),
+                SizedBox(
+                  height: Dimens.spacingSmall,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        widget.product != null &&
+                            double.parse(widget.product.product.dis_per) >
+                                0
+                            ? Text(
+                          Utility.currencyFormat(widget.product != null ? widget.product.product.price : "0"),
+                          style: captionNormal2.copyWith(
+                              color: AppColors.neutralGray,
+                              decoration: TextDecoration.lineThrough),
+                        )
+                            : SizedBox(),
+                        Text(
+                          Utility.currencyFormat(widget.product != null ? widget.product.product.sale_price : "0"),
+                          style: bodyTextNormal1.copyWith(
+                              color: AppColors.primary),
+                        )
+                      ],
+                    ),
+                    Expanded(
+                      child: SizedBox(),
+                    ),
+                    InkWell(
+                      child: Icon(MaterialCommunityIcons.cart_plus, color: AppColors.accent,),
+                      onTap: () {
+                        showGenericSnackbar(context , LocaleKeys.itemAddedToCart.tr());
+                        _cartStream.addToCart(widget.product.product, null);
+                      },
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+  @override
+  void dispose() {
+
+    super.dispose();
+  }
   _countdownView(ProductDetail product) {
     if(product.product == null) return SizedBox();
     if (product.product.valid_to != null &&

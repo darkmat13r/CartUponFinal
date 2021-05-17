@@ -19,6 +19,9 @@ class AccountController extends BaseController {
   void initListeners() {
     initBaseListeners(_presenter);
   }
+  onAuthComplete(){
+    refreshUI();
+  }
 
   login() {
     Navigator.of(getContext()).pushNamed(Pages.welcome);

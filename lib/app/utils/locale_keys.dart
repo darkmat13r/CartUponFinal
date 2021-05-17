@@ -214,6 +214,16 @@ class LocaleKeys {
 
   static var errorIncompleteForm = "errorIncompleteForm";
   static var passwordResetLinkSent = "passwordResetLinkSent";
+  static var remove = "remove";
+  static var confirmLogout = "confirmLogout";
+  static var confirmDiscardChanges = "confirmDiscardChanges";
+  static var currentOrders = "currentOrders";
+  static var orderHistory = "orderHistory";
+  static var discardChanges = "discardChanges";
+  static var errorPasswordLength = "errorPasswordLength";
+  static var errorCapitalLetter = "errorCapitalLetter";
+  static var errorSpecialLetter = "errorSpecialLetter";
+  static var errorPasswordNumber = "errorPasswordNumber";
 
 
 }

@@ -2,6 +2,7 @@ import 'package:coupon_app/app/components/app_image.dart';
 import 'package:coupon_app/app/components/state_view.dart';
 import 'package:coupon_app/app/pages/whishlist/whishlist_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
 import 'package:coupon_app/data/repositories/data_whishlist_repository.dart';
@@ -70,6 +71,7 @@ class _WhishlistPageState
                                   item.product_id.product_detail != null
                               ? item.product_id.product_detail.name
                               : "",
+                          maxLines: 2,
                           style: bodyTextNormal1.copyWith(
                               color: AppColors.primary),
                         ),
@@ -111,25 +113,28 @@ class _WhishlistPageState
                     ),
                   ),
                   Divider(),
-                  SizedBox(
-                    height: 36,
-                    width : double.infinity,
-                    child: TextButton(
-                        onPressed: () {
-                          controller.delete(item);
-                        },
-                        child: Text(
-                          "Remove",
-                          style: bodyTextNormal1.copyWith(
-                              color: AppColors.neutralLightGray),
-                        )),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: SizedBox(
+                      height: 36,
+                      width : double.infinity,
+                      child: TextButton(
+                          onPressed: () {
+                            controller.delete(item);
+                          },
+                          child: Text(
+                            LocaleKeys.remove.tr(),
+                            style: bodyTextNormal1.copyWith(
+                                color: AppColors.neutralLightGray),
+                          )),
+                    ),
                   )
                 ],
               ),
             );
           },
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, childAspectRatio: 0.67),
+              crossAxisCount: 2, childAspectRatio: 0.650),
         );
       });
 }

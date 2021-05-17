@@ -98,6 +98,10 @@ ThemeData appTheme(BuildContext context) => ThemeData(
         toolbarTextStyle: heading4.copyWith(color: AppColors.primary),
         titleTextStyle: heading4.copyWith(color: AppColors.primary),
       ),
+      tabBarTheme: TabBarTheme(
+        unselectedLabelColor:  AppColors.neutralGray,
+        labelColor: AppColors.accent
+      ),
       textTheme: GoogleFonts.openSansTextTheme(),
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(

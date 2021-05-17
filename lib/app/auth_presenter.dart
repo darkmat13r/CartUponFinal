@@ -22,8 +22,12 @@ class AuthPresenter extends Presenter {
       : _getCurrentUserUseCase = GetCurrentUserUseCase(authRepo),
         _getUserUseCase = GetUserProfileUseCase(authRepo),
         _logoutUseCase = LogoutUseCase(authRepo) {
-    _getCurrentUserUseCase.execute(_GetCurrentUserObserver(this));
+    getUser();
     _getUserUseCase.execute(_GetCurrentUserObserver(this));
+  }
+
+  getUser() {
+    _getCurrentUserUseCase.execute(_GetCurrentUserObserver(this));
   }
 
   logout() {
@@ -34,12 +38,13 @@ class AuthPresenter extends Presenter {
   void dispose() {
     _getCurrentUserUseCase.dispose();
   }
-
 }
-class _LogoutObserver extends Observer<void>{
+
+class _LogoutObserver extends Observer<void> {
   AuthPresenter _presenter;
 
   _LogoutObserver(this._presenter);
+
   @override
   void onComplete() {
     assert(_presenter.logoutOnComplete != null);
@@ -57,7 +62,6 @@ class _LogoutObserver extends Observer<void>{
     assert(_presenter.logoutOnNext != null);
     _presenter.logoutOnNext(response);
   }
-
 }
 
 class _GetCurrentUserObserver extends Observer<Token> {
@@ -82,5 +86,4 @@ class _GetCurrentUserObserver extends Observer<Token> {
     assert(_presenter.getCurrentUserOnNext != null);
     _presenter.getCurrentUserOnNext(response);
   }
-
 }

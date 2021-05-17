@@ -1,4 +1,4 @@
-import 'package:coupon_app/domain/entities/cart.dart';
+import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:coupon_app/domain/usercases/cart/add_to_cart_use_case.dart';

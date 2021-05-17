@@ -41,10 +41,10 @@ class ProductsController extends BaseController{
   }
 
   login(){
-    Navigator.of(getContext()).pushNamed(Pages.welcome);
+    Navigator.of(getContext()).pushNamed(Pages.login);
   }
   register(){
-    Navigator.of(getContext()).pushNamed(Pages.welcome);
+    Navigator.of(getContext()).pushNamed(Pages.register);
   }
 
   getHomeOnNext(HomeData res) {

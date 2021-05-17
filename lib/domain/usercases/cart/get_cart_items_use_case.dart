@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:coupon_app/app/components/cart_item.dart';
-import 'package:coupon_app/domain/entities/cart.dart';
+import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 

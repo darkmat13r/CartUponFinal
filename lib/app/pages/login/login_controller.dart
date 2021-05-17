@@ -79,8 +79,11 @@ class LoginController extends Controller{
   }
 
   @override
-  void dispose() {
+  void onDisposed() {
     _loginPresenter.dispose();
+    emailTextController.dispose();
+    passwordTextController.dispose();
+    super.onDisposed();
   }
 
 

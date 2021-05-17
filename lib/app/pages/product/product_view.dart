@@ -64,13 +64,10 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
           children: [
             controller.product != null &&
                     controller.product.product != null &&
-                    controller.product.product.product_gallery != null
+                    controller.product.product.product_gallery != null &&
+                controller.product.product.product_gallery.length > 0
                 ? CarouselSlider.builder(
-                    itemCount: controller.product != null &&
-                            controller.product.product != null &&
-                            controller.product.product.product_gallery != null
-                        ? controller.product.product.product_gallery.length
-                        : 0,
+                    itemCount: controller.product.product.product_gallery.length,
                     itemBuilder: (BuildContext context, int index) {
                       var gallery =
                           controller.product.product.product_gallery ?? [];
@@ -98,15 +95,15 @@ class ProductPageView extends ViewState<ProductPage, ProductController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  AnimatedSmoothIndicator(
+                  controller.product != null &&
+                      controller.product.product != null &&
+                      controller.product.product.product_gallery != null
+                  &&  controller.product.product.product_gallery.length > 0
+                      ?AnimatedSmoothIndicator(
                     activeIndex: sliderImageIndex,
-                    count: controller.product != null &&
-                            controller.product.product != null &&
-                            controller.product.product.product_gallery != null
-                        ? controller.product.product.product_gallery.length
-                        : 0,
+                    count:  controller.product.product.product_gallery.length,
                     effect: WormEffect(dotWidth: 8, dotHeight: 8),
-                  )
+                  ) : SizedBox()
                 ],
               ),
             ),

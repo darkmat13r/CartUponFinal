@@ -39,8 +39,11 @@ class ProfileController extends BaseController {
     initBaseListeners(_presenter);
     _presenter.updateProfileOnComplete = (){
       dismissLoading();
-      Navigator.of(getContext()).pop();
-      showGenericSnackbar(getContext(), LocaleKeys.profileUpdated.tr());
+     // Navigator.of(getContext()).pop();
+      showGenericConfirmDialog(getContext(), null, LocaleKeys.profileUpdated.tr(), onConfirm: (){
+        Navigator.of(getContext()).pop();
+      });
+     // showGenericSnackbar(getContext(), LocaleKeys.profileUpdated.tr());
     };
     _presenter.updateProfileOnNext = (user){
       this.currentUser = user;
@@ -100,5 +103,18 @@ class ProfileController extends BaseController {
 
   changePassword() {
     Navigator.of(getContext()).pushNamed(Pages.changePassword);
+  }
+
+  Future<bool> onWillPop() {
+    var areChangesMade =  currentUser.user.first_name != firstNameController.text || currentUser.user.last_name != lastNameController.text
+        || currentUser.mobile_no != mobileNumberController.text || currentUser.country_code != countryCode
+        || currentUser.date_of_birth != DateFormat('yyyy-MM-dd').format(dob);
+    if(areChangesMade){
+      showGenericConfirmDialog(getContext(), LocaleKeys.discardChanges.tr(), LocaleKeys.confirmDiscardChanges.tr(), onConfirm: (){
+        Navigator.of(getContext()).pop();
+      });
+    }else{
+      Navigator.of(getContext()).pop();
+    }
   }
 }

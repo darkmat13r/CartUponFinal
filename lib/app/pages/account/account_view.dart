@@ -1,6 +1,7 @@
 import 'package:coupon_app/app/components/rounded_box.dart';
 import 'package:coupon_app/app/pages/account/account_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
+import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
@@ -28,42 +29,37 @@ class AccountPageState extends ViewState<AccountPage, AccountController> {
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, AccountController controller) {
         var menuItems = [
-          controller.currentUser != null
-              ? _optionItem(
+          _optionItem(
                   Pages.profile,
                   MaterialCommunityIcons.account_circle,
                   LocaleKeys.editProfile.tr(),
                   LocaleKeys.descUpdateProfile.tr())
-              : SizedBox(),
+             ,
           _optionItem(Pages.orders, MaterialCommunityIcons.cart,
               LocaleKeys.order.tr(), LocaleKeys.descOrder.tr()),
-          controller.currentUser != null
-              ? _optionItem(
+          _optionItem(
                   Pages.changePassword,
                   MaterialCommunityIcons.lock,
                   LocaleKeys.changePassword.tr(),
-                  LocaleKeys.descUpdatePassword.tr())
-              : SizedBox(),
+                  LocaleKeys.descUpdatePassword.tr()),
           _optionItem(Pages.addresses, MaterialCommunityIcons.pin,
               LocaleKeys.address.tr(), LocaleKeys.descAddress.tr()),
           _optionItem(Pages.profile, MaterialCommunityIcons.wallet,
               LocaleKeys.wallet.tr(), LocaleKeys.descWallet.tr()),
-          controller.currentUser != null
-              ? _optionItemClickable(
+         _optionItemClickable(
                   Pages.addresses,
                   MaterialCommunityIcons.location_exit,
                   LocaleKeys.logout.tr(),
                   null, () {
                   controller.logout();
-                })
-              : SizedBox(),
+                }),
         ];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _notLoggedInHeader,
+            controller.currentUser != null ? _profileHeader : SizedBox(),
             Expanded(
-              child: ListView.separated(
+              child: controller.currentUser != null ? ListView.separated(
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 itemCount: menuItems.length,
@@ -75,7 +71,7 @@ class AccountPageState extends ViewState<AccountPage, AccountController> {
                     color: AppColors.neutralGray,
                   );
                 },
-              ),
+              ) : controller.isAuthUserLoading ? SizedBox() :  WelcomePage(),
             )
           ],
         );

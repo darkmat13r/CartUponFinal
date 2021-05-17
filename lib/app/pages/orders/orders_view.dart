@@ -21,15 +21,22 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController>{
   OrdersPageState() : super(OrdersController());
 
   @override
-  Widget get view => Scaffold(
+  Widget get view => DefaultTabController(length: 2, child: Scaffold(
     appBar: customAppBar(
         title: Text(
           LocaleKeys.order.tr(),
           style: heading5.copyWith(color: AppColors.primary),
-        )),
+        ),
+        tabs: TabBar(tabs: [
+          Tab(text: "Current Orders",),
+          Tab(text: "Order History"),
+        ])),
     key: globalKey,
-    body: _body,
-  );
+    body: TabBarView(children: [
+      _body,
+      _body
+    ]),
+  ));
 
   get _body => ListView(
     children: [

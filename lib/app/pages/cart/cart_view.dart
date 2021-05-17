@@ -70,11 +70,11 @@ class CartPageState extends ViewState<CartPage, CartController> {
                       Expanded(
                           child: Text(
                         LocaleKeys.items
-                            .tr(args: [controller.cart.quantity.toString()]),
+                            .tr(args: [controller.cart.total_qty.toString()]),
                         style: bodyTextNormal2.copyWith(
                             color: AppColors.neutralGray),
                       )),
-                      Text(Utility.currencyFormat(controller.cart.total ?? 0),
+                      Text(Utility.currencyFormat(controller.cart.net_total ?? 0),
                           style: bodyTextNormal1.copyWith(
                               color: AppColors.neutralDark)),
                     ],
@@ -97,7 +97,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
                         LocaleKeys.totalPrice.tr(),
                         style: heading6.copyWith(color: AppColors.neutralDark),
                       )),
-                      Text(Utility.currencyFormat(controller.cart.total ?? 0),
+                      Text(Utility.currencyFormat(controller.cart.net_total ?? 0),
                           style: heading6.copyWith(color: AppColors.primary)),
                     ],
                   ),
@@ -115,10 +115,10 @@ class CartPageState extends ViewState<CartPage, CartController> {
           builder: (BuildContext context, CartController controller) {
         return ListView.builder(
             shrinkWrap: true,
-            itemCount: controller.cart.cartItems.length,
+            itemCount: controller.cart.cart.length,
             itemBuilder: (BuildContext context, int index) {
               return CartItemView(
-                controller.cart.cartItems[index],
+                controller.cart.cart[index],
                 onAdd: controller.updateCart,
                 onRemove: controller.updateCart,
                 onDelete: controller.removeItem,
@@ -128,7 +128,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
 
   _isCartEmpty(CartController controller) {
     return controller.cart == null ||
-        controller.cart.cartItems == null ||
-        controller.cart.cartItems.length == 0;
+        controller.cart.cart == null ||
+        controller.cart.cart.length == 0;
   }
 }

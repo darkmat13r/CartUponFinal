@@ -198,11 +198,12 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
                       Expanded(
                           child: Text(
                             section.name,
-                            style: heading4.copyWith(color: AppColors.primary),
+                            maxLines: 2,
+                            style: heading5.copyWith(color: AppColors.primary),
                           )),
                       TextButton(
                         onPressed: () {
-                          controller.search(section.category.id.toString());
+                          controller.search(section.id.toString());
                         },
                         child: Text(
                           LocaleKeys.seeMore.tr(),

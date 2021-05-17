@@ -14,6 +14,6 @@ class Config {
 
   getLanguageId() {
 
-    return locale.languageCode.contains('en') ? 1 : 0;
+    return locale.languageCode.contains('en') ? 0 : 1;
   }
 }

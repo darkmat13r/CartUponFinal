@@ -17,63 +17,65 @@ class LoginPage extends View {
 class LoginPageView extends ViewState<LoginPage, LoginController> {
   LoginPageView() : super(LoginController(DataAuthenticationRepository()));
   final _formKey = GlobalKey<FormState>();
+  bool _isPasswordHidden = true;
 
   @override
-  Widget get view => Scaffold(
-        key: globalKey,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(Dimens.spacingMedium),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 40,
-                ),
-                _logo,
-                SizedBox(
-                  height: Dimens.spacingLarge,
-                ),
-                Text(
-                  LocaleKeys.welcomeTo.tr(args: [LocaleKeys.appName.tr()]),
-                  style: heading4,
-                ),
-                SizedBox(
-                  height: Dimens.spacingNormal,
-                ),
-                Text(
-                  LocaleKeys.signInToContinue.tr(),
-                  style: bodyTextNormal2,
-                ),
-                SizedBox(
-                  height: Dimens.spacingLarge,
-                ),
-                SizedBox(
-                  height: Dimens.spacingLarge,
-                ),
-                _loginForm(),
-                SizedBox(
-                  height: Dimens.spacingLarge,
-                ),
-               /* orDivider,
-                SizedBox(
-                  height: Dimens.spacingLarge,
-                ),
-                googleLogin,
-                SizedBox(
-                  height: Dimens.spacingMedium,
-                ),
-                facebookLogin,*/
-                SizedBox(
-                  height: Dimens.spacingMedium,
-                ),
-               _forgotPassword,
-                _registerButton
-              ],
-            ),
-          ),
-        ),
-      );
+  Widget get view => AutofillGroup(child: Scaffold(
+    key: globalKey,
+    body: _body,
+  ));
 
+  Widget get _body => SingleChildScrollView(
+    child: Padding(
+      padding: const EdgeInsets.all(Dimens.spacingMedium),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 40,
+          ),
+          _logo,
+          SizedBox(
+            height: Dimens.spacingLarge,
+          ),
+          Text(
+            LocaleKeys.welcomeTo.tr(args: [LocaleKeys.appName.tr()]),
+            style: heading4,
+          ),
+          SizedBox(
+            height: Dimens.spacingNormal,
+          ),
+          Text(
+            LocaleKeys.signInToContinue.tr(),
+            style: bodyTextNormal2,
+          ),
+          SizedBox(
+            height: Dimens.spacingLarge,
+          ),
+          SizedBox(
+            height: Dimens.spacingLarge,
+          ),
+          _loginForm(),
+          SizedBox(
+            height: Dimens.spacingLarge,
+          ),
+          orDivider,
+          SizedBox(
+            height: Dimens.spacingLarge,
+          ),
+          googleLogin,
+          SizedBox(
+            height: Dimens.spacingMedium,
+          ),
+          facebookLogin,
+          SizedBox(
+            height: Dimens.spacingMedium,
+          ),
+          _forgotPassword,
+          _registerButton
+        ],
+      ),
+    ),
+  );
   Widget get googleLogin => SizedBox(
         width: double.infinity,
         height: Dimens.buttonHeight,
@@ -127,10 +129,10 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
         ),
       );
   final Widget _logo = SizedBox(
-    height: 90,
+      height: 90,
       child: Image.asset(
-    Resources.logo,
-  ));
+        Resources.logo,
+      ));
 
   Widget get orDivider => Row(children: <Widget>[
         Expanded(
@@ -195,6 +197,7 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
               TextFormField(
                 controller: controller.emailTextController,
                 keyboardType: TextInputType.emailAddress,
+                autofillHints: const [AutofillHints.username],
                 validator: (value) {
                   if (value.isEmpty) {
                     return LocaleKeys.errorUsernameRequired.tr();
@@ -211,7 +214,8 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
               TextFormField(
                 keyboardType: TextInputType.text,
                 controller: controller.passwordTextController,
-                obscureText: true,
+                obscureText: _isPasswordHidden,
+                autofillHints: const [AutofillHints.password],
                 validator: (value) {
                   if (value.isEmpty) {
                     return LocaleKeys.errorPasswordRequired.tr();
@@ -220,6 +224,14 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
                 },
                 decoration: InputDecoration(
                   prefixIcon: Icon(Feather.lock),
+                  suffix: InkWell(
+                      onTap: () {
+                        setState(() {
+                          _isPasswordHidden = !_isPasswordHidden;
+                        });
+                      },
+                      child: Icon(
+                          _isPasswordHidden ? Feather.eye : Feather.eye_off)),
                   hintText: LocaleKeys.hintPassword.tr(),
                 ),
               ),

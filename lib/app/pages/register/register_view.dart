@@ -9,6 +9,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:coupon_app/app/utils/extensions.dart';
+
 class RegisterPage extends View {
   @override
   State<StatefulWidget> createState() => RegisterPageState();
@@ -18,6 +19,7 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
   RegisterPageState()
       : super(RegisterController(DataAuthenticationRepository()));
   final _formKey = GlobalKey<FormState>();
+  bool _isPasswordHidden = true;
 
   @override
   Widget get view => Scaffold(
@@ -89,6 +91,7 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
 
   String selectedGender = "male";
   FocusNode focusNode = new FocusNode();
+
   Widget _registerForm() {
     return ControlledWidgetBuilder<RegisterController>(
       builder: (BuildContext context, RegisterController controller) {
@@ -120,8 +123,7 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
                   }
                   return null;
                 },
-                decoration: InputDecoration(
-                    hintText: LocaleKeys.lastName.tr()),
+                decoration: InputDecoration(hintText: LocaleKeys.lastName.tr()),
               ),
               SizedBox(
                 height: Dimens.spacingMedium,
@@ -133,12 +135,11 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
                   if (value.isEmpty) {
                     return LocaleKeys.errorEmailRequired.tr();
                   }
-                  if(!value.isValidEmail()){
+                  if (!value.isValidEmail()) {
                     return LocaleKeys.errorInvalidEmail.tr();
                   }
                   return null;
                 },
-
                 decoration: InputDecoration(
                     prefixIcon: Icon(MaterialCommunityIcons.email),
                     hintText: LocaleKeys.hintEmail.tr()),
@@ -155,7 +156,7 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
                   }
                   return null;
                 },
-                onTap: (){
+                onTap: () {
                   focusNode.unfocus();
                   _selectDate(context, controller);
                 },
@@ -179,20 +180,24 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
                     prefixIcon: Icon(MaterialCommunityIcons.phone),
                     prefixStyle: heading6,
                     prefix: CountryCodePicker(
-                      onChanged: (CountryCode value){
+                      onChanged: (CountryCode value) {
                         controller.countryCode = value.dialCode;
                       },
-                      onInit: (CountryCode value){
+                      onInit: (CountryCode value) {
                         controller.countryCode = value.dialCode;
                       },
                       showCountryOnly: false,
                       showFlag: false,
                       showOnlyCountryWhenClosed: false,
                       padding: EdgeInsets.all(12),
-                      builder: (CountryCode countryCode){
+                      builder: (CountryCode countryCode) {
                         return Padding(
-                          padding: const EdgeInsets.only(right: Dimens.spacingMedium),
-                          child: Text(countryCode.dialCode, style: bodyTextNormal1,),
+                          padding: const EdgeInsets.only(
+                              right: Dimens.spacingMedium),
+                          child: Text(
+                            countryCode.dialCode,
+                            style: bodyTextNormal1,
+                          ),
                         );
                       },
                     ),
@@ -204,16 +209,39 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
               TextFormField(
                 keyboardType: TextInputType.visiblePassword,
                 controller: controller.passwordController,
-                obscureText: true,
+                obscureText: _isPasswordHidden,
                 validator: (value) {
+                  RegExp capitalCharacter = RegExp(r'^(?=.*?[A-Z])');
+                  RegExp specialCharacter = RegExp(r'^(?=.*?[!@#\$&*~])');
+                  RegExp numberCharacter = RegExp(r'^(?=.*?[0-9])');
                   if (value.isEmpty) {
                     return LocaleKeys.errorPasswordRequired.tr();
+                  }
+                  if(value.length < 8){
+                    return LocaleKeys.errorPasswordLength.tr();
+                  }
+                  if(!capitalCharacter.hasMatch(value)){
+                    return LocaleKeys.errorCapitalLetter.tr();
+                  }
+                  if(!specialCharacter.hasMatch(value)){
+                    return LocaleKeys.errorSpecialLetter.tr();
+                  }
+                  if(!numberCharacter.hasMatch(value)){
+                    return LocaleKeys.errorPasswordNumber.tr();
                   }
                   return null;
                 },
                 decoration: InputDecoration(
                   prefixIcon: Icon(MaterialCommunityIcons.lock),
                   hintText: LocaleKeys.hintPassword.tr(),
+                  suffix: InkWell(
+                      onTap: () {
+                        setState(() {
+                          _isPasswordHidden = !_isPasswordHidden;
+                        });
+                      },
+                      child: Icon(
+                          _isPasswordHidden ? Feather.eye : Feather.eye_off)),
                 ),
               ),
               SizedBox(
@@ -225,12 +253,12 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
                   isLoading: controller.isLoading,
                   onPressed: () {
                     controller.checkForm({
-                      'context' : context,
-                      'formKey' : _formKey,
-                      'globalKey' : globalKey
+                      'context': context,
+                      'formKey': _formKey,
+                      'globalKey': globalKey
                     });
                   },
-                  text:  LocaleKeys.signUp.tr(),
+                  text: LocaleKeys.signUp.tr(),
                 ),
               ),
             ],
@@ -239,8 +267,8 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
       },
     );
   }
-  _selectDate(BuildContext context, RegisterController controller) async {
 
+  _selectDate(BuildContext context, RegisterController controller) async {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: controller.dob == null ? DateTime.now() : controller.dob,
@@ -250,5 +278,4 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
     );
     if (picked != null && picked != controller.dob) controller.setDob(picked);
   }
-
 }

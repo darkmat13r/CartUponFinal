@@ -17,12 +17,15 @@ class ChangePasswordPage extends View {
 
 class ChangePasswordPageState
     extends ViewState<ChangePasswordPage, ChangePasswordController> {
-  ChangePasswordPageState() : super(ChangePasswordController(DataAuthenticationRepository()));
+  ChangePasswordPageState()
+      : super(ChangePasswordController(DataAuthenticationRepository()));
   final _formKey = GlobalKey<FormState>();
+
+
   @override
   Widget get view => Scaffold(
-    appBar: customAppBar(
-        title: Text(
+        appBar: customAppBar(
+            title: Text(
           LocaleKeys.changePassword.tr(),
           style: heading5.copyWith(color: AppColors.primary),
         )),
@@ -31,13 +34,12 @@ class ChangePasswordPageState
       );
 
   get _body => Padding(
-    padding: const EdgeInsets.all(Dimens.spacingMedium),
-    child: Form(
-      key: _formKey,
-      child: ListView(
+        padding: const EdgeInsets.all(Dimens.spacingMedium),
+        child: Form(
+          key: _formKey,
+          child: ListView(
             shrinkWrap: true,
             children: [
-
               _newPassword,
               SizedBox(
                 height: Dimens.spacingMedium,
@@ -52,8 +54,8 @@ class ChangePasswordPageState
               _save
             ],
           ),
-    ),
-  );
+        ),
+      );
 
   get _oldPassword => ControlledWidgetBuilder(
           builder: (BuildContext context, ChangePasswordController controller) {
@@ -89,15 +91,21 @@ class ChangePasswordPageState
               height: Dimens.spacingNormal,
             ),
             TextFormField(
-              obscureText: true,
+              obscureText: controller.isPasswordHidden,
               controller: controller.newPasswordController,
-              validator: (value){
-                if(value.isEmpty){
+              validator: (value) {
+                if (value.isEmpty) {
                   return LocaleKeys.errorPasswordRequired.tr();
                 }
                 return null;
               },
               decoration: InputDecoration(
+                  suffix: InkWell(
+                      onTap: () {
+                        controller.togglePassword();
+                      },
+                      child: Icon(
+                          controller.isPasswordHidden ? Feather.eye : Feather.eye_off)),
                   prefixIcon: Icon(Feather.lock), hintText: "*************"),
             )
           ],
@@ -118,31 +126,42 @@ class ChangePasswordPageState
             ),
             TextFormField(
               controller: controller.confirmPasswordController,
-              obscureText: true,
-              validator: (value){
-                if(value.isEmpty){
+              obscureText: controller.isConfirmPasswordHidden,
+              validator: (value) {
+                if (value.isEmpty) {
                   return LocaleKeys.errorPasswordRequired.tr();
                 }
-                if(value != controller.newPasswordController.text){
+                if (value != controller.newPasswordController.text) {
                   return LocaleKeys.passwordDontMatch.tr();
                 }
                 return null;
               },
               decoration: InputDecoration(
-                  prefixIcon: Icon(Feather.lock), hintText: "*************"),
+                prefixIcon: Icon(Feather.lock),
+                hintText: "*************",
+                suffix: InkWell(
+                    onTap: () {
+                      controller.toggleConfirmPassword();
+                    },
+                    child: Icon(
+                        controller.isConfirmPasswordHidden ? Feather.eye : Feather.eye_off)),
+              ),
             )
           ],
         );
       });
 
   get _save => ControlledWidgetBuilder(
-      builder: (BuildContext context, ChangePasswordController controller) {
-        return LoadingButton(onPressed: (){
-          controller.checkForm({
-            'context' : context,
-            'formKey' : _formKey,
-            'globalKey' : globalKey
-          });
-        }, isLoading: controller.isLoading, text: LocaleKeys.changePassword.tr());
+          builder: (BuildContext context, ChangePasswordController controller) {
+        return LoadingButton(
+            onPressed: () {
+              controller.checkForm({
+                'context': context,
+                'formKey': _formKey,
+                'globalKey': globalKey
+              });
+            },
+            isLoading: controller.isLoading,
+            text: LocaleKeys.changePassword.tr());
       });
 }

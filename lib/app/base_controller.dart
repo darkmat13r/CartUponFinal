@@ -1,15 +1,20 @@
 import 'package:coupon_app/app/auth_presenter.dart';
+import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/domain/entities/models/Token.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 abstract class BaseController extends Controller {
   bool isLoading = false;
+  bool isAuthUserLoading = false;
 
   Token currentUser;
-
   AuthPresenter _authPresenter;
   initBaseListeners(AuthPresenter authPresenter) {
+    isAuthUserLoading = true;
+    refreshUI();
     this._authPresenter = authPresenter;
     authPresenter.getCurrentUserOnNext = (token) => {this.currentUser = token};
     authPresenter.getCurrentUserOnError = (e) => {onAuthError(e)};
@@ -29,6 +34,7 @@ abstract class BaseController extends Controller {
   }
 
   onAuthComplete() {
+    isAuthUserLoading = false;
     refreshUI();
   }
 
@@ -39,13 +45,15 @@ abstract class BaseController extends Controller {
   onLoggedOut(){
     currentUser = null;
     refreshUI();
+    Navigator.of(getContext()).pushNamed(Pages.welcome);
   }
 
   logout(){
-    if(_authPresenter != null){
-      _authPresenter.logout();
-    }
-    refreshUI();
+   showGenericConfirmDialog(getContext(), null, LocaleKeys.confirmLogout.tr(), onConfirm: (){
+     if(_authPresenter != null){
+       _authPresenter.logout();
+     }
+   });
   }
 
   showLoading() {
@@ -60,5 +68,14 @@ abstract class BaseController extends Controller {
 
   handlerUnknownError(e) {
     print(e);
+  }
+
+  showProgressDialog(){
+
+    showLoadingDialog(getContext());
+  }
+
+  dismissProgressDialog(){
+    dismissDialog();
   }
 }

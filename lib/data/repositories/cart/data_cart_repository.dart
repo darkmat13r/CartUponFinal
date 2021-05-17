@@ -3,7 +3,7 @@ import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/database_helper.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
-import 'package:coupon_app/domain/entities/cart.dart';
+import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
@@ -69,25 +69,11 @@ class DataCartRepository extends CartRepository {
     try {
       String userId = await SessionHelper().getUserId();
       var url = Constants.createUriWithParams(
-          Constants.cartRoute, {"user_id": userId,
+          Constants.cartGetRoute, {"user_id": userId,
         "lang" : Config().getLanguageId().toString()});
-      List<dynamic> items = await HttpHelper.invokeHttp(url, RequestType.get);
-      List<CartItem> cartItems =
-          items.map((e) => CartItem.fromJson(e)).toList();
-
-      double total = 0;
-      int quantity = 0;
-      cartItems.forEach((element) {
-        String price = "0";
-        if (element.variant_value_id != null) {
-          price = element.variant_value_id.price;
-        } else {
-          price = element.product_id.sale_price;
-        }
-        total += double.parse(price) * element.qty;
-        quantity += element.qty;
-      });
-      return Cart(quantity: quantity, cartItems: cartItems, total: total);
+      dynamic items = await HttpHelper.invokeHttp(url, RequestType.get);
+      var cart = Cart.fromJson(items);
+      return cart;
     } catch (e) {
       _logger.finest(e);
       rethrow;

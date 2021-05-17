@@ -58,6 +58,7 @@ class CartItemViewState extends State<CartItemView> {
                                 widget.item.product_id != null && widget.item.product_id.product_detail != null
                             ? widget.item.product_id.product_detail.name ?? "-"
                             : "-",
+                        maxLines: 1,
                         style: heading6.copyWith(color: AppColors.neutralDark),
                       ),
                     ),

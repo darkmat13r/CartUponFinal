@@ -8,6 +8,7 @@ import 'package:coupon_app/app/pages/main/main_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/whishlist/whishlist_view.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -20,8 +21,8 @@ class MainPage extends View {
 }
 
 class MainPageView extends ViewState<MainPage, MainController> {
-  MainPageView() : super(MainController());
-  int _selectedIndex = 0;
+  MainPageView() : super(MainController(DataAuthenticationRepository()));
+
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   List<Widget> _widgetOptions = <Widget>[
@@ -34,93 +35,115 @@ class MainPageView extends ViewState<MainPage, MainController> {
 
   void _onItemTapped(int index, MainController controller) {
     setState(() {
-      _selectedIndex = index;
-      if(_selectedIndex == 2){
-        controller.fetchProfile();
+      controller.selectedIndex = index;
+      if (index == 2) {
+       if(controller.currentUser == null){
+         controller.selectedIndex = 0;
+         Navigator.of(context).pushNamed(Pages.welcome);
+       }
       }
     });
   }
+
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
   get _appBar => AppBar(
-    title: SizedBox(
-      height: 40,
-      child: Image.asset(Resources.toolbarLogo2, fit: BoxFit.fitHeight,),
-    ),
-    actions: [
-      IconButton(
-        icon: Icon(MaterialIcons.search), onPressed: () {  },
-      ),
-      CartButton(),
-      IconButton(
-        icon: Icon(MaterialIcons.menu), onPressed: () {
-        setState(() {
-         _openEndDrawer();
-        });
-      },
-      )
-    ],
-  );
+        title: SizedBox(
+          height: 40,
+          child: Image.asset(
+            Resources.toolbarLogo2,
+            fit: BoxFit.fitHeight,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(MaterialIcons.search),
+            onPressed: () {},
+          ),
+          CartButton(),
+          IconButton(
+            icon: Icon(MaterialIcons.menu),
+            onPressed: () {
+              setState(() {
+                _openEndDrawer();
+              });
+            },
+          )
+        ],
+      );
+
   void _openEndDrawer() {
     _drawerKey.currentState.openEndDrawer();
   }
+
   @override
   Widget get view => Scaffold(
         appBar: _appBar,
         key: _drawerKey,
         body: _body,
-        endDrawer: NavigationDrawer(),
+        endDrawer: ControlledWidgetBuilder(
+          builder: (BuildContext ctx, MainController controller) {
+            return NavigationDrawer(controller.currentUser != null
+                ? controller.currentUser.user
+                : null);
+          },
+        ),
         bottomNavigationBar: _bottomNavigation,
       );
 
-  get _bottomNavigation => ControlledWidgetBuilder(builder: (BuildContext context, MainController controller){
-   return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.neutralGray,
+  get _bottomNavigation => ControlledWidgetBuilder(
+          builder: (BuildContext context, MainController controller) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.neutralGray,
+              ),
+            ],
           ),
-        ],
-      ),
-      child: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        showUnselectedLabels: true,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(MaterialIcons.home),
-            label: 'Home',
+          child: BottomNavigationBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            showUnselectedLabels: true,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(MaterialIcons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                  icon: Icon(MaterialIcons.dashboard),
+                  label: 'Categories',
+                  backgroundColor: Colors.white),
+              BottomNavigationBarItem(
+                icon: Stack(
+                  children: [
+                    Icon(MaterialIcons.account_circle),
+                  ],
+                ),
+                label: 'Profile',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(MaterialCommunityIcons.gift),
+                label: 'Wishlist',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(MaterialCommunityIcons.cart),
+                label: 'Cart',
+              ),
+            ],
+            currentIndex: controller.selectedIndex,
+            onTap: (index) {
+              _onItemTapped(index, controller);
+            },
           ),
-          BottomNavigationBarItem(
-              icon: Icon(MaterialIcons.dashboard),
-              label: 'Categories',
-              backgroundColor: Colors.white),
-          BottomNavigationBarItem(
-            icon: Stack(
-              children: [
-                Icon(MaterialIcons.account_circle),
-              ],
-            ),
-            label: 'Profile',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(MaterialCommunityIcons.gift),
-            label: 'Wishlist',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(MaterialCommunityIcons.cart),
-            label: 'Cart',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: (index){
-          _onItemTapped(index, controller);
-        },
-      ),
-    );
-  });
+        );
+      });
 
-  get _body => Center(
-        child: _widgetOptions[_selectedIndex],
-      );
+  get _body => ControlledWidgetBuilder(
+          builder: (BuildContext ctx, MainController controller) {
+        return Center(
+          child: _widgetOptions[controller.selectedIndex],
+        );
+      });
 }

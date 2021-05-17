@@ -1,5 +1,5 @@
 import 'package:coupon_app/app/components/cart_item.dart';
-import 'package:coupon_app/domain/entities/cart.dart';
+import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';

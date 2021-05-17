@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:coupon_app/app/pages/cart/cart_presenter.dart';
 import 'package:coupon_app/data/repositories/cart/data_cart_repository.dart';
-import 'package:coupon_app/domain/entities/cart.dart';
+import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
@@ -23,6 +23,9 @@ class CartStream {
   factory CartStream() => _instance;
 
   addToCart(Product productDetail, ProductVariantValue variantValue) async {
+    if(_cartItem == null){
+      _cartItem = 0;
+    }
     _cartItem++;
     await _repo.addToCart(productDetail.id.toString(),
         variantValue != null ? variantValue.id.toString() : "");
@@ -35,12 +38,8 @@ class CartStream {
   }
 
   updateCart(Cart cart) {
-    var quantity = 0;
-    cart.cartItems.forEach((element) {
-      quantity += element.qty;
-    });
-    _cartItem = quantity;
-    updateQuantity(cart.quantity);
+    _cartItem = cart.total_qty;
+    updateQuantity(cart.total_qty);
   }
 
   updateQuantity(int qty) {

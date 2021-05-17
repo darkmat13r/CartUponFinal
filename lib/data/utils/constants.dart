@@ -18,11 +18,13 @@ class Constants {
   static const String addressRoute = '$baseUrl/addresswebapi/';
   static const String addressGetRoute = '$baseUrl/addressGetwebapi/';
   static const String cartRoute = '$baseUrl/cartwebapi/';
+  static const String cartGetRoute = '$baseUrl/CartGetAPI/';
   static const String whishlistRoute = '$baseUrl/wishlistapi/';
   static const String userRoute = '$baseUrl/user';
 
   // APIs no prefix
-  static const String baseUrlNoPrefix = 'cart-upon-api.herokuapp.com';
+  //static const String baseUrlNoPrefix = 'cart-upon-api.herokuapp.com';
+  static const String baseUrlNoPrefix = 'api.mallzaad.com';
   static const String forgotPasswordPath = '/forgot-password';
 
   // Local Storage

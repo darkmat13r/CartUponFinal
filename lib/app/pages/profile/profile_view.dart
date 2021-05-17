@@ -23,15 +23,17 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
   ProfilePageState() : super(ProfileController(DataAuthenticationRepository()));
   final _formKey = GlobalKey<FormState>();
   @override
-  Widget get view => Scaffold(
-    appBar: customAppBar(
-        title: Text(
-          LocaleKeys.updateProfile.tr(),
-          style: heading5.copyWith(color: AppColors.primary),
-        )),
-    key: globalKey,
-    body: _body,
-  );
+  Widget get view => ControlledWidgetBuilder(builder: (BuildContext ctx, ProfileController controller){
+    return WillPopScope(child: Scaffold(
+      appBar: customAppBar(
+          title: Text(
+            LocaleKeys.updateProfile.tr(),
+            style: heading5.copyWith(color: AppColors.primary),
+          )),
+      key: globalKey,
+      body: _body,
+    ), onWillPop: controller.onWillPop);
+  });
 
   get _body => ControlledWidgetBuilder(builder: (BuildContext context, ProfileController controller){
     return ListView(

@@ -3,7 +3,7 @@ import 'package:coupon_app/app/pages/cart/cart_presenter.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
-import 'package:coupon_app/domain/entities/cart.dart';
+import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +14,7 @@ class CartController extends BaseController{
   CartPresenter _presenter;
 
   Cart cart;
+
 
   CartController(CartRepository cartRepository) : this._presenter = CartPresenter(cartRepository){
     showLoading();
@@ -35,53 +36,36 @@ class CartController extends BaseController{
     };
     _presenter.updateCartOnComplete = (){
       _presenter.fetchCart();
+
     };
     _presenter.deleteCartItemOnNext = (res){
     };
     _presenter.deleteCartItemOnError = (e){
+      showProgressDialog();
       _presenter.fetchCart();
     //  showGenericSnackbar(getContext(), e.message, isError : true);
     };
     _presenter.deleteCartItemOnComplete = (){
+      showProgressDialog();
       _presenter.fetchCart();
+
      // CartStream().fetchQuantity();
     };
   }
 
+
   updateCart(CartItem cartItem , int qty){
+    showProgressDialog();
     cartItem.qty = qty;
-    var foundItem = cart.cartItems.firstWhere((element) => element.id == cartItem.id);
-    if(foundItem != null){
-      foundItem.qty = qty;
-      getCartOnNext(cart);
-    }
-    cart =  getCart(cart.cartItems);
     _presenter.updateQty(cartItem);
     refreshUI();
   }
 
-  getCart( List<CartItem> cartItems ){
-    double total = 0;
-    int quantity = 0;
-    cartItems.forEach((element) {
-      String price = "0";
-      if (element.variant_value_id != null) {
-        price = element.variant_value_id.price;
-      } else {
-        price = element.product_id.sale_price;
-      }
-      total += double.parse(price) * element.qty;
-      quantity += element.qty;
-    });
 
-    return Cart(quantity: quantity, cartItems: cartItems, total: total);
-  }
   removeItem(CartItem cartItem){
-    showGenericConfirmDialog(getContext(), LocaleKeys.alert.tr() , LocaleKeys.confirmRemoveCartItem.tr(),onConfirm: (){
-      cart.cartItems.remove(cartItem);
-      refreshUI();
-      _presenter.delete(cartItem);
 
+    showGenericConfirmDialog(getContext(), LocaleKeys.alert.tr() , LocaleKeys.confirmRemoveCartItem.tr(),onConfirm: (){
+      _presenter.delete(cartItem);
     });
   }
 
@@ -95,6 +79,7 @@ class CartController extends BaseController{
     this.cart = cart;
     CartStream().updateCart(cart);
     refreshUI();
+    dismissProgressDialog();
   }
 
   getCartOnError(e) {
@@ -104,5 +89,6 @@ class CartController extends BaseController{
 
   getCartOnComplete() {
     dismissLoading();
+
   }
 }

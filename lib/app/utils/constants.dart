@@ -15,17 +15,17 @@ class Resources {
   static const String shoe = 'assets/images/shoe.png';
   static const String recommended = 'assets/images/recommended.png';
 
-  static const String mainLogo =  "assets/images/main_logo.png";
+  static const String mainLogo = "assets/images/main_logo.png";
 
   static const String offerTag = "assets/images/tag.png";
   static const String button = "assets/images/button.png";
-
 
   static const String categoryFood = "assets/images/category/food.png";
   static const String categoryDesserts = "assets/images/category/desserts.png";
   static const String categoryAuto = "assets/images/category/automotive.png";
   static const String categoryHealth = "assets/images/category/health.png";
-  static const String categoryEntertainment = "assets/images/category/entertainment.png";
+  static const String categoryEntertainment =
+      "assets/images/category/entertainment.png";
   static const String categorySports = "assets/images/category/sports.png";
   static const String product1 = "assets/images/category/product_image_1.jpg";
   static const String product2 = "assets/images/category/product_image_2.jpg";
@@ -36,8 +36,10 @@ class Resources {
   static const String product7 = "assets/images/category/product_image_7.jpeg";
   static const String product8 = "assets/images/category/product_image_8.jpeg";
   static const String product9 = "assets/images/category/product_image_9.jpeg";
-  static const String product10 = "assets/images/category/product_image_10.jpeg";
-  static const String product11 = "assets/images/category/product_image_11.jpeg";
+  static const String product10 =
+      "assets/images/category/product_image_10.jpeg";
+  static const String product11 =
+      "assets/images/category/product_image_11.jpeg";
   static const String placeholder = "assets/images/placeholder.gif";
 
   static String facebook = "assets/images/social/facebook.png";
@@ -64,7 +66,6 @@ class AppColors {
   static const Color cardBg = const Color(0xffFEFEFE);
 }
 
-
 /// Returns the app's default snackbar with a [text].
 SnackBar _getGenericSnackbar(String text, bool isError) {
   return SnackBar(
@@ -90,59 +91,91 @@ void showGenericDialog(BuildContext context, String title, String message) {
   var dialog = showDialog(
       context: context,
       builder: (ctx) => new AlertDialog(
-        title: new Text(title),
-        content: new Text(message),
-        actions: [
-          TextButton(onPressed: () {
-            Navigator.pop(ctx);
-          },
-            child: Text("OK", style: buttonText.copyWith(color: AppColors.neutralGray),),
+            title: new Text(title),
+            content: new Text(message),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: Text(
+                  "OK",
+                  style: buttonText.copyWith(color: AppColors.neutralGray),
+                ),
+              )
+            ],
+          ));
+}
 
-          )
-        ],
-      ));
+BuildContext _dialogContext;
+
+void showLoadingDialog(BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (ctx) {
+        _dialogContext = ctx;
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          content: Container(
+            width: 80,
+              height: 80,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                ],
+              )),
+        );
+      });
 }
-void showLoadingDialog(BuildContext context){
-  showDialog(context: context, builder: (ctx){
-    return AlertDialog(
-      content: Container(
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
-    );
-  });
+
+void dismissDialog() {
+  if (_dialogContext != null ){
+    Navigator.pop(_dialogContext);
+    _dialogContext = null;
+  }
 }
-void showGenericConfirmDialog(BuildContext context, String title, String message, {Function onCancel, Function onConfirm}) {
+
+void showGenericConfirmDialog(
+    BuildContext context, String title, String message,
+    {Function onCancel, Function onConfirm}) {
   var dialog = showDialog(
       context: context,
       builder: (ctx) => new AlertDialog(
-        title: new Text(title),
-        content: new Text(message),
-        actions: [
-          TextButton(onPressed: () {
-            if(onCancel!= null){
-              onCancel();
-            }
-            Navigator.pop(ctx);
-          },
-            child: Text(LocaleKeys.cancel.tr(), style: buttonText.copyWith(color: AppColors.neutralGray),),
+            title:title != null ? new Text(title) : SizedBox(),
+            content: new Text(message),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  if (onCancel != null) {
+                    onCancel();
+                  }
+                  Navigator.pop(ctx);
+                },
+                child: Text(
+                  LocaleKeys.cancel.tr(),
+                  style: buttonText.copyWith(color: AppColors.accent),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  if (onConfirm != null) {
+                    onConfirm();
+                  }
 
-          ),
-          RaisedButton(
-            color: AppColors.error,
-            onPressed: () {
-            if(onConfirm!= null){
-              onConfirm();
-            }
-            Navigator.pop(ctx);
-          },
-            child: Text(LocaleKeys.ok.tr(), style: buttonText.copyWith(color: AppColors.neutralLight),),
-
-          )
-        ],
-      ));
+                },
+                child: Text(
+                  LocaleKeys.ok.tr(),
+                  style: buttonText.copyWith(color: AppColors.accent),
+                ),
+              )
+            ],
+          ));
 }
+
 class Dimens {
   static const double cornerRadius = 4;
   static const double borderWidth = 1;
@@ -155,7 +188,7 @@ class Dimens {
 
   static const double buttonCornerRadius = 57;
 
-  static const  double thumbImageHeight = 140;
+  static const double thumbImageHeight = 140;
 
   static const double elevation = 0;
 }
@@ -194,12 +227,11 @@ final TextStyle buttonText =
 
 final TextStyle formText =
     TextStyle(fontSize: 14, fontWeight: FontWeight.normal);
-final TextStyle labelText =
-TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.neutralDark);
+final TextStyle labelText = TextStyle(
+    fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.neutralDark);
 final TextStyle linkText = TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
 final TextStyle linkTextSmall =
     TextStyle(fontSize: 14, fontWeight: FontWeight.bold);
 
 final TextStyle formHintText = TextStyle(
     fontSize: 14, fontWeight: FontWeight.normal, color: AppColors.formHintText);
-
