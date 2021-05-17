@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,7 +15,7 @@ const appBarShape = RoundedRectangleBorder(
     side: BorderSide(color: AppColors.neutralLight, width: Dimens.borderWidth));
 
 TextTheme createTextTheme(BuildContext context) =>
-    GoogleFonts.openSansTextTheme(Theme.of(context).textTheme).copyWith(
+    GoogleFonts.tajawalTextTheme(Theme.of(context).textTheme).copyWith(
       overline: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.normal,
@@ -102,7 +103,7 @@ ThemeData appTheme(BuildContext context) => ThemeData(
         unselectedLabelColor:  AppColors.neutralGray,
         labelColor: AppColors.accent
       ),
-      textTheme: GoogleFonts.openSansTextTheme(),
+      textTheme: Config().locale.languageCode  == "en" ? GoogleFonts.openSansTextTheme():  GoogleFonts.tajawalTextTheme(),
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all(AppColors.neutralGray),

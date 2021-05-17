@@ -39,11 +39,7 @@ class _ProductItemState extends State<ProductItem> with TickerProviderStateMixin
             //if (widget.coupon != null)
             AppRouter().productDetails(context, widget.product);
           },
-          child: Stack(
-            children: [
-              _buildProductCard()
-            ],
-          ),
+          child: _buildProductCard(),
         ));
   }
 
