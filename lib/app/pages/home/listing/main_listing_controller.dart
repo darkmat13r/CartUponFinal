@@ -1,7 +1,7 @@
 import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/product/product_presenter.dart';
-import 'package:coupon_app/app/pages/products/products_presenter.dart';
+import 'package:coupon_app/app/pages/home/listing/main_listing_presenter.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/models/HomeData.dart';
@@ -12,17 +12,17 @@ import 'package:coupon_app/domain/repositories/home_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
-class ProductsController extends BaseController{
+class MainListingController extends BaseController{
   List<ProductDetail> products = [];
 
-  ProductsPresenter _presenter;
+  MainListingPresenter _presenter;
 
   Logger _logger;
 
   HomeData homeResponse;
 
 
-  ProductsController(HomeRepository homeRepo, AuthenticationRepository authRepo) : _presenter = ProductsPresenter(homeRepo, authRepo){
+  MainListingController(HomeRepository homeRepo, AuthenticationRepository authRepo) : _presenter = MainListingPresenter(homeRepo, authRepo){
     _logger = Logger("ProductsController");
 
   }

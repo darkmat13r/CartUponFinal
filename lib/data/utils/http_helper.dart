@@ -25,7 +25,7 @@ class HttpHelper {
     try {
       response = await _invoke(url, type, headers: headers, body: body, encoding: encoding);
       if(response.body.length > 0){
-        responseBody = jsonDecode(response.body);
+        responseBody = jsonDecode(utf8.decode(response.bodyBytes));
       }
     } catch (error) {
       rethrow;
@@ -51,7 +51,7 @@ class HttpHelper {
       rethrow;
     }
     try{
-      responseBody = jsonDecode(response.body);
+      responseBody = jsonDecode(utf8.decode(response.bodyBytes));
     }catch(e){
       print(e);
     }
@@ -98,7 +98,7 @@ class HttpHelper {
           break;
       }
       print("${response.statusCode}");
-      print("Response Body  ${url} : ${response.body}" );
+      print("Response Body  ${url} : ${utf8.decode(response.bodyBytes)}" );
 
 
 
@@ -107,7 +107,7 @@ class HttpHelper {
         print("====================>${response.statusCode}");
         print("====================>response.body ${response.body.length}");
         if(response.body.length > 0){
-          dynamic responseBody = jsonDecode(response.body);
+          dynamic responseBody = jsonDecode(utf8.decode(response.bodyBytes));
           if(responseBody is Map){
             var values = (responseBody as Map).entries.first.value;
             print("----------------> is ${values is List}");

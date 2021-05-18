@@ -86,6 +86,13 @@ class AppRouter {
           category: category,
         )));
   }
+  querySearch(BuildContext context, String query) {
+    Navigator.of(context).push(_buildRoute(
+        RouteSettings(),
+        SearchPage(
+          query: query,
+        )));
+  }
   editAddress(BuildContext context, Address address) {
     Navigator.of(context).push(_buildRoute(
         RouteSettings(),

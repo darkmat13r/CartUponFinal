@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
 import 'package:coupon_app/domain/entities/models/CategoryType.dart';
@@ -18,9 +19,15 @@ class DataCategoryRepository extends CategoryRepository {
   factory DataCategoryRepository() => _instance;
 
   @override
-  Future<List<CategoryType>> getCategories() async {
+  Future<List<CategoryType>> getCategories({String type}) async {
     try{
-      List<dynamic> data = await HttpHelper.invokeHttp(Constants.categories, RequestType.get);
+      var params = Map<String, String>();
+      if(type != null){
+        params['category_type'] = type;
+      }
+      params['lang'] = Config().getLanguageId().toString();
+      var url = Constants.createUriWithParams(Constants.categories, params);
+      List<dynamic> data = await HttpHelper.invokeHttp(url, RequestType.get);
       _logger.finest("Data ", data);
       dynamic response = data.map((e) => CategoryType.fromJson(e)).toList();
       return response;

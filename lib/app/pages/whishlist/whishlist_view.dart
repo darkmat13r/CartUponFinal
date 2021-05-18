@@ -71,7 +71,7 @@ class _WhishlistPageState
                                   item.product_id.product_detail != null
                               ? item.product_id.product_detail.name
                               : "",
-                          maxLines: 2,
+                          maxLines: 1,
                           style: bodyTextNormal1.copyWith(
                               color: AppColors.primary),
                         ),
@@ -134,7 +134,7 @@ class _WhishlistPageState
             );
           },
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, childAspectRatio: 0.650),
+              crossAxisCount: 2, childAspectRatio: 0.68),
         );
       });
 }

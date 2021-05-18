@@ -59,13 +59,13 @@ class _ProductItemState extends State<ProductItem> with TickerProviderStateMixin
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.product != null ? widget.product.name : "",
+                  widget.product != null && widget.product.name != null ? widget.product.name : "",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: bodyTextNormal1.copyWith(color: AppColors.primary),
                 ),
                 Text(
-                  widget.product != null ? widget.product.short_description : "",
+                  widget.product != null && widget.product.short_description  != null ? widget.product.short_description : "",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: captionNormal1.copyWith(color: AppColors.neutralGray),

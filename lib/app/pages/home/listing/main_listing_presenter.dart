@@ -10,7 +10,7 @@ import 'package:coupon_app/domain/usercases/get_home_page_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
 
-class ProductsPresenter extends AuthPresenter{
+class MainListingPresenter extends AuthPresenter{
   GetHomePageUseCase _getHomePageUseCase;
 
   Function getHomePageOnComplete;
@@ -20,7 +20,7 @@ class ProductsPresenter extends AuthPresenter{
 
 
 
-  ProductsPresenter(HomeRepository _homeRepo, AuthenticationRepository authRepo) : super(authRepo){
+  MainListingPresenter(HomeRepository _homeRepo, AuthenticationRepository authRepo) : super(authRepo){
     _getHomePageUseCase = GetHomePageUseCase(_homeRepo);
     _getHomePageUseCase.execute(_ProductsObserver(this));
 
@@ -33,7 +33,7 @@ class ProductsPresenter extends AuthPresenter{
 }
 
 class _ProductsObserver extends Observer<HomeData>{
-  ProductsPresenter _presenter;
+  MainListingPresenter _presenter;
 
 
   _ProductsObserver(this._presenter);

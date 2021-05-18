@@ -8,9 +8,6 @@ AppBar customAppBar({Widget title, TabBar tabs}){
     title: title,
     bottom: tabs,
     actions: [
-      IconButton(
-        icon: Icon(MaterialIcons.search), onPressed: () {  },
-      ),
       CartButton()
     ],
   );

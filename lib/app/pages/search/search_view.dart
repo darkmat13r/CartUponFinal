@@ -15,31 +15,39 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class SearchPage extends View {
   CategoryType category;
-  String  categoryId;
+  String categoryId;
+  String query;
 
-  SearchPage({this.category, this.categoryId});
+  SearchPage({this.category, this.categoryId, this.query});
 
   @override
-  State<StatefulWidget> createState() => SearchPageState(categoryType : category,categoryId: categoryId);
+  State<StatefulWidget> createState() => SearchPageState(
+      categoryType: category, categoryId: categoryId, query: query);
 }
 
 class SearchPageState extends ViewState<SearchPage, SearchController> {
-  SearchPageState({CategoryType categoryType, String categoryId})
-      : super(SearchController(DataProductRepository(), DataCategoryRepository(),
-      categoryType: categoryType, categoryId : categoryId));
+  SearchPageState({CategoryType categoryType, String categoryId, String query})
+      : super(SearchController(
+            DataProductRepository(), DataCategoryRepository(),
+            categoryType: categoryType, categoryId: categoryId, query: query));
 
   @override
-  Widget get view => ControlledWidgetBuilder(builder: (BuildContext context, SearchController controller){
-    return Scaffold(
-      key: globalKey,
-      body: _body,
-      appBar: customAppBar(
-          title: Text(
-            controller.categoryType != null ? controller.categoryType.name : "",
+  Widget get view => ControlledWidgetBuilder(
+          builder: (BuildContext context, SearchController controller) {
+        return Scaffold(
+          key: globalKey,
+          body: _body,
+          appBar: customAppBar(
+              title: Text(
+            controller.query != null
+                ? controller.query
+                : (controller.categoryType != null
+                    ? controller.categoryType.name
+                    : ""),
             style: heading5.copyWith(color: AppColors.primary),
           )),
-    );
-  });
+        );
+      });
 
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, SearchController controller) {
@@ -82,7 +90,8 @@ class SearchPageState extends ViewState<SearchPage, SearchController> {
                     ),
                     itemBuilder: (BuildContext context, int index) {
                       return ProductItem(
-                          product: controller.products[index],);
+                        product: controller.products[index],
+                      );
                     })
               ],
             ));

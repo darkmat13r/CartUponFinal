@@ -145,6 +145,7 @@ class LocaleKeys {
   //Main Page
   static const tabHome  = "tabHome";
   static const tabCoupons  = "tabCoupons";
+  static const tabProducts  = "tabProducts";
 
   static const String buyNow = "buyNow";
   static const String continueShopping = "continueShopping";

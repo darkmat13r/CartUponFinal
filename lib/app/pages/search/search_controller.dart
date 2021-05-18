@@ -17,17 +17,20 @@ class SearchController extends BaseController {
   SearchPresenter _presenter;
 
   CategoryType categoryType;
+  String query;
 
   SearchController(
       ProductRepository productRepo, CategoryRepository categoryRepo,
-      {this.categoryType, String categoryId})
+      {this.categoryType, String categoryId, this.query})
       : _presenter = SearchPresenter(productRepo, categoryRepo) {
     showLoading();
     if (categoryType != null)
       _presenter.searchCategory(categoryType);
     else if (categoryId != null) {
       _presenter.searchCategoryById(categoryId);
-    } else {
+    } if(query  != null){
+      _presenter.searchByQuery(query);
+  } else{
       showGenericSnackbar(getContext(), LocaleKeys.errorInvalidCategory.tr(),
           isError: true);
     }
@@ -45,7 +48,7 @@ class SearchController extends BaseController {
     };
 
     _presenter.getCategoryOnError = (e){
-      showGenericSnackbar(getContext(), e.message, isError: true);
+      //showGenericSnackbar(getContext(), e.message, isError: true);
     };
     _presenter.getCategoryOnComplete = (){
       dismissLoading();

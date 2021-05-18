@@ -5,7 +5,7 @@ import 'package:coupon_app/domain/entities/models/CategoryType.dart';
 import 'package:coupon_app/domain/repositories/category_repository.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
-class GetCategoryListUseCase extends CompletableUseCase<void>{
+class GetCategoryListUseCase extends CompletableUseCase<String>{
 
   CategoryRepository _categoryRepository;
 
@@ -15,14 +15,14 @@ class GetCategoryListUseCase extends CompletableUseCase<void>{
   }
 
   @override
-  Future<Stream<List<CategoryType>>> buildUseCaseStream(dynamic params) async {
+  Future<Stream<List<CategoryType>>> buildUseCaseStream(String params) async {
     final StreamController<List<CategoryType>> controller = StreamController();
     try{
-      List<CategoryType> categories = await _categoryRepository.getCategories();
+      List<CategoryType> categories = await _categoryRepository.getCategories(type: params);
       controller.add(categories);
       controller.close();
     }catch(e){
-      print("Eprrrrrrrrrr > " + e);
+      print(e.stackTrace);
       _logger.shout('Couldn\'t load sliders', e);
       controller.addError(e);
     }

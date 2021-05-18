@@ -5,7 +5,7 @@ import 'package:coupon_app/app/components/product_item.dart';
 import 'package:coupon_app/app/components/product_colors.dart';
 import 'package:coupon_app/app/components/state_view.dart';
 import 'package:coupon_app/app/pages/pages.dart';
-import 'package:coupon_app/app/pages/products/products_controller.dart';
+import 'package:coupon_app/app/pages/home/listing/main_listing_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/data/repositories/banner/data_slider_repository.dart';
@@ -20,14 +20,14 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
-class ProductsPage extends View {
+class MainListingPage extends View {
   @override
-  State<StatefulWidget> createState() => _ProductsState();
+  State<StatefulWidget> createState() => _MainListingState();
 }
 
-class _ProductsState extends ViewState<ProductsPage, ProductsController> {
-  _ProductsState() : super(
-      ProductsController(DataHomeRepository(), DataAuthenticationRepository()));
+class _MainListingState extends ViewState<MainListingPage, MainListingController> {
+  _MainListingState() : super(
+      MainListingController(DataHomeRepository(), DataAuthenticationRepository()));
 
   @override
   Widget get view =>
@@ -37,7 +37,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
 
   get _body =>
       ControlledWidgetBuilder(
-          builder: (BuildContext context, ProductsController controller) {
+          builder: (BuildContext context, MainListingController controller) {
             return StateView(
               controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT,
               ListView(
@@ -61,7 +61,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
 
   get _sections =>
       ControlledWidgetBuilder(
-          builder: (BuildContext context, ProductsController controller) {
+          builder: (BuildContext context, MainListingController controller) {
             return ListView.builder(
               itemBuilder: (BuildContext context, int index) {
                 var sectionItem = controller.homeResponse.sections[index];
@@ -77,7 +77,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
 
   get _sliders =>
       ControlledWidgetBuilder(
-          builder: (BuildContext context, ProductsController controller) {
+          builder: (BuildContext context, MainListingController controller) {
             print("controller.homeResponse ${controller.homeResponse != null
                 ? controller.homeResponse.sliders
                 : ""}");
@@ -106,7 +106,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
 
   get _loginCard =>
       ControlledWidgetBuilder(
-          builder: (BuildContext context, ProductsController controller) {
+          builder: (BuildContext context, MainListingController controller) {
             return controller.currentUser == null ? Padding(
               padding: const EdgeInsets.all(Dimens.spacingSmall),
               child: Card(
@@ -160,7 +160,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
 
   get _adBanners =>
       ControlledWidgetBuilder(
-          builder: (BuildContext context, ProductsController controller) {
+          builder: (BuildContext context, MainListingController controller) {
             return controller.homeResponse != null &&
                 controller.homeResponse.adbanners != null &&
                 controller.homeResponse.adbanners.length > 0 ? CarouselSlider
@@ -186,7 +186,7 @@ class _ProductsState extends ViewState<ProductsPage, ProductsController> {
 
   Widget _sectionItem(Section section) =>
       ControlledWidgetBuilder(
-          builder: (BuildContext context, ProductsController controller) {
+          builder: (BuildContext context, MainListingController controller) {
             return Column(
               children: [
                 SizedBox(height: Dimens.spacingMedium,),

@@ -36,6 +36,7 @@ class Constants {
   static var sliders = '$baseUrl/sliderreadapi';
   static var categories = '$baseUrl/categoryweb';
   static var products = '$baseUrl/productweb/';
+  static var search = '$baseUrl/search';
 
   static var home = '$baseUrl/homecommon';
 

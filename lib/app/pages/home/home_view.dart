@@ -1,10 +1,12 @@
+
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:coupon_app/app/components/product_item.dart';
 import 'package:coupon_app/app/components/rating.dart';
 import 'package:coupon_app/app/components/search_app_bar.dart';
-import 'package:coupon_app/app/pages/coupons/coupons_view.dart';
 import 'package:coupon_app/app/pages/home/home_controller.dart';
+import 'package:coupon_app/app/pages/home/products/products_view.dart';
 import 'package:coupon_app/app/pages/login/login_view.dart';
-import 'package:coupon_app/app/pages/products/products_view.dart';
+import 'package:coupon_app/app/pages/home/listing/mail_listing_view.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:flutter/material.dart';
@@ -26,16 +28,32 @@ class HomePageView extends ViewState<HomePage, HomeController> {
   Widget get _appBar => SearchAppBar();
 
   final _tabs = [
-    ProductsPage(),
-    CouponsPage(),
+    MainListingPage(),
+    ProductsPage("0"),
+    ProductsPage("1"),
   ];
   final _tabsText = [
     LocaleKeys.tabHome.tr(),
+
     LocaleKeys.tabCoupons.tr(),
+    LocaleKeys.tabProducts.tr(),
   ];
   Widget get _body => DefaultTabController(length: _tabs.length,
       child: Scaffold(
-        body:  ProductsPage(),
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: AppColors.primary,
+          automaticallyImplyLeading: false,
+          title: TabBar(
+            indicatorColor: AppColors.accent,
+            isScrollable: true,
+            tabs: [
+              for (final tab in _tabsText) Tab(text: tab),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: _tabs,
+        ),
       ));
 }
-

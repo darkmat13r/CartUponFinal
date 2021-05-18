@@ -21,12 +21,18 @@ class DataProductRepository extends ProductRepository{
 
 
   @override
-  Future<List<ProductDetail>> getProducts({String categoryId, String country}) async{
+  Future<List<ProductDetail>> getProducts({String categoryId,  String type}) async{
     try{
-      var uri = Constants.createUriWithParams(Constants.products, {
-        'category' : categoryId,
+      var params =  {
         'lang' :  Config().getLanguageId().toString()
-      });
+      };
+      if(categoryId != null){
+        params['category'] = categoryId;
+      }
+      if(type != null){
+        params['category_type'] = type;
+      }
+      var uri = Constants.createUriWithParams(Constants.products,params);
       List<dynamic> data = await HttpHelper.invokeHttp(uri, RequestType.get);
       dynamic response =  data.map((e) => ProductDetail.fromJson(e)).toList();
       return response;
@@ -35,6 +41,7 @@ class DataProductRepository extends ProductRepository{
       rethrow;
     }
   }
+
 
   @override
   Future<ProductDetail> getById(String productId) async{
@@ -48,4 +55,23 @@ class DataProductRepository extends ProductRepository{
     }
   }
 
+
+  @override
+  Future<List<ProductDetail>> search({String query}) async{
+    try{
+      var params =  {
+        'lang' :  Config().getLanguageId().toString()
+      };
+      if(query != null){
+        params['q'] = query;
+      }
+      var uri = Constants.createUriWithParams(Constants.search,params);
+      List<dynamic> data = await HttpHelper.invokeHttp(uri, RequestType.get);
+      dynamic response =  data.map((e) => ProductDetail.fromJson(e)).toList();
+      return response;
+    }catch(e){
+      print(e);
+      rethrow;
+    }
+  }
 }
