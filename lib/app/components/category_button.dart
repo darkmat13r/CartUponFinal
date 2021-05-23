@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 class CategoryButton extends StatefulWidget{
   final CategoryType category;
   final Function onClick;
+  final double size;
 
-  const CategoryButton({this.category, this.onClick}) : super();
+  const CategoryButton({this.category, this.onClick, this.size}) : super();
 
   @override
   State<StatefulWidget> createState() =>  _CategoryButtonState();
@@ -20,27 +21,30 @@ class _CategoryButtonState extends State<CategoryButton>{
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.all(8.0),
     child: SizedBox(
-      width: 40,
+      width: widget.size ?? 40,
       child: InkWell(
         onTap: widget.onClick,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              width: 36,
-              height: 36,
+              width: widget.size ?? 36,
+              height: widget.size ?? 36,
               child: Container(
                 decoration: BoxDecoration(
                     color: AppColors.neutralLight,
-                    borderRadius: BorderRadius.all(Radius.circular(46)),
+                    borderRadius: BorderRadius.all(Radius.circular(widget.size ?? 46)),
                     boxShadow: [BoxShadow(
                       color: Colors.grey,
                       offset: Offset(1, 1),
-                      blurRadius: 4.0,
+                      blurRadius: 2.0,
                     ),]
                 ),
                 child: Center(
-                  child:AppImage( widget.category != null ? widget.category.mobile_image : ""),
+                  child:Padding(
+                    padding: const EdgeInsets.all(Dimens.spacingNormal),
+                    child: AppImage( widget.category != null ? widget.category.mobile_image : ""),
+                  ),
                 ),
               ),
             ),
@@ -53,7 +57,7 @@ class _CategoryButtonState extends State<CategoryButton>{
                 textAlign: TextAlign.center,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: captionNormal2.copyWith(color: AppColors.neutralDark),
+                style: captionNormal1.copyWith(color: AppColors.neutralDark),
               ),
             ),
           ],

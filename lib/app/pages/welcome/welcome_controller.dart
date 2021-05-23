@@ -16,9 +16,11 @@ class WelcomeController extends Controller{
   }
 
   void login() {
+    Navigator.of(getContext()).pop();
     Navigator.of(getContext()).pushNamed(Pages.login);
   }
   void register() {
+    Navigator.of(getContext()).pop();
     Navigator.of(getContext()).pushNamed(Pages.register);
   }
 

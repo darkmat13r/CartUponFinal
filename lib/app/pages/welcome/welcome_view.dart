@@ -43,7 +43,7 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
               Padding(
                 padding: const EdgeInsets.all(Dimens.spacingMedium),
                 child: Text(
-                  "Login",
+                 LocaleKeys.signIn.tr(),
                   style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w800,
@@ -52,7 +52,7 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
               ),
 
               Text(
-                "Sign/Register to continue",
+               LocaleKeys.signinOrSignUp.tr(),
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w800,
@@ -105,7 +105,22 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
                   child: Text(
                     LocaleKeys.loginAsGuest.tr(),
                     style: buttonText.copyWith(color: AppColors.accent),
-                  ))
+                  )),
+              SizedBox(
+                height: Dimens.spacingLarge,
+              ),
+              orDivider,
+              SizedBox(
+                height: Dimens.spacingLarge,
+              ),
+              googleLogin,
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              facebookLogin,
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
             ],
           ),
         ),
@@ -162,7 +177,7 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
                   width: 16,
                 ),
                 Text(
-                  "SIGN UP WITH GOOGLE",
+                  "SIGN IN WITH GOOGLE",
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w900,
@@ -198,7 +213,7 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
                   width: 16,
                 ),
                 Text(
-                  "SIGN UP WITH FACEBOOK",
+                  "SIGN IN WITH FACEBOOK",
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w900,

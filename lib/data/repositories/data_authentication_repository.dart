@@ -103,7 +103,11 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       String mobileNo,
       String dateOfBirth,
       String isActive,
-      String password}) async {
+      String password,
+      String nationality,
+      String gender,
+      String title,
+      }) async {
     try {
       Map<String, String> headers = {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -116,6 +120,9 @@ class DataAuthenticationRepository implements AuthenticationRepository {
                 'country_code': countryCode,
                 'mobile_no': mobileNo,
                 'date_of_birth': dateOfBirth,
+                'gender': gender,
+                'nationlity': nationality,
+                'title': title,
                 'user': {
                   'first_name': firstName,
                   'last_name': lastName,
@@ -126,8 +133,6 @@ class DataAuthenticationRepository implements AuthenticationRepository {
                 }
               }));
       Token token = Token.fromJson(body);
-      print("Registration =-=---------------- ${ token.token}");
-      print("Registration =-=---------------- ${ token.toJson()}");
       SessionHelper().saveCredentials(token: token.token, user: token);
       _logger.finest('Registration is successful');
       return token;
@@ -141,19 +146,22 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   Future<Token> getProfile() async {
     try {
       Token currentUser = await getCurrentUser();
-      print("Current User ${currentUser.toJson()}");
-      var uri = "${Constants.registerRoute}${currentUser.user.id}/";
-      Map<String, dynamic> profileData = await HttpHelper.invokeHttp(
+
+
+      if(currentUser != null){
+        var uri = "${Constants.registerRoute}${currentUser.user.id}/";
+        Map<String, dynamic> profileData = await HttpHelper.invokeHttp(
           uri, RequestType.get,  headers: {
-        HttpHeaders.authorizationHeader : "Token ${ (await SessionHelper().getToken())}"
-      },);
+          HttpHeaders.authorizationHeader : "Token ${ (await SessionHelper().getToken())}"
+        },);
 
-      if(profileData['user'] != null){
-        Token token = Token.fromJson(profileData);
-        SessionHelper().updateUser(user: token);
-        return token;
+        if(profileData['user'] != null){
+          Token token = Token.fromJson(profileData);
+          SessionHelper().updateUser(user: token);
+          return token;
+        }
+
       }
-
      return await SessionHelper().getCurrentUser();
     } catch (error) {
       _logger.warning('Could not get profile request.', error);
@@ -168,6 +176,9 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       String username,
       String email,
       String countryCode,
+      String gender,
+      String nationality,
+      String title,
       String mobileNo,
       String dateOfBirth,
       String isActive}) async{
@@ -185,6 +196,9 @@ class DataAuthenticationRepository implements AuthenticationRepository {
             'country_code': countryCode,
             'mobile_no': mobileNo,
             'date_of_birth': dateOfBirth,
+            'gender': gender,
+            'nationlity': nationality,
+            'title': title,
             'user': {
               'first_name': firstName,
               'last_name': lastName,

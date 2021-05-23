@@ -8,6 +8,7 @@ import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/repositories/category_repository.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 class ProductsController extends BaseController {
@@ -54,7 +55,7 @@ class ProductsController extends BaseController {
     };
   }
 
-  void openCategory(CategoryType category) {
-    AppRouter().categorySearch(getContext(), category);
+  void openCategory(BuildContext context, CategoryType category) {
+    AppRouter().categorySearch(context, category);
   }
 }

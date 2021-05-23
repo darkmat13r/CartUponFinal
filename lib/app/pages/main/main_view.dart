@@ -8,6 +8,7 @@ import 'package:coupon_app/app/pages/main/main_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/whishlist/whishlist_view.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
 import 'package:flutter/material.dart';
@@ -22,17 +23,12 @@ class MainPage extends View {
 }
 
 class MainPageView extends ViewState<MainPage, MainController> {
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   MainPageView() : super(MainController(DataAuthenticationRepository()));
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    ExplorePage(),
-    AccountPage(),
-    WhishlistPage(),
-    CartPage(),
-  ];
+
 
   void _onItemTapped(int index, MainController controller) {
     setState(() {
@@ -46,7 +42,7 @@ class MainPageView extends ViewState<MainPage, MainController> {
     });
   }
 
-  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
   bool _isSearching = false;
   String searchQuery = null;
   TextEditingController _searchQuery = TextEditingController();
@@ -164,6 +160,7 @@ class MainPageView extends ViewState<MainPage, MainController> {
         body: _body,
         endDrawer: ControlledWidgetBuilder(
           builder: (BuildContext ctx, MainController controller) {
+
             return NavigationDrawer(controller.currentUser != null
                 ? controller.currentUser.user
                 : null);
@@ -174,6 +171,7 @@ class MainPageView extends ViewState<MainPage, MainController> {
 
   get _bottomNavigation => ControlledWidgetBuilder(
           builder: (BuildContext context, MainController controller) {
+            controller.setKey(_drawerKey);
         return Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -190,11 +188,11 @@ class MainPageView extends ViewState<MainPage, MainController> {
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(MaterialIcons.home),
-                label: 'Home',
+                label: LocaleKeys.tabHome.tr(),
               ),
               BottomNavigationBarItem(
                   icon: Icon(MaterialIcons.dashboard),
-                  label: 'Categories',
+                  label: LocaleKeys.tabCategories.tr(),
                   backgroundColor: Colors.white),
               BottomNavigationBarItem(
                 icon: Stack(
@@ -202,15 +200,15 @@ class MainPageView extends ViewState<MainPage, MainController> {
                     Icon(MaterialIcons.account_circle),
                   ],
                 ),
-                label: 'Profile',
+                label: LocaleKeys.tabProfile.tr(),
               ),
               BottomNavigationBarItem(
                 icon: Icon(MaterialCommunityIcons.gift),
-                label: 'Wishlist',
+                label: LocaleKeys.tabWhishlist.tr(),
               ),
               BottomNavigationBarItem(
                 icon: Icon(MaterialCommunityIcons.cart),
-                label: 'Cart',
+                label: LocaleKeys.tabCart.tr(),
               ),
             ],
             currentIndex: controller.selectedIndex,
@@ -220,13 +218,35 @@ class MainPageView extends ViewState<MainPage, MainController> {
           ),
         );
       });
+  getChildWidget(index, MainController controller){
+    switch(index){
+      case 0 :
+        return HomePage();
+      case 1 :
+        return  ExplorePage();
+      case 2 :
+        return   AccountPage(onLogout: (){
+          setState(() {
+            controller.currentUser = null;
+            controller.selectedIndex = 0;
+          });
+        },);
+      case 3 :
+        return   WhishlistPage();
+      case 4 :
+        return  CartPage();
+    }
+
+  }
 
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext ctx, MainController controller) {
         return Center(
-          child: _widgetOptions[controller.selectedIndex],
+          child: getChildWidget(controller.selectedIndex, controller),
         );
       });
+
+
 
 
 }

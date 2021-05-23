@@ -93,6 +93,7 @@ class ChangePasswordPageState
             TextFormField(
               obscureText: controller.isPasswordHidden,
               controller: controller.newPasswordController,
+              focusNode: controller.newPasswordFocus,
               validator: (value) {
                 if (value.isEmpty) {
                   return LocaleKeys.errorPasswordRequired.tr();
@@ -127,6 +128,7 @@ class ChangePasswordPageState
             TextFormField(
               controller: controller.confirmPasswordController,
               obscureText: controller.isConfirmPasswordHidden,
+              focusNode: controller.confirmPasswordFocus,
               validator: (value) {
                 if (value.isEmpty) {
                   return LocaleKeys.errorPasswordRequired.tr();

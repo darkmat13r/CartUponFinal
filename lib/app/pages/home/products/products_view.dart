@@ -52,7 +52,7 @@ class _ProductsPageState extends ViewState<ProductsPage, ProductsController>{
         itemCount:  controller.categories.length ,
           itemBuilder: (BuildContext context, int index){
         return CategoryButton(category: controller.categories[index],onClick: (){
-          controller.openCategory(controller.categories[index]);
+          controller.openCategory(context, controller.categories[index]);
         },);
       }),
     ) : SizedBox();
@@ -62,16 +62,14 @@ class _ProductsPageState extends ViewState<ProductsPage, ProductsController>{
   get _products => ControlledWidgetBuilder(builder: (BuildContext context, ProductsController controller ){
     double cardWidth = MediaQuery.of(context).size.width / 3.3;
     double cardHeight = 150;
-    return Expanded(
-      child: StateView(
-        controller.products != null && controller.products.length > 0 ? EmptyState.CONTENT : EmptyState.EMPTY,
-        GridView.builder(
-          shrinkWrap: true,
-          itemCount: controller.products != null ? controller.products.length : 0,
-          itemBuilder: (BuildContext context, int index){
-          return ProductItem(product: controller.products[index]);
-        }, gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio:  cardWidth / cardHeight),),
-      ), flex: 1,
+    return StateView(
+      controller.isLoading ? EmptyState.LOADING : (controller.products != null && controller.products.length > 0 ? EmptyState.CONTENT : EmptyState.EMPTY),
+      GridView.builder(
+        shrinkWrap: true,
+        itemCount: controller.products != null ? controller.products.length : 0,
+        itemBuilder: (BuildContext context, int index){
+        return ProductItem(product: controller.products[index]);
+      }, gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio:  cardWidth / cardHeight),),
     );
   });
 

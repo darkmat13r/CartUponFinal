@@ -7,6 +7,7 @@ class LocaleKeys {
 
   //Login Page
   static const hintEmail = 'hintEmail';
+  static const hintEmailMobile = 'hintEmailMobile';
   static const hintPassword = 'hintPassword';
   static const signIn = 'signIn';
   static const loginWithGoogle = 'loginWithGoogle';
@@ -20,6 +21,9 @@ class LocaleKeys {
   static const errorLastNameRequired = 'errorLastNameRequired';
   static const errorEmailRequired = 'errorEmailRequired';
   static const errorDateOfBirthRequired = 'errorDateOfBirthRequired';
+  static const errorSelectNationality = 'errorSelectNationality';
+  static const errorSelectGender = 'errorSelectGender';
+  static const errorSelectTitle = 'errorSelectTitle';
   static const errorPhoneRequired = 'errorPhoneRequired';
 
   static const or = 'or';
@@ -146,6 +150,13 @@ class LocaleKeys {
   static const tabHome  = "tabHome";
   static const tabCoupons  = "tabCoupons";
   static const tabProducts  = "tabProducts";
+  static const tabCategories  = "tabCategories";
+  static const tabProfile  = "tabProfile";
+  static const tabWhishlist  = "tabWhishlist";
+  static const tabCart  = "tabCart";
+  static const myProfile  = "myProfile";
+  static const addresses  = "addresses";
+  static const myWallet  = "myWallet";
 
   static const String buyNow = "buyNow";
   static const String continueShopping = "continueShopping";
@@ -225,6 +236,17 @@ class LocaleKeys {
   static var errorCapitalLetter = "errorCapitalLetter";
   static var errorSpecialLetter = "errorSpecialLetter";
   static var errorPasswordNumber = "errorPasswordNumber";
+
+  static var later = "later";
+
+  static var signinOrSignUp = "signinOrSignup";
+  static var nationality = "nationality";
+  static var selectNationality = "selectNationality";
+  static var titleMr = "titleMr";
+  static var titleMs = "titleMs";
+  static var titleMrs = "titleMrs";
+  static var genderMale = "genderMale";
+  static var genderFemale = "genderFemale";
 
 
 }

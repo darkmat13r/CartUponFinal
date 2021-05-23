@@ -4,7 +4,9 @@ import 'package:coupon_app/app/pages/profile/profile_presenter.dart';
 import 'package:coupon_app/app/pages/register/register_presenter.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/domain/entities/models/Nationality.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
+import 'package:coupon_app/domain/repositories/nationality_repository.dart';
 import 'package:coupon_app/domain/usercases/auth/register_usecase.dart';
 import 'package:coupon_app/domain/usercases/auth/update_profile_usecase.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,11 +21,15 @@ class ProfileController extends BaseController {
   TextEditingController dobController;
   DateTime dob;
   String countryCode;
+  int title;
+  int gender;
+  Nationality nationality;
+  List<Nationality> nationalities;
 
   ProfilePresenter _presenter;
 
-  ProfileController(AuthenticationRepository authRepo)
-      : _presenter = ProfilePresenter(authRepo) {
+  ProfileController(AuthenticationRepository authRepo, NationalityRepository nationalityRepository)
+      : _presenter = ProfilePresenter(authRepo, nationalityRepository) {
     _logger = Logger("ProfileController");
     firstNameController = TextEditingController();
     lastNameController = TextEditingController();
@@ -54,6 +60,7 @@ class ProfileController extends BaseController {
       dismissLoading();
       showGenericSnackbar(getContext(), e.message, isError: true);
     };
+    initNationalityListeners();
   }
 
   @override
@@ -62,8 +69,12 @@ class ProfileController extends BaseController {
     lastNameController.text  = currentUser.user.last_name;
     emailController.text  = currentUser.user.username;
     mobileNumberController.text  = currentUser.mobile_no;
+    gender = currentUser.gender;
+    title = currentUser.title;
+    mobileNumberController.text  = currentUser.mobile_no;
     dob  = DateFormat("yyyy-MM-dd").parse(currentUser.date_of_birth);
     setDob(dob);
+    updateNationality();
     super.onAuthComplete();
 
   }
@@ -75,6 +86,9 @@ class ProfileController extends BaseController {
         lastName: lastNameController.text,
         email: emailController.text,
         countryCode: countryCode,
+        nationality: nationality.id,
+        gender: gender,
+        title:  title,
         mobileNo: mobileNumberController.text,
         dateOfBirth: DateFormat('yyyy-MM-dd').format(dob)));
   }
@@ -87,6 +101,21 @@ class ProfileController extends BaseController {
       if (dob == null) {
         showGenericDialog(
             getContext(), "Alert", LocaleKeys.errorDateOfBirthRequired.tr());
+        return;
+      }
+      if(nationality == null){
+        showGenericDialog(
+            getContext(), LocaleKeys.alert.tr(), LocaleKeys.errorSelectNationality.tr());
+        return;
+      }
+      if(gender == null){
+        showGenericDialog(
+            getContext(), LocaleKeys.alert.tr(), LocaleKeys.errorSelectGender.tr());
+        return;
+      }
+      if(title == null){
+        showGenericDialog(
+            getContext(), LocaleKeys.alert.tr(), LocaleKeys.errorSelectTitle.tr());
         return;
       }
       update();
@@ -104,10 +133,46 @@ class ProfileController extends BaseController {
   changePassword() {
     Navigator.of(getContext()).pushNamed(Pages.changePassword);
   }
+  void initNationalityListeners() {
+    _presenter.getNationalitiesOnComplete = (){
+      dismissProgressDialog();
+    };
+    _presenter.getNationalitiesOnError = (e){
+      dismissProgressDialog();
+      showGenericSnackbar(getContext(), e.message, isError: true);
+    };
+    _presenter.getNationalitiesOnNext  = (response){
+      this.nationalities = response;
+      updateNationality();
+      refreshUI();
+    };
 
+  }
+  Future<List<Nationality>> getFilterNationality(String query){
+
+    return Future.value(nationalities.where((element) => element.country_name.toLowerCase().contains(query.toLowerCase())).toList());
+  }
+  setNationality(Nationality data) {
+    this.nationality = data;
+    refreshUI();
+  }
+
+  setTitle(int value) {
+    this.title = value;
+    refreshUI();
+  }
+
+  setGender(int gender){
+    this.gender = gender;
+    refreshUI();
+  }
   Future<bool> onWillPop() {
     var areChangesMade =  currentUser.user.first_name != firstNameController.text || currentUser.user.last_name != lastNameController.text
-        || currentUser.mobile_no != mobileNumberController.text || currentUser.country_code != countryCode
+        || currentUser.mobile_no != mobileNumberController.text
+        || currentUser.country_code != countryCode
+        || currentUser.nationality != nationality.id
+        || currentUser.gender != gender
+        || currentUser.title != title
         || currentUser.date_of_birth != DateFormat('yyyy-MM-dd').format(dob);
     if(areChangesMade){
       showGenericConfirmDialog(getContext(), LocaleKeys.discardChanges.tr(), LocaleKeys.confirmDiscardChanges.tr(), onConfirm: (){
@@ -115,6 +180,13 @@ class ProfileController extends BaseController {
       });
     }else{
       Navigator.of(getContext()).pop();
+    }
+  }
+
+  void updateNationality() {
+    if(nationalities != null && nationalities.isNotEmpty && currentUser != null){
+     this.nationality =  this.nationalities.firstWhere((element) => element.id == currentUser.nationality);
+     refreshUI();
     }
   }
 }

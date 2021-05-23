@@ -12,6 +12,7 @@ abstract class BaseController extends Controller {
 
   Token currentUser;
   AuthPresenter _authPresenter;
+
   initBaseListeners(AuthPresenter authPresenter) {
     isAuthUserLoading = true;
     refreshUI();
@@ -20,14 +21,11 @@ abstract class BaseController extends Controller {
     authPresenter.getCurrentUserOnError = (e) => {onAuthError(e)};
     authPresenter.getCurrentUserOnComplete = onAuthComplete;
 
-    authPresenter.logoutOnNext = (res)=>{
-      dismissLoading()
-    };
-    authPresenter.logoutOnComplete = (){
+    authPresenter.logoutOnNext = (res) => {dismissLoading()};
+    authPresenter.logoutOnComplete = () {
       onLoggedOut();
-
     };
-    authPresenter.logoutOnError = (e){
+    authPresenter.logoutOnError = (e) {
       dismissLoading();
       showGenericSnackbar(getContext(), e.messsage, isError: true);
     };
@@ -39,21 +37,22 @@ abstract class BaseController extends Controller {
   }
 
   onAuthError(e) {
-   // showGenericSnackbar(getContext(), e.message, isError : true);
+    // showGenericSnackbar(getContext(), e.message, isError : true);
   }
 
-  onLoggedOut(){
+  onLoggedOut() {
     currentUser = null;
     refreshUI();
-    Navigator.of(getContext()).pushNamed(Pages.welcome);
+    // Navigator.of(getContext()).pushNamed(Pages.welcome);
   }
 
-  logout(){
-   showGenericConfirmDialog(getContext(), null, LocaleKeys.confirmLogout.tr(), onConfirm: (){
-     if(_authPresenter != null){
-       _authPresenter.logout();
-     }
-   });
+  logout() {
+    showGenericConfirmDialog(getContext(), null, LocaleKeys.confirmLogout.tr(),
+        confirmText: LocaleKeys.logout.tr(), onConfirm: () {
+      if (_authPresenter != null) {
+        _authPresenter.logout();
+      }
+    });
   }
 
   showLoading() {
@@ -70,12 +69,11 @@ abstract class BaseController extends Controller {
     print(e);
   }
 
-  showProgressDialog(){
-
+  showProgressDialog() {
     showLoadingDialog(getContext());
   }
 
-  dismissProgressDialog(){
+  dismissProgressDialog() {
     dismissDialog();
   }
 }

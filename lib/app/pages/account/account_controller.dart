@@ -11,8 +11,9 @@ class AccountController extends BaseController {
 
   AccountPresenter _presenter;
 
+  Function onLogout;
 
-  AccountController(AuthenticationRepository authRepo)
+  AccountController(this.onLogout, AuthenticationRepository authRepo)
       : _presenter = AccountPresenter(authRepo);
 
   @override
@@ -27,6 +28,13 @@ class AccountController extends BaseController {
     Navigator.of(getContext()).pushNamed(Pages.welcome);
   }
 
+  @override
+  onLoggedOut() {
+    if(onLogout != null){
+      onLogout();
+    }
+    return super.onLoggedOut();
+  }
   void goToPage(page) {
     if (currentUser != null) {
       Navigator.of(getContext()).pushNamed(page);

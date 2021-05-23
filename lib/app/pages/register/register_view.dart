@@ -4,11 +4,15 @@ import 'package:coupon_app/app/pages/register/register_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
+import 'package:coupon_app/data/repositories/data_nationality_repository.dart';
+import 'package:coupon_app/domain/entities/models/Nationality.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:coupon_app/app/utils/extensions.dart';
+import 'package:group_radio_button/group_radio_button.dart';
 
 class RegisterPage extends View {
   @override
@@ -17,7 +21,7 @@ class RegisterPage extends View {
 
 class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
   RegisterPageState()
-      : super(RegisterController(DataAuthenticationRepository()));
+      : super(RegisterController(DataAuthenticationRepository(), DataNationalityRepository()));
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordHidden = true;
 
@@ -100,172 +104,213 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                controller: controller.firstNameController,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return LocaleKeys.errorFirstNameRequired.tr();
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                    prefixIcon: Icon(MaterialCommunityIcons.account),
-                    hintText: LocaleKeys.firstName.tr()),
-              ),
+              titleRadioButtons(controller),
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
-              TextFormField(
-                controller: controller.lastNameController,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return LocaleKeys.errorLastNameRequired.tr();
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(hintText: LocaleKeys.lastName.tr()),
-              ),
+              firstNameField(controller),
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                controller: controller.emailController,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return LocaleKeys.errorEmailRequired.tr();
-                  }
-                  if (!value.isValidEmail()) {
-                    return LocaleKeys.errorInvalidEmail.tr();
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                    prefixIcon: Icon(MaterialCommunityIcons.email),
-                    hintText: LocaleKeys.hintEmail.tr()),
-              ),
+              lastNameField(controller),
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
-              TextFormField(
-                controller: controller.dobController,
-                focusNode: focusNode,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return LocaleKeys.errorDateOfBirthRequired.tr();
-                  }
-                  return null;
-                },
-                onTap: () {
-                  focusNode.unfocus();
-                  _selectDate(context, controller);
-                },
-                decoration: InputDecoration(
-                    prefixIcon: Icon(MaterialCommunityIcons.calendar),
-                    hintText: LocaleKeys.dob.tr()),
-              ),
+              emailField(controller),
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
-              TextFormField(
-                keyboardType: TextInputType.phone,
-                controller: controller.mobileNumberController,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return LocaleKeys.errorPhoneRequired.tr();
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                    prefixIcon: Icon(MaterialCommunityIcons.phone),
-                    prefixStyle: heading6,
-                    prefix: CountryCodePicker(
-                      onChanged: (CountryCode value) {
-                        controller.countryCode = value.dialCode;
-                      },
-                      onInit: (CountryCode value) {
-                        controller.countryCode = value.dialCode;
-                      },
-                      showCountryOnly: false,
-                      showFlag: false,
-                      showOnlyCountryWhenClosed: false,
-                      padding: EdgeInsets.all(12),
-                      builder: (CountryCode countryCode) {
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                              right: Dimens.spacingMedium),
-                          child: Text(
-                            countryCode.dialCode,
-                            style: bodyTextNormal1,
-                          ),
-                        );
-                      },
-                    ),
-                    hintText: LocaleKeys.phoneNumber.tr()),
-              ),
+              dateOfBirthField(controller, context),
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
-              TextFormField(
-                keyboardType: TextInputType.visiblePassword,
-                controller: controller.passwordController,
-                obscureText: _isPasswordHidden,
-                validator: (value) {
-                  RegExp capitalCharacter = RegExp(r'^(?=.*?[A-Z])');
-                  RegExp specialCharacter = RegExp(r'^(?=.*?[!@#\$&*~])');
-                  RegExp numberCharacter = RegExp(r'^(?=.*?[0-9])');
-                  if (value.isEmpty) {
-                    return LocaleKeys.errorPasswordRequired.tr();
-                  }
-                  if(value.length < 8){
-                    return LocaleKeys.errorPasswordLength.tr();
-                  }
-                  if(!capitalCharacter.hasMatch(value)){
-                    return LocaleKeys.errorCapitalLetter.tr();
-                  }
-                  if(!specialCharacter.hasMatch(value)){
-                    return LocaleKeys.errorSpecialLetter.tr();
-                  }
-                  if(!numberCharacter.hasMatch(value)){
-                    return LocaleKeys.errorPasswordNumber.tr();
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  prefixIcon: Icon(MaterialCommunityIcons.lock),
-                  hintText: LocaleKeys.hintPassword.tr(),
-                  suffix: InkWell(
-                      onTap: () {
-                        setState(() {
-                          _isPasswordHidden = !_isPasswordHidden;
-                        });
-                      },
-                      child: Icon(
-                          _isPasswordHidden ? Feather.eye : Feather.eye_off)),
-                ),
+              genderRadioButtons(controller),
+              SizedBox(
+                height: Dimens.spacingMedium,
               ),
+
+              phoneField(controller),
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              passwordField(controller),
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              nationalities(controller),
               SizedBox(
                 height: Dimens.spacingLarge,
               ),
-              SizedBox(
-                width: double.infinity,
-                child: LoadingButton(
-                  isLoading: controller.isLoading,
-                  onPressed: () {
-                    controller.checkForm({
-                      'context': context,
-                      'formKey': _formKey,
-                      'globalKey': globalKey
-                    });
-                  },
-                  text: LocaleKeys.signUp.tr(),
-                ),
-              ),
+              signupButton(controller, context),
             ],
           ),
         );
       },
     );
+  }
+
+  TextFormField firstNameField(RegisterController controller) {
+    return TextFormField(
+              controller: controller.firstNameController,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return LocaleKeys.errorFirstNameRequired.tr();
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                  prefixIcon: Icon(MaterialCommunityIcons.account),
+                  hintText: LocaleKeys.firstName.tr()),
+            );
+  }
+
+  SizedBox signupButton(RegisterController controller, BuildContext context) {
+    return SizedBox(
+              width: double.infinity,
+              child: LoadingButton(
+                isLoading: controller.isLoading,
+                onPressed: () {
+                  controller.checkForm({
+                    'context': context,
+                    'formKey': _formKey,
+                    'globalKey': globalKey
+                  });
+                },
+                text: LocaleKeys.signUp.tr(),
+              ),
+            );
+  }
+
+  TextFormField passwordField(RegisterController controller) {
+    return TextFormField(
+              keyboardType: TextInputType.visiblePassword,
+              controller: controller.passwordController,
+              obscureText: _isPasswordHidden,
+              validator: (value) {
+                RegExp capitalCharacter = RegExp(r'^(?=.*?[A-Z])');
+                RegExp specialCharacter = RegExp(r'^(?=.*?[!@#\$&*~])');
+                RegExp numberCharacter = RegExp(r'^(?=.*?[0-9])');
+                if (value.isEmpty) {
+                  return LocaleKeys.errorPasswordRequired.tr();
+                }
+                if(value.length < 8){
+                  return LocaleKeys.errorPasswordLength.tr();
+                }
+                if(!capitalCharacter.hasMatch(value)){
+                  return LocaleKeys.errorCapitalLetter.tr();
+                }
+                if(!specialCharacter.hasMatch(value)){
+                  return LocaleKeys.errorSpecialLetter.tr();
+                }
+                if(!numberCharacter.hasMatch(value)){
+                  return LocaleKeys.errorPasswordNumber.tr();
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                prefixIcon: Icon(MaterialCommunityIcons.lock),
+                hintText: LocaleKeys.hintPassword.tr(),
+                suffix: InkWell(
+                    onTap: () {
+                      setState(() {
+                        _isPasswordHidden = !_isPasswordHidden;
+                      });
+                    },
+                    child: Icon(
+                        _isPasswordHidden ? Feather.eye : Feather.eye_off)),
+              ),
+            );
+  }
+
+  TextFormField phoneField(RegisterController controller) {
+    return TextFormField(
+              keyboardType: TextInputType.phone,
+              controller: controller.mobileNumberController,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return LocaleKeys.errorPhoneRequired.tr();
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                  prefixIcon: Icon(MaterialCommunityIcons.phone),
+                  prefixStyle: heading6,
+                  prefix: CountryCodePicker(
+                    onChanged: (CountryCode value) {
+                      controller.countryCode = value.dialCode;
+                    },
+                    onInit: (CountryCode value) {
+                      controller.countryCode = value.dialCode;
+                    },
+                    showCountryOnly: false,
+                    showFlag: false,
+                    showOnlyCountryWhenClosed: false,
+                    padding: EdgeInsets.all(12),
+                    builder: (CountryCode countryCode) {
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                            right: Dimens.spacingMedium),
+                        child: Text(
+                          countryCode.dialCode,
+                          style: bodyTextNormal1,
+                        ),
+                      );
+                    },
+                  ),
+                  hintText: LocaleKeys.phoneNumber.tr()),
+            );
+  }
+
+  TextFormField dateOfBirthField(RegisterController controller, BuildContext context) {
+    return TextFormField(
+              controller: controller.dobController,
+              focusNode: focusNode,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return LocaleKeys.errorDateOfBirthRequired.tr();
+                }
+                return null;
+              },
+              onTap: () {
+                focusNode.unfocus();
+                _selectDate(context, controller);
+              },
+              decoration: InputDecoration(
+                  prefixIcon: Icon(MaterialCommunityIcons.calendar),
+                  hintText: LocaleKeys.dob.tr()),
+            );
+  }
+
+  TextFormField emailField(RegisterController controller) {
+    return TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              controller: controller.emailController,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return LocaleKeys.errorEmailRequired.tr();
+                }
+                if (!value.isValidEmail()) {
+                  return LocaleKeys.errorInvalidEmail.tr();
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                  prefixIcon: Icon(MaterialCommunityIcons.email),
+                  hintText: LocaleKeys.hintEmail.tr()),
+            );
+  }
+
+  TextFormField lastNameField(RegisterController controller) {
+    return TextFormField(
+              controller: controller.lastNameController,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return LocaleKeys.errorLastNameRequired.tr();
+                }
+                return null;
+              },
+              decoration: InputDecoration(hintText: LocaleKeys.lastName.tr()),
+            );
   }
 
   _selectDate(BuildContext context, RegisterController controller) async {
@@ -277,5 +322,53 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
       firstDate: DateTime(1880),
     );
     if (picked != null && picked != controller.dob) controller.setDob(picked);
+  }
+
+  nationalities(RegisterController controller) {
+    return DropdownSearch<Nationality>(
+      label: LocaleKeys.nationality.tr(),
+      mode: Mode.DIALOG,
+      popupTitle:Padding(
+        padding: const EdgeInsets.all(Dimens.spacingMedium),
+        child: Text( LocaleKeys.nationality.tr(), style: heading6,),
+      ),
+      showSearchBox: true,
+      onFind: (String filter) => controller.getFilterNationality(filter),
+      itemAsString: (Nationality u) => u.country_name,
+      onChanged: (Nationality data) => controller.setNationality(data),
+    );
+  }
+
+  static var titles = [LocaleKeys.titleMr.tr(),LocaleKeys.titleMs.tr(), LocaleKeys.titleMrs.tr()];
+  static var genders = [LocaleKeys.genderMale.tr(),LocaleKeys.genderFemale.tr()];
+  titleRadioButtons(RegisterController controller) {
+      return RadioGroup<int>.builder(
+        groupValue: controller.title,
+        direction: Axis.horizontal,
+        spacebetween: 10,
+        horizontalAlignment: MainAxisAlignment.start,
+        onChanged: (value) => {
+          controller.setTitle(value)
+        },
+        items: [0,1,2],
+        itemBuilder: (item) => RadioButtonBuilder(
+          titles[item],
+        ),
+      );
+  }
+  genderRadioButtons(RegisterController controller) {
+    return RadioGroup<int>.builder(
+      groupValue: controller.gender,
+      direction: Axis.horizontal,
+      onChanged: (value) => {
+        controller.setGender(value)
+      },
+      items: [0,1],
+      spacebetween: 10,
+      horizontalAlignment: MainAxisAlignment.start,
+      itemBuilder: (item) => RadioButtonBuilder(
+        genders[item],
+      ),
+    );
   }
 }

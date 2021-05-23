@@ -75,7 +75,7 @@ class LoginController extends Controller{
   }
 
   void goToHome(){
-    Navigator.of(getContext()).pushNamed(Pages.main);
+    Navigator.of(getContext()).pushReplacementNamed(Pages.main);
   }
 
   @override

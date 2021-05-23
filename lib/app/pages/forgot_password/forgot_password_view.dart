@@ -41,7 +41,7 @@ class ForgotPasswordPageState
                 SizedBox(
                   height: Dimens.spacingLarge,
                 ),
-                Text(
+               /* Text(
                   LocaleKeys.forgotPasswordTitle
                       .tr(args: [LocaleKeys.appName.tr()]),
                   style: heading4,
@@ -52,7 +52,7 @@ class ForgotPasswordPageState
                 Text(
                   LocaleKeys.forgotPasswordSubtitle.tr(),
                   style: bodyTextNormal2,
-                ),
+                ),*/
                 SizedBox(
                   height: Dimens.spacingLarge,
                 ),

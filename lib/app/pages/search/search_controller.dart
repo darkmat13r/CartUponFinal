@@ -31,8 +31,8 @@ class SearchController extends BaseController {
     } if(query  != null){
       _presenter.searchByQuery(query);
   } else{
-      showGenericSnackbar(getContext(), LocaleKeys.errorInvalidCategory.tr(),
-          isError: true);
+     /* showGenericSnackbar(getContext(), LocaleKeys.errorInvalidCategory.tr(),
+          isError: true);*/
     }
   }
 

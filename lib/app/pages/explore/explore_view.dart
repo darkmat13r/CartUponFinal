@@ -28,30 +28,21 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
       );
 
   get _body => ControlledWidgetBuilder(builder: (BuildContext context,  ExploreController controller){
-    return StateView(  controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT, ListView(
-    shrinkWrap: true,
-    children: [
-    SizedBox(
-      height: Dimens.spacingMedium,
-    ),
-    _categories],
-    ));
+    return StateView(  controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT, _categories);
   });
 
   get _categories => ControlledWidgetBuilder(
           builder: (BuildContext context, ExploreController controller) {
-        return SizedBox(
-          height: 150,
-          child: ListView.builder(
+        return Padding(
+          padding: const EdgeInsets.only(top: Dimens.spacingMedium),
+          child: GridView.builder(
             shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
+            scrollDirection: Axis.vertical,
             physics: NeverScrollableScrollPhysics(),
             itemCount: controller.categories.length,
             itemBuilder: (BuildContext context, index) {
-              return SizedBox(
-                  width: 75,
-                  child: _categoryItem(controller.categories[index]));
-            },
+              return  _categoryItem(controller.categories[index]);
+            }, gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.5),
           ),
         );
       });
@@ -60,6 +51,7 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
         builder: (BuildContext context, ExploreController controller) {
           return CategoryButton(
             category: category,
+            size: 80,
             onClick: () {
               controller.search(category);
             },

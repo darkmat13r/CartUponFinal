@@ -55,21 +55,7 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
             height: Dimens.spacingLarge,
           ),
           _loginForm(),
-          SizedBox(
-            height: Dimens.spacingLarge,
-          ),
-          orDivider,
-          SizedBox(
-            height: Dimens.spacingLarge,
-          ),
-          googleLogin,
-          SizedBox(
-            height: Dimens.spacingMedium,
-          ),
-          facebookLogin,
-          SizedBox(
-            height: Dimens.spacingMedium,
-          ),
+
           _forgotPassword,
           _registerButton
         ],
@@ -206,7 +192,7 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
                 },
                 decoration: InputDecoration(
                     prefixIcon: Icon(Feather.mail),
-                    hintText: LocaleKeys.hintEmail.tr()),
+                    hintText: LocaleKeys.hintEmailMobile.tr()),
               ),
               SizedBox(
                 height: Dimens.spacingMedium,

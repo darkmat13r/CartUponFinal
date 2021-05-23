@@ -42,6 +42,10 @@ class Constants {
 
   static var changePassword = "$baseUrl/password/change/";
 
+  static var nationalityRoute = "$baseUrl/nationalitylist";
+
+  static String lastLoginPopupShownKey = "lastLoginPopupShown";
+
 
   static String createUriWithParams(String route, Map<String, String> queryParams){
     return route  + "?" + Uri( queryParameters: queryParams ).query;

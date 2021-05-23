@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,15 +26,14 @@ class SessionHelper {
   Future<Token> getCurrentUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String json = preferences.getString(Constants.userKey);
-    if(json != null){
-      Token user = Token
-          .fromJson(jsonDecode(json));
+    if (json != null) {
+      Token user = Token.fromJson(jsonDecode(json));
       return user;
     }
     return null;
   }
-  void updateUser(
-      {@required Token user}) async {
+
+  void updateUser({@required Token user}) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await Future.wait([
@@ -46,10 +46,8 @@ class SessionHelper {
     }
   }
 
-
   /// Saves the [token] and the [user] in `SharedPreferences`.
-  void saveCredentials(
-      {@required String token, @required Token user}) async {
+  void saveCredentials({@required String token, @required Token user}) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await Future.wait([
@@ -63,19 +61,19 @@ class SessionHelper {
     }
   }
 
-  getToken() async{
+  getToken() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    var token =  preferences.getString(Constants.tokenKey);
+    var token = preferences.getString(Constants.tokenKey);
     return token;
   }
 
-  getTempId()async{
+  getTempId() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return  preferences.getInt(Constants.tempIdKey);
+    return preferences.getInt(Constants.tempIdKey);
   }
+
   /// Saves the [token] and the [user] in `SharedPreferences`.
-  void saveTempId(
-      {@required int tempId}) async {
+  void saveTempId({@required int tempId}) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await Future.wait([
@@ -85,16 +83,32 @@ class SessionHelper {
       _logger.warning('TempId could not be stored.');
     }
   }
-  getUserId()async{
+
+  getUserId() async {
     Token token = await getCurrentUser();
-    if(token == null || token.user == null){
+    if (token == null || token.user == null) {
       var tempId = await getTempId();
-      if(tempId == null || tempId == 0 || tempId == -1){
-        tempId = DateTime.now().millisecondsSinceEpoch~/1000;
+      if (tempId == null || tempId == 0 || tempId == -1) {
+        tempId = DateTime.now().millisecondsSinceEpoch ~/ 1000;
         await saveTempId(tempId: tempId);
       }
       return tempId.toString();
     }
     return token.user.id.toString();
+  }
+
+  Future<int> lastShownPopup() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String date = await preferences.getString(Constants.lastLoginPopupShownKey);
+    if (date != null) {
+      return DateTime.now().difference(DateFormat.yMd().parse(date)).inDays;
+    }
+    return 0;
+  }
+
+  void updateLastShownPopup() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString(Constants.lastLoginPopupShownKey,
+        DateFormat.yMd().format(DateTime.now()));
   }
 }

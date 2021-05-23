@@ -86,6 +86,7 @@ class FilterPageState extends ViewState<FilterPage, FilterController> {
         return RangeSlider(
             min: controller.minPrice,
             max: controller.maxPrice,
+
             values: controller.currentPriceRangeValues,
             labels: RangeLabels(LocaleKeys.min.tr(), LocaleKeys.max.tr()),
             onChanged: controller.onPriceRangeChanged);

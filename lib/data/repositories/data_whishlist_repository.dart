@@ -5,7 +5,7 @@ import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/WhishlistItem.dart';
 import 'package:coupon_app/domain/repositories/whishlist_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 
 class DataWhishlistRepository extends WhishlistRepository {
   static DataWhishlistRepository instance = DataWhishlistRepository._internal();
@@ -13,7 +13,7 @@ class DataWhishlistRepository extends WhishlistRepository {
   Logger _logger;
 
   DataWhishlistRepository._internal() {
-    _logger = Logger("DataWhishlistRepository");
+    _logger = Logger();
   }
 
   factory DataWhishlistRepository() => instance;
@@ -30,7 +30,7 @@ class DataWhishlistRepository extends WhishlistRepository {
       return item;
     } catch (e) {
 
-      _logger.finest("Couldn't add product to whishlist", e);
+      _logger.e("Couldn't add product to whishlist", e);
       rethrow;
     }
   }
@@ -49,7 +49,7 @@ class DataWhishlistRepository extends WhishlistRepository {
           response.map((e) => WhishlistItem.fromJson(e)).toList();
       return whishlistItems;
     } catch (e) {
-      _logger.finest("Couldn't fetch whishlist items", e);
+      _logger.e("Couldn't fetch whishlist items", e);
       rethrow;
     }
   }
@@ -60,7 +60,7 @@ class DataWhishlistRepository extends WhishlistRepository {
        await HttpHelper.invokeHttp(
           "${Constants.whishlistRoute}${item.id}/", RequestType.delete);
     } catch (e) {
-      _logger.finest("Couldn't remove from whishlist", e);
+      _logger.e("Couldn't remove from whishlist", e);
       rethrow;
     }
   }

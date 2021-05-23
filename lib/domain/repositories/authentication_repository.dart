@@ -16,6 +16,9 @@ abstract class AuthenticationRepository {
       @required String mobileNo,
       @required String dateOfBirth,
       @required String isActive,
+      @required String nationality,
+      @required String gender,
+      @required String title,
       @required String password});
 
   /// Authenticates a user using his [username] and [password]
@@ -41,6 +44,9 @@ abstract class AuthenticationRepository {
       String lastName,
       String username,
       String email,
+      String nationality,
+      String gender,
+      String title,
       String countryCode,
       String mobileNo,
       String dateOfBirth,

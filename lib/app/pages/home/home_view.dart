@@ -9,6 +9,7 @@ import 'package:coupon_app/app/pages/login/login_view.dart';
 import 'package:coupon_app/app/pages/home/listing/mail_listing_view.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -20,7 +21,7 @@ class HomePage extends View {
 }
 
 class HomePageView extends ViewState<HomePage, HomeController> {
-  HomePageView() : super(HomeController());
+  HomePageView() : super(HomeController(DataAuthenticationRepository()));
 
   @override
   Widget get view => Scaffold(key: globalKey, body: _body);
@@ -47,6 +48,7 @@ class HomePageView extends ViewState<HomePage, HomeController> {
           title: TabBar(
             indicatorColor: AppColors.accent,
             isScrollable: true,
+            unselectedLabelColor: AppColors.neutralLight,
             tabs: [
               for (final tab in _tabsText) Tab(text: tab),
             ],

@@ -7,8 +7,9 @@ class WhishlistController extends BaseController {
   final WhishlistPresenter _presenter;
 
   List<WhishlistItem> whishListItems = [];
+
   WhishlistController(whishlistRepository, authRepo)
-      : _presenter = WhishlistPresenter(whishlistRepository, authRepo){
+      : _presenter = WhishlistPresenter(whishlistRepository, authRepo) {
     showLoading();
   }
 
@@ -19,16 +20,12 @@ class WhishlistController extends BaseController {
     _initFetchWhishlistListeners();
   }
 
-  delete(WhishlistItem item){
-    if(whishListItems != null){
-      whishListItems.remove(item);
-      refreshUI();
-    }
+  delete(WhishlistItem item) {
+    showProgressDialog();
     _presenter.deleteWhishlistItem(item);
   }
 
-
-  void _initDeleteWhishlistItemListeners(){
+  void _initDeleteWhishlistItemListeners() {
     _presenter.deleteWhishlistOnNext = (res) {};
     _presenter.deleteWhishlistOnError = (e) {
       dismissLoading();
@@ -43,16 +40,18 @@ class WhishlistController extends BaseController {
   }
 
   void _initFetchWhishlistListeners() {
-    _presenter.getWhishlistOnComplete = (){
+    _presenter.getWhishlistOnComplete = () {
       dismissLoading();
+      dismissProgressDialog();
     };
     _presenter.getWhishlistOnNext = (items) {
       whishListItems = items;
       refreshUI();
     };
-    _presenter.getWhishlistOnError = (e){
+    _presenter.getWhishlistOnError = (e) {
       dismissLoading();
-      showGenericSnackbar(getContext(), e.meesage, isError:  true);
+      dismissProgressDialog();
+      showGenericSnackbar(getContext(), e.meesage, isError: true);
     };
   }
 }

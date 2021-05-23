@@ -43,7 +43,6 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
               ListView(
                 shrinkWrap: true,
                 children: [
-                  _loginCard,
                   _sliders,
                   SizedBox(
                     height: Dimens.spacingMedium,

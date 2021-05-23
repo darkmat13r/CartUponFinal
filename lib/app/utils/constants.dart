@@ -140,7 +140,7 @@ void dismissDialog() {
 
 void showGenericConfirmDialog(
     BuildContext context, String title, String message,
-    {Function onCancel, Function onConfirm}) {
+    {Function onCancel, Function onConfirm, String confirmText}) {
   var dialog = showDialog(
       context: context,
       builder: (ctx) => new AlertDialog(
@@ -168,7 +168,7 @@ void showGenericConfirmDialog(
 
                 },
                 child: Text(
-                  LocaleKeys.ok.tr(),
+                confirmText != null ? confirmText: LocaleKeys.ok.tr(),
                   style: buttonText.copyWith(color: AppColors.accent),
                 ),
               )

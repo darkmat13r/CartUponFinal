@@ -13,12 +13,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class AccountPage extends View {
+  Function onLogout;
+
+  AccountPage({this.onLogout});
+
   @override
-  State<StatefulWidget> createState() => AccountPageState();
+  State<StatefulWidget> createState() => AccountPageState(onLogout);
 }
 
 class AccountPageState extends ViewState<AccountPage, AccountController> {
-  AccountPageState() : super(AccountController(DataAuthenticationRepository()));
+  AccountPageState(onLogout) : super(AccountController(onLogout, DataAuthenticationRepository()));
 
   @override
   Widget get view => Scaffold(
@@ -32,7 +36,7 @@ class AccountPageState extends ViewState<AccountPage, AccountController> {
           _optionItem(
                   Pages.profile,
                   MaterialCommunityIcons.account_circle,
-                  LocaleKeys.editProfile.tr(),
+                  LocaleKeys.myProfile.tr(),
                   LocaleKeys.descUpdateProfile.tr())
              ,
           _optionItem(Pages.orders, MaterialCommunityIcons.cart,
@@ -43,11 +47,11 @@ class AccountPageState extends ViewState<AccountPage, AccountController> {
                   LocaleKeys.changePassword.tr(),
                   LocaleKeys.descUpdatePassword.tr()),
           _optionItem(Pages.addresses, MaterialCommunityIcons.pin,
-              LocaleKeys.address.tr(), LocaleKeys.descAddress.tr()),
+              LocaleKeys.addresses.tr(), LocaleKeys.descAddress.tr()),
           _optionItem(Pages.profile, MaterialCommunityIcons.wallet,
-              LocaleKeys.wallet.tr(), LocaleKeys.descWallet.tr()),
+              LocaleKeys.myWallet.tr(), LocaleKeys.descWallet.tr()),
          _optionItemClickable(
-                  Pages.addresses,
+                  Pages.main,
                   MaterialCommunityIcons.location_exit,
                   LocaleKeys.logout.tr(),
                   null, () {
@@ -188,11 +192,6 @@ class AccountPageState extends ViewState<AccountPage, AccountController> {
             children: [
               Text(name,
                   style: heading5.copyWith(color: AppColors.neutralDark)),
-              description != null
-                  ? Text(description,
-                      style:
-                          captionNormal1.copyWith(color: AppColors.neutralGray))
-                  : SizedBox(),
             ],
           ),
         ),

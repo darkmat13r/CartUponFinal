@@ -5,6 +5,7 @@ import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:logger/logger.dart';
 
 class ChangePasswordController extends BaseController {
   TextEditingController newPasswordController;
@@ -43,11 +44,15 @@ class ChangePasswordController extends BaseController {
       if (!newPasswordFocus.hasFocus) {
         isPasswordHidden = true;
       }
+      Logger().e("Focus Change ${newPasswordFocus.hasFocus}");
+      refreshUI();
     });
     confirmPasswordFocus.addListener(() {
       if (!confirmPasswordFocus.hasFocus) {
         isConfirmPasswordHidden = true;
       }
+      Logger().e("confirmPasswordFocus Change ${confirmPasswordFocus.hasFocus}");
+      refreshUI();
     });
   }
 

@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/utils/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
@@ -22,8 +23,8 @@ class FilterController extends Controller{
 
   void onPriceRangeChanged(RangeValues values){
     currentPriceRangeValues = values;
-    minPriceController.text = "\$ ${values.start}";
-    maxPriceController.text = "\$ ${values.end}";
+    minPriceController.text = "${Utility.currencyFormat(values.start)}";
+    maxPriceController.text = " ${Utility.currencyFormat(values.end)}";
     refreshUI();
   }
 

@@ -170,7 +170,6 @@ class AddAddressController extends BaseController {
         phone_no: phoneText.text,
         is_default: isDefault);
 
-    print("Update Address ${data.toJson()}");
     _presenter.updateAddress(data);
   }
 
