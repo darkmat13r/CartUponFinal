@@ -217,6 +217,17 @@
   "genderFemale" :  "Female",
   "errorSelectGender" :  "Select Gender",
   "errorSelectTitle" :  "Select title",
+  "settings" :  "Settings",
+  "privacyPolicy" :  "Privacy Policy",
+  "contactUs" :  "Contact Us",
+  "switchLanguage" :  "Switch Language",
+  "youAreIn" :  "You are in",
+  "change" :  "Change",
+  "languageEnglish" :  "English",
+  "successSettingSaved" :  "Settings save successfully",
+  "saveSettings" :  "Save",
+  "languageArabic" :  "عربى",
+  "yourPreferredLanguageId" :  "Your preferred language is",
   "confirmRemoveWhishlistItem" :  "Do you want to remove this item from Whishlist?",
   "errorSelectNationality" :  "Please select nationality"
 }

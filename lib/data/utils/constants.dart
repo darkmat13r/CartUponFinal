@@ -46,6 +46,12 @@ class Constants {
 
   static String lastLoginPopupShownKey = "lastLoginPopupShown";
 
+  static String cachedCountiesKey = "countriesCached";
+  static String selectCountryId = "selectedCountryId";
+  static String selectedLanguage = "selectedLanguage";
+
+  static String countriesRoute = "$baseUrl/countryopenapi/";
+
 
   static String createUriWithParams(String route, Map<String, String> queryParams){
     return route  + "?" + Uri( queryParameters: queryParams ).query;

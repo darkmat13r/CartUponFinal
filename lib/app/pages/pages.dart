@@ -27,4 +27,5 @@ class Pages{
   static const String cart = "/cart";
   static const String whishlist = "/whishlist";
   static const String checkout = "/checkout";
+  static const String settings = "/settings";
 }

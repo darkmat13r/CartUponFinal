@@ -1,5 +1,6 @@
 import 'package:coupon_app/app/pages/splash/splash_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/data/repositories/data_country_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -10,7 +11,7 @@ class SplashPage extends View {
 }
 
 class _SplashPageState extends ViewState<SplashPage, SplashController> {
-  _SplashPageState() : super(SplashController());
+  _SplashPageState() : super(SplashController(DataCountryRepository()));
 
   @override
   Widget get view => Scaffold(

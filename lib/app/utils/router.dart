@@ -15,6 +15,7 @@ import 'package:coupon_app/app/pages/register/register_view.dart';
 import 'package:coupon_app/app/pages/reviews/create/create_review_view.dart';
 import 'package:coupon_app/app/pages/reviews/reviews_view.dart';
 import 'package:coupon_app/app/pages/search/search_view.dart';
+import 'package:coupon_app/app/pages/setting/settings_view.dart';
 import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
 import 'package:coupon_app/app/pages/whishlist/whishlist_view.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
@@ -71,6 +72,8 @@ class AppRouter {
         return _buildRoute(settings, WelcomePage());
       case Pages.checkout:
         return _buildRoute(settings, CheckoutPage());
+      case Pages.settings :
+        return _buildRoute(settings, SettingsPage());
     }
   }
 

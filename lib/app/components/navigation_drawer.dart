@@ -1,4 +1,5 @@
 import 'package:coupon_app/app/components/rounded_box.dart';
+import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
@@ -48,94 +49,26 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             ),
             ListTile(
               leading: Icon(MaterialCommunityIcons.home),
-              title: Text("Home"),
+              title: Text(LocaleKeys.tabHome.tr()),
             ),
             ListTile(
               leading: Icon(MaterialCommunityIcons.view_dashboard),
-              title: Text("Categories"),
+              title: Text(LocaleKeys.tabCategories.tr()),
             ),
             ListTile(
               leading: Icon(MaterialCommunityIcons.settings),
-              title: Text("Settings"),
-            ),
-            ListTile(
-              title: Text("Privacy Policy"),
-            ),
-            ListTile(
-              title: Text("Contact Us"),
-            ),
-            ListTile(
-              onTap: () {
-                Navigator.pop(context);
-
-                showDialog(
-                    context: context,
-                    builder: (BuildContext ctx) {
-                      return AlertDialog(
-                        title: Text("Change Language"),
-                        content: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  ctx.setLocale( Locale("en"));
-                                  Navigator.pop(ctx);
-                                },
-                                child: Container(
-                                  width: 48,
-                                  height: 48,
-                                  child: Center(
-                                      child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text("En"),
-                                  )),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color:
-                                            Config().locale.languageCode == "en"
-                                                ? AppColors.accent
-                                                : AppColors.neutralGray,
-                                        width: 2),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 48,
-                            ),
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  ctx.setLocale( Locale("ar"));
-                                  Navigator.pop(ctx);
-                                },
-                                child: Container(
-                                  width: 48,
-                                  height: 48,
-                                  child: Center(
-                                      child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text("Ar"),
-                                  )),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color:
-                                            Config().locale.languageCode == "ar"
-                                                ? AppColors.accent
-                                                : AppColors.neutralGray,
-                                        width: 2),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    });
+              title: Text(LocaleKeys.settings.tr()),
+              onTap: (){
+                Navigator.pushNamed(context, Pages.settings);
               },
-              title: Text("Switch Language"),
-            )
+            ),
+            ListTile(
+              title: Text(LocaleKeys.privacyPolicy),
+            ),
+            ListTile(
+              title: Text(LocaleKeys.contactUs),
+            ),
+
           ],
         ),
       ),

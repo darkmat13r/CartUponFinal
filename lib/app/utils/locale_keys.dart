@@ -151,6 +151,7 @@ class LocaleKeys {
   static const tabCoupons  = "tabCoupons";
   static const tabProducts  = "tabProducts";
   static const tabCategories  = "tabCategories";
+  static const settings  = "settings";
   static const tabProfile  = "tabProfile";
   static const tabWhishlist  = "tabWhishlist";
   static const tabCart  = "tabCart";
@@ -248,6 +249,17 @@ class LocaleKeys {
   static var genderMale = "genderMale";
   static var genderFemale = "genderFemale";
   static var confirmRemoveWhishlistItem = "confirmRemoveWhishlistItem";
+
+  static var privacyPolicy = "privacyPolicy";
+  static var languageEnglish = "languageEnglish";
+  static var languageArabic = "languageArabic";
+  static var saveSettings = "saveSettings";
+  static var successSettingSaved = "successSettingSaved";
+  static var contactUs = "contactUs";
+  static var switchLanguage = "switchLanguage";
+  static var youAreIn = "youAreIn";
+  static var change = "change";
+  static var yourPreferredLanguageId = "yourPreferredLanguageId";
 
 
 }

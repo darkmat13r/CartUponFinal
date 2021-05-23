@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
@@ -110,5 +111,48 @@ class SessionHelper {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(Constants.lastLoginPopupShownKey,
         DateFormat.yMd().format(DateTime.now()));
+  }
+
+  Future<List<Country>> cachedCounties() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String countiesJson =
+        await preferences.getString(Constants.cachedCountiesKey);
+    if (countiesJson != null) {
+      try {
+        List<dynamic> countries = jsonDecode(countiesJson);
+        return countries.map((e) => Country.fromJson(e)).toList();
+      } catch (e) {}
+    }
+    return null;
+  }
+
+  void cacheCounties( List<Country> list) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(Constants.cachedCountiesKey, jsonEncode(list));
+  }
+
+
+  Future<int> getSelectedCountry() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    int id = await preferences.getInt(Constants.selectCountryId);
+    return id;
+  }
+
+  void setSelectedCountryId(int id) async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setInt(Constants.selectCountryId,id);
+  }
+
+
+  Future<Locale> getLanguage() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String id = await preferences.getString(Constants.selectedLanguage) ;
+
+    return Locale(id  != null ? id : "en");
+  }
+
+  void setSelectedLanguage(String languageCode) async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(Constants.selectedLanguage,languageCode);
   }
 }

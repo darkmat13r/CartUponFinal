@@ -1,3 +1,4 @@
+import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/usercases/auth/get_current_user_usecase.dart';
@@ -87,3 +88,4 @@ class _GetCurrentUserObserver extends Observer<Token> {
     _presenter.getCurrentUserOnNext(response);
   }
 }
+

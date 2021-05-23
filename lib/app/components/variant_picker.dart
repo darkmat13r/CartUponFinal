@@ -1,4 +1,5 @@
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariant.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,7 +28,7 @@ class _VariantPickerState extends State<VariantPicker> {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       children: List.generate(
-          widget.variants != null ? widget.variants.length  : 0, (index) {
+          widget.variants != null && widget.variants.length > 0 ? widget.variants.length  : 0, (index) {
         if (widget.variants[index].display_as == "v_list")
           return dropdownList(widget.variants[index],
               widget.variants[index].product_variant_values);
@@ -117,7 +118,7 @@ class _VariantPickerState extends State<VariantPicker> {
   Widget dropdownList(ProductVariant variant,
           List<ProductVariantValue> values){
 
-    return  SizedBox(
+    return values != null && values.length  > 0 ? SizedBox(
       width: double.infinity,
       child: Container(
         decoration:
@@ -145,7 +146,7 @@ class _VariantPickerState extends State<VariantPicker> {
                           style: heading6.copyWith(color: AppColors.neutralDark),
                         ),
                         value.value  != null  ? Text(
-                          "KD${value.price}",
+                          Utility.currencyFormat(value.price),
                           style: captionNormal1.copyWith(
                               color: AppColors.neutralGray),
                         ) : SizedBox()
@@ -164,7 +165,7 @@ class _VariantPickerState extends State<VariantPicker> {
           ),
         ),
       ),
-    );
+    ) : SizedBox();
   }
 }
 
