@@ -13,6 +13,7 @@ import 'package:coupon_app/app/components/social_share.dart';
 import 'package:coupon_app/app/components/state_view.dart';
 import 'package:coupon_app/app/components/variant_picker.dart';
 import 'package:coupon_app/app/pages/product/product_controller.dart';
+import 'package:coupon_app/app/pages/searchable_view_state.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
@@ -37,21 +38,20 @@ class ProductPage extends View {
   State<StatefulWidget> createState() => ProductPageView(this.product);
 }
 
-class ProductPageView extends ViewState<ProductPage, ProductController> {
+class ProductPageView extends SearchableViewState<ProductPage, ProductController> {
   ProductPageView(product)
       : super(ProductController(
             product, DataProductRepository(), DataWhishlistRepository()));
 
   @override
-  Widget get view => Scaffold(
-        key: globalKey,
-        appBar: customAppBar(
-            title: Text(
-          widget.product != null ? widget.product.name : "",
-          style: heading5.copyWith(color: AppColors.primary),
-        )),
-        body: _view,
-      );
+  Widget get title => Text(
+      widget.product != null ? widget.product.name : "",
+      style: heading5.copyWith(color: AppColors.primary));
+
+  @override
+  Widget get body => _view;
+  @override
+  get key => globalKey;
 
   String variantSelected = null;
   int sliderImageIndex = 0;

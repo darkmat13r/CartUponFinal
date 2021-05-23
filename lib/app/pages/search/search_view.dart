@@ -3,6 +3,7 @@ import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/search_app_bar.dart';
 import 'package:coupon_app/app/components/state_view.dart';
 import 'package:coupon_app/app/pages/search/search_controller.dart';
+import 'package:coupon_app/app/pages/searchable_view_state.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/data/repositories/data_category_respository.dart';
@@ -25,30 +26,25 @@ class SearchPage extends View {
       categoryType: category, categoryId: categoryId, query: query);
 }
 
-class SearchPageState extends ViewState<SearchPage, SearchController> {
+class SearchPageState extends SearchableViewState<SearchPage, SearchController> {
   SearchPageState({CategoryType categoryType, String categoryId, String query})
       : super(SearchController(
             DataProductRepository(), DataCategoryRepository(),
             categoryType: categoryType, categoryId: categoryId, query: query));
+  @override
+  Widget get title => ControlledWidgetBuilder(builder: (BuildContext context, SearchController controller){
+    return  Text(
+        controller.query != null
+            ? controller.query
+            : (controller.categoryType != null
+            ? controller.categoryType.name
+            : ""));
+  });
 
   @override
-  Widget get view => ControlledWidgetBuilder(
-          builder: (BuildContext context, SearchController controller) {
-        return Scaffold(
-          key: globalKey,
-          body: _body,
-          appBar: customAppBar(
-              title: Text(
-            controller.query != null
-                ? controller.query
-                : (controller.categoryType != null
-                    ? controller.categoryType.name
-                    : ""),
-            style: heading5.copyWith(color: AppColors.primary),
-          )),
-        );
-      });
-
+  Widget get body => _body;
+  @override
+  get key => globalKey;
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, SearchController controller) {
         double cardWidth = MediaQuery.of(context).size.width / 3.3;
@@ -112,4 +108,6 @@ class SearchPageState extends ViewState<SearchPage, SearchController> {
           ),
         );
       });
+
+
 }

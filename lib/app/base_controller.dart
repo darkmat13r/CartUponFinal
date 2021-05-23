@@ -2,6 +2,7 @@ import 'package:coupon_app/app/auth_presenter.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -75,5 +76,9 @@ abstract class BaseController extends Controller {
 
   dismissProgressDialog() {
     dismissDialog();
+  }
+
+  void startSearch(GlobalKey<State<StatefulWidget>> globalKey, String query) {
+    AppRouter().querySearch(globalKey.currentContext, query);
   }
 }

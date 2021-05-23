@@ -247,6 +247,7 @@ class LocaleKeys {
   static var titleMrs = "titleMrs";
   static var genderMale = "genderMale";
   static var genderFemale = "genderFemale";
+  static var confirmRemoveWhishlistItem = "confirmRemoveWhishlistItem";
 
 
 }

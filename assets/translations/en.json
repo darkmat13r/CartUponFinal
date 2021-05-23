@@ -217,5 +217,6 @@
   "genderFemale" :  "Female",
   "errorSelectGender" :  "Select Gender",
   "errorSelectTitle" :  "Select title",
+  "confirmRemoveWhishlistItem" :  "Do you want to remove this item from Whishlist?",
   "errorSelectNationality" :  "Please select nationality"
 }
