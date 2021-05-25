@@ -30,23 +30,25 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductPage extends View {
-  final ProductDetail product;
+  final int productId;
 
-  ProductPage(this.product);
+  ProductPage(this.productId);
 
   @override
-  State<StatefulWidget> createState() => ProductPageView(this.product);
+  State<StatefulWidget> createState() => ProductPageView(this.productId);
 }
 
 class ProductPageView extends SearchableViewState<ProductPage, ProductController> {
-  ProductPageView(product)
+  ProductPageView(productId)
       : super(ProductController(
-            product, DataProductRepository(), DataWhishlistRepository()));
+            productId, DataProductRepository(), DataWhishlistRepository()));
 
   @override
-  Widget get title => Text(
-      widget.product != null ? widget.product.name : "",
-      style: heading5.copyWith(color: AppColors.primary));
+  Widget get title => ControlledWidgetBuilder(builder: (BuildContext context, ProductController controller ){
+    return Text(
+        controller.product != null ? controller.product.name : "",
+        style: heading5.copyWith(color: AppColors.primary));
+  });
 
   @override
   Widget get body => _view;
@@ -235,7 +237,11 @@ class ProductPageView extends SearchableViewState<ProductPage, ProductController
                   SizedBox(
                     height: Dimens.spacingLarge,
                   ),
-                  SocialShareButtons(),
+                  SocialShareButtons(
+                    onShare: (){
+                      controller.shareProduct();
+                    },
+                  ),
                   SizedBox(
                     height: Dimens.spacingLarge,
                   ),

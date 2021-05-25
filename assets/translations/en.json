@@ -225,6 +225,8 @@
   "change" :  "Change",
   "languageEnglish" :  "English",
   "successSettingSaved" :  "Settings save successfully",
+  "chooseCountry" :  "Choose Country",
+  "invalidLink" :  "Invalid link",
   "saveSettings" :  "Save",
   "languageArabic" :  "عربى",
   "yourPreferredLanguageId" :  "Your preferred language is",

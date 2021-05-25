@@ -1,13 +1,16 @@
 import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/register/register_presenter.dart';
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/data/utils/constants.dart';
+import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/entities/models/Nationality.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/repositories/nationality_repository.dart';
 import 'package:coupon_app/domain/usercases/auth/register_usecase.dart';
+import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logger/logger.dart';
@@ -26,11 +29,14 @@ class RegisterController extends BaseController {
   Nationality nationality;
   List<Nationality> nationalities;
 
+  Country selectedCountry;
   RegisterPresenter _presenter;
 
   Logger _logger;
+  List<Country> countries;
 
-  RegisterController(AuthenticationRepository authRepo, NationalityRepository nationalityRepository)
+  RegisterController(AuthenticationRepository authRepo,
+      NationalityRepository nationalityRepository)
       : _presenter = RegisterPresenter(authRepo, nationalityRepository) {
     _logger = Logger();
     firstNameController = TextEditingController();
@@ -39,7 +45,8 @@ class RegisterController extends BaseController {
     passwordController = TextEditingController();
     mobileNumberController = TextEditingController();
     dobController = TextEditingController();
-
+    getCachedCountry();
+    getCachedCountries();
   }
 
   @override
@@ -58,16 +65,17 @@ class RegisterController extends BaseController {
     };
     _presenter.registerOnError = (e) {
       _logger.e(e);
-      showGenericSnackbar(getContext(), e.message,
-          isError: true);
+      showGenericSnackbar(getContext(), e.message, isError: true);
     };
 
     initNationalityListeners();
   }
 
-  Future<List<Nationality>> getFilterNationality(String query){
-
-    return Future.value(nationalities.where((element) => element.country_name.toLowerCase().contains(query.toLowerCase())).toList());
+  Future<List<Nationality>> getFilterNationality(String query) {
+    return Future.value(nationalities
+        .where((element) =>
+            element.country_name.toLowerCase().contains(query.toLowerCase()))
+        .toList());
   }
 
   void checkForm(Map<String, dynamic> params) {
@@ -76,23 +84,23 @@ class RegisterController extends BaseController {
     assert(formKey is GlobalKey<FormState>);
     if (formKey.currentState.validate()) {
       if (dob == null) {
-        showGenericDialog(
-            getContext(), LocaleKeys.alert.tr(), LocaleKeys.errorDateOfBirthRequired.tr());
+        showGenericDialog(getContext(), LocaleKeys.alert.tr(),
+            LocaleKeys.errorDateOfBirthRequired.tr());
         return;
       }
-      if(nationality == null){
-        showGenericDialog(
-            getContext(), LocaleKeys.alert.tr(), LocaleKeys.errorSelectNationality.tr());
+      if (nationality == null) {
+        showGenericDialog(getContext(), LocaleKeys.alert.tr(),
+            LocaleKeys.errorSelectNationality.tr());
         return;
       }
-      if(gender == null){
-        showGenericDialog(
-            getContext(), LocaleKeys.alert.tr(), LocaleKeys.errorSelectGender.tr());
+      if (gender == null) {
+        showGenericDialog(getContext(), LocaleKeys.alert.tr(),
+            LocaleKeys.errorSelectGender.tr());
         return;
       }
-      if(title == null){
-        showGenericDialog(
-            getContext(), LocaleKeys.alert.tr(), LocaleKeys.errorSelectTitle.tr());
+      if (title == null) {
+        showGenericDialog(getContext(), LocaleKeys.alert.tr(),
+            LocaleKeys.errorSelectTitle.tr());
         return;
       }
       register();
@@ -109,7 +117,8 @@ class RegisterController extends BaseController {
         firstName: firstNameController.text,
         lastName: lastNameController.text,
         email: emailController.text,
-        countryCode: countryCode,
+        countryCode:
+            selectedCountry != null ? selectedCountry.dial_code : countryCode,
         nationality: nationality.id,
         gender: gender,
         title: title,
@@ -119,7 +128,7 @@ class RegisterController extends BaseController {
   }
 
   void goToHome() {
-   Navigator.of(getContext()).pushReplacementNamed(Pages.main);
+    Navigator.of(getContext()).pushReplacementNamed(Pages.main);
     //Navigator.of(getContext()).pop();
   }
 
@@ -134,18 +143,17 @@ class RegisterController extends BaseController {
   }
 
   void initNationalityListeners() {
-    _presenter.getNationalitiesOnComplete = (){
+    _presenter.getNationalitiesOnComplete = () {
       dismissProgressDialog();
     };
-    _presenter.getNationalitiesOnError = (e){
+    _presenter.getNationalitiesOnError = (e) {
       dismissProgressDialog();
       showGenericSnackbar(getContext(), e.message, isError: true);
     };
-    _presenter.getNationalitiesOnNext  = (response){
+    _presenter.getNationalitiesOnNext = (response) {
       this.nationalities = response;
       refreshUI();
     };
-
   }
 
   setNationality(Nationality data) {
@@ -158,8 +166,26 @@ class RegisterController extends BaseController {
     refreshUI();
   }
 
-  setGender(int gender){
+  setGender(int gender) {
     this.gender = gender;
+    refreshUI();
+  }
+  
+
+
+  void getCachedCountry() async {
+    selectedCountry = Config().selectedCountry;
+    refreshUI();
+  }
+
+  void getCachedCountries() async {
+    countries = await SessionHelper().cachedCounties();
+    
+    refreshUI();
+  }
+
+  void setSelectedCountry(Country countri) {
+    selectedCountry = countri;
     refreshUI();
   }
 }

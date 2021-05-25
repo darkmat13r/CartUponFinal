@@ -16,18 +16,22 @@ import 'package:coupon_app/domain/repositories/whishlist_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:package_info/package_info.dart';
+import 'package:share/share.dart';
 
 class ProductController extends BaseController {
   List<ProductDetail> similarProducts = [];
   bool isAddedToWhishlist = false;
-  ProductDetail product;
+  int productId;
 
   ProductPresenter _presenter;
 
   ProductVariantValue selectedProductVariant;
 
-  ProductController(this.product, ProductRepository productRepository,WhishlistRepository whishlistRepository)
-      : _presenter = ProductPresenter(product, productRepository, whishlistRepository);
+  ProductDetail product;
+
+  ProductController(this.productId, ProductRepository productRepository,WhishlistRepository whishlistRepository)
+      : _presenter = ProductPresenter( productRepository, whishlistRepository, productDetailId: productId);
 
   String elapsedTime;
 
@@ -100,6 +104,14 @@ class ProductController extends BaseController {
   onSelectVariant(ProductVariantValue variantValue) {
     this.selectedProductVariant = variantValue;
     refreshUI();
+  }
+
+  void shareProduct() async{
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    final RenderBox box = getContext().findRenderObject() as RenderBox;
+    Share.share("Found exciting coupon\n Checkout https://mallzaad.com/product/detail/${this.product.id}",
+        subject: "CartUpon",
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
 
   void reviews() {

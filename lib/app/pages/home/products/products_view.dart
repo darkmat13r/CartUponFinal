@@ -45,7 +45,7 @@ class _ProductsPageState extends ViewState<ProductsPage, ProductsController>{
 
   get _categories => ControlledWidgetBuilder(builder: (BuildContext context, ProductsController controller ){
     return controller.categories != null &&  controller.categories.length > 0 ? SizedBox(
-      height: 80,
+      height: 120,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,

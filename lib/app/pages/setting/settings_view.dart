@@ -18,19 +18,17 @@ class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
   _SettingsPageState() : super(SettingsController(DataCountryRepository()));
 
   @override
-  Widget get view =>
-      Scaffold(
+  Widget get view => Scaffold(
         key: globalKey,
         appBar: customAppBar(
             title: Text(
-              LocaleKeys.settings.tr(),
-              style: heading5.copyWith(color: AppColors.primary),
-            )),
+          LocaleKeys.settings.tr(),
+          style: heading5.copyWith(color: AppColors.primary),
+        )),
         body: _body,
       );
 
-  get _body =>
-      ListView(
+  get _body => ListView(
         shrinkWrap: true,
         children: [
           Column(
@@ -53,8 +51,7 @@ class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
               ),
               Container(
                 color: AppColors.neutralLight,
-                child:               _languagePicker
-                ,
+                child: _languagePicker,
               ),
               saveButton()
             ],
@@ -62,65 +59,72 @@ class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
         ],
       );
 
-  get _countryPicker =>
-      ControlledWidgetBuilder(
+  get _countryPicker => ControlledWidgetBuilder(
           builder: (BuildContext context, SettingsController controller) {
-            return Container(
-              color: AppColors.neutralLight,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: Dimens.spacingMedium,
-                    vertical: Dimens.spacingSmall),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        controller.selectedCountry != null
-                            ? controller.selectedCountry.country_name
-                            : "-",
-                        style:
+        return Container(
+          color: AppColors.neutralLight,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: Dimens.spacingMedium,
+                vertical: Dimens.spacingSmall),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    controller.newSelectedCountry != null
+                        ? controller.newSelectedCountry.country_name
+                        : ( controller.selectedCountry != null ? controller.selectedCountry.country_name :""),
+                    style:
                         bodyTextMedium1.copyWith(color: AppColors.neutralDark),
-                      ),
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          showCountryPicker(controller);
-                        },
-                        child: Text(
-                          LocaleKeys.change.tr(),
-                          style: buttonText.copyWith(color: AppColors.primary),
-                        ))
-                  ],
+                  ),
                 ),
-              ),
-            );
-          });
+                TextButton(
+                    onPressed: () {
+                      showCountryPicker(controller);
+                    },
+                    child: Text(
+                      LocaleKeys.change.tr(),
+                      style: buttonText.copyWith(color: AppColors.primary),
+                    ))
+              ],
+            ),
+          ),
+        );
+      });
 
-  get _languagePicker =>
-     ControlledWidgetBuilder(builder: (BuildContext context,  SettingsController controller){
-       return  Column(
-         children: [
-           ListTile(
-             onTap: (){
+  get _languagePicker => ControlledWidgetBuilder(
+          builder: (BuildContext context, SettingsController controller) {
+        return Column(
+          children: [
+            ListTile(
+              onTap: () {
                 controller.setLanguage("en");
-             },
-             leading: _createLanguage("EN"),
-             title: Text(LocaleKeys.languageEnglish.tr()),
-             trailing:  controller.languageCode.toLowerCase() == "en" ? Icon(
-               Feather.check_circle, color: AppColors.accent,) : SizedBox(),
-           ),
-           ListTile(
-             onTap: (){
-               controller.setLanguage("ar");
-             },
-             leading: _createLanguage("AR"),
-             title: Text(LocaleKeys.languageArabic.tr()),
-             trailing: controller.languageCode.toLowerCase() == "ar" ? Icon(
-               Feather.check_circle, color: AppColors.accent,) : SizedBox(),
-           )
-         ],
-       );
-     });
+              },
+              leading: _createLanguage("EN"),
+              title: Text(LocaleKeys.languageEnglish.tr()),
+              trailing: controller.languageCode.toLowerCase() == "en"
+                  ? Icon(
+                      Feather.check_circle,
+                      color: AppColors.accent,
+                    )
+                  : SizedBox(),
+            ),
+            ListTile(
+              onTap: () {
+                controller.setLanguage("ar");
+              },
+              leading: _createLanguage("AR"),
+              title: Text(LocaleKeys.languageArabic.tr()),
+              trailing: controller.languageCode.toLowerCase() == "ar"
+                  ? Icon(
+                      Feather.check_circle,
+                      color: AppColors.accent,
+                    )
+                  : SizedBox(),
+            )
+          ],
+        );
+      });
 
   _createLanguage(language) {
     Container(
@@ -128,53 +132,68 @@ class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
       height: 48,
       child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(language),
-          )),
+        padding: const EdgeInsets.all(8.0),
+        child: Text(language),
+      )),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(48),
-        border: Border.all(
-            color: AppColors.neutralGray,
-            width: 2),
+        border: Border.all(color: AppColors.neutralGray, width: 2),
       ),
     );
   }
 
   void showCountryPicker(SettingsController controller) {
-    showDialog(context: context, builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text("Choose Country", style: heading5,),
-        content: Container(
-          height: 300.0,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                onTap: () {
-                  controller.setSelectedCountry(controller.countries[index]);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(Dimens.spacingNormal),
-                  child: Text(controller.countries[index].country_name),
-                ),
-              );
-            },
-            itemCount: controller.countries != null ? controller.countries
-                .length : 0,),
-        ),);
-    });
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              LocaleKeys.chooseCountry.tr(),
+              style: heading5,
+            ),
+            content: SingleChildScrollView(
+              child: Material(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(
+                        controller.countries != null
+                            ? controller.countries.length
+                            : 0,
+                        (index) => InkWell(
+                              onTap: () {
+                                controller.setSelectedCountry(
+                                    controller.countries[index]);
+                                Navigator.pop(context);
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.all(Dimens.spacingNormal),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Text(
+                                      controller.countries[index].country_name),
+                                ),
+                              ),
+                            ))),
+              ),
+            ),
+          );
+        });
   }
 
   saveButton() {
-    return ControlledWidgetBuilder(builder: (BuildContext context, SettingsController controller){
+    return ControlledWidgetBuilder(
+        builder: (BuildContext context, SettingsController controller) {
       return Padding(
         padding: const EdgeInsets.all(Dimens.spacingMedium),
         child: SizedBox(
-          width: double.infinity,
-            child: ElevatedButton(onPressed: (){
-              controller.save();
-            }, child: Text(LocaleKeys.saveSettings.tr()))),
-      ) ;
+            width: double.infinity,
+            child: ElevatedButton(
+                onPressed: () {
+                  controller.save();
+                },
+                child: Text(LocaleKeys.saveSettings.tr()))),
+      );
     });
   }
 }

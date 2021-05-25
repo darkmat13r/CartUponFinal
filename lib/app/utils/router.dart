@@ -79,9 +79,12 @@ class AppRouter {
 
   productDetails(BuildContext context, ProductDetail product) {
     Navigator.of(context)
-        .push(_buildRoute(RouteSettings(), ProductPage(product)));
+        .push(_buildRoute(RouteSettings(), ProductPage(product.id)));
   }
-
+  productDetailsById(BuildContext context, int productId) {
+    Navigator.of(context)
+        .push(_buildRoute(RouteSettings(), ProductPage(productId)));
+  }
   categorySearch(BuildContext context, CategoryType category) {
     Navigator.of(context).push(_buildRoute(
         RouteSettings(),

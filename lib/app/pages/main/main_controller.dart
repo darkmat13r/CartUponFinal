@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logger/logger.dart';
+import 'package:path/path.dart';
 
 class MainController extends BaseController {
   bool isLoggedIn = false;
@@ -17,7 +18,9 @@ class MainController extends BaseController {
   MainPresenter _presenter;
   GlobalKey<ScaffoldState> _drawerKey;
 
-  MainController(authRepo) : _presenter = MainPresenter(authRepo);
+  MainController(authRepo) : _presenter = MainPresenter(authRepo) {
+
+  }
 
   @override
   void initListeners() {
@@ -31,6 +34,8 @@ class MainController extends BaseController {
     }
   }
 
+
+
   onResumed() {
     super.onResumed();
     Logger().e("OnResume ${_currentContext} ${currentUser} ${_drawerKey}");
@@ -39,12 +44,13 @@ class MainController extends BaseController {
   BuildContext _currentContext;
 
   onAuthComplete() {
-    Logger().d("onAuthComplete ${_currentContext} ${currentUser} ${_drawerKey}");
+    Logger()
+        .d("onAuthComplete ${_currentContext} ${currentUser} ${_drawerKey}");
     super.onAuthComplete();
   }
 
   setKey(drawerKey) {
-    if(_drawerKey == null){
+    if (_drawerKey == null) {
       _drawerKey = drawerKey;
       Future.delayed(const Duration(milliseconds: 500), () {
         Logger().e("Code Should Run");
@@ -52,7 +58,6 @@ class MainController extends BaseController {
       });
     }
   }
-
 
   startSearch(GlobalKey key, String query) {
     AppRouter().querySearch(key.currentContext, query);
@@ -64,9 +69,9 @@ class MainController extends BaseController {
   }
 
   Future<void> showLoginDialog() async {
-    int days  = await SessionHelper().lastShownPopup();
+    int days = await SessionHelper().lastShownPopup();
     Logger().e("LastPopup Shown in ${days}");
-    if(days < 7){
+    if (days < 7) {
       return;
     }
     if (currentUser == null && _currentContext == null && _drawerKey != null) {
@@ -80,9 +85,13 @@ class MainController extends BaseController {
                 LocaleKeys.completePurchaseFaster.tr(),
                 style: bodyTextMedium1,
               ),
-              titlePadding: EdgeInsets.only(left: Dimens.spacingMedium, right:Dimens.spacingMedium, top: Dimens.spacingMedium ),
-              contentPadding:  EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
-              actionsPadding:  EdgeInsets.zero,
+              titlePadding: EdgeInsets.only(
+                  left: Dimens.spacingMedium,
+                  right: Dimens.spacingMedium,
+                  top: Dimens.spacingMedium),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+              actionsPadding: EdgeInsets.zero,
               content: new Text(LocaleKeys.messageSignIn.tr(),
                   style: bodyTextNormal2),
               actions: [

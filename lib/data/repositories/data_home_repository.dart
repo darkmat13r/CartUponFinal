@@ -3,6 +3,7 @@ import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
 import 'package:coupon_app/domain/entities/models/HomeData.dart';
 import 'package:coupon_app/domain/repositories/home_repository.dart';
+import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:logging/logging.dart';
 class DataHomeRepository extends HomeRepository{
 
@@ -22,7 +23,7 @@ class DataHomeRepository extends HomeRepository{
      try{
 
        var uri = Constants.createUriWithParams(Constants.home, {
-         'country' : '2',
+         'country' : (await SessionHelper().getSelectedCountry()).toString(),
          'lang' : Config().getLanguageId().toString()
        });
       dynamic data = await HttpHelper.invokeHttp(uri, RequestType.get);

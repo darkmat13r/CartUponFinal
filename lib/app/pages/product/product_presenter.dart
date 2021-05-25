@@ -29,13 +29,16 @@ class ProductPresenter extends Presenter {
   Logger _logger;
 
   ProductPresenter(
-      ProductDetail productDetail, ProductRepository productRepository, WhishlistRepository whishlistRepository)
+      ProductRepository productRepository, WhishlistRepository whishlistRepository, {ProductDetail productDetail, int productDetailId,})
       : _getProductUseCase = GetProductUseCase(productRepository),
         _addToWhishlistUseCase = AddToWhishlistUseCase(whishlistRepository),
         _productListUseCase = GetProductListUseCase(productRepository) {
     _logger = Logger("ProductPresenter");
     _getProductUseCase.execute(
-        _GetProductObserver(this), (productDetail.id ?? "").toString());
+        _GetProductObserver(this),productDetailId != null ? productDetailId.toString() : (productDetail.id ?? "").toString());
+  }
+
+  fetchSimilarProducts(productDetail){
     _productListUseCase.execute(
         _GetSimilarProductObserver(this),
         ProductFilterParams(
@@ -121,5 +124,6 @@ class _GetProductObserver extends Observer<ProductDetail> {
   void onNext(ProductDetail response) {
     assert(_presenter.getProductOnNext != null);
     _presenter.getProductOnNext(response);
+    _presenter.fetchSimilarProducts(response);
   }
 }

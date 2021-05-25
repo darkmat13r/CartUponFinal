@@ -113,6 +113,11 @@ ThemeData appTheme(BuildContext context) => ThemeData(
               minimumSize: MaterialStateProperty.all(Size(50, Dimens.buttonHeight)),
               textStyle: MaterialStateProperty.all(
                   bodyTextNormal1.copyWith(color: AppColors.accent)))),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+
+          )
+      ),
       buttonTheme: ButtonThemeData(
           height: Dimens.buttonHeight,
           buttonColor: AppColors.accent,

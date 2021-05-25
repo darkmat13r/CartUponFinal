@@ -5,7 +5,7 @@ import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
-class ChangePasswordUseCase extends CompletableUseCase<String>{
+class ChangePasswordUseCase extends CompletableUseCase<ChangePasswordParams>{
 
   AuthenticationRepository authRepo;
 
@@ -16,10 +16,10 @@ class ChangePasswordUseCase extends CompletableUseCase<String>{
   }
 
   @override
-  Future<Stream<void>> buildUseCaseStream(String params) async{
+  Future<Stream<void>> buildUseCaseStream(ChangePasswordParams params) async{
     StreamController<void> controller  = StreamController();
     try{
-      await authRepo.updatePassword(password: params);
+      await authRepo.updatePassword(current : params.currentPassword, password: params.newPassword, passwordRepeat: params.confirmPassword);
       controller.close();
     }catch(e){
       _logger.shout(e);
@@ -29,6 +29,14 @@ class ChangePasswordUseCase extends CompletableUseCase<String>{
     return controller.stream;
   }
 
+}
+
+class ChangePasswordParams{
+  String currentPassword;
+  String newPassword;
+  String confirmPassword;
+
+  ChangePasswordParams(this.currentPassword, this.newPassword, this.confirmPassword);
 }
 
 

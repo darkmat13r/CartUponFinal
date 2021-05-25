@@ -19,8 +19,8 @@ class ChangePasswordPresenter extends Presenter{
     changePasswordUsecase.dispose();
   }
 
-  void update(String params) {
-    changePasswordUsecase.execute(_UpdateProfileObserver(this), params);
+  void update(String currentPassword, String newPassword, String confirm) {
+    changePasswordUsecase.execute(_UpdateProfileObserver(this), ChangePasswordParams(currentPassword, newPassword, confirm));
   }
 }
 

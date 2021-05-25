@@ -160,42 +160,67 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
             );
   }
 
-  TextFormField mobileNumberField(ProfileController controller) {
-    return TextFormField(
-              keyboardType: TextInputType.phone,
-              controller: controller.mobileNumberController,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return LocaleKeys.errorPhoneRequired.tr();
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                  prefixIcon: Icon(MaterialCommunityIcons.phone),
-                  prefixStyle: heading6,
-                  prefix: CountryCodePicker(
-                    onChanged: (CountryCode value){
-                      controller.countryCode = value.dialCode;
-                    },
-                    onInit: (CountryCode value){
-                      controller.countryCode = value.dialCode;
-                    },
-                    initialSelection: controller.currentUser != null ? controller.currentUser.country_code  : null,
-                    showCountryOnly: false,
-                    showFlag: false,
-                    showOnlyCountryWhenClosed: false,
-                    padding: EdgeInsets.all(12),
-                    builder: (CountryCode countryCode){
-                      return Padding(
-                        padding: const EdgeInsets.only(right: Dimens.spacingMedium),
-                        child: Text(countryCode.dialCode, style: bodyTextNormal1,),
-                      );
-                    },
-                  ),
-                  hintText: LocaleKeys.phoneNumber.tr()),
-            );
+  Widget mobileNumberField(ProfileController controller) {
+    return Row(
+      children: [
+        dialCode(controller),
+        Expanded(
+          child: TextFormField(
+            keyboardType: TextInputType.phone,
+            controller: controller.mobileNumberController,
+            validator: (value) {
+              if (value.isEmpty) {
+                return LocaleKeys.errorPhoneRequired.tr();
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+                prefixIcon: Icon(MaterialCommunityIcons.phone),
+                hintText: LocaleKeys.phoneNumber.tr()),
+          ),
+        ),
+      ],
+    );
   }
-
+  dialCode(ProfileController controller) {
+    return Container(
+      decoration: BoxDecoration(
+          color: AppColors.neutralLight,
+          borderRadius: BorderRadius.circular(Dimens.cornerRadius),
+          border: Border.all(color: AppColors.neutralGray, width: Dimens.borderWidth)
+      ),
+      child: controller.selectedCountry != null
+          ? Padding(
+        padding: const EdgeInsets.symmetric(horizontal : Dimens.spacingMedium, vertical: Dimens.spacingNormal + 4),
+        child: Text(
+          (controller.selectedCountry.dial_code.startsWith("+") ?  "" : "+") +controller.selectedCountry.dial_code,
+          style: buttonText.copyWith(color: AppColors.primary),
+        ),
+      )
+          : CountryCodePicker(
+        onChanged: (CountryCode value) {
+          controller.countryCode = value.dialCode;
+        },
+        onInit: (CountryCode value) {
+          controller.countryCode = value.dialCode;
+        },
+        showCountryOnly: false,
+        showFlag: false,
+        showOnlyCountryWhenClosed: false,
+        padding: EdgeInsets.all(12),
+        builder: (CountryCode countryCode) {
+          return Padding(
+            padding:
+            const EdgeInsets.only(right: Dimens.spacingMedium),
+            child: Text(
+              countryCode.dialCode,
+              style: bodyTextNormal1,
+            ),
+          );
+        },
+      ),
+    );
+  }
   nationalities(ProfileController controller) {
     return DropdownSearch<Nationality>(
       label: LocaleKeys.nationality.tr(),
@@ -254,5 +279,54 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
       firstDate: DateTime(1880),
     );
     if (picked != null && picked != controller.dob) controller.setDob(picked);
+  }
+  void showCountryPicker(ProfileController controller) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              LocaleKeys.chooseCountry.tr(),
+              style: heading5,
+            ),
+            content: SingleChildScrollView(
+              child: Material(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(
+                        controller.countries != null
+                            ? controller.countries.length
+                            : 0,
+                            (index) => InkWell(
+                          onTap: () {
+                            controller.setSelectedCountry(
+                                controller.countries[index]);
+                            Navigator.pop(context);
+                          },
+                          child: Padding(
+                            padding:
+                            const EdgeInsets.all(Dimens.spacingNormal),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    (controller.countries[index].dial_code.startsWith("+") ?  "" : "+") +controller.countries[index].dial_code, style: bodyTextMedium2,),
+                                  SizedBox(
+                                    width: Dimens.spacingNormal,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      controller.countries[index].country_name, style: bodyTextMedium2,),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ))),
+              ),
+            ),
+          );
+        });
   }
 }

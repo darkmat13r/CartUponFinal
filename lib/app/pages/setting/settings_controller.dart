@@ -7,6 +7,7 @@ import 'package:coupon_app/domain/repositories/coutry_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:logger/logger.dart';
 import 'package:devicelocale/devicelocale.dart';
 
@@ -29,6 +30,7 @@ class SettingsController extends SplashController {
 
   void setSelectedCountry(Country country) {
     newSelectedCountry = country;
+    refreshUI();
   }
 
   void setLanguage(languageCode) {
@@ -47,13 +49,15 @@ class SettingsController extends SplashController {
 
     showGenericConfirmDialog(
         getContext(), null, LocaleKeys.successSettingSaved.tr(), onConfirm: () {
-      Navigator.of(getContext()).pop();
+      Phoenix.rebirth(getContext());
+    }, onCancel: (){
+      Phoenix.rebirth(getContext());
     });
   }
 
   void getLanguageCode() async {
     SessionHelper().getLanguage().then((value) {
-      languageCode = value.languageCode;
+      languageCode = value != null ? value.languageCode : Config().locale;
       refreshUI();
     });
   }

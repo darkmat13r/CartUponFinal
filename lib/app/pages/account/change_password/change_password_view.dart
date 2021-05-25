@@ -21,7 +21,6 @@ class ChangePasswordPageState
       : super(ChangePasswordController(DataAuthenticationRepository()));
   final _formKey = GlobalKey<FormState>();
 
-
   @override
   Widget get view => Scaffold(
         appBar: customAppBar(
@@ -40,6 +39,10 @@ class ChangePasswordPageState
           child: ListView(
             shrinkWrap: true,
             children: [
+              _oldPassword,
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
               _newPassword,
               SizedBox(
                 height: Dimens.spacingMedium,
@@ -70,9 +73,25 @@ class ChangePasswordPageState
               height: Dimens.spacingNormal,
             ),
             TextFormField(
-              obscureText: true,
+              obscureText: controller.isOldPasswordHidden,
+              controller: controller.oldPasswordController,
+              focusNode: controller.oldPasswordFocus,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return LocaleKeys.errorPasswordRequired.tr();
+                }
+                return null;
+              },
               decoration: InputDecoration(
-                  prefixIcon: Icon(Feather.lock), hintText: "*************"),
+                  suffix: InkWell(
+                      onTap: () {
+                        controller.toggleOldPassword();
+                      },
+                      child: Icon(controller.isOldPasswordHidden
+                          ? Feather.eye
+                          : Feather.eye_off)),
+                  prefixIcon: Icon(Feather.lock),
+                  hintText: "*************"),
             )
           ],
         );
@@ -98,6 +117,24 @@ class ChangePasswordPageState
                 if (value.isEmpty) {
                   return LocaleKeys.errorPasswordRequired.tr();
                 }
+                RegExp capitalCharacter = RegExp(r'^(?=.*?[A-Z])');
+                RegExp specialCharacter = RegExp(r'^(?=.*?[!@#\$&*~])');
+                RegExp numberCharacter = RegExp(r'^(?=.*?[0-9])');
+                if (value.isEmpty) {
+                  return LocaleKeys.errorPasswordRequired.tr();
+                }
+                if (value.length < 8) {
+                  return LocaleKeys.errorPasswordLength.tr();
+                }
+                if (!capitalCharacter.hasMatch(value)) {
+                  return LocaleKeys.errorCapitalLetter.tr();
+                }
+                if (!specialCharacter.hasMatch(value)) {
+                  return LocaleKeys.errorSpecialLetter.tr();
+                }
+                if (!numberCharacter.hasMatch(value)) {
+                  return LocaleKeys.errorPasswordNumber.tr();
+                }
                 return null;
               },
               decoration: InputDecoration(
@@ -105,9 +142,11 @@ class ChangePasswordPageState
                       onTap: () {
                         controller.togglePassword();
                       },
-                      child: Icon(
-                          controller.isPasswordHidden ? Feather.eye : Feather.eye_off)),
-                  prefixIcon: Icon(Feather.lock), hintText: "*************"),
+                      child: Icon(controller.isPasswordHidden
+                          ? Feather.eye
+                          : Feather.eye_off)),
+                  prefixIcon: Icon(Feather.lock),
+                  hintText: "*************"),
             )
           ],
         );
@@ -145,8 +184,9 @@ class ChangePasswordPageState
                     onTap: () {
                       controller.toggleConfirmPassword();
                     },
-                    child: Icon(
-                        controller.isConfirmPasswordHidden ? Feather.eye : Feather.eye_off)),
+                    child: Icon(controller.isConfirmPasswordHidden
+                        ? Feather.eye
+                        : Feather.eye_off)),
               ),
             )
           ],

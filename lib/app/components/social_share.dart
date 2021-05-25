@@ -4,11 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class SocialShareButtons extends StatefulWidget{
+  Function onShare;
+
+  SocialShareButtons({this.onShare});
+
   @override
   State<StatefulWidget> createState() => _SocialShareButtonState();
 
 }
-
+class SocialShareType{
+  static const FACEBOOK = 1;
+  static const TWITTER = 2;
+  static const WHATSAPP = 3;
+  static const TEXT = 4;
+}
 class _SocialShareButtonState extends State<SocialShareButtons>{
   @override
   Widget build(BuildContext context) {
@@ -16,7 +25,9 @@ class _SocialShareButtonState extends State<SocialShareButtons>{
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         InkWell(
-          onTap: (){},
+          onTap: (){
+            widget.onShare();
+          },
           child: Container(
             child:
             Padding(
@@ -26,7 +37,9 @@ class _SocialShareButtonState extends State<SocialShareButtons>{
           ),
         ),
         InkWell(
-          onTap: (){},
+          onTap:   (){
+            widget.onShare();
+          },
           child: Container(
             child:
             Padding(
@@ -36,7 +49,7 @@ class _SocialShareButtonState extends State<SocialShareButtons>{
           ),
         ),
         InkWell(
-          onTap: (){},
+          onTap:  widget.onShare,
           child: Container(
             child:
             Padding(
@@ -46,7 +59,7 @@ class _SocialShareButtonState extends State<SocialShareButtons>{
           ),
         ),
         InkWell(
-          onTap: (){},
+          onTap:  widget.onShare,
           child: Container(
             child:
             Padding(

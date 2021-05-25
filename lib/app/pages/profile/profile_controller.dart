@@ -2,16 +2,19 @@ import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/profile/profile_presenter.dart';
 import 'package:coupon_app/app/pages/register/register_presenter.dart';
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/entities/models/Nationality.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/repositories/nationality_repository.dart';
 import 'package:coupon_app/domain/usercases/auth/register_usecase.dart';
 import 'package:coupon_app/domain/usercases/auth/update_profile_usecase.dart';
+import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 
 class ProfileController extends BaseController {
   TextEditingController firstNameController;
@@ -25,38 +28,46 @@ class ProfileController extends BaseController {
   int gender;
   Nationality nationality;
   List<Nationality> nationalities;
-
+  Country selectedCountry;
   ProfilePresenter _presenter;
-
-  ProfileController(AuthenticationRepository authRepo, NationalityRepository nationalityRepository)
+  List<Country> countries;
+  ProfileController(AuthenticationRepository authRepo,
+      NationalityRepository nationalityRepository)
       : _presenter = ProfilePresenter(authRepo, nationalityRepository) {
-    _logger = Logger("ProfileController");
+    _logger = Logger();
     firstNameController = TextEditingController();
     lastNameController = TextEditingController();
     emailController = TextEditingController();
     mobileNumberController = TextEditingController();
     dobController = TextEditingController();
+    getCachedCountry();
+    getCachedCountries();
   }
 
   Logger _logger;
 
+  void getCachedCountry() async {
+    selectedCountry = Config().selectedCountry;
+    refreshUI();
+  }
+
   @override
   void initListeners() {
     initBaseListeners(_presenter);
-    _presenter.updateProfileOnComplete = (){
+    _presenter.updateProfileOnComplete = () {
       dismissLoading();
-     // Navigator.of(getContext()).pop();
-      showGenericConfirmDialog(getContext(), null, LocaleKeys.profileUpdated.tr(), onConfirm: (){
+      // Navigator.of(getContext()).pop();
+      showGenericConfirmDialog(
+          getContext(), null, LocaleKeys.profileUpdated.tr(), onConfirm: () {
         Navigator.of(getContext()).pop();
       });
-     // showGenericSnackbar(getContext(), LocaleKeys.profileUpdated.tr());
+      // showGenericSnackbar(getContext(), LocaleKeys.profileUpdated.tr());
     };
-    _presenter.updateProfileOnNext = (user){
+    _presenter.updateProfileOnNext = (user) {
       this.currentUser = user;
       refreshUI();
-
     };
-    _presenter.updateProfileOnError = (e){
+    _presenter.updateProfileOnError = (e) {
       dismissLoading();
       showGenericSnackbar(getContext(), e.message, isError: true);
     };
@@ -66,17 +77,30 @@ class ProfileController extends BaseController {
   @override
   onAuthComplete() {
     firstNameController.text = currentUser.user.first_name;
-    lastNameController.text  = currentUser.user.last_name;
-    emailController.text  = currentUser.user.username;
-    mobileNumberController.text  = currentUser.mobile_no;
+    lastNameController.text = currentUser.user.last_name;
+    emailController.text = currentUser.user.username;
+    mobileNumberController.text = currentUser.mobile_no;
     gender = currentUser.gender;
     title = currentUser.title;
-    mobileNumberController.text  = currentUser.mobile_no;
-    dob  = DateFormat("yyyy-MM-dd").parse(currentUser.date_of_birth);
+    mobileNumberController.text = currentUser.mobile_no;
+    dob = DateFormat("yyyy-MM-dd").parse(currentUser.date_of_birth);
     setDob(dob);
     updateNationality();
+    updateCountryCode();
     super.onAuthComplete();
+  }
 
+  updateCountryCode(){
+    if(currentUser != null){
+      try{
+        _logger.e("Countries ${countries}");
+        _logger.e("currentUser.country_code ${currentUser.country_code}");
+        selectedCountry = countries.firstWhere((element) => element.dial_code.replaceAll("+", "") == currentUser.country_code.replaceAll("+", ""));
+        refreshUI();
+      }catch(e){
+        _logger.e(e);
+      }
+    }
   }
 
   void update() {
@@ -88,7 +112,7 @@ class ProfileController extends BaseController {
         countryCode: countryCode,
         nationality: nationality.id,
         gender: gender,
-        title:  title,
+        title: title,
         mobileNo: mobileNumberController.text,
         dateOfBirth: DateFormat('yyyy-MM-dd').format(dob)));
   }
@@ -103,19 +127,19 @@ class ProfileController extends BaseController {
             getContext(), "Alert", LocaleKeys.errorDateOfBirthRequired.tr());
         return;
       }
-      if(nationality == null){
-        showGenericDialog(
-            getContext(), LocaleKeys.alert.tr(), LocaleKeys.errorSelectNationality.tr());
+      if (nationality == null) {
+        showGenericDialog(getContext(), LocaleKeys.alert.tr(),
+            LocaleKeys.errorSelectNationality.tr());
         return;
       }
-      if(gender == null){
-        showGenericDialog(
-            getContext(), LocaleKeys.alert.tr(), LocaleKeys.errorSelectGender.tr());
+      if (gender == null) {
+        showGenericDialog(getContext(), LocaleKeys.alert.tr(),
+            LocaleKeys.errorSelectGender.tr());
         return;
       }
-      if(title == null){
-        showGenericDialog(
-            getContext(), LocaleKeys.alert.tr(), LocaleKeys.errorSelectTitle.tr());
+      if (title == null) {
+        showGenericDialog(getContext(), LocaleKeys.alert.tr(),
+            LocaleKeys.errorSelectTitle.tr());
         return;
       }
       update();
@@ -133,25 +157,29 @@ class ProfileController extends BaseController {
   changePassword() {
     Navigator.of(getContext()).pushNamed(Pages.changePassword);
   }
+
   void initNationalityListeners() {
-    _presenter.getNationalitiesOnComplete = (){
+    _presenter.getNationalitiesOnComplete = () {
       dismissProgressDialog();
     };
-    _presenter.getNationalitiesOnError = (e){
+    _presenter.getNationalitiesOnError = (e) {
       dismissProgressDialog();
       showGenericSnackbar(getContext(), e.message, isError: true);
     };
-    _presenter.getNationalitiesOnNext  = (response){
+    _presenter.getNationalitiesOnNext = (response) {
       this.nationalities = response;
       updateNationality();
       refreshUI();
     };
-
   }
-  Future<List<Nationality>> getFilterNationality(String query){
 
-    return Future.value(nationalities.where((element) => element.country_name.toLowerCase().contains(query.toLowerCase())).toList());
+  Future<List<Nationality>> getFilterNationality(String query) {
+    return Future.value(nationalities
+        .where((element) =>
+            element.country_name.toLowerCase().contains(query.toLowerCase()))
+        .toList());
   }
+
   setNationality(Nationality data) {
     this.nationality = data;
     refreshUI();
@@ -162,31 +190,49 @@ class ProfileController extends BaseController {
     refreshUI();
   }
 
-  setGender(int gender){
+  setGender(int gender) {
     this.gender = gender;
     refreshUI();
   }
+
   Future<bool> onWillPop() {
-    var areChangesMade =  currentUser.user.first_name != firstNameController.text || currentUser.user.last_name != lastNameController.text
-        || currentUser.mobile_no != mobileNumberController.text
-        || currentUser.country_code != countryCode
-        || currentUser.nationality != nationality.id
-        || currentUser.gender != gender
-        || currentUser.title != title
-        || currentUser.date_of_birth != DateFormat('yyyy-MM-dd').format(dob);
-    if(areChangesMade){
-      showGenericConfirmDialog(getContext(), LocaleKeys.discardChanges.tr(), LocaleKeys.confirmDiscardChanges.tr(), onConfirm: (){
+    var areChangesMade =
+        currentUser.user.first_name != firstNameController.text ||
+            currentUser.user.last_name != lastNameController.text ||
+            currentUser.mobile_no != mobileNumberController.text ||
+            currentUser.country_code.replaceAll("+", "") != selectedCountry.dial_code.replaceAll("+", "") ||
+            currentUser.nationality != nationality.id ||
+            currentUser.gender != gender ||
+            currentUser.title != title ||
+            currentUser.date_of_birth != DateFormat('yyyy-MM-dd').format(dob);
+    if (areChangesMade) {
+      showGenericConfirmDialog(getContext(), LocaleKeys.discardChanges.tr(),
+          LocaleKeys.confirmDiscardChanges.tr(), onConfirm: () {
         Navigator.of(getContext()).pop();
       });
-    }else{
+    } else {
       Navigator.of(getContext()).pop();
     }
   }
 
   void updateNationality() {
-    if(nationalities != null && nationalities.isNotEmpty && currentUser != null){
-     this.nationality =  this.nationalities.firstWhere((element) => element.id == currentUser.nationality);
-     refreshUI();
+    if (nationalities != null &&
+        nationalities.isNotEmpty &&
+        currentUser != null) {
+      try {
+        this.nationality = this
+            .nationalities
+            .firstWhere((element) => element.id == currentUser.nationality);
+      } catch (e) {}
+      refreshUI();
     }
+  }
+  void getCachedCountries() async{
+    countries = await SessionHelper().cachedCounties();
+    refreshUI();
+  }
+  void setSelectedCountry(Country countri) {
+    selectedCountry = countri;
+    refreshUI();
   }
 }

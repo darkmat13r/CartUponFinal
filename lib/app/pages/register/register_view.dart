@@ -21,7 +21,8 @@ class RegisterPage extends View {
 
 class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
   RegisterPageState()
-      : super(RegisterController(DataAuthenticationRepository(), DataNationalityRepository()));
+      : super(RegisterController(
+            DataAuthenticationRepository(), DataNationalityRepository()));
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordHidden = true;
 
@@ -128,7 +129,6 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
-
               phoneField(controller),
               SizedBox(
                 height: Dimens.spacingMedium,
@@ -151,166 +151,150 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
 
   TextFormField firstNameField(RegisterController controller) {
     return TextFormField(
-              controller: controller.firstNameController,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return LocaleKeys.errorFirstNameRequired.tr();
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                  prefixIcon: Icon(MaterialCommunityIcons.account),
-                  hintText: LocaleKeys.firstName.tr()),
-            );
+      controller: controller.firstNameController,
+      validator: (value) {
+        if (value.isEmpty) {
+          return LocaleKeys.errorFirstNameRequired.tr();
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          prefixIcon: Icon(MaterialCommunityIcons.account),
+          hintText: LocaleKeys.firstName.tr()),
+    );
   }
 
   SizedBox signupButton(RegisterController controller, BuildContext context) {
     return SizedBox(
-              width: double.infinity,
-              child: LoadingButton(
-                isLoading: controller.isLoading,
-                onPressed: () {
-                  controller.checkForm({
-                    'context': context,
-                    'formKey': _formKey,
-                    'globalKey': globalKey
-                  });
-                },
-                text: LocaleKeys.signUp.tr(),
-              ),
-            );
+      width: double.infinity,
+      child: LoadingButton(
+        isLoading: controller.isLoading,
+        onPressed: () {
+          controller.checkForm({
+            'context': context,
+            'formKey': _formKey,
+            'globalKey': globalKey
+          });
+        },
+        text: LocaleKeys.signUp.tr(),
+      ),
+    );
   }
 
   TextFormField passwordField(RegisterController controller) {
     return TextFormField(
-              keyboardType: TextInputType.visiblePassword,
-              controller: controller.passwordController,
-              obscureText: _isPasswordHidden,
-              validator: (value) {
-                RegExp capitalCharacter = RegExp(r'^(?=.*?[A-Z])');
-                RegExp specialCharacter = RegExp(r'^(?=.*?[!@#\$&*~])');
-                RegExp numberCharacter = RegExp(r'^(?=.*?[0-9])');
-                if (value.isEmpty) {
-                  return LocaleKeys.errorPasswordRequired.tr();
-                }
-                if(value.length < 8){
-                  return LocaleKeys.errorPasswordLength.tr();
-                }
-                if(!capitalCharacter.hasMatch(value)){
-                  return LocaleKeys.errorCapitalLetter.tr();
-                }
-                if(!specialCharacter.hasMatch(value)){
-                  return LocaleKeys.errorSpecialLetter.tr();
-                }
-                if(!numberCharacter.hasMatch(value)){
-                  return LocaleKeys.errorPasswordNumber.tr();
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                prefixIcon: Icon(MaterialCommunityIcons.lock),
-                hintText: LocaleKeys.hintPassword.tr(),
-                suffix: InkWell(
-                    onTap: () {
-                      setState(() {
-                        _isPasswordHidden = !_isPasswordHidden;
-                      });
-                    },
-                    child: Icon(
-                        _isPasswordHidden ? Feather.eye : Feather.eye_off)),
-              ),
-            );
+      keyboardType: TextInputType.visiblePassword,
+      controller: controller.passwordController,
+      obscureText: _isPasswordHidden,
+      validator: (value) {
+        RegExp capitalCharacter = RegExp(r'^(?=.*?[A-Z])');
+        RegExp specialCharacter = RegExp(r'^(?=.*?[!@#\$&*~])');
+        RegExp numberCharacter = RegExp(r'^(?=.*?[0-9])');
+        if (value.isEmpty) {
+          return LocaleKeys.errorPasswordRequired.tr();
+        }
+        if (value.length < 8) {
+          return LocaleKeys.errorPasswordLength.tr();
+        }
+        if (!capitalCharacter.hasMatch(value)) {
+          return LocaleKeys.errorCapitalLetter.tr();
+        }
+        if (!specialCharacter.hasMatch(value)) {
+          return LocaleKeys.errorSpecialLetter.tr();
+        }
+        if (!numberCharacter.hasMatch(value)) {
+          return LocaleKeys.errorPasswordNumber.tr();
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        prefixIcon: Icon(MaterialCommunityIcons.lock),
+        hintText: LocaleKeys.hintPassword.tr(),
+        suffix: InkWell(
+            onTap: () {
+              setState(() {
+                _isPasswordHidden = !_isPasswordHidden;
+              });
+            },
+            child: Icon(_isPasswordHidden ? Feather.eye : Feather.eye_off)),
+      ),
+    );
   }
 
-  TextFormField phoneField(RegisterController controller) {
-    return TextFormField(
-              keyboardType: TextInputType.phone,
-              controller: controller.mobileNumberController,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return LocaleKeys.errorPhoneRequired.tr();
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                  prefixIcon: Icon(MaterialCommunityIcons.phone),
-                  prefixStyle: heading6,
-                  prefix: CountryCodePicker(
-                    onChanged: (CountryCode value) {
-                      controller.countryCode = value.dialCode;
-                    },
-                    onInit: (CountryCode value) {
-                      controller.countryCode = value.dialCode;
-                    },
-                    showCountryOnly: false,
-                    showFlag: false,
-                    showOnlyCountryWhenClosed: false,
-                    padding: EdgeInsets.all(12),
-                    builder: (CountryCode countryCode) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                            right: Dimens.spacingMedium),
-                        child: Text(
-                          countryCode.dialCode,
-                          style: bodyTextNormal1,
-                        ),
-                      );
-                    },
-                  ),
-                  hintText: LocaleKeys.phoneNumber.tr()),
-            );
+  Widget phoneField(RegisterController controller) {
+    return Row(
+      children: [
+        dialCode(controller),
+        Expanded(
+          child: TextFormField(
+            keyboardType: TextInputType.phone,
+            controller: controller.mobileNumberController,
+            validator: (value) {
+              if (value.isEmpty) {
+                return LocaleKeys.errorPhoneRequired.tr();
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+                prefixIcon: Icon(MaterialCommunityIcons.phone),
+                hintText: LocaleKeys.phoneNumber.tr()),
+          ),
+        ),
+      ],
+    );
   }
 
-  TextFormField dateOfBirthField(RegisterController controller, BuildContext context) {
+  TextFormField dateOfBirthField(
+      RegisterController controller, BuildContext context) {
     return TextFormField(
-              controller: controller.dobController,
-              focusNode: focusNode,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return LocaleKeys.errorDateOfBirthRequired.tr();
-                }
-                return null;
-              },
-              onTap: () {
-                focusNode.unfocus();
-                _selectDate(context, controller);
-              },
-              decoration: InputDecoration(
-                  prefixIcon: Icon(MaterialCommunityIcons.calendar),
-                  hintText: LocaleKeys.dob.tr()),
-            );
+      controller: controller.dobController,
+      focusNode: focusNode,
+      validator: (value) {
+        if (value.isEmpty) {
+          return LocaleKeys.errorDateOfBirthRequired.tr();
+        }
+        return null;
+      },
+      onTap: () {
+        focusNode.unfocus();
+        _selectDate(context, controller);
+      },
+      decoration: InputDecoration(
+          prefixIcon: Icon(MaterialCommunityIcons.calendar),
+          hintText: LocaleKeys.dob.tr()),
+    );
   }
 
   TextFormField emailField(RegisterController controller) {
     return TextFormField(
-              keyboardType: TextInputType.emailAddress,
-              controller: controller.emailController,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return LocaleKeys.errorEmailRequired.tr();
-                }
-                if (!value.isValidEmail()) {
-                  return LocaleKeys.errorInvalidEmail.tr();
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                  prefixIcon: Icon(MaterialCommunityIcons.email),
-                  hintText: LocaleKeys.hintEmail.tr()),
-            );
+      keyboardType: TextInputType.emailAddress,
+      controller: controller.emailController,
+      validator: (value) {
+        if (value.isEmpty) {
+          return LocaleKeys.errorEmailRequired.tr();
+        }
+        if (!value.isValidEmail()) {
+          return LocaleKeys.errorInvalidEmail.tr();
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          prefixIcon: Icon(MaterialCommunityIcons.email),
+          hintText: LocaleKeys.hintEmail.tr()),
+    );
   }
 
   TextFormField lastNameField(RegisterController controller) {
     return TextFormField(
-              controller: controller.lastNameController,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return LocaleKeys.errorLastNameRequired.tr();
-                }
-                return null;
-              },
-              decoration: InputDecoration(hintText: LocaleKeys.lastName.tr()),
-            );
+      controller: controller.lastNameController,
+      validator: (value) {
+        if (value.isEmpty) {
+          return LocaleKeys.errorLastNameRequired.tr();
+        }
+        return null;
+      },
+      decoration: InputDecoration(hintText: LocaleKeys.lastName.tr()),
+    );
   }
 
   _selectDate(BuildContext context, RegisterController controller) async {
@@ -328,9 +312,12 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
     return DropdownSearch<Nationality>(
       label: LocaleKeys.nationality.tr(),
       mode: Mode.DIALOG,
-      popupTitle:Padding(
+      popupTitle: Padding(
         padding: const EdgeInsets.all(Dimens.spacingMedium),
-        child: Text( LocaleKeys.nationality.tr(), style: heading6,),
+        child: Text(
+          LocaleKeys.nationality.tr(),
+          style: heading6,
+        ),
       ),
       showSearchBox: true,
       onFind: (String filter) => controller.getFilterNationality(filter),
@@ -339,36 +326,136 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
     );
   }
 
-  static var titles = [LocaleKeys.titleMr.tr(),LocaleKeys.titleMs.tr(), LocaleKeys.titleMrs.tr()];
-  static var genders = [LocaleKeys.genderMale.tr(),LocaleKeys.genderFemale.tr()];
+  static var titles = [
+    LocaleKeys.titleMr.tr(),
+    LocaleKeys.titleMs.tr(),
+    LocaleKeys.titleMrs.tr()
+  ];
+  static var genders = [
+    LocaleKeys.genderMale.tr(),
+    LocaleKeys.genderFemale.tr()
+  ];
+
   titleRadioButtons(RegisterController controller) {
-      return RadioGroup<int>.builder(
-        groupValue: controller.title,
-        direction: Axis.horizontal,
-        spacebetween: 10,
-        horizontalAlignment: MainAxisAlignment.start,
-        onChanged: (value) => {
-          controller.setTitle(value)
-        },
-        items: [0,1,2],
-        itemBuilder: (item) => RadioButtonBuilder(
-          titles[item],
-        ),
-      );
+    return RadioGroup<int>.builder(
+      groupValue: controller.title,
+      direction: Axis.horizontal,
+      spacebetween: 10,
+      horizontalAlignment: MainAxisAlignment.start,
+      onChanged: (value) => {controller.setTitle(value)},
+      items: [0, 1, 2],
+      itemBuilder: (item) => RadioButtonBuilder(
+        titles[item],
+      ),
+    );
   }
+
   genderRadioButtons(RegisterController controller) {
     return RadioGroup<int>.builder(
       groupValue: controller.gender,
       direction: Axis.horizontal,
-      onChanged: (value) => {
-        controller.setGender(value)
-      },
-      items: [0,1],
+      onChanged: (value) => {controller.setGender(value)},
+      items: [0, 1],
       spacebetween: 10,
       horizontalAlignment: MainAxisAlignment.start,
       itemBuilder: (item) => RadioButtonBuilder(
         genders[item],
       ),
     );
+  }
+
+  dialCode(RegisterController controller) {
+    return Container(
+      decoration: BoxDecoration(
+          color: AppColors.neutralLight,
+          borderRadius: BorderRadius.circular(Dimens.cornerRadius),
+          border: Border.all(
+              color: AppColors.neutralGray, width: Dimens.borderWidth)),
+      child: controller.selectedCountry != null
+          ? InkWell(
+        onTap: (){
+          showCountryPicker(controller);
+        },
+            child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: Dimens.spacingMedium,
+                    vertical: Dimens.spacingNormal + 4),
+                child: Text(
+                  (controller.selectedCountry.dial_code.startsWith("+") ?  "" : "+") +controller.selectedCountry.dial_code,
+                  style: buttonText.copyWith(color: AppColors.primary),
+                ),
+              ),
+          )
+          : CountryCodePicker(
+              onChanged: (CountryCode value) {
+                controller.countryCode = value.dialCode;
+              },
+              onInit: (CountryCode value) {
+                controller.countryCode = value.dialCode;
+              },
+              showCountryOnly: false,
+              showFlag: false,
+              showOnlyCountryWhenClosed: false,
+              padding: EdgeInsets.all(12),
+              builder: (CountryCode countryCode) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: Dimens.spacingMedium),
+                  child: Text(
+                    countryCode.dialCode,
+                    style: bodyTextNormal1,
+                  ),
+                );
+              },
+            ),
+    );
+  }
+  void showCountryPicker(RegisterController controller) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              LocaleKeys.chooseCountry.tr(),
+              style: heading5,
+            ),
+            content: SingleChildScrollView(
+              child: Material(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(
+                        controller.countries != null
+                            ? controller.countries.length
+                            : 0,
+                            (index) => InkWell(
+                          onTap: () {
+                            controller.setSelectedCountry(
+                                controller.countries[index]);
+                            Navigator.pop(context);
+                          },
+                          child: Padding(
+                            padding:
+                            const EdgeInsets.all(Dimens.spacingNormal),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    (controller.countries[index].dial_code.startsWith("+") ?  "" : "+") +controller.countries[index].dial_code, style: bodyTextMedium2,),
+                                  SizedBox(
+                                    width: Dimens.spacingNormal,
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                        controller.countries[index].country_name, style: bodyTextMedium2,),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ))),
+              ),
+            ),
+          );
+        });
   }
 }

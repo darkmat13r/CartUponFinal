@@ -216,7 +216,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   }
   @override
   Future<Token> updatePassword(
-      {String password,}) async{
+      {String password,String current, String passwordRepeat}) async{
     try {
       Map<String, String> headers = {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -227,8 +227,9 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       Map<String, dynamic> body =
       await HttpHelper.invokeHttp( "${Constants.changePassword}", RequestType.post,
           body: {
+              'old_password' : current,
               'new_password1' : password,
-              'new_password2' : password
+              'new_password2' : passwordRepeat
           });
       Token token = Token.fromJson(body);
       SessionHelper().updateUser(user: token);
@@ -236,6 +237,29 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       return token;
     } catch (error) {
       _logger.warning('Could not Update user.', error);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Token> authenticateFacebook({String accessToken}) async {
+    try {
+      Map<String, String> headers = {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.connectionHeader: "keep-alive",
+      };
+      Map<String, dynamic> body =
+          await HttpHelper.invokeHttp(Constants.registerRoute, RequestType.post,
+          headers: headers,
+          body: {
+            "token" : accessToken
+          });
+      Token token = Token.fromJson(body);
+      SessionHelper().saveCredentials(token: token.token, user: token);
+      _logger.finest('Registration is successful');
+      return token;
+    } catch (error) {
+      _logger.warning('Could not register new user.', error);
       rethrow;
     }
   }

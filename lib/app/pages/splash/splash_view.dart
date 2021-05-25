@@ -19,43 +19,57 @@ class _SplashPageState extends ViewState<SplashPage, SplashController> {
         body: _body,
       );
 
-  get _body => Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                      color: AppColors.accent,
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(70), bottomRight: Radius.circular(70))
-                  ),
+  get _body => SplashBg(context: context);
+}
 
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        CircleAvatar(
-                          radius: 36,
-                          backgroundColor: AppColors.neutralLight,
-                          child: Image.asset(Resources.mainLogo, width: 48,),
-                        ),
-                      ],
+class SplashBg extends StatelessWidget {
+  const SplashBg({
+    Key key,
+    @required this.context,
+  }) : super(key: key);
+
+  final BuildContext context;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                        color: AppColors.accent,
+                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(70), bottomRight: Radius.circular(70))
                     ),
-                  ),
-                )
-              ],
-            ),
-            Center(
-              child: SizedBox(width: 240, child: Image.asset(Resources.toolbarLogo)),
-            )
-          ],
-        ),
-      );
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CircleAvatar(
+                            radius: 36,
+                            backgroundColor: AppColors.neutralLight,
+                            child: Image.asset(Resources.mainLogo, width: 48,),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Center(
+                child: SizedBox(width: 240, child: Image.asset(Resources.toolbarLogo)),
+              )
+            ],
+          ),
+        );
+  }
 }

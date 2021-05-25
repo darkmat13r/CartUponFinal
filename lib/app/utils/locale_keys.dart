@@ -261,5 +261,8 @@ class LocaleKeys {
   static var change = "change";
   static var yourPreferredLanguageId = "yourPreferredLanguageId";
 
+  static var chooseCountry = "chooseCountry";
+  static var invalidLink = "invalidLink";
+
 
 }

@@ -147,8 +147,7 @@ class SessionHelper {
   Future<Locale> getLanguage() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String id = await preferences.getString(Constants.selectedLanguage) ;
-
-    return Locale(id  != null ? id : "en");
+    return id  != null ? Locale(id) : null;
   }
 
   void setSelectedLanguage(String languageCode) async{

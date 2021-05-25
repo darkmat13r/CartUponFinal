@@ -86,9 +86,14 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
                 .builder(
                 itemCount: controller.homeResponse.sliders.length,
                 itemBuilder: (BuildContext context, int index) {
-                  var bannerUrl = controller.homeResponse.sliders[index]
+                  var slider =  controller.homeResponse.sliders[index];
+                  var bannerUrl = slider
                       .mobile_banner;
-                  return AppImage(bannerUrl);
+                  return InkWell(
+                    onTap: (){
+                      controller.onClickSlider(slider);
+                    },
+                      child: AppImage(bannerUrl));
                 },
                 options: CarouselOptions(
                   height: 240,
@@ -166,9 +171,14 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
                 .builder(
                 itemCount: controller.homeResponse.adbanners.length,
                 itemBuilder: (BuildContext context, int index) {
-                  var bannerUrl = controller.homeResponse.adbanners[index]
-                      .mobile_banner;
-                  return AppImage(bannerUrl);
+                  var adBanner = controller.homeResponse.adbanners[index];
+                  var bannerUrl =
+                      adBanner.mobile_banner;
+                  return InkWell(
+                    onTap: (){
+                      controller.onClickBanner(adBanner);
+                    },
+                      child: AppImage(bannerUrl));
                 },
                 options: CarouselOptions(
                   height: 90,

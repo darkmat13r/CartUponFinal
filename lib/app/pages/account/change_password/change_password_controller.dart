@@ -8,18 +8,23 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logger/logger.dart';
 
 class ChangePasswordController extends BaseController {
+  TextEditingController oldPasswordController;
   TextEditingController newPasswordController;
   TextEditingController confirmPasswordController;
   FocusNode newPasswordFocus= new FocusNode();
   FocusNode confirmPasswordFocus  = new FocusNode();
+  FocusNode oldPasswordFocus  = new FocusNode();
   bool isPasswordHidden = true;
   bool isConfirmPasswordHidden = true;
   ChangePasswordPresenter _presenter;
+
+  bool isOldPasswordHidden = true;
 
   ChangePasswordController(AuthenticationRepository authenticationRepository)
       : _presenter = ChangePasswordPresenter(authenticationRepository) {
     newPasswordController = TextEditingController();
     confirmPasswordController = TextEditingController();
+    oldPasswordController = TextEditingController();
 
   }
 
@@ -44,7 +49,12 @@ class ChangePasswordController extends BaseController {
       if (!newPasswordFocus.hasFocus) {
         isPasswordHidden = true;
       }
-      Logger().e("Focus Change ${newPasswordFocus.hasFocus}");
+      refreshUI();
+    });
+    oldPasswordFocus.addListener(() {
+      if (!oldPasswordFocus.hasFocus) {
+        isOldPasswordHidden = true;
+      }
       refreshUI();
     });
     confirmPasswordFocus.addListener(() {
@@ -58,7 +68,7 @@ class ChangePasswordController extends BaseController {
 
   void update() {
     showLoading();
-    _presenter.update(newPasswordController.text);
+    _presenter.update(oldPasswordController.text, newPasswordController.text, confirmPasswordController.text);
   }
 
   void checkForm(Map<String, dynamic> params) {
@@ -78,6 +88,10 @@ class ChangePasswordController extends BaseController {
 
   void toggleConfirmPassword() {
     isConfirmPasswordHidden = !isConfirmPasswordHidden;
+    refreshUI();
+  }
+  void toggleOldPassword() {
+    isOldPasswordHidden = !isOldPasswordHidden;
     refreshUI();
   }
 

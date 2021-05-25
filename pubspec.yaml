@@ -50,6 +50,11 @@ dependencies:
   dropdown_search: ^0.6.1
   group_radio_button: ^1.1.0
   devicelocale: 0.4.1
+  flutter_phoenix: ^1.0.0
+  flutter_facebook_login: ^3.0.0
+  share: ^2.0.1
+  intent: ^1.4.0
+  uni_links: ^0.5.1
   # Do not change this version to anything newer for now due to AndroidX dependency issues
   webview_flutter: '^1.0.7'
   package_info: ^0.4.0+3
