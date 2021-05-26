@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    Config().locale =  context.locale;
+    Config().locale = this._userSelectedLocale != null ? this._userSelectedLocale : context.locale;
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
