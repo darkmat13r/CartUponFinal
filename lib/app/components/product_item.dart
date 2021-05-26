@@ -26,8 +26,8 @@ class ProductItem extends StatefulWidget {
   State<StatefulWidget> createState() => _ProductItemState();
 }
 
-
-class _ProductItemState extends State<ProductItem> with TickerProviderStateMixin {
+class _ProductItemState extends State<ProductItem>
+    with TickerProviderStateMixin {
   final _cartStream = CartStream();
 
   @override
@@ -43,29 +43,41 @@ class _ProductItemState extends State<ProductItem> with TickerProviderStateMixin
         ));
   }
 
-  Widget _buildProductCard(){
-   return  Card(
+  Widget _buildProductCard() {
+    return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
-              width: double.infinity,
-              height: Dimens.thumbImageHeight,
-              child: AppImage(widget.product.product != null ? widget.product.product.thumb_img : "")),
+          Expanded(
+            child: Container(
+                width: double.infinity,
+                height: Dimens.thumbImageHeight,
+                child: AppImage(widget.product.product != null
+                    ? widget.product.product.thumb_img
+                    : "")),
+          ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal : Dimens.spacingMedium, vertical : Dimens.spacingNormal),
+            padding: const EdgeInsets.symmetric(
+                horizontal: Dimens.spacingMedium,
+                vertical: Dimens.spacingNormal),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.product != null && widget.product.name != null ? widget.product.name : "",
+                  widget.product != null && widget.product.name != null
+                      ? widget.product.name
+                      : "",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: bodyTextNormal1.copyWith(color: AppColors.primary),
                 ),
                 Text(
-                  widget.product != null && widget.product.short_description  != null ? widget.product.short_description : "",
+                  widget.product != null &&
+                          widget.product.short_description != null
+                      ? widget.product.short_description
+                      : "",
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: captionNormal1.copyWith(color: AppColors.neutralGray),
@@ -85,17 +97,20 @@ class _ProductItemState extends State<ProductItem> with TickerProviderStateMixin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         widget.product != null &&
-                            double.parse(widget.product.product.dis_per) >
-                                0
+                                double.parse(widget.product.product.dis_per) > 0
                             ? Text(
-                          Utility.currencyFormat(widget.product != null ? widget.product.product.price : "0"),
-                          style: captionNormal2.copyWith(
-                              color: AppColors.neutralGray,
-                              decoration: TextDecoration.lineThrough),
-                        )
+                                Utility.currencyFormat(widget.product != null
+                                    ? widget.product.product.price
+                                    : "0"),
+                                style: captionNormal2.copyWith(
+                                    color: AppColors.neutralGray,
+                                    decoration: TextDecoration.lineThrough),
+                              )
                             : SizedBox(),
                         Text(
-                          Utility.currencyFormat(widget.product != null ? widget.product.product.sale_price : "0"),
+                          Utility.currencyFormat(widget.product != null
+                              ? widget.product.product.sale_price
+                              : "0"),
                           style: bodyTextNormal1.copyWith(
                               color: AppColors.primary),
                         )
@@ -105,9 +120,13 @@ class _ProductItemState extends State<ProductItem> with TickerProviderStateMixin
                       child: SizedBox(),
                     ),
                     InkWell(
-                      child: Icon(MaterialCommunityIcons.cart_plus, color: AppColors.accent,),
+                      child: Icon(
+                        MaterialCommunityIcons.cart_plus,
+                        color: AppColors.accent,
+                      ),
                       onTap: () {
-                        showGenericSnackbar(context , LocaleKeys.itemAddedToCart.tr());
+                        showGenericSnackbar(
+                            context, LocaleKeys.itemAddedToCart.tr());
                         _cartStream.addToCart(widget.product.product, null);
                       },
                     ),
@@ -120,13 +139,14 @@ class _ProductItemState extends State<ProductItem> with TickerProviderStateMixin
       ),
     );
   }
+
   @override
   void dispose() {
-
     super.dispose();
   }
+
   _countdownView(ProductDetail product) {
-    if(product.product == null) return SizedBox();
+    if (product.product == null) return SizedBox();
     if (product.product.valid_to != null &&
         product.product.valid_from != null) {
       return CountdownView(

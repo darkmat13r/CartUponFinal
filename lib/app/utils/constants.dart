@@ -111,13 +111,15 @@ BuildContext _dialogContext;
 
 void showLoadingDialog(BuildContext context) {
   showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (ctx) {
         _dialogContext = ctx;
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0))),
           content: Container(
-            width: 80,
+              width: 80,
               height: 80,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -132,7 +134,7 @@ void showLoadingDialog(BuildContext context) {
 }
 
 void dismissDialog() {
-  if (_dialogContext != null ){
+  if (_dialogContext != null) {
     Navigator.pop(_dialogContext);
     _dialogContext = null;
   }
@@ -144,7 +146,7 @@ void showGenericConfirmDialog(
   var dialog = showDialog(
       context: context,
       builder: (ctx) => new AlertDialog(
-            title:title != null ? new Text(title) : SizedBox(),
+            title: title != null ? new Text(title) : SizedBox(),
             content: new Text(message),
             actions: [
               TextButton(
@@ -165,10 +167,9 @@ void showGenericConfirmDialog(
                   if (onConfirm != null) {
                     onConfirm();
                   }
-
                 },
                 child: Text(
-                confirmText != null ? confirmText: LocaleKeys.ok.tr(),
+                  confirmText != null ? confirmText : LocaleKeys.ok.tr(),
                   style: buttonText.copyWith(color: AppColors.accent),
                 ),
               )

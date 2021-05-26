@@ -61,9 +61,9 @@ class _ProductsPageState extends ViewState<ProductsPage, ProductsController>{
 
   get _products => ControlledWidgetBuilder(builder: (BuildContext context, ProductsController controller ){
     double cardWidth = MediaQuery.of(context).size.width / 3.3;
-    double cardHeight = 150;
+    double cardHeight = 160;
     return StateView(
-      controller.isLoading ? EmptyState.LOADING : (controller.products != null && controller.products.length > 0 ? EmptyState.CONTENT : EmptyState.EMPTY),
+      controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT ,
       GridView.builder(
         shrinkWrap: true,
         itemCount: controller.products != null ? controller.products.length : 0,
