@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/splash/splash_presenter.dart';
 import 'package:coupon_app/app/utils/config.dart';
@@ -44,13 +47,19 @@ class SplashController extends Controller {
         var firstFind;
         var locale = await Devicelocale.currentLocale;
         String s = locale;
-        int idx = s.indexOf("_");
-        List parts = [s.substring(0,idx).trim(), s.substring(idx+1).trim()];
-        if(parts.length >1){
-          locale = parts[1];
-        }else if(parts.length > 0){
-          locale = parts[0];
+        Logger().e("Locale ${locale}");
+
+
+        int idx = s.indexOf(Platform.isIOS ?  "-" :"_");
+        if(idx >= 0){
+          List parts = [s.substring(0,idx).trim(), s.substring(idx+1).trim()];
+          if(parts.length >1){
+            locale = parts[1];
+          }else if(parts.length > 0){
+            locale = parts[0];
+          }
         }
+
         Logger().e(locale);
         try{
           firstFind = countries.firstWhere((element) => element.country_code.toLowerCase() == locale.toLowerCase());

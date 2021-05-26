@@ -109,7 +109,7 @@ class ProfileController extends BaseController {
         firstName: firstNameController.text,
         lastName: lastNameController.text,
         email: emailController.text,
-        countryCode: countryCode,
+        countryCode: selectedCountry.dial_code,
         nationality: nationality.id,
         gender: gender,
         title: title,
