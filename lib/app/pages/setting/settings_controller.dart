@@ -48,7 +48,8 @@ class SettingsController extends SplashController {
     }
 
     showGenericConfirmDialog(
-        getContext(), null, LocaleKeys.successSettingSaved.tr(), onConfirm: () {
+        getContext(), null, LocaleKeys.successSettingSaved.tr(),
+        onConfirm: () {
       Phoenix.rebirth(getContext());
     }, onCancel: (){
       Phoenix.rebirth(getContext());
