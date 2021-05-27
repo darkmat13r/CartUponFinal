@@ -82,6 +82,6 @@ class SplashController extends Controller {
       }
     }
     Config().selectedCountry = selectedCountry;
-    Logger().e(selectedCountry.toJson());
+
   }
 }

@@ -190,7 +190,7 @@ class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
             width: double.infinity,
             child: ElevatedButton(
                 onPressed: () {
-                  controller.save();
+                  controller.save(context);
                 },
                 child: Text(LocaleKeys.saveSettings.tr()))),
       );

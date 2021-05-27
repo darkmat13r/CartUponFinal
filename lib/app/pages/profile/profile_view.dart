@@ -76,12 +76,12 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
-              genderRadioButtons(controller),
+           /*   genderRadioButtons(controller),
 
 
               SizedBox(
                 height: Dimens.spacingMedium,
-              ),
+              ),*/
               mobileNumberField(controller),
               SizedBox(
                 height: Dimens.spacingMedium,
@@ -197,28 +197,33 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
           style: buttonText.copyWith(color: AppColors.primary),
         ),
       )
-          : CountryCodePicker(
+          : Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: Dimens.spacingMedium,
+            vertical: Dimens.spacingNormal + 4),
+            child: CountryCodePicker(
         onChanged: (CountryCode value) {
-          controller.countryCode = value.dialCode;
+            controller.countryCode = value.dialCode;
         },
         onInit: (CountryCode value) {
-          controller.countryCode = value.dialCode;
+            controller.countryCode = value.dialCode;
         },
         showCountryOnly: false,
         showFlag: false,
         showOnlyCountryWhenClosed: false,
         padding: EdgeInsets.all(12),
         builder: (CountryCode countryCode) {
-          return Padding(
-            padding:
-            const EdgeInsets.only(right: Dimens.spacingMedium),
-            child: Text(
-              countryCode.dialCode,
-              style: bodyTextNormal1,
-            ),
-          );
+            return Padding(
+              padding:
+              const EdgeInsets.only(right: Dimens.spacingMedium),
+              child: Text(
+                countryCode.dialCode,
+                style: bodyTextNormal1,
+              ),
+            );
         },
       ),
+          ),
     );
   }
   nationalities(ProfileController controller) {

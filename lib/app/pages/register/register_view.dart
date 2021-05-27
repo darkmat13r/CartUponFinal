@@ -122,10 +122,10 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
                 height: Dimens.spacingMedium,
               ),
               dateOfBirthField(controller, context),
-              SizedBox(
+              /*SizedBox(
                 height: Dimens.spacingMedium,
               ),
-              genderRadioButtons(controller),
+              genderRadioButtons(controller),*/
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
@@ -386,27 +386,32 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
                 ),
               ),
           )
-          : CountryCodePicker(
-              onChanged: (CountryCode value) {
-                controller.countryCode = value.dialCode;
-              },
-              onInit: (CountryCode value) {
-                controller.countryCode = value.dialCode;
-              },
-              showCountryOnly: false,
-              showFlag: false,
-              showOnlyCountryWhenClosed: false,
-              padding: EdgeInsets.all(12),
-              builder: (CountryCode countryCode) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: Dimens.spacingMedium),
-                  child: Text(
-                    countryCode.dialCode,
-                    style: bodyTextNormal1,
-                  ),
-                );
-              },
-            ),
+          : Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: Dimens.spacingMedium,
+            vertical: Dimens.spacingNormal + 4),
+            child: CountryCodePicker(
+                onChanged: (CountryCode value) {
+                  controller.countryCode = value.dialCode;
+                },
+                onInit: (CountryCode value) {
+                  controller.countryCode = value.dialCode;
+                },
+                showCountryOnly: false,
+                showFlag: false,
+                showOnlyCountryWhenClosed: false,
+                padding: EdgeInsets.all(12),
+                builder: (CountryCode countryCode) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: Dimens.spacingMedium),
+                    child: Text(
+                      countryCode.dialCode,
+                      style: bodyTextNormal1,
+                    ),
+                  );
+                },
+              ),
+          ),
     );
   }
   void showCountryPicker(RegisterController controller) {

@@ -132,11 +132,11 @@ class ProfileController extends BaseController {
             LocaleKeys.errorSelectNationality.tr());
         return;
       }
-      if (gender == null) {
+     /* if (gender == null) {
         showGenericDialog(getContext(), LocaleKeys.alert.tr(),
             LocaleKeys.errorSelectGender.tr());
         return;
-      }
+      }*/
       if (title == null) {
         showGenericDialog(getContext(), LocaleKeys.alert.tr(),
             LocaleKeys.errorSelectTitle.tr());

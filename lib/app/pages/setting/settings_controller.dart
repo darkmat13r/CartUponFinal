@@ -13,6 +13,7 @@ import 'package:devicelocale/devicelocale.dart';
 
 class SettingsController extends SplashController {
   SettingsController(CountryRepository repo) : super(repo) {
+    newSelectedCountry = Config().selectedCountry;
     getLanguageCode();
   }
 
@@ -38,21 +39,24 @@ class SettingsController extends SplashController {
     refreshUI();
   }
 
-  void save() {
+  void save(context) async{
     Config().locale = Locale(languageCode);
-    SessionHelper().setSelectedLanguage(languageCode);
-    getContext().setLocale(Locale(languageCode));
+    await  SessionHelper().setSelectedLanguage(languageCode);
+    Logger().e("Language code ${languageCode}");
+    Logger().e("Language Config().locale ${Config().locale}");
+
     if (newSelectedCountry != null) {
       selectedCountry = newSelectedCountry;
-      SessionHelper().setSelectedCountryId(newSelectedCountry.id);
+      await SessionHelper().setSelectedCountryId(newSelectedCountry.id);
     }
-
+    await EasyLocalization.of(context).setLocale(Config().locale);
+    await getContext().setLocale( Config().locale);
     showGenericConfirmDialog(
         getContext(), null, LocaleKeys.successSettingSaved.tr(),
         onConfirm: () {
-      Phoenix.rebirth(getContext());
+      Phoenix.rebirth(context);
     }, onCancel: (){
-      Phoenix.rebirth(getContext());
+      Phoenix.rebirth(context);
     });
   }
 
