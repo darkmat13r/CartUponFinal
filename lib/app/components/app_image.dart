@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 
 class AppImage extends StatefulWidget {
   String url;
+  BoxFit fit;
 
-  AppImage(this.url);
+  AppImage(this.url, {this.fit});
 
   @override
   State<StatefulWidget> createState() => _AppImageState();
@@ -28,7 +29,7 @@ class _AppImageState extends State<AppImage> {
           child: CachedNetworkImage(
             placeholder: (context, url) =>  Image.asset(Resources.placeholder , fit: BoxFit.cover,),
             imageUrl: widget.url,
-            fit: BoxFit.cover,
+            fit: widget.fit != null ? widget.fit : BoxFit.contain,
             errorWidget: (context, url, error) => Container(
               child: Image.asset(Resources.placeholder , fit: BoxFit.cover,),
             ),

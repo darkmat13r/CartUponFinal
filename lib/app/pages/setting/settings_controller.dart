@@ -40,11 +40,10 @@ class SettingsController extends SplashController {
   }
 
   void save(context) async{
+    languageCode = languageCode != null ? languageCode  : "en";
     Config().locale = Locale(languageCode);
-    await  SessionHelper().setSelectedLanguage(languageCode);
-    Logger().e("Language code ${languageCode}");
-    Logger().e("Language Config().locale ${Config().locale}");
 
+    await  SessionHelper().setSelectedLanguage(languageCode);
     if (newSelectedCountry != null) {
       selectedCountry = newSelectedCountry;
       await SessionHelper().setSelectedCountryId(newSelectedCountry.id);

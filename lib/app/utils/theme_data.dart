@@ -103,7 +103,7 @@ ThemeData appTheme(BuildContext context) => ThemeData(
         unselectedLabelColor:  AppColors.neutralGray,
         labelColor: AppColors.accent
       ),
-      textTheme: Config().locale.languageCode  == "en" ? GoogleFonts.openSansTextTheme():  GoogleFonts.tajawalTextTheme(),
+      textTheme: GoogleFonts.openSansTextTheme(),
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all(AppColors.neutralGray),

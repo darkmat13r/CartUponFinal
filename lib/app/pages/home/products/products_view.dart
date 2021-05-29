@@ -31,15 +31,18 @@ class _ProductsPageState extends ViewState<ProductsPage, ProductsController>{
   );
 
   get _body => ControlledWidgetBuilder(builder: (BuildContext context, ProductsController  controller){
-    return StateView(
-       controller.isLoading ?  EmptyState.LOADING : EmptyState.CONTENT,
-        ListView(
-          shrinkWrap: true,
-          children: [
-            _categories,
-            _products
-          ],
-        )
+    return SingleChildScrollView(
+      child: StateView(
+          controller.isLoading ?  EmptyState.LOADING : EmptyState.CONTENT,
+          ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              /*_categories,*/
+              _products
+            ],
+          )
+      ),
     );
   });
 
@@ -66,6 +69,7 @@ class _ProductsPageState extends ViewState<ProductsPage, ProductsController>{
       controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT ,
       GridView.builder(
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: controller.products != null ? controller.products.length : 0,
         itemBuilder: (BuildContext context, int index){
         return ProductItem(product: controller.products[index]);

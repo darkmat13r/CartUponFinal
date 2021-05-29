@@ -55,6 +55,7 @@ dependencies:
   share: ^2.0.1
   intent: ^1.4.0
   uni_links: ^0.5.1
+  vibration: ^1.7.3
   # Do not change this version to anything newer for now due to AndroidX dependency issues
   webview_flutter: '^1.0.7'
   package_info: ^0.4.0+3

@@ -93,7 +93,7 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
                     onTap: (){
                       controller.onClickSlider(slider);
                     },
-                      child: AppImage(bannerUrl));
+                      child: AppImage(bannerUrl, fit: BoxFit.cover,));
                 },
                 options: CarouselOptions(
                   height: 240,
@@ -178,7 +178,7 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
                     onTap: (){
                       controller.onClickBanner(adBanner);
                     },
-                      child: AppImage(bannerUrl));
+                      child: AppImage(bannerUrl,fit : BoxFit.cover));
                 },
                 options: CarouselOptions(
                   height: 90,

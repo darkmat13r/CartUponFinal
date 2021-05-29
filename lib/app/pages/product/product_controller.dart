@@ -51,6 +51,7 @@ class ProductController extends BaseController {
       if(product != null){
         isAddedToWhishlist = true;
         refreshUI();
+        showGenericSnackbar(getContext(), LocaleKeys.itemAddedToWhishlist.tr());
         _presenter.addToWhishlist(product);
       }
     }
@@ -66,7 +67,7 @@ class ProductController extends BaseController {
       showGenericSnackbar(getContext(), e.message, isError : true);
     };
     _presenter.addToWhishlistOnComplete = (){
-      showGenericSnackbar(getContext(), LocaleKeys.itemAddedToWhishlist.tr());
+
     };
   }
   _initSimilarProductListeners() {

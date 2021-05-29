@@ -1,7 +1,9 @@
+import 'package:coupon_app/domain/entities/models/Country.dart';
+
 class Adbanner {
     String ad_title;
     Object banner_link;
-    int country;
+    Country country;
     int id;
     int lang_type;
     String mobile_banner;
@@ -13,7 +15,7 @@ class Adbanner {
         return Adbanner(
             ad_title: json['ad_title'], 
             banner_link: json['banner_link'] != null ? json['banner_link'] : null,
-            country: json['country'], 
+            country: (json['country'] is Map) ? Country.fromJson(json['country']) : null,
             id: json['id'], 
             lang_type: json['lang_type'], 
             mobile_banner: json['mobile_banner'], 

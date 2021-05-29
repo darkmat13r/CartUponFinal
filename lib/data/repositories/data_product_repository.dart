@@ -5,6 +5,7 @@ import 'package:coupon_app/data/utils/http_helper.dart';
 import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
+import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:logging/logging.dart';
 
 class DataProductRepository extends ProductRepository{
@@ -24,7 +25,8 @@ class DataProductRepository extends ProductRepository{
   Future<List<ProductDetail>> getProducts({String categoryId,  String type}) async{
     try{
       var params =  {
-        'lang' :  Config().getLanguageId().toString()
+        'lang' :  Config().getLanguageId().toString(),
+       'country' : (await SessionHelper().getSelectedCountry()).toString()
       };
       if(categoryId != null){
         params['category'] = categoryId;

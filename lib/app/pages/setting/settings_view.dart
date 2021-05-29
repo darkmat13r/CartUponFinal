@@ -102,7 +102,7 @@ class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
               },
               leading: _createLanguage("EN"),
               title: Text(LocaleKeys.languageEnglish.tr()),
-              trailing: controller.languageCode.toLowerCase() == "en"
+              trailing:  (controller.languageCode != null ? controller.languageCode.toLowerCase() == "en" : true)
                   ? Icon(
                       Feather.check_circle,
                       color: AppColors.accent,
@@ -115,7 +115,7 @@ class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
               },
               leading: _createLanguage("AR"),
               title: Text(LocaleKeys.languageArabic.tr()),
-              trailing: controller.languageCode.toLowerCase() == "ar"
+              trailing:(controller.languageCode != null ?  controller.languageCode.toLowerCase() == "ar" : false)
                   ? Icon(
                       Feather.check_circle,
                       color: AppColors.accent,

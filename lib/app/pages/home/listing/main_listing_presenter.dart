@@ -8,7 +8,7 @@ import 'package:coupon_app/domain/usercases/auth/get_current_user_usecase.dart';
 import 'package:coupon_app/domain/usercases/banner/get_sliders_use_case.dart';
 import 'package:coupon_app/domain/usercases/get_home_page_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 
 class MainListingPresenter extends AuthPresenter{
   GetHomePageUseCase _getHomePageUseCase;

@@ -64,16 +64,20 @@ class _ProductItemState extends State<ProductItem>
                 vertical: Dimens.spacingNormal),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  widget.product != null && widget.product.name != null
-                      ? widget.product.name
-                      : "",
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: bodyTextNormal1.copyWith(color: AppColors.primary),
+                Flexible(
+                  child: Text(
+                    widget.product != null && widget.product.name != null
+                        ? widget.product.name
+                        : "",
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: bodyTextNormal1.copyWith(color: AppColors.primary),
+                  ),
                 ),
-                Text(
+                /*Text(
                   widget.product != null &&
                           widget.product.short_description != null
                       ? widget.product.short_description
@@ -81,7 +85,7 @@ class _ProductItemState extends State<ProductItem>
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: captionNormal1.copyWith(color: AppColors.neutralGray),
-                ),
+                ),*/
                 SizedBox(
                   height: Dimens.spacingSmall,
                 ),

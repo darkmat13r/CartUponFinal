@@ -1,6 +1,8 @@
+import 'package:coupon_app/domain/entities/models/Country.dart';
+
 class BannerSlider {
     Object banner_link;
-    int country;
+    Country country;
     int id;
     int lang_type;
     String mobile_banner;
@@ -12,7 +14,7 @@ class BannerSlider {
     factory BannerSlider.fromJson(Map<String, dynamic> json) {
         return BannerSlider(
             banner_link: json['banner_link'] != null ? json['banner_link'] : null,
-            country: json['country'], 
+            country: (json['country'] is Map) ? Country.fromJson(json['country']) : null,
             id: json['id'], 
             lang_type: json['lang_type'], 
             mobile_banner: json['mobile_banner'], 

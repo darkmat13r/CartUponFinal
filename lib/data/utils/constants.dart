@@ -52,6 +52,8 @@ class Constants {
 
   static String countriesRoute = "$baseUrl/countryopenapi/";
 
+  static String isLoginPopupShownKey = "isPopupShown";
+
 
   static String createUriWithParams(String route, Map<String, String> queryParams){
     return route  + "?" + Uri( queryParameters: queryParams ).query;

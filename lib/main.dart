@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:coupon_app/app/pages/splash/splash_view.dart';
 import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
@@ -35,7 +37,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    var locale = Config().locale != null ? Config().locale : context.deviceLocale;
+    var deviceLocale = context.deviceLocale;
+    if(deviceLocale.languageCode.contains("en") || deviceLocale.languageCode.contains("ar")){
+      try{
+        var parts = ["en"];
+        var p =   deviceLocale.languageCode.split(Platform.isAndroid ? "_" : "-");
+        if(p.length > 0){
+          parts = p;
+        }
+        deviceLocale = Locale(parts[0]);
+      }catch(e){
+        deviceLocale = Locale("en");
+      }
+    }else{
+      deviceLocale = Locale("en");
+    }
+    var locale = Config().locale != null ? Config().locale :deviceLocale;
 
     EasyLocalization.of(context).setLocale(locale);
     return MaterialApp(

@@ -106,6 +106,16 @@ class SessionHelper {
     }
     return 0;
   }
+  Future<bool> isPopupShown() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    bool isShown = await preferences.getBool(Constants.isLoginPopupShownKey);
+    return isShown ?? false;
+  }
+  void setShownPopup() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setBool(Constants.isLoginPopupShownKey,
+       true);
+  }
 
   void updateLastShownPopup() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();

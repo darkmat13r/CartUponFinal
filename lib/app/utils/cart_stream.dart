@@ -7,6 +7,7 @@ import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
+import 'package:vibration/vibration.dart';
 
 class CartStream {
   static final CartStream _instance = CartStream._internal();
@@ -30,6 +31,9 @@ class CartStream {
     await _repo.addToCart(productDetail.id.toString(),
         variantValue != null ? variantValue.id.toString() : "");
     fetchQuantity();
+    if (await Vibration.hasVibrator()) {
+      Vibration.vibrate();
+    }
   }
 
   fetchQuantity() async {

@@ -16,7 +16,6 @@ class Config {
   factory Config() => _instance;
 
   getLanguageId() {
-
-    return locale.languageCode.contains('en') ? 0 : 1;
+    return locale != null && locale.languageCode.contains('en') ? 0 : 1;
   }
 }

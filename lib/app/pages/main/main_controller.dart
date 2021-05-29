@@ -70,12 +70,15 @@ class MainController extends BaseController {
 
   Future<void> showLoginDialog() async {
     int days = await SessionHelper().lastShownPopup();
+    bool isPopupShown = await SessionHelper().isPopupShown();
     Logger().e("LastPopup Shown in ${days}");
-    if (days > 0 && days < 7) {
+    Logger().e("LastPopup Shown isPopupShown ${isPopupShown}");
+    if (isPopupShown && days < 7) {
       return;
     }
     if (currentUser == null && _currentContext == null && _drawerKey != null) {
       SessionHelper().updateLastShownPopup();
+      SessionHelper().setShownPopup();
       showDialog(
           context: _drawerKey.currentContext,
           builder: (ctx) {

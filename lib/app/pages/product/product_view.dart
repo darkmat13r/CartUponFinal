@@ -91,7 +91,9 @@ class ProductPageView extends SearchableViewState<ProductPage, ProductController
                       autoPlayInterval: Duration(seconds: 3),
                       scrollDirection: Axis.horizontal,
                     ))
-                : SizedBox(),
+                : controller.product != null && controller.product.product != null ? SizedBox(
+              height: 240,
+                child: AppImage(controller.product.product.thumb_img)) : SizedBox(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -175,7 +177,7 @@ class ProductPageView extends SearchableViewState<ProductPage, ProductController
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                              "${NumberFormat("#.##").format(double.parse(controller.product.product.dis_per))}%\nOFF",
+                                              "${double.parse(controller.product.product.dis_per).toInt()}%\nOFF",
                                               style: heading5.copyWith(
                                                   color: AppColors.neutralLight,
                                                   fontSize: 10,
@@ -316,6 +318,7 @@ class ProductPageView extends SearchableViewState<ProductPage, ProductController
     return Expanded(
       child: RaisedButton.icon(
         onPressed: () {
+          showGenericSnackbar(context, LocaleKeys.itemAddedToCart.tr());
           CartStream().addToCart(
               controller.product.product, controller.selectedProductVariant);
         },

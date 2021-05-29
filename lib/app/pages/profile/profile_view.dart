@@ -230,6 +230,7 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
     return DropdownSearch<Nationality>(
       label: LocaleKeys.nationality.tr(),
       mode: Mode.DIALOG,
+      enabled: controller.nationalities != null,
       selectedItem: controller.nationality,
       popupTitle:Padding(
         padding: const EdgeInsets.all(Dimens.spacingMedium),

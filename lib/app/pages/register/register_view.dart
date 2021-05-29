@@ -312,6 +312,7 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
     return DropdownSearch<Nationality>(
       label: LocaleKeys.nationality.tr(),
       mode: Mode.DIALOG,
+      enabled: controller.nationalities != null,
       popupTitle: Padding(
         padding: const EdgeInsets.all(Dimens.spacingMedium),
         child: Text(
