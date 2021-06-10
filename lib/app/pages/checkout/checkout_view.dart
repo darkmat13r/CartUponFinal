@@ -36,46 +36,111 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
 
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, CheckoutController controller) {
-        return ListView(
-          shrinkWrap: true,
+        return Column(
           children: [
-            controller.defaultAddress != null ? _defaultAddress(controller) : _addAddress,
-            _orderDetails
-
+            Flexible(
+                flex: 1,
+                child: ListView(
+                  children: [
+                    controller.defaultAddress != null
+                        ? _defaultAddress(controller)
+                        : _addAddress,
+                    _orderDetails,
+                    _paymentMethods
+                  ],
+                )),
+            _placeOrder
           ],
         );
       });
 
-
-  get _orderDetails  => ControlledWidgetBuilder(builder: (BuildContext context, CheckoutController controller){
-    return Container(
-      color: AppColors.cardBg,
-      child: Padding(
-        padding: const EdgeInsets.all(Dimens.spacingMedium),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+  get _paymentMethods => ControlledWidgetBuilder(
+          builder: (BuildContext context, CheckoutController controller) {
+        return Container(
+          color: AppColors.cardBg,
+          child: Padding(
+            padding: const EdgeInsets.all(Dimens.spacingMedium),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(child: Text(LocaleKeys.orderDetails.tr(), style: heading5,)),
-                Text(Utility.currencyFormat(controller.cart.net_total), style: captionNormal2.copyWith(color: AppColors.neutralGray),),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Text(
+                      LocaleKeys.payment.tr(),
+                      style: heading5,
+                    )),
+                  ],
+                ),
+                ListView(
+                  shrinkWrap: true,
+                  children: [
+                    SizedBox(
+                      height: Dimens.spacingNormal,
+                    ),
+                    RadioListTile(
+                      contentPadding: const EdgeInsets.all(0),
+                      title: Text(LocaleKeys.cashOnDeliver.tr()),
+                      value: 1,
+                      groupValue: controller.paymentMethod,
+                      onChanged: (int value) {
+                        controller.setPaymentMethod(value);
+                      },
+                    ),
+                    RadioListTile(
+                      contentPadding: const EdgeInsets.all(0),
+                      title: Text(LocaleKeys.payOnline.tr()),
+                      value: 2,
+                      groupValue: controller.paymentMethod,
+                      onChanged: (int value) {
+                        controller.setPaymentMethod(value);
+                      },
+                    ),
+                  ],
+                )
               ],
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: controller.cart.cart.length,
-                itemBuilder: (BuildContext context, int index){
-              return _productDetail(controller.cart.cart[index]);
-            })
-          ],
-        ),
-      ),
-    );
-  });
+          ),
+        );
+      });
 
+  get _orderDetails => ControlledWidgetBuilder(
+          builder: (BuildContext context, CheckoutController controller) {
+        return Container(
+          color: AppColors.cardBg,
+          child: Padding(
+            padding: const EdgeInsets.all(Dimens.spacingMedium),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                        child: Text(
+                      LocaleKeys.orderDetails.tr(),
+                      style: heading5,
+                    )),
+                    Text(
+                      Utility.currencyFormat(controller.cart.net_total),
+                      style:
+                          captionNormal2.copyWith(color: AppColors.neutralGray),
+                    ),
+                  ],
+                ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: controller.cart.cart.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return _productDetail(controller.cart.cart[index]);
+                    })
+              ],
+            ),
+          ),
+        );
+      });
 
   get _addAddress => ControlledWidgetBuilder(
-      builder: (BuildContext context, CheckoutController controller) {
+          builder: (BuildContext context, CheckoutController controller) {
         return RaisedButton(
             elevation: 0,
             color: AppColors.neutralLightGray.withAlpha(120),
@@ -86,7 +151,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
             },
             child: Padding(
               padding:
-              const EdgeInsets.symmetric(vertical: Dimens.spacingNormal),
+                  const EdgeInsets.symmetric(vertical: Dimens.spacingNormal),
               child: Column(
                 children: [
                   Icon(
@@ -103,18 +168,38 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
               ),
             ));
       });
+
+  get _placeOrder => ControlledWidgetBuilder(
+          builder: (BuildContext context, CheckoutController controller) {
+        return SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(Dimens.spacingMedium),
+            child: RaisedButton(
+              onPressed: controller.paymentMethod != 0 ? () {} : null,
+              child: Text(controller.paymentMethod == 2
+                  ? LocaleKeys.fmtPaySecurely.tr(
+                      args: [Utility.currencyFormat(controller.cart.net_total)])
+                  : LocaleKeys.placeOrder.tr(), style: buttonText,),
+            ),
+          ),
+        );
+      });
+
   String capitalize(String string) {
     if (string.isEmpty) {
       return string;
     }
     return string[0].toUpperCase() + string.substring(1);
   }
+
   _defaultAddress(CheckoutController controller) {
     return Padding(
       padding: const EdgeInsets.all(Dimens.spacingMedium),
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium, vertical: Dimens.spacingNormal),
+          padding: const EdgeInsets.symmetric(
+              horizontal: Dimens.spacingMedium, vertical: Dimens.spacingNormal),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -126,7 +211,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                     style: heading6.copyWith(color: AppColors.neutralDark),
                   )),
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       controller.changeAddress();
                     },
                     child: Text(
@@ -156,7 +241,8 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                 height: Dimens.spacingSmall,
               ),
               Text(
-                LocaleKeys.fmtPhone.tr(args: [controller.defaultAddress.phone_no]),
+                LocaleKeys.fmtPhone
+                    .tr(args: [controller.defaultAddress.phone_no]),
                 style: captionNormal2.copyWith(color: AppColors.neutralDark),
               ),
             ],
@@ -168,8 +254,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
 
   _productDetail(CartItem cart) {
     return Padding(
-      padding: const EdgeInsets.only(
-         top : Dimens.spacingNormal),
+      padding: const EdgeInsets.only(top: Dimens.spacingNormal),
       child: Card(
         child: IntrinsicHeight(
           child: Row(
@@ -177,8 +262,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(Dimens.spacingNormal),
-                child: ProductThumbnail(cart != null &&
-                    cart.product_id != null
+                child: ProductThumbnail(cart != null && cart.product_id != null
                     ? cart.product_id.thumb_img
                     : ""),
               ),
@@ -192,10 +276,11 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                     ),
                     Padding(
                       padding:
-                      const EdgeInsets.only(left: Dimens.spacingMedium),
+                          const EdgeInsets.only(left: Dimens.spacingMedium),
                       child: Text(
                         cart != null &&
-                            cart.product_id != null && cart.product_id.product_detail != null
+                                cart.product_id != null &&
+                                cart.product_id.product_detail != null
                             ? cart.product_id.product_detail.name ?? "-"
                             : "-",
                         maxLines: 1,
@@ -207,14 +292,15 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                     ),
                     Padding(
                       padding:
-                      const EdgeInsets.only(left: Dimens.spacingMedium),
+                          const EdgeInsets.only(left: Dimens.spacingMedium),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
                             child: Text(
                               LocaleKeys.fmtQty.tr(args: [cart.qty.toString()]),
-                              style: captionNormal1.copyWith(color: AppColors.neutralGray),
+                              style: captionNormal1.copyWith(
+                                  color: AppColors.neutralGray),
                             ),
                           ),
                           Text(
@@ -227,7 +313,6 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                   ],
                 ),
               ),
-
               SizedBox(
                 width: Dimens.spacingMedium,
               ),

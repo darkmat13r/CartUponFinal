@@ -100,24 +100,21 @@ ThemeData appTheme(BuildContext context) => ThemeData(
         titleTextStyle: heading4.copyWith(color: AppColors.primary),
       ),
       tabBarTheme: TabBarTheme(
-        unselectedLabelColor:  AppColors.neutralGray,
-        labelColor: AppColors.accent
-      ),
+          unselectedLabelColor: AppColors.neutralGray,
+          labelColor: AppColors.accent),
       textTheme: GoogleFonts.openSansTextTheme(),
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all(AppColors.neutralGray),
+              foregroundColor: MaterialStateProperty.all(AppColors.neutralGray),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
                       Radius.circular(Dimens.buttonCornerRadius)))),
-              minimumSize: MaterialStateProperty.all(Size(50, Dimens.buttonHeight)),
+              minimumSize:
+                  MaterialStateProperty.all(Size(50, Dimens.buttonHeight)),
               textStyle: MaterialStateProperty.all(
                   bodyTextNormal1.copyWith(color: AppColors.accent)))),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-
-          )
-      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(style: ButtonStyle()),
+      buttonColor: AppColors.accent,
       buttonTheme: ButtonThemeData(
           height: Dimens.buttonHeight,
           buttonColor: AppColors.accent,
@@ -129,7 +126,8 @@ ThemeData appTheme(BuildContext context) => ThemeData(
           color: AppColors.cardBg,
           elevation: Dimens.elevation,
           shape: RoundedRectangleBorder(
-            side: BorderSide(color: AppColors.neutralLightGray, width: Dimens.borderWidth),
+            side: BorderSide(
+                color: AppColors.neutralLightGray, width: Dimens.borderWidth),
             borderRadius:
                 BorderRadius.all(Radius.circular(Dimens.cornerRadius)),
           )),
@@ -142,7 +140,6 @@ ThemeData appTheme(BuildContext context) => ThemeData(
           contentPadding: EdgeInsets.symmetric(
               vertical: Dimens.spacingSmall, horizontal: Dimens.spacingMedium),
           focusColor: AppColors.neutralDark,
-
           fillColor: AppColors.formFieldBg,
           filled: true,
           prefixStyle: TextStyle(color: AppColors.accent),

@@ -54,6 +54,8 @@ class Constants {
 
   static String isLoginPopupShownKey = "isPopupShown";
 
+  static var orderCreate = "ordercreate";
+
 
   static String createUriWithParams(String route, Map<String, String> queryParams){
     return route  + "?" + Uri( queryParameters: queryParams ).query;

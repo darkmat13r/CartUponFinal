@@ -21,6 +21,8 @@ class CheckoutController extends BaseController {
 
   Address defaultAddress;
 
+  int paymentMethod;
+
   Logger _logger;
 
   CheckoutController(AddressRepository addressRepo, CartRepository cartRepo)
@@ -93,6 +95,11 @@ class CheckoutController extends BaseController {
         defaultAddress = addresses.first;
       }
     }
+    refreshUI();
+  }
+
+  void setPaymentMethod(int value) {
+    this.paymentMethod = value;
     refreshUI();
   }
 }
