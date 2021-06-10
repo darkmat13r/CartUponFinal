@@ -8,8 +8,9 @@ class CategoryButton extends StatefulWidget{
   final CategoryType category;
   final Function onClick;
   final double size;
+  final bool showLabel;
 
-  const CategoryButton({this.category, this.onClick, this.size}) : super();
+  const CategoryButton({this.category, this.onClick, this.size, this.showLabel}) : super();
 
   @override
   State<StatefulWidget> createState() =>  _CategoryButtonState();
@@ -51,7 +52,7 @@ class _CategoryButtonState extends State<CategoryButton>{
             SizedBox(
               height: Dimens.spacingNormal,
             ),
-            Expanded(
+            (widget.showLabel ?? true) ? Expanded(
               child: Text(
                 widget.category != null ? widget.category.name : "",
                 textAlign: TextAlign.center,
@@ -59,7 +60,7 @@ class _CategoryButtonState extends State<CategoryButton>{
                 overflow: TextOverflow.ellipsis,
                 style: captionNormal1.copyWith(color: AppColors.neutralDark),
               ),
-            ),
+            ): SizedBox(),
           ],
         ),
       ),

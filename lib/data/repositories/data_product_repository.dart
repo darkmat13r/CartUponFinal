@@ -29,7 +29,7 @@ class DataProductRepository extends ProductRepository{
        'country' : (await SessionHelper().getSelectedCountry()).toString()
       };
       if(categoryId != null){
-        params['category'] = categoryId;
+        params['category_id'] = categoryId;
       }
       if(type != null){
         params['category_type'] = type;

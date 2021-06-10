@@ -5,13 +5,13 @@ import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CheckoutPage extends StatefulWidget{
+class CartWithToolbarPage extends StatefulWidget{
   @override
-  State<StatefulWidget> createState() => _CheckoutPageState();
+  State<StatefulWidget> createState() => _CartWithToolbarPageState();
 
 }
 
-class _CheckoutPageState extends State<CheckoutPage>{
+class _CartWithToolbarPageState extends State<CartWithToolbarPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(

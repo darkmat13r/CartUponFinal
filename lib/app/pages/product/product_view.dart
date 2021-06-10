@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:coupon_app/app/components/app_image.dart';
 import 'package:coupon_app/app/components/banner_product.dart';
+import 'package:coupon_app/app/components/countdown.dart';
 import 'package:coupon_app/app/components/product_item.dart';
 import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/product_colors.dart';
@@ -16,6 +17,7 @@ import 'package:coupon_app/app/pages/product/product_controller.dart';
 import 'package:coupon_app/app/pages/searchable_view_state.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/date_helper.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/data/repositories/data_product_repository.dart';
@@ -38,20 +40,22 @@ class ProductPage extends View {
   State<StatefulWidget> createState() => ProductPageView(this.productId);
 }
 
-class ProductPageView extends SearchableViewState<ProductPage, ProductController> {
+class ProductPageView
+    extends SearchableViewState<ProductPage, ProductController> {
   ProductPageView(productId)
       : super(ProductController(
             productId, DataProductRepository(), DataWhishlistRepository()));
 
   @override
-  Widget get title => ControlledWidgetBuilder(builder: (BuildContext context, ProductController controller ){
-    return Text(
-        controller.product != null ? controller.product.name : "",
-        style: heading5.copyWith(color: AppColors.primary));
-  });
+  Widget get title => ControlledWidgetBuilder(
+          builder: (BuildContext context, ProductController controller) {
+        return Text(controller.product != null ? controller.product.name : "",
+            style: heading5.copyWith(color: AppColors.primary));
+      });
 
   @override
   Widget get body => _view;
+
   @override
   get key => globalKey;
 
@@ -67,9 +71,10 @@ class ProductPageView extends SearchableViewState<ProductPage, ProductController
             controller.product != null &&
                     controller.product.product != null &&
                     controller.product.product.product_gallery != null &&
-                controller.product.product.product_gallery.length > 0
+                    controller.product.product.product_gallery.length > 0
                 ? CarouselSlider.builder(
-                    itemCount: controller.product.product.product_gallery.length,
+                    itemCount:
+                        controller.product.product.product_gallery.length,
                     itemBuilder: (BuildContext context, int index) {
                       var gallery =
                           controller.product.product.product_gallery ?? [];
@@ -91,23 +96,28 @@ class ProductPageView extends SearchableViewState<ProductPage, ProductController
                       autoPlayInterval: Duration(seconds: 3),
                       scrollDirection: Axis.horizontal,
                     ))
-                : controller.product != null && controller.product.product != null ? SizedBox(
-              height: 240,
-                child: AppImage(controller.product.product.thumb_img)) : SizedBox(),
+                : controller.product != null &&
+                        controller.product.product != null
+                    ? SizedBox(
+                        height: 240,
+                        child: AppImage(controller.product.product.thumb_img))
+                    : SizedBox(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   controller.product != null &&
-                      controller.product.product != null &&
-                      controller.product.product.product_gallery != null
-                  &&  controller.product.product.product_gallery.length > 0
-                      ?AnimatedSmoothIndicator(
-                    activeIndex: sliderImageIndex,
-                    count:  controller.product.product.product_gallery.length,
-                    effect: WormEffect(dotWidth: 8, dotHeight: 8),
-                  ) : SizedBox()
+                          controller.product.product != null &&
+                          controller.product.product.product_gallery != null &&
+                          controller.product.product.product_gallery.length > 0
+                      ? AnimatedSmoothIndicator(
+                          activeIndex: sliderImageIndex,
+                          count:
+                              controller.product.product.product_gallery.length,
+                          effect: WormEffect(dotWidth: 8, dotHeight: 8),
+                        )
+                      : SizedBox()
                 ],
               ),
             ),
@@ -221,7 +231,7 @@ class ProductPageView extends SearchableViewState<ProductPage, ProductController
                   SizedBox(
                     height: Dimens.spacingMedium,
                   ),
-                  _eleapsedTime(controller),
+                  _elapsedTime(controller),
                   SizedBox(
                     height: Dimens.spacingLarge,
                   ),
@@ -240,7 +250,7 @@ class ProductPageView extends SearchableViewState<ProductPage, ProductController
                     height: Dimens.spacingLarge,
                   ),
                   SocialShareButtons(
-                    onShare: (){
+                    onShare: () {
                       controller.shareProduct();
                     },
                   ),
@@ -267,51 +277,50 @@ class ProductPageView extends SearchableViewState<ProductPage, ProductController
         );
       });
 
-  Row _eleapsedTime(ProductController controller) {
-    return Row(
+  Widget _elapsedTime(ProductController controller) {
+    return  controller.product.product.valid_from != null && controller.product.product.valid_to != null ? Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Expanded(
-          child: controller.elapsedTime != null
-              ? Row(
-                  children: [
-                    Image.asset(
-                      Resources.timerIcon,
-                      width: 24,
-                      height: 24,
-                      color: AppColors.primary,
-                    ),
-                    SizedBox(
-                      width: Dimens.spacingMedium,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            LocaleKeys.timeLeft.tr(),
-                            style: bodyTextMedium1.copyWith(
-                              color: AppColors.primary,
-                            ),
+        controller.product != null
+            ? Row(
+                children: [
+                  Image.asset(
+                    Resources.timerIcon,
+                    width: 24,
+                    height: 24,
+                    color: AppColors.primary,
+                  ),
+                  SizedBox(
+                    width: Dimens.spacingMedium,
+                  ),
+                   Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          LocaleKeys.timeLeft.tr(),
+                          style: bodyTextMedium1.copyWith(
+                            color: AppColors.primary,
                           ),
-                          Text(
-                            controller.elapsedTime != null
-                                ? controller.elapsedTime
-                                : "",
-                            style: bodyTextNormal2.copyWith(
-                                color: AppColors.primary, fontSize: 12),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                )
-              : SizedBox(),
-        ),
+                        ),
+                        CountdownView(
+                          showIcon: false,
+                          textStyle: heading5.copyWith(color: AppColors.accent),
+                          validTo: DateHelper.parseServerDateTime(
+                              controller.product.product.valid_to),
+                          validFrom: DateHelper.parseServerDateTime(
+                              controller.product.product.valid_from),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              )
+            : SizedBox(),
       ],
-    );
+    ): SizedBox();
   }
 
   Expanded _addToCartButton(ProductController controller) {
@@ -340,9 +349,13 @@ class ProductPageView extends SearchableViewState<ProductPage, ProductController
         onPressed: () {
           controller.addItemToWhishlist(controller.product.product);
         },
-        icon: Icon(!controller.isAddedToWhishlist
-            ? MaterialCommunityIcons.heart_outline
-            : MaterialCommunityIcons.heart,color:  controller.isAddedToWhishlist ? AppColors.error : AppColors.neutralGray),
+        icon: Icon(
+            !controller.isAddedToWhishlist
+                ? MaterialCommunityIcons.heart_outline
+                : MaterialCommunityIcons.heart,
+            color: controller.isAddedToWhishlist
+                ? AppColors.error
+                : AppColors.neutralGray),
         label: Text(
           LocaleKeys.whishlist.tr(),
           style: buttonText.copyWith(color: AppColors.neutralGray),

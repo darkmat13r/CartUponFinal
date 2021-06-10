@@ -51,6 +51,17 @@ class LocaleKeys {
   static const tax = 'tax';
   static const totalPrice = 'totalPrice';
   static const checkout = 'checkout';
+  static const orderConfirm = 'orderConfirm';
+
+  //Checkout Page
+
+  static const deliveryAddress = 'deliveryAddress';
+  static const changeAddress = 'changeAddress';
+  static const cashOnDeliver = 'cashOnDeliver';
+  static const payOnline = 'payOnline';
+  static const placeOrder = 'placeOrder';
+  static const paySecurely = 'paySecurely';
+
 
   //Account Page
   static const account = "account";
@@ -86,6 +97,8 @@ class LocaleKeys {
   static const product = "product";
   static const shippingDetails = "shippingDetails";
   static const paymentDetails = "paymentDetails";
+  static const fmtPaySecurely = "fmtPaySecurely";
+  static const fmtPhone = "fmtPhone";
 
   static const reviews = "reviews";
   static const allReviews = "allReviews";

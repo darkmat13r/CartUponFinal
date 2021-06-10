@@ -16,8 +16,9 @@ class AddressesController extends BaseController {
   List<Address> addresses;
 
   Logger _logger;
+  bool selectionMode = false;
 
-  AddressesController(AddressRepository addressRepository)
+  AddressesController(AddressRepository addressRepository, {selectionMode})
       : _presenter = AddressesPresenter(addressRepository) {
     _logger = Logger("AddressesController");
   }
@@ -67,5 +68,15 @@ class AddressesController extends BaseController {
 
       _presenter.delete(address);
     });
+  }
+
+  @override
+  void onDisposed() {
+    _presenter.dispose();
+    super.onDisposed();
+  }
+
+  void select(Address address) {
+    Navigator.of(getContext()).pop(address);
   }
 }

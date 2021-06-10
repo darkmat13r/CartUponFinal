@@ -38,7 +38,7 @@ class _ProductsPageState extends ViewState<ProductsPage, ProductsController>{
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              /*_categories,*/
+             /* _categories,*/
               _products
             ],
           )
@@ -54,7 +54,9 @@ class _ProductsPageState extends ViewState<ProductsPage, ProductsController>{
         shrinkWrap: true,
         itemCount:  controller.categories.length ,
           itemBuilder: (BuildContext context, int index){
-        return CategoryButton(category: controller.categories[index],onClick: (){
+        return CategoryButton(
+          showLabel: true,
+          category: controller.categories[index],onClick: (){
           controller.openCategory(context, controller.categories[index]);
         },);
       }),

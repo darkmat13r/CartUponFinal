@@ -11,7 +11,10 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 class ExploreController extends BaseController{
   ExplorePresenter _presenter;
 
+
   List<CategoryType> categories = [ ];
+  List<CategoryType> couponsCategory = [ ];
+  List<CategoryType> productsCategory = [ ];
 
   ExploreController(CategoryRepository categoryRepo) : _presenter = ExplorePresenter(categoryRepo){
     showLoading();
@@ -28,6 +31,13 @@ class ExploreController extends BaseController{
 
   getCategoryOnNext(List<CategoryType> response) {
     this.categories = response;
+    this.categories.forEach((element) {
+      if(element.category.category_type){
+        couponsCategory.add(element);
+      }else{
+        productsCategory.add(element);
+      }
+    });
     refreshUI();
   }
 

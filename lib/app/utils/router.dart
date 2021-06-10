@@ -2,7 +2,8 @@ import 'package:coupon_app/app/pages/account/address/add/add_address_view.dart';
 import 'package:coupon_app/app/pages/account/address/addresses_view.dart';
 import 'package:coupon_app/app/pages/account/change_password/change_password_view.dart';
 import 'package:coupon_app/app/pages/cart/cart_view.dart';
-import 'package:coupon_app/app/pages/cart/checkout.dart';
+import 'package:coupon_app/app/pages/cart/cart_with_toolbar.dart';
+import 'package:coupon_app/app/pages/checkout/checkout_view.dart';
 import 'package:coupon_app/app/pages/filters/filter_view.dart';
 import 'package:coupon_app/app/pages/forgot_password/forgot_password_view.dart';
 import 'package:coupon_app/app/pages/home/home_view.dart';
@@ -67,11 +68,12 @@ class AppRouter {
       case Pages.addAddress:
         return _buildRoute(settings, AddAddressPage());
       case Pages.cart:
-        return _buildRoute(settings, CheckoutPage());
+        return _buildRoute(settings, CartWithToolbarPage());
       case Pages.welcome:
         return _buildRoute(settings, WelcomePage());
       case Pages.checkout:
         return _buildRoute(settings, CheckoutPage());
+
       case Pages.settings :
         return _buildRoute(settings, SettingsPage());
     }

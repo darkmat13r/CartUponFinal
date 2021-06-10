@@ -14,12 +14,17 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class AddressesPage extends View {
+  bool selectionMode = false;
+
+
+  AddressesPage({this.selectionMode});
+
   @override
-  State<StatefulWidget> createState() => AddressesPageState();
+  State<StatefulWidget> createState() => AddressesPageState(selectionMode);
 }
 
 class AddressesPageState extends ViewState<AddressesPage, AddressesController> {
-  AddressesPageState() : super(AddressesController(DataAddressRepository()));
+  AddressesPageState(selectionMode) : super(AddressesController(DataAddressRepository(), selectionMode :selectionMode));
 
   @override
   Widget get view => Scaffold(
@@ -92,65 +97,70 @@ class AddressesPageState extends ViewState<AddressesPage, AddressesController> {
       });
 
   _buildAddressCard(AddressesController controller, Address address) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.only(
-            left: Dimens.spacingMedium,
-            right: Dimens.spacingMedium,
-            top: Dimens.spacingMedium),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "${address.first_name} ${address.last_name}",
-              style: heading5,
-            ),
-            SizedBox(
-              height: Dimens.spacingNormal,
-            ),
-            Text(
-              "${address.floor_flat}, ${address.block != null ? address.block.block_name : ""} , ${address.building}",
-              style: captionNormal1.copyWith(color: AppColors.neutralGray),
-            ),
+    return InkWell(
+      onTap: widget.selectionMode ? (){
+        controller.select(address);
+      } : null,
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.only(
+              left: Dimens.spacingMedium,
+              right: Dimens.spacingMedium,
+              top: Dimens.spacingMedium),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "${address.first_name} ${address.last_name}",
+                style: heading5,
+              ),
+              SizedBox(
+                height: Dimens.spacingNormal,
+              ),
+              Text(
+                "${address.floor_flat}, ${address.block != null ? address.block.block_name : ""} , ${address.building}",
+                style: captionNormal1.copyWith(color: AppColors.neutralGray),
+              ),
 
-            Text(
-              "${address.area != null ? address.area.area_name : ""} ${address.address}",
-              style: captionNormal1.copyWith(color: AppColors.neutralGray),
-            ),
-            SizedBox(
-              height: Dimens.spacingNormal,
-            ),
-            Text(
-              address.phone_no,
-              style: bodyTextNormal1.copyWith(color: AppColors.neutralGray),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    controller.edit(address);
-                  },
-                  child: Text(
-                    LocaleKeys.edit.tr(),
-                    style: buttonText.copyWith(color: AppColors.yellow),
+              Text(
+                "${address.area != null ? address.area.area_name : ""} ${address.address}",
+                style: captionNormal1.copyWith(color: AppColors.neutralGray),
+              ),
+              SizedBox(
+                height: Dimens.spacingNormal,
+              ),
+              Text(
+                address.phone_no,
+                style: bodyTextNormal1.copyWith(color: AppColors.neutralGray),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      controller.edit(address);
+                    },
+                    child: Text(
+                      LocaleKeys.edit.tr(),
+                      style: buttonText.copyWith(color: AppColors.yellow),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: Dimens.spacingMedium,
-                ),
-                TextButton(
-                  onPressed: () {
-                    controller.delete(address);
-                  },
-                  child: Text(
-                    LocaleKeys.delete.tr(),
-                    style: buttonText.copyWith(color: AppColors.error),
+                  SizedBox(
+                    width: Dimens.spacingMedium,
                   ),
-                ),
-              ],
-            )
-          ],
+                  TextButton(
+                    onPressed: () {
+                      controller.delete(address);
+                    },
+                    child: Text(
+                      LocaleKeys.delete.tr(),
+                      style: buttonText.copyWith(color: AppColors.error),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

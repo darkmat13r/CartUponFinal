@@ -28,24 +28,52 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
       );
 
   get _body => ControlledWidgetBuilder(builder: (BuildContext context,  ExploreController controller){
-    return StateView(  controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT, _categories);
+    return StateView(  controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT, _sections);
   });
 
-  get _categories => ControlledWidgetBuilder(
+  get _sections => ControlledWidgetBuilder(
           builder: (BuildContext context, ExploreController controller) {
-        return Padding(
-          padding: const EdgeInsets.only(top: Dimens.spacingMedium),
-          child: GridView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: controller.categories.length,
-            itemBuilder: (BuildContext context, index) {
-              return  _categoryItem(controller.categories[index]);
-            }, gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.5),
-          ),
+        return ListView(
+          shrinkWrap: true,
+          children: [
+            Container(
+              color: AppColors.accent.withAlpha(120),
+              child: Padding(
+                padding: const EdgeInsets.all(Dimens.spacingMedium),
+                child: Text(LocaleKeys.tabCoupons.tr(), style: heading5.copyWith(color : AppColors.neutralLight),),
+              ),
+            ),
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            _categories(false),
+            Container(
+              color: AppColors.accent.withAlpha(120),
+              child: Padding(
+                padding: const EdgeInsets.all(Dimens.spacingMedium),
+                child: Text(LocaleKeys.tabProducts.tr(), style: heading5.copyWith(color : AppColors.neutralLight),),
+              ),
+            ),
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            _categories(true)
+          ],
         );
       });
+
+ Widget _categories(bool isProduct) =>ControlledWidgetBuilder(builder: (BuildContext context, ExploreController controller){
+    return GridView.builder(
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount:isProduct?  controller.productsCategory.length :  controller.couponsCategory.length,
+      itemBuilder: (BuildContext context, index) {
+        var categories = isProduct?  controller.productsCategory :  controller.couponsCategory;
+        return  _categoryItem(categories[index]);
+      }, gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.5),
+    );
+  });
 
   Widget _categoryItem(CategoryType category) => ControlledWidgetBuilder(
         builder: (BuildContext context, ExploreController controller) {

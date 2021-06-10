@@ -231,5 +231,17 @@
   "languageArabic" :  "عربى",
   "yourPreferredLanguageId" :  "Your preferred language is",
   "confirmRemoveWhishlistItem" :  "Do you want to remove this item from Whishlist?",
-  "errorSelectNationality" :  "Please select nationality"
+  "errorSelectNationality" :  "Please select nationality",
+
+
+  "orderConfirm" : "Order Confirmation",
+
+  "deliveryAddress" : "Delivery Address",
+  "changeAddress" : "Change Address",
+  "cashOnDeliver" : "Cash on Delivery",
+  "payOnline" : "Pay Online",
+  "placeOrder" : "Place Order",
+  "fmtPaySecurely" : "Pay {} securely",
+  "fmtPhone" : "Phone : {}"
+
 }

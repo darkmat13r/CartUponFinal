@@ -8,9 +8,11 @@ class CountdownView extends StatefulWidget{
 
   DateTime validFrom;
   DateTime validTo;
+  bool showIcon = true;
+  TextStyle textStyle;
 
 
-  CountdownView({this.validFrom, this.validTo});
+  CountdownView({this.validFrom, this.validTo, this.showIcon, this.textStyle});
 
   @override
   State<StatefulWidget> createState() => _CountdownViewState();
@@ -31,18 +33,18 @@ class _CountdownViewState extends State<CountdownView>{
     return _elapsedTime != null
         ? Row(
       children: [
-        Image.asset(
+        (widget.showIcon ?? true ) ? Image.asset(
           Resources.timerIcon,
           width: 16,
           height: 16,
           color: AppColors.primary,
-        ),
-        SizedBox(
+        ) : SizedBox(),
+        (widget.showIcon ?? true ) ? SizedBox(
           width: Dimens.spacingNormal,
-        ),
+        ) : SizedBox(),
         Text(
           _elapsedTime != null ? _elapsedTime : "",
-          style: bodyTextNormal2.copyWith(
+          style: widget.textStyle ?? bodyTextNormal2.copyWith(
               color: AppColors.primary, fontSize: 12),
         )
       ],

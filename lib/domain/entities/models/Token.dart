@@ -24,8 +24,7 @@ class Token {
             nationality: json['nationlity'] ?? 0,
             gender: json['gender'] ?? 0,
             title: json['title'] ?? 0,
-            mobile_no: json['mobile_no'] ?? "",
-            user: json['user'] != null ? User.fromJson(json['user']) : null, 
+            user: json['user'] != null ? User.fromJson(json['user']) : null,
         );
     }
 

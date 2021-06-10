@@ -6,8 +6,9 @@ class User {
     String password;
     int user_type;
     String username;
+    String email;
 
-    User({this.first_name, this.id, this.is_active, this.last_name, this.password, this.user_type, this.username});
+    User({this.first_name, this.id, this.is_active, this.last_name, this.password, this.user_type, this.username, this.email});
 
     factory User.fromJson(Map<String, dynamic> json) {
         return User(
@@ -17,7 +18,8 @@ class User {
             last_name: json['last_name'], 
             password: json['password'], 
             user_type: json['user_type'], 
-            username: json['username'], 
+            username: json['username'],
+            email: json['username'],
         );
     }
 
@@ -30,6 +32,7 @@ class User {
         data['password'] = this.password;
         data['user_type'] = this.user_type;
         data['username'] = this.username;
+        data['email'] = this.email;
         return data;
     }
 }

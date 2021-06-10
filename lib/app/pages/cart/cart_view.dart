@@ -41,18 +41,21 @@ class CartPageState extends ViewState<CartPage, CartController> {
         ),
       );
 
-  get _body => ListView(
-        shrinkWrap: false,
+  get _body => Column(
         children: [
-          _cartItems,
-          _cartInfo,
-          Padding(
-            padding: const EdgeInsets.all(Dimens.spacingMedium),
-            child: RaisedButton(
-              onPressed: () {},
-              child: Text(LocaleKeys.checkout.tr(), style: buttonText),
+          Expanded(
+            flex: 1,
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                _cartItems,
+
+
+                _cartInfo,
+              ],
             ),
           ),
+         _checkoutButton
         ],
       );
 
@@ -125,6 +128,32 @@ class CartPageState extends ViewState<CartPage, CartController> {
               );
             });
       });
+
+  get _checkoutButton => ControlledWidgetBuilder(builder: (BuildContext context,  CartController controller){
+    return SizedBox(
+      width: double.infinity,
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: AppColors.neutralLightGray, width: Dimens.borderWidth))
+        ),
+        child:  Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium, vertical: Dimens.spacingNormal),
+          child: Row(
+            children: [
+              Expanded(child: Text(Utility.currencyFormat(controller.cart.net_total), style: captionNormal1,)),
+              RaisedButton(
+                onPressed: () {
+                  controller.checkout();
+                },
+                color: AppColors.primary,
+                child: Text(LocaleKeys.checkout.tr(), style: buttonText),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  });
 
   _isCartEmpty(CartController controller) {
     return controller.cart == null ||

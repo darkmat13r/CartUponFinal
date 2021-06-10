@@ -21,6 +21,8 @@ class SearchPresenter extends Presenter {
   Function getCategoryOnNext;
   Function getCategoryOnError;
 
+
+
   Logger _logger;
 
   SearchPresenter(ProductRepository productRepository,

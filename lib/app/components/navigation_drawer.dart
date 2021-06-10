@@ -32,7 +32,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    Resources.logo,
+                    Resources.toolbarLogo2,
                     width: 80,
                   ),
                   SizedBox(

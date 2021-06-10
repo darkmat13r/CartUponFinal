@@ -118,15 +118,13 @@ class DataAuthenticationRepository implements AuthenticationRepository {
               headers: headers,
               body: jsonEncode({
                 'country_code': countryCode,
-                'mobile_no': mobileNo,
                 'date_of_birth': dateOfBirth,
-                'gender': gender,
                 'nationlity': nationality,
                 'title': title,
                 'user': {
                   'first_name': firstName,
                   'last_name': lastName,
-                  'username': email,
+                  'username': mobileNo,
                   'email': email,
                   'password': password,
                   'is_active': "1",

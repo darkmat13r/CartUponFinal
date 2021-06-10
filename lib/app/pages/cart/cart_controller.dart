@@ -1,5 +1,6 @@
 import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/cart/cart_presenter.dart';
+import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
@@ -90,5 +91,9 @@ class CartController extends BaseController{
   getCartOnComplete() {
     dismissLoading();
 
+  }
+
+  void checkout() {
+    Navigator.of(getContext()).pushNamed(Pages.checkout);
   }
 }
