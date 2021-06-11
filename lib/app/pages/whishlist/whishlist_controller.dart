@@ -62,6 +62,6 @@ class WhishlistController extends BaseController {
   }
 
   void showProductDetails(ProductDetail productDetail){
-    AppRouter().productDetailsById(getContext(), productDetail.id);
+    AppRouter().productDetailsById(getContext(), productDetail.id.toString());
   }
 }

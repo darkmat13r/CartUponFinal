@@ -11,6 +11,7 @@ import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariant.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
+import 'package:coupon_app/domain/entities/models/ProductWithRelated.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:coupon_app/domain/repositories/whishlist_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
@@ -22,7 +23,7 @@ import 'package:share/share.dart';
 class ProductController extends BaseController {
   List<ProductDetail> similarProducts = [];
   bool isAddedToWhishlist = false;
-  int productId;
+  String productId;
 
   ProductPresenter _presenter;
 
@@ -31,7 +32,7 @@ class ProductController extends BaseController {
   ProductDetail product;
 
   ProductController(this.productId, ProductRepository productRepository,WhishlistRepository whishlistRepository)
-      : _presenter = ProductPresenter( productRepository, whishlistRepository, productDetailId: productId);
+      : _presenter = ProductPresenter( productRepository, whishlistRepository, productId: productId);
 
   String elapsedTime;
 
@@ -39,7 +40,7 @@ class ProductController extends BaseController {
   void initListeners() {
     showLoading();
     _initGetProductDetailsListeners();
-    _initSimilarProductListeners();
+   // _initSimilarProductListeners();
     _initAddToWhishlistListeners();
   }
 
@@ -85,8 +86,9 @@ class ProductController extends BaseController {
   }
 
   _initGetProductDetailsListeners() {
-    _presenter.getProductOnNext = (details) {
-      this.product = details;
+    _presenter.getProductOnNext = (ProductWithRelated details) {
+      this.product = details.productDetail;
+      this.similarProducts = details.relatedProducts;
       refreshUI();
     };
     _presenter.getProductOnComplete = () {

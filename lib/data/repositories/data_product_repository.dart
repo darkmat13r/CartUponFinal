@@ -4,6 +4,7 @@ import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
 import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
+import 'package:coupon_app/domain/entities/models/ProductWithRelated.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:logging/logging.dart';
@@ -74,6 +75,26 @@ class DataProductRepository extends ProductRepository{
     }catch(e){
       print(e);
       rethrow;
+    }
+  }
+
+  @override
+  Future<ProductWithRelated> getProductWithRelated(String slug) async{
+    try{
+      var params =  {
+      'lang' :  Config().getLanguageId().toString(),
+      'id' :  slug,
+
+      'country' : (await SessionHelper().getSelectedCountry()).toString()
+    };
+
+    var uri = Constants.createUriWithParams("${Constants.productDetailRoute}${slug}/",params);
+    Map<String, dynamic> data = await HttpHelper.invokeHttp(uri, RequestType.get);
+    dynamic response =  ProductWithRelated.fromJson(data);
+    return response;
+    }catch(e){
+    print(e);
+    rethrow;
     }
   }
 }

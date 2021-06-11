@@ -4,8 +4,10 @@ import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -92,7 +94,9 @@ class CartController extends BaseController{
     dismissLoading();
 
   }
-
+  void showProductDetails(ProductDetail productDetail){
+    AppRouter().productDetailsById(getContext(), productDetail.id.toString());
+  }
   void checkout() {
     Navigator.of(getContext()).pushNamed(Pages.checkout);
   }

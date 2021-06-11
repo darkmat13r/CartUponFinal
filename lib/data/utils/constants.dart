@@ -21,6 +21,7 @@ class Constants {
   static const String cartGetRoute = '$baseUrl/CartGetAPI/';
   static const String whishlistRoute = '$baseUrl/wishlistapi/';
   static const String userRoute = '$baseUrl/user';
+  static const String productDetailRoute = '$baseUrl/productdetail/';
 
   // APIs no prefix
   //static const String baseUrlNoPrefix = 'cart-upon-api.herokuapp.com';

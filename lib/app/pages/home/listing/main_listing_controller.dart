@@ -80,7 +80,7 @@ class MainListingController extends BaseController{
   openLink(String link){
     var parts = split(link );
     if(parts.length > 0){
-      AppRouter().productDetailsById(getContext(), int.tryParse(parts[parts.length-1]));
+      AppRouter().productDetailsById(getContext(), parts[parts.length-1]);
     }else{
       showGenericSnackbar(getContext(), LocaleKeys.invalidLink.tr(), isError: true);
     }

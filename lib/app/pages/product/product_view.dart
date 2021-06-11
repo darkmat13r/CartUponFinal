@@ -32,7 +32,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductPage extends View {
-  final int productId;
+  final String productId;
 
   ProductPage(this.productId);
 
@@ -42,9 +42,9 @@ class ProductPage extends View {
 
 class ProductPageView
     extends SearchableViewState<ProductPage, ProductController> {
-  ProductPageView(productId)
+  ProductPageView(productSlug)
       : super(ProductController(
-            productId, DataProductRepository(), DataWhishlistRepository()));
+      productSlug, DataProductRepository(), DataWhishlistRepository()));
 
   @override
   Widget get title => ControlledWidgetBuilder(

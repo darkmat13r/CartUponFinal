@@ -15,8 +15,9 @@ class CartItemView extends StatefulWidget {
   final Function onAdd;
   final Function onDelete;
   final Function onRemove;
+  final Function onSelect;
 
-  CartItemView(this.item, {this.onAdd, this.onDelete, this.onRemove});
+  CartItemView(this.item, {this.onAdd, this.onDelete, this.onRemove, this.onSelect});
 
   @override
   State<StatefulWidget> createState() => CartItemViewState();
@@ -30,86 +31,91 @@ class CartItemViewState extends State<CartItemView> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
           Dimens.spacingNormal, Dimens.spacingNormal, Dimens.spacingNormal, 0),
-      child: Card(
-        child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(Dimens.spacingNormal),
-                child: ProductThumbnail(widget.item != null &&
-                        widget.item.product_id != null
-                    ? widget.item.product_id.thumb_img
-                    : ""),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: Dimens.spacingMedium,
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: Dimens.spacingMedium),
-                      child: Text(
-                        widget.item != null &&
-                                widget.item.product_id != null && widget.item.product_id.product_detail != null
-                            ? widget.item.product_id.product_detail.name ?? "-"
-                            : "-",
-                        maxLines: 1,
-                        style: heading6.copyWith(color: AppColors.neutralDark),
-                      ),
-                    ),
-                    SizedBox(
-                      height: Dimens.spacingNormal,
-                    ),
-                    Padding(
-                      padding:
-                      const EdgeInsets.only(left: Dimens.spacingMedium),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              Utility.getCartItemPrice(widget.item),
-                              style: heading6.copyWith(color: AppColors.primary),
-                            ),
-                          ),
-                          QuantityButton(
-                            widget.item.qty,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            max: widget.item.variant_value_id != null
-                                ? widget.item.variant_value_id.stock
-                                : widget.item.product_id.stock,
-                            onAdd: (qty){
-                              if(widget.onAdd != null){
-                                widget.onAdd(widget.item, qty);
-                              }
-                            },
-                            onDelete: (){
-                              if(widget.onDelete != null){
-                                widget.onDelete(widget.item);
-                              }
-                            },
-                            onRemove: (qty){
-                              if(widget.onRemove != null){
-                                widget.onRemove(widget.item, qty);
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+      child: InkWell(
+        onTap: widget.onSelect != null ? (){
+          widget.onSelect(widget.item);
+        } : null,
+        child: Card(
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(Dimens.spacingNormal),
+                  child: ProductThumbnail(widget.item != null &&
+                          widget.item.product_id != null
+                      ? widget.item.product_id.thumb_img
+                      : ""),
                 ),
-              ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: Dimens.spacingMedium,
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: Dimens.spacingMedium),
+                        child: Text(
+                          widget.item != null &&
+                                  widget.item.product_id != null && widget.item.product_id.product_detail != null
+                              ? widget.item.product_id.product_detail.name ?? "-"
+                              : "-",
+                          maxLines: 1,
+                          style: heading6.copyWith(color: AppColors.neutralDark),
+                        ),
+                      ),
+                      SizedBox(
+                        height: Dimens.spacingNormal,
+                      ),
+                      Padding(
+                        padding:
+                        const EdgeInsets.only(left: Dimens.spacingMedium),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                Utility.getCartItemPrice(widget.item),
+                                style: heading6.copyWith(color: AppColors.primary),
+                              ),
+                            ),
+                            QuantityButton(
+                              widget.item.qty,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              max: widget.item.variant_value_id != null
+                                  ? widget.item.variant_value_id.stock
+                                  : widget.item.product_id.stock,
+                              onAdd: (qty){
+                                if(widget.onAdd != null){
+                                  widget.onAdd(widget.item, qty);
+                                }
+                              },
+                              onDelete: (){
+                                if(widget.onDelete != null){
+                                  widget.onDelete(widget.item);
+                                }
+                              },
+                              onRemove: (qty){
+                                if(widget.onRemove != null){
+                                  widget.onRemove(widget.item, qty);
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
 
-              SizedBox(
-                width: Dimens.spacingMedium,
-              ),
-            ],
+                SizedBox(
+                  width: Dimens.spacingMedium,
+                ),
+              ],
+            ),
           ),
         ),
       ),

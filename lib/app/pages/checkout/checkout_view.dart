@@ -74,6 +74,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                 ),
                 ListView(
                   shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   children: [
                     SizedBox(
                       height: Dimens.spacingNormal,
@@ -129,6 +130,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                 ),
                 ListView.builder(
                     shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: controller.cart.cart.length,
                     itemBuilder: (BuildContext context, int index) {
                       return _productDetail(controller.cart.cart[index]);

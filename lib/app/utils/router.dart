@@ -26,6 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:coupon_app/app/pages/login/login_view.dart';
 import 'package:coupon_app/app/pages/pages.dart';
+import 'package:logger/logger.dart';
 
 class AppRouter {
   final RouteObserver<PageRoute> routeObserver;
@@ -80,10 +81,11 @@ class AppRouter {
   }
 
   productDetails(BuildContext context, ProductDetail product) {
+    Logger().e("ProductDetails ${product.id}");
     Navigator.of(context)
-        .push(_buildRoute(RouteSettings(), ProductPage(product.id)));
+        .push(_buildRoute(RouteSettings(), ProductPage(product.id.toString())));
   }
-  productDetailsById(BuildContext context, int productId) {
+  productDetailsById(BuildContext context, String productId) {
     Navigator.of(context)
         .push(_buildRoute(RouteSettings(), ProductPage(productId)));
   }

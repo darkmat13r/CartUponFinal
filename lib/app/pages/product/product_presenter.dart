@@ -1,16 +1,18 @@
 import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
+import 'package:coupon_app/domain/entities/models/ProductWithRelated.dart';
 import 'package:coupon_app/domain/entities/models/WhishlistItem.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:coupon_app/domain/repositories/whishlist_repository.dart';
 import 'package:coupon_app/domain/usercases/product/get_product_list_use_case.dart';
 import 'package:coupon_app/domain/usercases/product/get_product_usecase.dart';
+import 'package:coupon_app/domain/usercases/product/get_product_with_related_usecase.dart';
 import 'package:coupon_app/domain/usercases/whishlist/add_to_whishlist_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
 
 class ProductPresenter extends Presenter {
-  GetProductUseCase _getProductUseCase;
+  GetProductWithRelatedUseCase _getProductUseCase;
   GetProductListUseCase _productListUseCase;
   AddToWhishlistUseCase _addToWhishlistUseCase;
 
@@ -29,20 +31,20 @@ class ProductPresenter extends Presenter {
   Logger _logger;
 
   ProductPresenter(
-      ProductRepository productRepository, WhishlistRepository whishlistRepository, {ProductDetail productDetail, int productDetailId,})
-      : _getProductUseCase = GetProductUseCase(productRepository),
+      ProductRepository productRepository, WhishlistRepository whishlistRepository, {ProductDetail productDetail, String productId,})
+      : _getProductUseCase = GetProductWithRelatedUseCase(productRepository),
         _addToWhishlistUseCase = AddToWhishlistUseCase(whishlistRepository),
         _productListUseCase = GetProductListUseCase(productRepository) {
     _logger = Logger("ProductPresenter");
     _getProductUseCase.execute(
-        _GetProductObserver(this),productDetailId != null ? productDetailId.toString() : (productDetail.id ?? "").toString());
+        _GetProductObserver(this),productId != null ? productId.toString() : (productDetail != null ? productDetail.id.toString() ?? "" : "").toString());
   }
 
   fetchSimilarProducts(productDetail){
-    _productListUseCase.execute(
+    /*_productListUseCase.execute(
         _GetSimilarProductObserver(this),
         ProductFilterParams(
-            categoryId: productDetail.product.category_id.toString()));
+            categoryId: productDetail.product.category_id.toString()));*/
   }
 
   addToWhishlist(Product product) {
@@ -103,7 +105,7 @@ class _GetSimilarProductObserver extends Observer<List<ProductDetail>> {
   }
 }
 
-class _GetProductObserver extends Observer<ProductDetail> {
+class _GetProductObserver extends Observer<ProductWithRelated> {
   ProductPresenter _presenter;
 
   _GetProductObserver(this._presenter);
@@ -121,7 +123,7 @@ class _GetProductObserver extends Observer<ProductDetail> {
   }
 
   @override
-  void onNext(ProductDetail response) {
+  void onNext(ProductWithRelated response) {
     assert(_presenter.getProductOnNext != null);
     _presenter.getProductOnNext(response);
     _presenter.fetchSimilarProducts(response);
