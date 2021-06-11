@@ -55,7 +55,8 @@ class Constants {
 
   static String isLoginPopupShownKey = "isPopupShown";
 
-  static var orderCreate = "ordercreate";
+  static var orderCreateRoute = "$baseUrl/ordercreate";
+  static var changeCartUserIdRoute = "$baseUrl/cartwebapi/changeUser/";
 
 
   static String createUriWithParams(String route, Map<String, String> queryParams){

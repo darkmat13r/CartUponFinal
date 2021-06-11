@@ -49,13 +49,11 @@ class CartPageState extends ViewState<CartPage, CartController> {
               shrinkWrap: true,
               children: [
                 _cartItems,
-
-
                 _cartInfo,
               ],
             ),
           ),
-         _checkoutButton
+          _checkoutButton
         ],
       );
 
@@ -77,7 +75,9 @@ class CartPageState extends ViewState<CartPage, CartController> {
                         style: bodyTextNormal2.copyWith(
                             color: AppColors.neutralGray),
                       )),
-                      Text(Utility.currencyFormat(controller.cart.net_total ?? 0),
+                      Text(
+                          Utility.currencyFormat(
+                              controller.cart.net_total ?? 0),
                           style: bodyTextNormal1.copyWith(
                               color: AppColors.neutralDark)),
                     ],
@@ -100,7 +100,9 @@ class CartPageState extends ViewState<CartPage, CartController> {
                         LocaleKeys.totalPrice.tr(),
                         style: heading6.copyWith(color: AppColors.neutralDark),
                       )),
-                      Text(Utility.currencyFormat(controller.cart.net_total ?? 0),
+                      Text(
+                          Utility.currencyFormat(
+                              controller.cart.net_total ?? 0),
                           style: heading6.copyWith(color: AppColors.primary)),
                     ],
                   ),
@@ -122,6 +124,12 @@ class CartPageState extends ViewState<CartPage, CartController> {
             itemBuilder: (BuildContext context, int index) {
               return CartItemView(
                 controller.cart.cart[index],
+                onSelect: (CartItem cartItem) {
+                  if (cartItem.product_id != null &&
+                      cartItem.product_id.product_detail != null)
+                    controller.showProductDetails(
+                        cartItem.product_id.product_detail.id.toString());
+                },
                 onAdd: controller.updateCart,
                 onRemove: controller.updateCart,
                 onDelete: controller.removeItem,
@@ -129,31 +137,40 @@ class CartPageState extends ViewState<CartPage, CartController> {
             });
       });
 
-  get _checkoutButton => ControlledWidgetBuilder(builder: (BuildContext context,  CartController controller){
-    return SizedBox(
-      width: double.infinity,
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border(top: BorderSide(color: AppColors.neutralLightGray, width: Dimens.borderWidth))
-        ),
-        child:  Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium, vertical: Dimens.spacingNormal),
-          child: Row(
-            children: [
-              Expanded(child: Text(Utility.currencyFormat(controller.cart.net_total), style: captionNormal1,)),
-              RaisedButton(
-                onPressed: () {
-                  controller.checkout();
-                },
-                color: AppColors.primary,
-                child: Text(LocaleKeys.checkout.tr(), style: buttonText),
+  get _checkoutButton => ControlledWidgetBuilder(
+          builder: (BuildContext context, CartController controller) {
+        return SizedBox(
+          width: double.infinity,
+          child: Container(
+            decoration: BoxDecoration(
+                border: Border(
+                    top: BorderSide(
+                        color: AppColors.neutralLightGray,
+                        width: Dimens.borderWidth))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: Dimens.spacingMedium,
+                  vertical: Dimens.spacingNormal),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: Text(
+                    Utility.currencyFormat(controller.cart.net_total),
+                    style: captionNormal1,
+                  )),
+                  RaisedButton(
+                    onPressed: () {
+                      controller.checkout();
+                    },
+                    color: AppColors.primary,
+                    child: Text(LocaleKeys.checkout.tr(), style: buttonText),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
-  });
+        );
+      });
 
   _isCartEmpty(CartController controller) {
     return controller.cart == null ||

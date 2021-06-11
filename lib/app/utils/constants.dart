@@ -93,6 +93,13 @@ void showGenericDialog(BuildContext context, String title, String message) {
       builder: (ctx) => new AlertDialog(
             title: new Text(title),
             content: new Text(message),
+        titlePadding: EdgeInsets.only(
+            left: Dimens.spacingMedium,
+            right: Dimens.spacingMedium,
+            top: Dimens.spacingMedium),
+        contentPadding:
+        EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+        actionsPadding: EdgeInsets.zero,
             actions: [
               TextButton(
                 onPressed: () {
@@ -116,6 +123,13 @@ void showLoadingDialog(BuildContext context) {
       builder: (ctx) {
         _dialogContext = ctx;
         return AlertDialog(
+          titlePadding: EdgeInsets.only(
+              left: Dimens.spacingMedium,
+              right: Dimens.spacingMedium,
+              top: Dimens.spacingMedium),
+          contentPadding:
+          EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+          actionsPadding: EdgeInsets.zero,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
           content: Container(
@@ -148,6 +162,13 @@ void showGenericConfirmDialog(
       builder: (ctx) => new AlertDialog(
             title: title != null ? new Text(title) : SizedBox(),
             content: new Text(message),
+        titlePadding: EdgeInsets.only(
+            left: Dimens.spacingMedium,
+            right: Dimens.spacingMedium,
+            top: Dimens.spacingMedium),
+        contentPadding:
+        EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+        actionsPadding: EdgeInsets.zero,
             actions: [
               TextButton(
                 onPressed: () {

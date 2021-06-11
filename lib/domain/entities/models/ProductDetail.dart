@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:coupon_app/domain/entities/models/Product.dart';
+import 'package:logger/logger.dart';
 
 class ProductDetail {
     String full_description;
@@ -29,7 +30,7 @@ class ProductDetail {
         try{
             productDetails.product =  json['product_id'] != null ? Product.fromJson(json['product_id']) : null;
         }catch(e){
-
+                Logger().e(e);
         }
         print("=============> productDetails " + jsonEncode(productDetails));
         return productDetails;

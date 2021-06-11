@@ -28,8 +28,6 @@ class DataAuthenticationRepository implements AuthenticationRepository {
 
   factory DataAuthenticationRepository() => _instance;
 
-
-
   /// Logs in a `User` using a [email] and a [password] by making an API call to the server.
   /// It is asynchronous and can throw an `APIException` if the statusCode is not 200.
   /// When successful, it attempts to save the credentials of the `User` to local storage by
@@ -38,6 +36,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   Future<Token> authenticate(
       {@required String email, @required String password}) async {
     try {
+      String oldUserId = await SessionHelper().getUserId();
       // invoke http request to login and convert body to map
       Map<String, dynamic> body = await HttpHelper.invokeHttp(
           Constants.loginRoute, RequestType.post,
@@ -47,6 +46,11 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       // convert json to User and save credentials in local storage
       Token user = Token.fromJson(body);
       SessionHelper().saveCredentials(token: user.key, user: user);
+
+      try {
+        HttpHelper.invokeHttp(Constants.changeCartUserIdRoute, RequestType.post,
+            body: {'olduser_id': oldUserId.toString(), 'newuser_id': user.user.id.toString()});
+      } catch (e) {}
       return user;
     } catch (error) {
       rethrow;
@@ -94,25 +98,26 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   }
 
   @override
-  Future<Token> register(
-      {String firstName,
-      String lastName,
-      String username,
-      String email,
-      String countryCode,
-      String mobileNo,
-      String dateOfBirth,
-      String isActive,
-      String password,
-      String nationality,
-      String gender,
-      String title,
-      }) async {
+  Future<Token> register({
+    String firstName,
+    String lastName,
+    String username,
+    String email,
+    String countryCode,
+    String mobileNo,
+    String dateOfBirth,
+    String isActive,
+    String password,
+    String nationality,
+    String gender,
+    String title,
+  }) async {
     try {
       Map<String, String> headers = {
         HttpHeaders.contentTypeHeader: "application/json",
         HttpHeaders.connectionHeader: "keep-alive",
       };
+      String oldUserId = await SessionHelper().getUserId();
       Map<String, dynamic> body =
           await HttpHelper.invokeHttp(Constants.registerRoute, RequestType.post,
               headers: headers,
@@ -130,8 +135,13 @@ class DataAuthenticationRepository implements AuthenticationRepository {
                   'is_active': "1",
                 }
               }));
+
       Token token = Token.fromJson(body);
       SessionHelper().saveCredentials(token: token.token, user: token);
+      try {
+        HttpHelper.invokeHttp(Constants.changeCartUserIdRoute, RequestType.post,
+            body: {'olduser_id': oldUserId.toString(), 'newuser_id': token.user.id.toString()});
+      } catch (e) {}
       _logger.finest('Registration is successful');
       return token;
     } catch (error) {
@@ -145,22 +155,24 @@ class DataAuthenticationRepository implements AuthenticationRepository {
     try {
       Token currentUser = await getCurrentUser();
 
-
-      if(currentUser != null){
+      if (currentUser != null) {
         var uri = "${Constants.registerRoute}${currentUser.user.id}/";
         Map<String, dynamic> profileData = await HttpHelper.invokeHttp(
-          uri, RequestType.get,  headers: {
-          HttpHeaders.authorizationHeader : "Token ${ (await SessionHelper().getToken())}"
-        },);
+          uri,
+          RequestType.get,
+          headers: {
+            HttpHeaders.authorizationHeader:
+                "Token ${(await SessionHelper().getToken())}"
+          },
+        );
 
-        if(profileData['user'] != null){
+        if (profileData['user'] != null) {
           Token token = Token.fromJson(profileData);
           SessionHelper().updateUser(user: token);
           return token;
         }
-
       }
-     return await SessionHelper().getCurrentUser();
+      return await SessionHelper().getCurrentUser();
     } catch (error) {
       _logger.warning('Could not get profile request.', error);
       rethrow;
@@ -179,7 +191,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       String title,
       String mobileNo,
       String dateOfBirth,
-      String isActive}) async{
+      String isActive}) async {
     try {
       Map<String, String> headers = {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -187,8 +199,9 @@ class DataAuthenticationRepository implements AuthenticationRepository {
         HttpHeaders.connectionHeader: "keep-alive",
       };
       Token currentUser = await getCurrentUser();
-      Map<String, dynamic> body =
-          await HttpHelper.invokeHttp( "${Constants.registerRoute}${currentUser.user.id}/", RequestType.patch,
+      Map<String, dynamic> body = await HttpHelper.invokeHttp(
+          "${Constants.registerRoute}${currentUser.user.id}/",
+          RequestType.patch,
           headers: headers,
           body: jsonEncode({
             'country_code': countryCode,
@@ -212,9 +225,10 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       rethrow;
     }
   }
+
   @override
   Future<Token> updatePassword(
-      {String password,String current, String passwordRepeat}) async{
+      {String password, String current, String passwordRepeat}) async {
     try {
       Map<String, String> headers = {
         HttpHeaders.contentTypeHeader: "application/json",
@@ -222,12 +236,12 @@ class DataAuthenticationRepository implements AuthenticationRepository {
         HttpHeaders.connectionHeader: "keep-alive",
       };
       Token currentUser = await getCurrentUser();
-      Map<String, dynamic> body =
-      await HttpHelper.invokeHttp( "${Constants.changePassword}", RequestType.post,
+      Map<String, dynamic> body = await HttpHelper.invokeHttp(
+          "${Constants.changePassword}", RequestType.post,
           body: {
-              'old_password' : current,
-              'new_password1' : password,
-              'new_password2' : passwordRepeat
+            'old_password': current,
+            'new_password1': password,
+            'new_password2': passwordRepeat
           });
       Token token = Token.fromJson(body);
       SessionHelper().updateUser(user: token);
@@ -246,12 +260,9 @@ class DataAuthenticationRepository implements AuthenticationRepository {
         HttpHeaders.contentTypeHeader: "application/json",
         HttpHeaders.connectionHeader: "keep-alive",
       };
-      Map<String, dynamic> body =
-          await HttpHelper.invokeHttp(Constants.registerRoute, RequestType.post,
-          headers: headers,
-          body: {
-            "token" : accessToken
-          });
+      Map<String, dynamic> body = await HttpHelper.invokeHttp(
+          Constants.registerRoute, RequestType.post,
+          headers: headers, body: {"token": accessToken});
       Token token = Token.fromJson(body);
       SessionHelper().saveCredentials(token: token.token, user: token);
       _logger.finest('Registration is successful');

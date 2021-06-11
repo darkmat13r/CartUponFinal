@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:coupon_app/app/utils/config.dart';
+import 'package:coupon_app/domain/entities/models/Category.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/entities/models/ProductGallery.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariant.dart';
+import 'package:logger/logger.dart';
 
 class Product {
   bool category_type;
@@ -20,6 +22,7 @@ class Product {
   String uid;
   String valid_from;
   int category_id;
+  Category category;
   String valid_to;
   ProductDetail product_detail;
   List<ProductDetail> product_details;
@@ -39,6 +42,7 @@ class Product {
       this.title,
       this.uid,
       this.valid_from,
+      this.category,
       this.valid_to,
       this.product_detail,
       this.product_details});
@@ -49,7 +53,8 @@ class Product {
       dis_per: json['dis_per'],
       id: json['id'],
       price: json['price'],
-      category_id: json.containsKey('category_id') ? json['category_id'] : 0,
+      category_id: json.containsKey('category_id') ? (json['category_id'] is int ? json['category_id']  : 0): 0,
+      category: json.containsKey('category_id') ? (json['category_id'] is Map ? Category.fromJson(json['category_id'])  : null): null,
       product_gallery: json['product_gallery'] != null
           ? (json['product_gallery'] as List)
               .map((i) => ProductGallery.fromJson(i))
@@ -79,7 +84,9 @@ class Product {
         product.product_detail = product.product_details.firstWhere(
             (element) => element.lang_type == Config().getLanguageId());
       }
-    } catch (e) {}
+    } catch (e) {
+      Logger().e(e);
+    }
     return product;
   }
 

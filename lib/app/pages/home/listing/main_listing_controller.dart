@@ -15,7 +15,7 @@ import 'package:coupon_app/domain/repositories/home_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 import 'package:path/path.dart';
 class MainListingController extends BaseController{
   List<ProductDetail> products = [];
@@ -28,7 +28,7 @@ class MainListingController extends BaseController{
 
 
   MainListingController(HomeRepository homeRepo, AuthenticationRepository authRepo) : _presenter = MainListingPresenter(homeRepo, authRepo){
-    _logger = Logger("ProductsController");
+    _logger = Logger();
 
   }
 
@@ -63,13 +63,13 @@ class MainListingController extends BaseController{
       res.sections.remove(element);
     });
     this.homeResponse = res;
-    _logger.finest("Sliders  ", res);
+    _logger.e("Sliders  ", res);
     refreshUI();
   }
 
   getHomeOnError(NoSuchMethodError e) {
     dismissLoading();
-    _logger.finest(e);
+    _logger.e(e);
     showGenericSnackbar(getContext(), e.toString());
   }
 
@@ -79,6 +79,7 @@ class MainListingController extends BaseController{
 
   openLink(String link){
     var parts = split(link );
+    _logger.e(parts[parts.length-1]);
     if(parts.length > 0){
       AppRouter().productDetailsById(getContext(), parts[parts.length-1]);
     }else{

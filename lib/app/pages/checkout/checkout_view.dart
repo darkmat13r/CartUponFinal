@@ -7,6 +7,7 @@ import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/data/repositories/cart/data_cart_repository.dart';
 import 'package:coupon_app/data/repositories/data_address_repository.dart';
+import 'package:coupon_app/data/repositories/data_order_repository.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -21,7 +22,7 @@ class CheckoutPage extends View {
 class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
   _CheckoutPageState()
       : super(
-            CheckoutController(DataAddressRepository(), DataCartRepository()));
+            CheckoutController(DataAddressRepository(), DataCartRepository(), DataOrderRepository()));
 
   @override
   Widget get view => Scaffold(
@@ -107,7 +108,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
 
   get _orderDetails => ControlledWidgetBuilder(
           builder: (BuildContext context, CheckoutController controller) {
-        return Container(
+        return controller.cart != null ? Container(
           color: AppColors.cardBg,
           child: Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),
@@ -133,12 +134,12 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: controller.cart.cart.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return _productDetail(controller.cart.cart[index]);
+                      return _productDetail(controller.cart.cart[index], controller);
                     })
               ],
             ),
           ),
-        );
+        ) : SizedBox();
       });
 
   get _addAddress => ControlledWidgetBuilder(
@@ -178,7 +179,9 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
           child: Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),
             child: RaisedButton(
-              onPressed: controller.paymentMethod != 0 ? () {} : null,
+              onPressed: controller.paymentMethod != 0 ? () {
+                controller.placeOrder();
+              } : null,
               child: Text(controller.paymentMethod == 2
                   ? LocaleKeys.fmtPaySecurely.tr(
                       args: [Utility.currencyFormat(controller.cart.net_total)])
@@ -254,71 +257,79 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
     );
   }
 
-  _productDetail(CartItem cart) {
+  _productDetail(CartItem cart, CheckoutController controller) {
     return Padding(
       padding: const EdgeInsets.only(top: Dimens.spacingNormal),
-      child: Card(
-        child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(Dimens.spacingNormal),
-                child: ProductThumbnail(cart != null && cart.product_id != null
-                    ? cart.product_id.thumb_img
-                    : ""),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: Dimens.spacingMedium,
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: Dimens.spacingMedium),
-                      child: Text(
-                        cart != null &&
-                                cart.product_id != null &&
-                                cart.product_id.product_detail != null
-                            ? cart.product_id.product_detail.name ?? "-"
-                            : "-",
-                        maxLines: 1,
-                        style: heading6.copyWith(color: AppColors.neutralDark),
-                      ),
-                    ),
-                    SizedBox(
-                      height: Dimens.spacingNormal,
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: Dimens.spacingMedium),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              LocaleKeys.fmtQty.tr(args: [cart.qty.toString()]),
-                              style: captionNormal1.copyWith(
-                                  color: AppColors.neutralGray),
-                            ),
-                          ),
-                          Text(
-                            Utility.getCartItemPrice(cart),
-                            style: heading6.copyWith(color: AppColors.primary),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+      child: InkWell(
+        onTap: (){
+          if (cart.product_id != null &&
+              cart.product_id.product_detail != null)
+            controller.showProductDetails(
+                cart.product_id.product_detail.id.toString());
+        },
+        child: Card(
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(Dimens.spacingNormal),
+                  child: ProductThumbnail(cart != null && cart.product_id != null
+                      ? cart.product_id.thumb_img
+                      : ""),
                 ),
-              ),
-              SizedBox(
-                width: Dimens.spacingMedium,
-              ),
-            ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: Dimens.spacingMedium,
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: Dimens.spacingMedium),
+                        child: Text(
+                          cart != null &&
+                                  cart.product_id != null &&
+                                  cart.product_id.product_detail != null
+                              ? cart.product_id.product_detail.name ?? "-"
+                              : "-",
+                          maxLines: 1,
+                          style: heading6.copyWith(color: AppColors.neutralDark),
+                        ),
+                      ),
+                      SizedBox(
+                        height: Dimens.spacingNormal,
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: Dimens.spacingMedium),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                LocaleKeys.fmtQty.tr(args: [cart.qty.toString()]),
+                                style: captionNormal1.copyWith(
+                                    color: AppColors.neutralGray),
+                              ),
+                            ),
+                            Text(
+                              Utility.getCartItemPrice(cart),
+                              style: heading6.copyWith(color: AppColors.primary),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: Dimens.spacingMedium,
+                ),
+              ],
+            ),
           ),
         ),
       ),

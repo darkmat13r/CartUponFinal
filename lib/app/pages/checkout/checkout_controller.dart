@@ -4,10 +4,13 @@ import 'package:coupon_app/app/pages/checkout/checkout_presenter.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/repositories/address_repository.dart';
 import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
+import 'package:coupon_app/domain/repositories/order_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -25,8 +28,8 @@ class CheckoutController extends BaseController {
 
   Logger _logger;
 
-  CheckoutController(AddressRepository addressRepo, CartRepository cartRepo)
-      : this._presenter = CheckoutPresenter(addressRepo, cartRepo) {
+  CheckoutController(AddressRepository addressRepo, CartRepository cartRepo, OrderRepository orderRepository)
+      : this._presenter = CheckoutPresenter(addressRepo, cartRepo, orderRepository) {
     _logger = Logger();
     showLoading();
   }
@@ -38,6 +41,7 @@ class CheckoutController extends BaseController {
     _presenter.getCartOnComplete = getCartOnComplete;
 
     initAddressListeners();
+    initPlaceOrderListeners();
   }
 
   getCartOnNext(Cart cart) {
@@ -97,9 +101,39 @@ class CheckoutController extends BaseController {
     }
     refreshUI();
   }
-
+  void showProductDetails(String productId){
+    AppRouter().productDetailsById(getContext(), productId);
+  }
   void setPaymentMethod(int value) {
     this.paymentMethod = value;
     refreshUI();
+  }
+
+  void placeOrder() {
+    if(defaultAddress == null){
+      showGenericSnackbar(getContext(), LocaleKeys.errorSelectAddress.tr(), isError: true);
+      return;
+    }
+    if(paymentMethod == 0 || paymentMethod == null){
+      showGenericSnackbar(getContext(), LocaleKeys.errorSelectPaymentMethod.tr(), isError: true);
+      return;
+    }
+    _logger.i("PaymentId ${paymentMethod}");
+    _logger.i("defaultAddress ${defaultAddress.id}");
+    showProgressDialog();
+    _presenter.placeOrder(defaultAddress.id, defaultAddress.id, paymentMethod == 1? "Cash" : "Online");
+  }
+
+  void initPlaceOrderListeners() {
+    _presenter.placeOrderOnComplete = (){
+      dismissProgressDialog();
+    };
+    _presenter.placeOrderOnNext = (response){
+      _logger.i(response);
+    };
+    _presenter.placeOrderOnError = (e){
+      showGenericSnackbar(getContext(), e.message, isError: true);
+      dismissProgressDialog();
+    };
   }
 }

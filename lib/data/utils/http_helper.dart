@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coupon_app/data/exceptions/authentication_exception.dart';
 import 'package:coupon_app/data/utils/constants.dart';
@@ -64,6 +65,7 @@ class HttpHelper {
 
     if(headers == null || headers.isEmpty){
       var token = await SessionHelper().getToken();
+      Logger().e(token);
       if(token != null){
         headers = {
           HttpHeaders.authorizationHeader : "Token ${token}"

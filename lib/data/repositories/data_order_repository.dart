@@ -17,7 +17,12 @@ class DataOrderRepository extends OrderRepository{
   @override
   Future placeOrder({String shippingAddressId, String billingAddress, String payMode, String currencyCode}) async {
     try{
-      dynamic data = await HttpHelper.invokeHttp(Constants.orderCreate, RequestType.get);
+      dynamic data = await HttpHelper.invokeHttp(Constants.orderCreateRoute, RequestType.post, body: {
+        'shipping_address' : shippingAddressId,
+        'billing_address' : shippingAddressId,
+        'pay_mode' : payMode,
+        'CurrencyCode' : currencyCode,
+      });
       dynamic response = data;
       return response;
     }catch(e){

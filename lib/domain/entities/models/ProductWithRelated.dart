@@ -1,4 +1,5 @@
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
+import 'package:logger/logger.dart';
 
 class ProductWithRelated{
   ProductDetail productDetail;
@@ -10,7 +11,10 @@ class ProductWithRelated{
   factory ProductWithRelated.fromJson(Map<String, dynamic> json) {
     return ProductWithRelated(
       productDetail: json['product'] != null ? ProductDetail.fromJson(json['product']) : null,
-      relatedProducts:  json['related_product'] != null ? (json['related_product'] as List).map((e) => ProductDetail.fromJson(e)).toList() : []
+      relatedProducts:  json['related_product'] != null ? (json['related_product'] as List).map((e){
+        Logger().e(e);
+        return ProductDetail.fromJson(e);
+      }).toList() : []
 
     );
   }

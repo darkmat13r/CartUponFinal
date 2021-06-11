@@ -242,6 +242,8 @@
   "payOnline" : "Pay Online",
   "placeOrder" : "Place Order",
   "fmtPaySecurely" : "Pay {} securely",
-  "fmtPhone" : "Phone : {}"
+  "fmtPhone" : "Phone : {}",
+  "errorSelectAddress" : "Please add shipping address",
+  "errorSelectPaymentMethod" : "Please select a payment method"
 
 }

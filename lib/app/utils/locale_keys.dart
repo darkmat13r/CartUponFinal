@@ -99,6 +99,8 @@ class LocaleKeys {
   static const paymentDetails = "paymentDetails";
   static const fmtPaySecurely = "fmtPaySecurely";
   static const fmtPhone = "fmtPhone";
+  static const errorSelectAddress = "errorSelectAddress";
+  static const errorSelectPaymentMethod = "errorSelectPaymentMethod";
 
   static const reviews = "reviews";
   static const allReviews = "allReviews";

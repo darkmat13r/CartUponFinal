@@ -28,7 +28,6 @@ class DataCartRepository extends CartRepository {
   @override
   Future<CartItem> updateQuantity(int cartId, int qty) async {
     try {
-      print("----------qty ${qty}");
       Map<String, dynamic> cart = await HttpHelper.invokeHttp(
           "${Constants.cartRoute}${cartId}/", RequestType.patch,
           body: {

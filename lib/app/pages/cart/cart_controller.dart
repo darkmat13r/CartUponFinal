@@ -94,8 +94,8 @@ class CartController extends BaseController{
     dismissLoading();
 
   }
-  void showProductDetails(ProductDetail productDetail){
-    AppRouter().productDetailsById(getContext(), productDetail.id.toString());
+  void showProductDetails(String productId){
+    AppRouter().productDetailsById(getContext(), productId);
   }
   void checkout() {
     Navigator.of(getContext()).pushNamed(Pages.checkout);
