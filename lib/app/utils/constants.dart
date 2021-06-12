@@ -208,7 +208,7 @@ class Dimens {
   static const double spacingLarge = 24;
   static const double buttonHeight = 52;
 
-  static const double buttonCornerRadius = 8;
+  static const double buttonCornerRadius = 56;
 
   static const double thumbImageHeight = 140;
 

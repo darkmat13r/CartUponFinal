@@ -372,7 +372,7 @@ class ProductPageView
 
   Widget _recommended(String name) => ControlledWidgetBuilder(
           builder: (BuildContext context, ProductController controller) {
-        return Column(
+        return controller.similarProducts != null && controller.similarProducts.length > 0 ?Column(
           children: [
             Padding(
               padding:
@@ -416,7 +416,7 @@ class ProductPageView
               ),
             )
           ],
-        );
+        ) : SizedBox();
       });
 
   get _body => ListView(

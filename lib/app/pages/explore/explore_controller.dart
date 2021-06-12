@@ -33,9 +33,9 @@ class ExploreController extends BaseController{
     this.categories = response;
     this.categories.forEach((element) {
       if(element.category.category_type){
-        couponsCategory.add(element);
-      }else{
         productsCategory.add(element);
+      }else{
+        couponsCategory.add(element);
       }
     });
     refreshUI();
