@@ -28,6 +28,7 @@ class CartStream {
       _cartItem = 0;
     }
     _cartItem++;
+
     await _repo.addToCart(productDetail.id.toString(),
         variantValue != null ? variantValue.id.toString() : "");
     fetchQuantity();
@@ -54,5 +55,9 @@ class CartStream {
 
   Stream<int> onAddToCart() {
     return stream.stream.asBroadcastStream();
+  }
+
+  void clear() {
+    updateQuantity(0);
   }
 }

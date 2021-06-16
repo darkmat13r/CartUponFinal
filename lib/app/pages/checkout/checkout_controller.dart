@@ -8,6 +8,7 @@ import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
+import 'package:coupon_app/domain/entities/models/PaymentOrder.dart';
 import 'package:coupon_app/domain/repositories/address_repository.dart';
 import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:coupon_app/domain/repositories/order_repository.dart';
@@ -118,20 +119,34 @@ class CheckoutController extends BaseController {
       showGenericSnackbar(getContext(), LocaleKeys.errorSelectPaymentMethod.tr(), isError: true);
       return;
     }
-    _logger.i("PaymentId ${paymentMethod}");
-    _logger.i("defaultAddress ${defaultAddress.id}");
     showProgressDialog();
-    _presenter.placeOrder(defaultAddress.id, defaultAddress.id, paymentMethod == 1? "Cash" : "Online");
+    _presenter.placeOrder(defaultAddress.id, defaultAddress.id, paymentMethod == 1? "cash" : "online");
   }
 
+  onCashOnDeliverOrderSuccess(){
+    Navigator.of(getContext()).pushReplacementNamed(Pages.main);
+    CartStream().clear();
+  }
   void initPlaceOrderListeners() {
     _presenter.placeOrderOnComplete = (){
       dismissProgressDialog();
+      if(paymentMethod == 1){
+        showGenericConfirmDialog(getContext(), LocaleKeys.order.tr(), LocaleKeys.msgOrderSuccess.tr(), onConfirm: (){
+          onCashOnDeliverOrderSuccess();
+        }, onCancel: (){
+          onCashOnDeliverOrderSuccess();
+        });
+      }
     };
-    _presenter.placeOrderOnNext = (response){
-      _logger.i(response);
+    _presenter.placeOrderOnNext = (PlaceOrderResponse response){
+      _logger.e(response.paymentURL);
+      dismissProgressDialog();
+      if(response.paymentURL  != null){
+        AppRouter().payment(getContext(), response.paymentURL);
+      }
     };
     _presenter.placeOrderOnError = (e){
+      _logger.e(e);
       showGenericSnackbar(getContext(), e.message, isError: true);
       dismissProgressDialog();
     };

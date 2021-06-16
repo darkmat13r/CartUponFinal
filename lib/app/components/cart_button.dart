@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:animated_widgets/animated_widgets.dart';
+import 'package:animated_widgets/widgets/shake_animated_widget.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
@@ -12,25 +14,42 @@ class CartButton extends StatefulWidget {
   State<StatefulWidget> createState() => _CartButtonState();
 }
 
-class _CartButtonState extends State<CartButton> {
+class _CartButtonState extends State<CartButton> with SingleTickerProviderStateMixin {
 
   final cartStream = CartStream();
   var _cartItemCount = 0;
+  var _enabled = false;
   StreamSubscription<int> streamSubscription;
   GlobalKey _globalKey = new GlobalKey();
-
+  AnimationController controller;
   _CartButtonState() {
     _cartItemCount = cartStream.getCurrentItemCount();
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 400),
+      reverseDuration: Duration(milliseconds: 400),
+    );
    streamSubscription = cartStream.onAddToCart().listen((event) {
       setState(() {
         _cartItemCount = event;
+        _enabled =  true;
+        Timer(Duration(milliseconds: 500), () {
+          setState(() {
+            _enabled =  false;
+          });
+        });
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return ShakeAnimatedWidget(
+      enabled: this._enabled,
+      duration: Duration(milliseconds: 500),
+      shakeAngle: Rotation.deg(z: 20),
+      curve: Curves.linear,
+      child: Stack(
       key:_globalKey,
       children: [
         Center(
@@ -57,6 +76,8 @@ class _CartButtonState extends State<CartButton> {
           ),
         ) : SizedBox(),
       ],
+    ),
+
     );
   }
   @override

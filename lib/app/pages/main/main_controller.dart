@@ -44,8 +44,6 @@ class MainController extends BaseController {
   BuildContext _currentContext;
 
   onAuthComplete() {
-    Logger()
-        .d("onAuthComplete ${_currentContext} ${currentUser} ${_drawerKey}");
     super.onAuthComplete();
   }
 
@@ -71,8 +69,6 @@ class MainController extends BaseController {
   Future<void> showLoginDialog() async {
     int days = await SessionHelper().lastShownPopup();
     bool isPopupShown = await SessionHelper().isPopupShown();
-    Logger().e("LastPopup Shown in ${days}");
-    Logger().e("LastPopup Shown isPopupShown ${isPopupShown}");
     if (isPopupShown && days < 7) {
       return;
     }

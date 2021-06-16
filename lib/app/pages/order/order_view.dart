@@ -4,21 +4,30 @@ import 'package:coupon_app/app/components/outlined_box.dart';
 import 'package:coupon_app/app/components/product_thumbnail.dart';
 import 'package:coupon_app/app/pages/order/order_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/date_helper.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
+import 'package:coupon_app/app/utils/utility.dart';
+import 'package:coupon_app/data/repositories/data_order_repository.dart';
+import 'package:coupon_app/domain/entities/models/Order.dart';
+import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 class OrderPage extends View{
+  final Order order;
+
+  OrderPage({this.order});
+
   @override
-  State<StatefulWidget> createState()=> OrderPageState();
+  State<StatefulWidget> createState()=> OrderPageState(order : order);
 
 }
 
 class OrderPageState extends ViewState<OrderPage, OrderController>{
-  OrderPageState() : super(OrderController());
+  OrderPageState({Order order}) : super(OrderController(DataOrderRepository(),order : order));
 
   @override
   Widget get view => Scaffold(
@@ -31,120 +40,180 @@ class OrderPageState extends ViewState<OrderPage, OrderController>{
     body: _body,
   );
 
-  get _body => ListView(
-    children: [
-      SizedBox(
-        height: Dimens.spacingMedium,
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal  : Dimens.spacingMedium),
-        child: Text(LocaleKeys.product.tr(), style: heading5.copyWith(color: AppColors.neutralDark),),
-      ),
-      _product(),
-      SizedBox(
-        height: Dimens.spacingNormal,
-      ),
-      _product(),
-      SizedBox(
-        height: Dimens.spacingMedium,
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal  : Dimens.spacingMedium),
-        child: Text(LocaleKeys.shippingDetails.tr(), style: heading5.copyWith(color: AppColors.neutralDark),),
-      ),
-      _shippingDetails(),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal  : Dimens.spacingMedium),
-        child: Text(LocaleKeys.paymentDetails.tr(), style: heading5.copyWith(color: AppColors.neutralDark),),
-      ),
-      _paymentDetails()
-    ],
-  );
-  Widget _paymentDetails(){
-    return Padding(
+  get _body => ControlledWidgetBuilder(builder: (BuildContext context, OrderController controller){
+    return ListView(
+      children: [
+        SizedBox(
+          height: Dimens.spacingMedium,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal  : Dimens.spacingMedium),
+          child: Text(LocaleKeys.product.tr(), style: heading5.copyWith(color: AppColors.neutralDark),),
+        ),
+        _products(controller),
+        SizedBox(
+          height: Dimens.spacingMedium,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal  : Dimens.spacingMedium),
+          child: Text(LocaleKeys.shippingDetails.tr(), style: heading5.copyWith(color: AppColors.neutralDark),),
+        ),
+        _shippingDetails(controller),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal  : Dimens.spacingMedium),
+          child: Text(LocaleKeys.paymentDetails.tr(), style: heading5.copyWith(color: AppColors.neutralDark),),
+        ),
+        _paymentDetails(controller),
+        Padding(
+          padding: const EdgeInsets.all(Dimens.spacingMedium),
+          child: SizedBox(
+            width: double.infinity,
+            child: RaisedButton(onPressed: () {
+              controller.cancelOrder();
+            },
+              child: Text(LocaleKeys.cancelOrder.tr(), style: buttonText,),
+            ),
+          ),
+        )
+      ],
+    );
+  });
+  Widget _paymentDetails(OrderController controller){
+    return controller.order != null ? Padding(
       padding: const EdgeInsets.all(Dimens.spacingNormal),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(Dimens.spacingMedium),
           child: Column(
             children: [
-              _detailItem(LocaleKeys.items.tr(args: ["3"]) , "\$569.78"),
-              _detailItem(LocaleKeys.shipping.tr(), "\$40.00"),
+              _detailItem(LocaleKeys.items.tr(args: [(controller.order.order_details != null ? controller.order.order_details.length  : 0).toString()]) , "\$569.78"),
+
               DotWidget(color: AppColors.neutralGray,),
-              _detailItem(LocaleKeys.totalPrice.tr(),  "\$40.00"),
+              _detailItem(LocaleKeys.totalPrice.tr(),  Utility.currencyFormat(controller.order.total)),
             ],
           ),
         ),
       ),
-    );
+    ): SizedBox();
   }
-  Widget _shippingDetails(){
-    return Padding(
+  Widget _shippingDetails(OrderController controller){
+    return controller.order != null ? Padding(
       padding: const EdgeInsets.all(Dimens.spacingNormal),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(Dimens.spacingMedium),
           child: Column(
             children: [
-              _detailItem(LocaleKeys.orderShippingDate.tr(), "January 12, 2021"),
-              _detailItem(LocaleKeys.address.tr(), "2727 Lakeshore Rd undefined Nampa, Tennessee 78410"),
+              _detailItem(LocaleKeys.orderShippingDate.tr(), DateHelper.formatServerDate(controller.order.created_at)),
+              _detailItem(LocaleKeys.address.tr(),controller.order.shipping_address != null ? Utility.addressFormatter(controller.order.shipping_address) : ""),
               _detailItem(LocaleKeys.orderStatus.tr(), LocaleKeys.orderStatusShipping.tr()),
             ],
           ),
         ),
       ),
-    );
+    ) : SizedBox();
   }
 
   Widget _detailItem(name, value){
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Dimens.spacingNormal),
+      padding: const EdgeInsets.symmetric(vertical: Dimens.spacingSmall),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(flex:1,child: Text(name, style: bodyTextNormal2.copyWith(color: AppColors.neutralGray),)),
-          Expanded(
-            child: SizedBox(
-            ),
+          SizedBox(
+            width: Dimens.spacingNormal,
           ),
           Expanded(flex:1,child: Text(value, textAlign: TextAlign.end,style: bodyTextNormal2.copyWith(color: AppColors.neutralDark)))
         ],
       ),
     );
   }
-  Widget _product(){
-    return ControlledWidgetBuilder(builder: (BuildContext context, OrderController controller) {
-      return  InkWell(
+  Widget _products(OrderController controller){
+    return  ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: controller.order != null && controller.order.order_details != null ? controller.order.order_details.length : 0,
+        itemBuilder: (BuildContext context, int index){
+      return _productDetail(controller.order.order_details[index], controller);
+    });
+  }
+  _productDetail(OrderDetail orderDetail, OrderController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(top: Dimens.spacingNormal, left: Dimens.spacingNormal, right: Dimens.spacingNormal),
+      child: InkWell(
         onTap: (){
-          controller.product();
+          if (orderDetail.product_id != null &&
+              orderDetail.product_id.product_detail != null)
+            controller.showProductDetails(
+                orderDetail.product_id.product_detail.id.toString());
         },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal  :  Dimens.spacingNormal),
-          child: Card(child: Padding(
-            padding: const EdgeInsets.all(Dimens.spacingMedium),
+        child: Card(
+          child: IntrinsicHeight(
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                ProductThumbnail(""),
+                Padding(
+                  padding: const EdgeInsets.all(Dimens.spacingNormal),
+                  child: ProductThumbnail(orderDetail != null && orderDetail.product_id != null
+                      ? orderDetail.product_id.thumb_img
+                      : ""),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: Dimens.spacingMedium,
+                      ),
+                      Padding(
+                        padding:
+                        const EdgeInsets.only(left: Dimens.spacingMedium),
+                        child: Text(
+                          orderDetail != null &&
+                              orderDetail.product_id != null &&
+                              orderDetail.product_id.product_detail != null
+                              ? orderDetail.product_id.product_detail.name ?? "-"
+                              : "-",
+                          maxLines: 1,
+                          style: heading6.copyWith(color: AppColors.neutralDark),
+                        ),
+                      ),
+                      SizedBox(
+                        height: Dimens.spacingNormal,
+                      ),
+                      Padding(
+                        padding:
+                        const EdgeInsets.only(left: Dimens.spacingMedium),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                LocaleKeys.fmtQty.tr(args: [orderDetail.qty.toString()]),
+                                style: captionNormal1.copyWith(
+                                    color: AppColors.neutralGray),
+                              ),
+                            ),
+                            Text(
+                              Utility.getOrderItemPrice(orderDetail),
+                              style: heading6.copyWith(color: AppColors.primary),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(
                   width: Dimens.spacingMedium,
                 ),
-                Expanded(child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Nike Air Zoom Pegasus 36 Miami", style: heading6.copyWith(color:
-                    AppColors.neutralDark),),
-                    SizedBox(
-                      height: Dimens.spacingMedium,
-                    ),
-                    Text("\$430,99", style: heading6.copyWith(color:
-                    AppColors.primary),),
-                  ],
-                ))
               ],
             ),
-          ),),
+          ),
         ),
-      );
-    },);
+      ),
+    );
   }
 }

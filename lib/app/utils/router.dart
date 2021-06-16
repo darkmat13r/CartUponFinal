@@ -9,7 +9,9 @@ import 'package:coupon_app/app/pages/forgot_password/forgot_password_view.dart';
 import 'package:coupon_app/app/pages/home/home_view.dart';
 import 'package:coupon_app/app/pages/main/main_view.dart';
 import 'package:coupon_app/app/pages/order/order_view.dart';
+import 'package:coupon_app/app/pages/orders/tab/orders_tabbed_view.dart';
 import 'package:coupon_app/app/pages/orders/orders_view.dart';
+import 'package:coupon_app/app/pages/payment/payment_view.dart';
 import 'package:coupon_app/app/pages/product/product_view.dart';
 import 'package:coupon_app/app/pages/profile/profile_view.dart';
 import 'package:coupon_app/app/pages/register/register_view.dart';
@@ -21,6 +23,7 @@ import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
 import 'package:coupon_app/app/pages/whishlist/whishlist_view.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/CategoryType.dart';
+import 'package:coupon_app/domain/entities/models/Order.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -51,7 +54,7 @@ class AppRouter {
       case Pages.profile:
         return _buildRoute(settings, ProfilePage());
       case Pages.orders:
-        return _buildRoute(settings, OrdersPage());
+        return _buildRoute(settings, OrdersTabbedPage());
       case Pages.order:
         return _buildRoute(settings, OrderPage());
       case Pages.reviews:
@@ -79,15 +82,20 @@ class AppRouter {
         return _buildRoute(settings, SettingsPage());
     }
   }
-
+  orderDetails(BuildContext context, Order order) {
+    Navigator.of(context)
+        .push(_buildRoute(RouteSettings(), OrderPage(order: order,)));
+  }
   productDetails(BuildContext context, ProductDetail product) {
-    Logger().e("ProductDetails ${product.id}");
     Navigator.of(context)
         .push(_buildRoute(RouteSettings(), ProductPage(product.id.toString())));
   }
   productDetailsById(BuildContext context, String productId) {
     Navigator.of(context)
         .push(_buildRoute(RouteSettings(), ProductPage(productId)));
+  }
+  payment(BuildContext context, String paymentUrl) {
+    Navigator.of(context).push(_buildRoute(RouteSettings(), PaymentPage(paymentUrl)));
   }
   categorySearch(BuildContext context, CategoryType category) {
     Navigator.of(context).push(_buildRoute(

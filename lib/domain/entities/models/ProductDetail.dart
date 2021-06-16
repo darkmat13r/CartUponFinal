@@ -30,9 +30,7 @@ class ProductDetail {
         try{
             productDetails.product =  json['product_id'] != null ? Product.fromJson(json['product_id']) : null;
         }catch(e){
-                Logger().e(e);
         }
-        print("=============> productDetails " + jsonEncode(productDetails));
         return productDetails;
     }
 

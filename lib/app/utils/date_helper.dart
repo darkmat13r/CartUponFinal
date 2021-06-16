@@ -1,3 +1,5 @@
+import 'package:coupon_app/app/utils/locale_keys.dart';
+
 class DateHelper {
   static String formatExpiry(DateTime startDate, String serverDate) {
     var date = parseServerDateTime(serverDate);
@@ -40,5 +42,9 @@ class DateHelper {
       return "0$number";
     }
     return "$number";
+  }
+
+  static formatServerDate(String createdAt) {
+    return DateFormat.yMMMd().add_Hm().format(DateHelper.parseServerDateTime(createdAt));
   }
 }

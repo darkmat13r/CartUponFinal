@@ -14,6 +14,7 @@ abstract class BaseController extends Controller {
   Token currentUser;
   AuthPresenter _authPresenter;
 
+
   initBaseListeners(AuthPresenter authPresenter) {
     isAuthUserLoading = true;
     refreshUI();

@@ -244,6 +244,12 @@
   "fmtPaySecurely" : "Pay {} securely",
   "fmtPhone" : "Phone : {}",
   "errorSelectAddress" : "Please add shipping address",
-  "errorSelectPaymentMethod" : "Please select a payment method"
+  "errorSelectPaymentMethod" : "Please select a payment method",
+  "msgOrderSuccess" : "Order Placed Successfully",
+  "msgOrderPaymentFailed" : "Transaction failed. Reference id {}",
+  "msgOrderCancelSuccess" : "Order cancel request submitted successfully",
+  "msgOrderCancelFailed" : "Order cancel request failed.",
+  "cancelOrder" : "Cancel order",
+  "currentOrder" : "Current Order"
 
 }

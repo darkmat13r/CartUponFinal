@@ -16,6 +16,7 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
   @override
   Widget get view => Scaffold(
         key: globalKey,
+    appBar: AppBar(elevation: 0,),
         body: body,
       );
   final Widget _logo = SizedBox(

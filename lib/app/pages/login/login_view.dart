@@ -22,6 +22,7 @@ class LoginPageView extends ViewState<LoginPage, LoginController> {
   @override
   Widget get view => AutofillGroup(child: Scaffold(
     key: globalKey,
+    appBar: AppBar(elevation: 0,),
     body: _body,
   ));
 

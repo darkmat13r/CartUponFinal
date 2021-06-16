@@ -282,7 +282,6 @@ class ProductPageView
     return Expanded(
       child: RaisedButton.icon(
         onPressed: () {
-          showGenericSnackbar(context, LocaleKeys.itemAddedToCart.tr());
           CartStream().addToCart(
               controller.product.product, controller.selectedProductVariant);
         },

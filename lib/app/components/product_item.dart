@@ -129,8 +129,8 @@ class _ProductItemState extends State<ProductItem>
                         color: AppColors.accent,
                       ),
                       onTap: () {
-                        showGenericSnackbar(
-                            context, LocaleKeys.itemAddedToCart.tr());
+                       /* showGenericSnackbar(
+                            context, LocaleKeys.itemAddedToCart.tr());*/
                         _cartStream.addToCart(widget.product.product, null);
                       },
                     ),

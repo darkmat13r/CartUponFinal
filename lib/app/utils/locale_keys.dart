@@ -279,5 +279,11 @@ class LocaleKeys {
   static var chooseCountry = "chooseCountry";
   static var invalidLink = "invalidLink";
 
+  static var msgOrderSuccess = "msgOrderSuccess";
+  static var msgOrderPaymentFailed = "msgOrderPaymentFailed";
+  static var msgOrderCancelSuccess = "msgOrderCancelSuccess";
+  static var msgOrderCancelFailed = "msgOrderCancelFailed";
+  static var cancelOrder = "cancelOrder";
+
 
 }

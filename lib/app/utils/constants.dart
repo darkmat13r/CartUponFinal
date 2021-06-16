@@ -156,7 +156,7 @@ void dismissDialog() {
 
 void showGenericConfirmDialog(
     BuildContext context, String title, String message,
-    {Function onCancel, Function onConfirm, String confirmText}) {
+    {Function onCancel, Function onConfirm, String confirmText, bool showCancel}) {
   var dialog = showDialog(
       context: context,
       builder: (ctx) => new AlertDialog(
@@ -170,7 +170,7 @@ void showGenericConfirmDialog(
         EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
         actionsPadding: EdgeInsets.zero,
             actions: [
-              TextButton(
+              showCancel ?? true ? TextButton(
                 onPressed: () {
                   if (onCancel != null) {
                     onCancel();
@@ -181,7 +181,7 @@ void showGenericConfirmDialog(
                   LocaleKeys.cancel.tr(),
                   style: buttonText.copyWith(color: AppColors.accent),
                 ),
-              ),
+              ) : SizedBox(),
               TextButton(
                 onPressed: () {
                   Navigator.pop(ctx);

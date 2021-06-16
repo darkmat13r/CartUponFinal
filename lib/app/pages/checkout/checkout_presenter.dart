@@ -1,6 +1,7 @@
 import 'package:coupon_app/app/pages/account/address/addresses_presenter.dart';
 import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
+import 'package:coupon_app/domain/entities/models/PaymentOrder.dart';
 import 'package:coupon_app/domain/repositories/address_repository.dart';
 import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:coupon_app/domain/repositories/order_repository.dart';
@@ -54,7 +55,7 @@ class CheckoutPresenter extends Presenter {
     _cartItemsUseCase.dispose();
   }
 }
-class _PlaceOrderObserver extends Observer<dynamic>{
+class _PlaceOrderObserver extends Observer<PlaceOrderResponse>{
   final CheckoutPresenter _presenter;
 
   _PlaceOrderObserver(this._presenter);
@@ -71,7 +72,7 @@ class _PlaceOrderObserver extends Observer<dynamic>{
   }
 
   @override
-  void onNext(response) {
+  void onNext(PlaceOrderResponse response) {
     assert(_presenter.placeOrderOnNext != null);
     _presenter.placeOrderOnNext(response);
   }

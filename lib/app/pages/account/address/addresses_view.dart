@@ -98,7 +98,7 @@ class AddressesPageState extends ViewState<AddressesPage, AddressesController> {
 
   _buildAddressCard(AddressesController controller, Address address) {
     return InkWell(
-      onTap: widget.selectionMode ? (){
+      onTap:widget.selectionMode!= null && widget.selectionMode ? (){
         controller.select(address);
       } : null,
       child: Card(

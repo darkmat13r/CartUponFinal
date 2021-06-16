@@ -29,6 +29,7 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
   @override
   Widget get view => Scaffold(
         key: globalKey,
+    appBar: AppBar(elevation: 0,),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),

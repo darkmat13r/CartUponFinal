@@ -63,7 +63,6 @@ class MainListingController extends BaseController{
       res.sections.remove(element);
     });
     this.homeResponse = res;
-    _logger.e("Sliders  ", res);
     refreshUI();
   }
 

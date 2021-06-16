@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:coupon_app/domain/entities/models/PaymentOrder.dart';
 import 'package:coupon_app/domain/repositories/order_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:logger/logger.dart';
 
 class PlaceOrderUseCase extends CompletableUseCase<PlaceOrderParams> {
   final OrderRepository _repository;
@@ -10,10 +12,10 @@ class PlaceOrderUseCase extends CompletableUseCase<PlaceOrderParams> {
   PlaceOrderUseCase(this._repository);
 
   @override
-  Future<Stream<dynamic>> buildUseCaseStream(PlaceOrderParams params) async {
-    StreamController<dynamic> controller = new StreamController();
+  Future<Stream<PlaceOrderResponse>> buildUseCaseStream(PlaceOrderParams params) async {
+    StreamController<PlaceOrderResponse> controller = new StreamController();
     try {
-      dynamic data = await _repository.placeOrder(
+      PlaceOrderResponse data = await _repository.placeOrder(
           shippingAddressId: params.shippingAddress,
           billingAddress: params.billingAddress,
           payMode: params.payMode,
@@ -21,6 +23,7 @@ class PlaceOrderUseCase extends CompletableUseCase<PlaceOrderParams> {
       controller.add(data);
       controller.close();
     } catch (e) {
+      Logger().e(e);
       controller.addError(e);
     }
     return controller.stream;

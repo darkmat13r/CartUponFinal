@@ -8,6 +8,7 @@ import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/data/repositories/cart/data_cart_repository.dart';
 import 'package:coupon_app/data/repositories/data_address_repository.dart';
 import 'package:coupon_app/data/repositories/data_order_repository.dart';
+import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -237,9 +238,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                 height: Dimens.spacingSmall,
               ),
               Text(
-                "${controller.defaultAddress.floor_flat}, ${controller.defaultAddress.block.block_name}, " +
-                    "${controller.defaultAddress.building}, ${controller.defaultAddress.address}" +
-                    "${controller.defaultAddress.area.area_name}",
+                Utility.addressFormatter(controller.defaultAddress),
                 style: captionNormal2.copyWith(color: AppColors.neutralDark),
               ),
               SizedBox(
@@ -256,6 +255,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
       ),
     );
   }
+
 
   _productDetail(CartItem cart, CheckoutController controller) {
     return Padding(
