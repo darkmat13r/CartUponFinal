@@ -160,14 +160,14 @@ void showGenericConfirmDialog(
   var dialog = showDialog(
       context: context,
       builder: (ctx) => new AlertDialog(
-            title: title != null ? new Text(title) : SizedBox(),
-            content: new Text(message),
+            title: title != null ? new Text(title, style: heading6,) : SizedBox(),
+            content: new Text(message, style: bodyTextNormal2,),
         titlePadding: EdgeInsets.only(
             left: Dimens.spacingMedium,
             right: Dimens.spacingMedium,
             top: Dimens.spacingMedium),
         contentPadding:
-        EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+        EdgeInsets.symmetric(horizontal: Dimens.spacingMedium, vertical: Dimens.spacingNormal),
         actionsPadding: EdgeInsets.zero,
             actions: [
               showCancel ?? true ? TextButton(

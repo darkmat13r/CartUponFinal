@@ -6,12 +6,15 @@ import 'package:coupon_app/app/pages/payment/payment_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
 import 'package:coupon_app/data/utils/constants.dart';
+import 'package:logger/logger.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 // ignore: must_be_immutable
 class PaymentPage extends View {
   String paymentUrl;
+
   PaymentPage(this.paymentUrl);
+
   @override
   State<StatefulWidget> createState() => _PaymentPageState();
 }
@@ -19,6 +22,8 @@ class PaymentPage extends View {
 class _PaymentPageState extends ViewState<PaymentPage, PaymentController> {
   _PaymentPageState()
       : super(PaymentController(DataAuthenticationRepository())) {}
+
+  WebViewController webViewController;
 
   @override
   Widget get view => Scaffold(
@@ -31,8 +36,11 @@ class _PaymentPageState extends ViewState<PaymentPage, PaymentController> {
           builder: (BuildContext context, PaymentController controller) {
         return WebView(
           initialUrl:
-          widget.paymentUrl,
+              widget.paymentUrl,
           javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (WebViewController w) {
+            webViewController = w;
+          },
           javascriptChannels: Set.from([
             JavascriptChannel(
                 name: 'App',
@@ -41,6 +49,7 @@ class _PaymentPageState extends ViewState<PaymentPage, PaymentController> {
                   //javascript code and handle in Flutter/Dart
                   //like here, the message is just being printed
                   //in Run/LogCat window of android studio
+                  Logger().e(message.message);
                   controller.processResponse(message.message);
                 })
           ]),

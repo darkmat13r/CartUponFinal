@@ -39,94 +39,94 @@ class AppRouter {
   Route<dynamic> getRoute(RouteSettings settings) {
     switch (settings.name) {
       case Pages.login:
-        return _buildRoute(settings, LoginPage());
+        return buildRoute(settings, LoginPage());
       case Pages.forgotPassword:
-        return _buildRoute(settings, ForgotPasswordPage());
+        return buildRoute(settings, ForgotPasswordPage());
       case Pages.register:
-        return _buildRoute(settings, RegisterPage());
+        return buildRoute(settings, RegisterPage());
       case Pages.home:
-        return _buildRoute(settings, HomePage());
+        return buildRoute(settings, HomePage());
       case Pages.whishlist:
-        return _buildRoute(settings, WhishlistPage());
+        return buildRoute(settings, WhishlistPage());
 
       case Pages.main:
-        return _buildRoute(settings, MainPage());
+        return buildRoute(settings, MainPage());
       case Pages.profile:
-        return _buildRoute(settings, ProfilePage());
+        return buildRoute(settings, ProfilePage());
       case Pages.orders:
-        return _buildRoute(settings, OrdersTabbedPage());
+        return buildRoute(settings, OrdersTabbedPage());
       case Pages.order:
-        return _buildRoute(settings, OrderPage());
+        return buildRoute(settings, OrderPage());
       case Pages.reviews:
-        return _buildRoute(settings, ReviewsPage());
+        return buildRoute(settings, ReviewsPage());
       case Pages.createReview:
-        return _buildRoute(settings, CreateReviewPage());
+        return buildRoute(settings, CreateReviewPage());
       case Pages.search:
-        return _buildRoute(settings, SearchPage());
+        return buildRoute(settings, SearchPage());
       case Pages.filter:
-        return _buildRoute(settings, FilterPage());
+        return buildRoute(settings, FilterPage());
       case Pages.changePassword:
-        return _buildRoute(settings, ChangePasswordPage());
+        return buildRoute(settings, ChangePasswordPage());
       case Pages.addresses:
-        return _buildRoute(settings, AddressesPage());
+        return buildRoute(settings, AddressesPage());
       case Pages.addAddress:
-        return _buildRoute(settings, AddAddressPage());
+        return buildRoute(settings, AddAddressPage());
       case Pages.cart:
-        return _buildRoute(settings, CartWithToolbarPage());
+        return buildRoute(settings, CartWithToolbarPage());
       case Pages.welcome:
-        return _buildRoute(settings, WelcomePage());
+        return buildRoute(settings, WelcomePage());
       case Pages.checkout:
-        return _buildRoute(settings, CheckoutPage());
+        return buildRoute(settings, CheckoutPage());
 
       case Pages.settings :
-        return _buildRoute(settings, SettingsPage());
+        return buildRoute(settings, SettingsPage());
     }
   }
-  orderDetails(BuildContext context, Order order) {
-    Navigator.of(context)
-        .push(_buildRoute(RouteSettings(), OrderPage(order: order,)));
+  Future<dynamic> orderDetails(BuildContext context, Order order) {
+    return Navigator.of(context)
+        .push(buildRoute(RouteSettings(), OrderPage(order: order,)));
   }
   productDetails(BuildContext context, ProductDetail product) {
     Navigator.of(context)
-        .push(_buildRoute(RouteSettings(), ProductPage(product.id.toString())));
+        .push(buildRoute(RouteSettings(), ProductPage(product.id.toString())));
   }
   productDetailsById(BuildContext context, String productId) {
     Navigator.of(context)
-        .push(_buildRoute(RouteSettings(), ProductPage(productId)));
+        .push(buildRoute(RouteSettings(), ProductPage(productId)));
   }
   payment(BuildContext context, String paymentUrl) {
-    Navigator.of(context).push(_buildRoute(RouteSettings(), PaymentPage(paymentUrl)));
+    Navigator.of(context).push(buildRoute(RouteSettings(), PaymentPage(paymentUrl)));
   }
   categorySearch(BuildContext context, CategoryType category) {
-    Navigator.of(context).push(_buildRoute(
+    Navigator.of(context).push(buildRoute(
         RouteSettings(),
         SearchPage(
           category: category,
         )));
   }
   querySearch(BuildContext context, String query) {
-    Navigator.of(context).push(_buildRoute(
+    Navigator.of(context).push(buildRoute(
         RouteSettings(),
         SearchPage(
           query: query,
         )));
   }
   editAddress(BuildContext context, Address address) {
-    Navigator.of(context).push(_buildRoute(
+    Navigator.of(context).push(buildRoute(
         RouteSettings(),
         AddAddressPage(
           address: address,
         )));
   }
   categorySearchById(BuildContext context, String categoryId) {
-    Navigator.of(context).push(_buildRoute(
+    Navigator.of(context).push(buildRoute(
         RouteSettings(),
         SearchPage(
           categoryId: categoryId,
         )));
   }
 
-  MaterialPageRoute _buildRoute(RouteSettings settings, Widget builder) {
+  MaterialPageRoute buildRoute(RouteSettings settings, Widget builder) {
     return new MaterialPageRoute(settings: settings, builder: (ctx) => builder);
   }
 }

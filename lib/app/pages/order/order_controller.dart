@@ -8,6 +8,7 @@ import 'package:coupon_app/domain/entities/models/Order.dart';
 import 'package:coupon_app/domain/repositories/order_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:logger/logger.dart';
 
 class OrderController extends BaseController{
   Order order;
@@ -46,10 +47,11 @@ class OrderController extends BaseController{
     _presenter.cancelOrderOnComplete = (){
       dismissProgressDialog();
       showGenericConfirmDialog(getContext(), LocaleKeys.order.tr(), LocaleKeys.msgOrderCancelSuccess.tr(), onConfirm: (){
-        Navigator.pop(getContext());
+        Navigator.pop(getContext(), true);
       }, showCancel: false);
     };
     _presenter.cancelOrderOnError = (e){
+      Logger().e(e);
       dismissProgressDialog();
       showGenericSnackbar(getContext(), e.message, isError: true);
     };

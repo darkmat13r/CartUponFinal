@@ -28,6 +28,8 @@ class CheckoutController extends BaseController {
   int paymentMethod;
 
   Logger _logger;
+  
+  bool containsCoupon = false;
 
   CheckoutController(AddressRepository addressRepo, CartRepository cartRepo, OrderRepository orderRepository)
       : this._presenter = CheckoutPresenter(addressRepo, cartRepo, orderRepository) {
@@ -47,6 +49,15 @@ class CheckoutController extends BaseController {
 
   getCartOnNext(Cart cart) {
     this.cart = cart;
+    Logger().e(cart);
+    try{
+      var item =  cart.cart.firstWhere((element) => !element.product_id.category_type);
+      if(item != null){
+        containsCoupon = true;
+      }
+    }catch(e){
+      Logger().e(e);
+    }
     CartStream().updateCart(cart);
     refreshUI();
     dismissProgressDialog();

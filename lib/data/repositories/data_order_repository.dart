@@ -54,10 +54,14 @@ class DataOrderRepository extends OrderRepository{
   @override
   Future<CancelOrderResponse> cancelOrder(String orderId) async{
     try{
+      var headers = {
+        'Content-Type' : 'application/x-www-form-urlencoded'
+      };
       dynamic data = await HttpHelper.invokeHttp(Constants.orderCancelRoute, RequestType.get, body: {
         "order_id" : orderId
-      });
-      CancelOrderResponse response =CancelOrderResponse.fromJson(data);
+      }, headers: headers);
+
+      CancelOrderResponse response = CancelOrderResponse.fromJson(data);
       return response;
     }catch(e){
       _logger.e(e);
