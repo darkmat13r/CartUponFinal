@@ -29,12 +29,15 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:logger/logger.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductPage extends View {
   final String productId;
 
-  ProductPage(this.productId);
+  ProductPage(this.productId){
+    Logger().e("PRoduct Id ${this.productId}");
+  }
 
   @override
   State<StatefulWidget> createState() => ProductPageView(this.productId);

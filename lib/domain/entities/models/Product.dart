@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:coupon_app/app/utils/config.dart';
+import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/domain/entities/models/Category.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/entities/models/ProductGallery.dart';
@@ -50,44 +51,45 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> json) {
     var product = Product(
       category_type: json['category_type'],
-      dis_per: json['dis_per'],
+      dis_per: json['dis_per'].toString(),
       id: json['id'],
-      price: json['price'],
+      price: json['price'].toString(),
       category_id: json.containsKey('category_id') ? (json['category_id'] is int ? json['category_id']  : 0): 0,
       category: json.containsKey('category_id') ? (json['category_id'] is Map ? Category.fromJson(json['category_id'])  : null): null,
       product_gallery: json['product_gallery'] != null
           ? (json['product_gallery'] as List)
-              .map((i) => ProductGallery.fromJson(i))
-              .toList()
+          .map((i) => ProductGallery.fromJson(i))
+          .toList()
           : null,
       product_variants: json['product_variants'] != null
           ? (json['product_variants'] as List)
-              .map((i) => ProductVariant.fromJson(i))
-              .toList()
+          .map((i) => ProductVariant.fromJson(i))
+          .toList()
           : null,
-      sale_price: json['sale_price'],
+      sale_price: json['sale_price'].toString(),
       sku: json['sku'],
       stock: json['stock'],
-      thumb_img: json['thumb_img'],
+      thumb_img: json['thumb_img'] != null ? json['thumb_img'].toString().contains("http") ? json['thumb_img'] : "${Constants.baseUrlWithoutV1}${json['thumb_img']}" : "",
       title: json['title'],
       uid: json['uid'],
       valid_from: json['valid_from'] != null ? json['valid_from'] : null,
       valid_to: json['valid_to'] != null ? json['valid_to'] : null,
       product_details: json['product_detail'] != null
           ? (json['product_detail'] as List)
-              .map((e) => ProductDetail.fromJson(e))
-              .toList()
+          .map((e) => ProductDetail.fromJson(e))
+          .toList()
           : null,
     );
     try {
       if (product.product_details != null) {
         product.product_detail = product.product_details.firstWhere(
-            (element) => element.lang_type == Config().getLanguageId());
+                (element) => element.lang_type == Config().getLanguageId());
       }
     } catch (e) {
       Logger().e(e);
     }
     return product;
+
   }
 
   Map<String, dynamic> toJson() {

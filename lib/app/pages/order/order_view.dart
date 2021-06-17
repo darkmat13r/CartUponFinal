@@ -16,133 +16,197 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
-class OrderPage extends View{
+
+class OrderPage extends View {
   final Order order;
 
   OrderPage({this.order});
 
   @override
-  State<StatefulWidget> createState()=> OrderPageState(order : order);
-
+  State<StatefulWidget> createState() => OrderPageState(order: order);
 }
 
-class OrderPageState extends ViewState<OrderPage, OrderController>{
-  OrderPageState({Order order}) : super(OrderController(DataOrderRepository(),order : order));
+class OrderPageState extends ViewState<OrderPage, OrderController> {
+  OrderPageState({Order order})
+      : super(OrderController(DataOrderRepository(), order: order));
 
   @override
   Widget get view => Scaffold(
-    appBar: customAppBar(
-        title: Text(
+        appBar: customAppBar(
+            title: Text(
           LocaleKeys.orderDetails.tr(),
           style: heading5.copyWith(color: AppColors.primary),
         )),
-    key: globalKey,
-    body: _body,
-  );
+        key: globalKey,
+        body: _body,
+      );
 
-  get _body => ControlledWidgetBuilder(builder: (BuildContext context, OrderController controller){
-    return ListView(
-      children: [
-        SizedBox(
-          height: Dimens.spacingMedium,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal  : Dimens.spacingMedium),
-          child: Text(LocaleKeys.product.tr(), style: heading5.copyWith(color: AppColors.neutralDark),),
-        ),
-        _products(controller),
-        SizedBox(
-          height: Dimens.spacingMedium,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal  : Dimens.spacingMedium),
-          child: Text(LocaleKeys.shippingDetails.tr(), style: heading5.copyWith(color: AppColors.neutralDark),),
-        ),
-        _shippingDetails(controller),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal  : Dimens.spacingMedium),
-          child: Text(LocaleKeys.paymentDetails.tr(), style: heading5.copyWith(color: AppColors.neutralDark),),
-        ),
-        _paymentDetails(controller),
-        Padding(
-          padding: const EdgeInsets.all(Dimens.spacingMedium),
-          child: SizedBox(
-            width: double.infinity,
-            child: RaisedButton(onPressed: () {
-              controller.cancelOrder();
-            },
-              child: Text(LocaleKeys.cancelOrder.tr(), style: buttonText,),
+  get _body => ControlledWidgetBuilder(
+          builder: (BuildContext context, OrderController controller) {
+        return ListView(
+          children: [
+            SizedBox(
+              height: Dimens.spacingMedium,
             ),
-          ),
-        )
-      ],
-    );
-  });
-  Widget _paymentDetails(OrderController controller){
-    return controller.order != null ? Padding(
-      padding: const EdgeInsets.all(Dimens.spacingNormal),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(Dimens.spacingMedium),
-          child: Column(
-            children: [
-              _detailItem(LocaleKeys.items.tr(args: [(controller.order.order_details != null ? controller.order.order_details.length  : 0).toString()]) , "\$569.78"),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+              child: Text(
+                LocaleKeys.product.tr(),
+                style: heading5.copyWith(color: AppColors.neutralDark),
+              ),
+            ),
+            _products(controller),
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+              child: Text(
+                LocaleKeys.shippingDetails.tr(),
+                style: heading5.copyWith(color: AppColors.neutralDark),
+              ),
+            ),
+            _shippingDetails(controller),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+              child: Text(
+                LocaleKeys.paymentDetails.tr(),
+                style: heading5.copyWith(color: AppColors.neutralDark),
+              ),
+            ),
+            _paymentDetails(controller),
+            Padding(
+              padding: const EdgeInsets.all(Dimens.spacingMedium),
+              child: SizedBox(
+                width: double.infinity,
+                child: RaisedButton(
+                  onPressed: () {
+                    controller.cancelOrder();
+                  },
+                  child: Text(
+                    LocaleKeys.cancelOrder.tr(),
+                    style: buttonText,
+                  ),
+                ),
+              ),
+            )
+          ],
+        );
+      });
 
-              DotWidget(color: AppColors.neutralGray,),
-              _detailItem(LocaleKeys.totalPrice.tr(),  Utility.currencyFormat(controller.order.total)),
-            ],
-          ),
-        ),
-      ),
-    ): SizedBox();
-  }
-  Widget _shippingDetails(OrderController controller){
-    return controller.order != null ? Padding(
-      padding: const EdgeInsets.all(Dimens.spacingNormal),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(Dimens.spacingMedium),
-          child: Column(
-            children: [
-              _detailItem(LocaleKeys.orderShippingDate.tr(), DateHelper.formatServerDate(controller.order.created_at)),
-              _detailItem(LocaleKeys.address.tr(),controller.order.shipping_address != null ? Utility.addressFormatter(controller.order.shipping_address) : ""),
-              _detailItem(LocaleKeys.orderStatus.tr(), LocaleKeys.orderStatusShipping.tr()),
-            ],
-          ),
-        ),
-      ),
-    ) : SizedBox();
+  Widget _paymentDetails(OrderController controller) {
+    return controller.order != null
+        ? Padding(
+            padding: const EdgeInsets.all(Dimens.spacingNormal),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(Dimens.spacingMedium),
+                child: Column(
+                  children: [
+                    _detailItem(
+                        LocaleKeys.items.tr(args: [
+                          (controller.order.order_details != null
+                                  ? controller.order.order_details.length
+                                  : 0)
+                              .toString()
+                        ]),
+                        Utility.currencyFormat(controller.order.total)),
+                    DotWidget(
+                      color: AppColors.neutralGray,
+                    ),
+                    _detailItem(
+                        LocaleKeys.shipping.tr(),
+                        Utility.currencyFormat(controller.order.shipping_total)),
+                    _detailItem(LocaleKeys.totalPrice.tr(),
+                        Utility.currencyFormat(controller.order.total)),
+                  ],
+                ),
+              ),
+            ),
+          )
+        : SizedBox();
   }
 
-  Widget _detailItem(name, value){
+  Widget _shippingDetails(OrderController controller) {
+    return controller.order != null
+        ? Padding(
+            padding: const EdgeInsets.all(Dimens.spacingNormal),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(Dimens.spacingMedium),
+                child: Column(
+                  children: [
+                    _detailItem(
+                        LocaleKeys.orderShippingDate.tr(),
+                        DateHelper.formatServerDate(
+                            controller.order.created_at)),
+                    _detailItem(
+                        LocaleKeys.address.tr(),
+                        controller.order.shipping_address != null
+                            ? Utility.addressFormatter(
+                                controller.order.shipping_address)
+                            : ""),
+                    _detailItem(LocaleKeys.orderStatus.tr(),
+                        LocaleKeys.orderStatusShipping.tr()),
+                  ],
+                ),
+              ),
+            ),
+          )
+        : SizedBox();
+  }
+
+  Widget _detailItem(name, value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Dimens.spacingSmall),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(flex:1,child: Text(name, style: bodyTextNormal2.copyWith(color: AppColors.neutralGray),)),
+          Expanded(
+              flex: 1,
+              child: Text(
+                name,
+                style: bodyTextNormal2.copyWith(color: AppColors.neutralGray),
+              )),
           SizedBox(
             width: Dimens.spacingNormal,
           ),
-          Expanded(flex:1,child: Text(value, textAlign: TextAlign.end,style: bodyTextNormal2.copyWith(color: AppColors.neutralDark)))
+          Expanded(
+              flex: 1,
+              child: Text(value,
+                  textAlign: TextAlign.end,
+                  style:
+                      bodyTextNormal2.copyWith(color: AppColors.neutralDark)))
         ],
       ),
     );
   }
-  Widget _products(OrderController controller){
-    return  ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: controller.order != null && controller.order.order_details != null ? controller.order.order_details.length : 0,
-        itemBuilder: (BuildContext context, int index){
-      return _productDetail(controller.order.order_details[index], controller);
-    });
+
+  Widget _products(OrderController controller) {
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount:
+            controller.order != null && controller.order.order_details != null
+                ? controller.order.order_details.length
+                : 0,
+        itemBuilder: (BuildContext context, int index) {
+          return _productDetail(
+              controller.order.order_details[index], controller);
+        });
   }
+
   _productDetail(OrderDetail orderDetail, OrderController controller) {
     return Padding(
-      padding: const EdgeInsets.only(top: Dimens.spacingNormal, left: Dimens.spacingNormal, right: Dimens.spacingNormal),
+      padding: const EdgeInsets.only(
+          top: Dimens.spacingNormal,
+          left: Dimens.spacingNormal,
+          right: Dimens.spacingNormal),
       child: InkWell(
-        onTap: (){
+        onTap: () {
           if (orderDetail.product_id != null &&
               orderDetail.product_id.product_detail != null)
             controller.showProductDetails(
@@ -155,9 +219,10 @@ class OrderPageState extends ViewState<OrderPage, OrderController>{
               children: [
                 Padding(
                   padding: const EdgeInsets.all(Dimens.spacingNormal),
-                  child: ProductThumbnail(orderDetail != null && orderDetail.product_id != null
-                      ? orderDetail.product_id.thumb_img
-                      : ""),
+                  child: ProductThumbnail(
+                      orderDetail != null && orderDetail.product_id != null
+                          ? orderDetail.product_id.thumb_img
+                          : ""),
                 ),
                 Expanded(
                   child: Column(
@@ -169,15 +234,17 @@ class OrderPageState extends ViewState<OrderPage, OrderController>{
                       ),
                       Padding(
                         padding:
-                        const EdgeInsets.only(left: Dimens.spacingMedium),
+                            const EdgeInsets.only(left: Dimens.spacingMedium),
                         child: Text(
                           orderDetail != null &&
-                              orderDetail.product_id != null &&
-                              orderDetail.product_id.product_detail != null
-                              ? orderDetail.product_id.product_detail.name ?? "-"
+                                  orderDetail.product_id != null &&
+                                  orderDetail.product_id.product_detail != null
+                              ? orderDetail.product_id.product_detail.name ??
+                                  "-"
                               : "-",
                           maxLines: 1,
-                          style: heading6.copyWith(color: AppColors.neutralDark),
+                          style:
+                              heading6.copyWith(color: AppColors.neutralDark),
                         ),
                       ),
                       SizedBox(
@@ -185,20 +252,22 @@ class OrderPageState extends ViewState<OrderPage, OrderController>{
                       ),
                       Padding(
                         padding:
-                        const EdgeInsets.only(left: Dimens.spacingMedium),
+                            const EdgeInsets.only(left: Dimens.spacingMedium),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
                               child: Text(
-                                LocaleKeys.fmtQty.tr(args: [orderDetail.qty.toString()]),
+                                LocaleKeys.fmtQty
+                                    .tr(args: [orderDetail.qty.toString()]),
                                 style: captionNormal1.copyWith(
                                     color: AppColors.neutralGray),
                               ),
                             ),
                             Text(
                               Utility.getOrderItemPrice(orderDetail),
-                              style: heading6.copyWith(color: AppColors.primary),
+                              style:
+                                  heading6.copyWith(color: AppColors.primary),
                             ),
                           ],
                         ),

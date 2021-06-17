@@ -11,27 +11,51 @@ import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
+class Filter {
+  String key;
+  String value;
+
+  Filter(this.key, this.value);
+}
+
 class SearchController extends BaseController {
   List<ProductDetail> products = [];
 
+  final filters = [
+    Filter("low-price", LocaleKeys.sortLowPrice.tr()),
+    Filter("high-price", LocaleKeys.sortHighPrice.tr()),
+    Filter("new", LocaleKeys.sortNew.tr()),
+    Filter("best-offer", LocaleKeys.sortBestOffer.tr())
+  ];
+
+  Filter selectedFilter;
   SearchPresenter _presenter;
 
   CategoryType categoryType;
+  String categoryId;
   String query;
 
   SearchController(
       ProductRepository productRepo, CategoryRepository categoryRepo,
-      {this.categoryType, String categoryId, this.query})
+      {this.categoryType, this.categoryId, this.query})
       : _presenter = SearchPresenter(productRepo, categoryRepo) {
+    fetch();
+  }
+
+  fetch() {
     showLoading();
     if (categoryType != null)
-      _presenter.searchCategory(categoryType);
+      _presenter.searchCategory(categoryType,
+          filter: selectedFilter != null ? selectedFilter.key : null);
     else if (categoryId != null) {
-      _presenter.searchCategoryById(categoryId);
-    } if(query  != null){
-      _presenter.searchByQuery(query);
-  } else{
-     /* showGenericSnackbar(getContext(), LocaleKeys.errorInvalidCategory.tr(),
+      _presenter.searchCategoryById(categoryId,
+          filter: selectedFilter != null ? selectedFilter.key : null);
+    }
+    if (query != null) {
+      _presenter.searchByQuery(query,
+          filter: selectedFilter != null ? selectedFilter.key : null);
+    } else {
+      /* showGenericSnackbar(getContext(), LocaleKeys.errorInvalidCategory.tr(),
           isError: true);*/
     }
   }
@@ -42,15 +66,15 @@ class SearchController extends BaseController {
     _presenter.getProductsOnError = getProductsOnError;
     _presenter.getProductsOnComplete = getProductsOnComplete;
 
-    _presenter.getCategoryOnNext = (categoryType){
+    _presenter.getCategoryOnNext = (categoryType) {
       dismissLoading();
       this.categoryType = categoryType;
     };
 
-    _presenter.getCategoryOnError = (e){
+    _presenter.getCategoryOnError = (e) {
       //showGenericSnackbar(getContext(), e.message, isError: true);
     };
-    _presenter.getCategoryOnComplete = (){
+    _presenter.getCategoryOnComplete = () {
       dismissLoading();
     };
   }
@@ -82,5 +106,11 @@ class SearchController extends BaseController {
 
   getProductsOnComplete() {
     dismissLoading();
+  }
+
+  void setFilter(Filter value) {
+    selectedFilter = value;
+    refreshUI();
+    fetch();
   }
 }

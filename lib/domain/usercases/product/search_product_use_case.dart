@@ -15,7 +15,7 @@ class SearchProductUseCase extends CompletableUseCase<SearchProductParams>{
   Future<Stream<List<ProductDetail>>> buildUseCaseStream(params) async {
     StreamController<List<ProductDetail>> controller = StreamController();
     try{
-      List<ProductDetail> products = await _repository.search(query: params.query);
+      List<ProductDetail> products = await _repository.search(query: params.query, filterBy: params.filterBy);
       controller.add(products);
       controller.close();
     }catch(e){
@@ -28,6 +28,7 @@ class SearchProductUseCase extends CompletableUseCase<SearchProductParams>{
 
 class SearchProductParams{
   String query;
+  String filterBy;
 
-  SearchProductParams({this.query});
+  SearchProductParams({this.query, this.filterBy});
 }

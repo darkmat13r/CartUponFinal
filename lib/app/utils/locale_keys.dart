@@ -284,6 +284,10 @@ class LocaleKeys {
   static var msgOrderCancelSuccess = "msgOrderCancelSuccess";
   static var msgOrderCancelFailed = "msgOrderCancelFailed";
   static var cancelOrder = "cancelOrder";
+  static var sortLowPrice = "sortLowPrice";
+  static var sortHighPrice = "sortHighPrice";
+  static var sortNew = "sortNew";
+  static var sortBestOffer = "sortBestOffer";
 
 
 }

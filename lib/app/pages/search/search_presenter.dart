@@ -33,25 +33,25 @@ class SearchPresenter extends Presenter {
     _logger = Logger("SearchPresenter");
   }
 
-  searchCategory(CategoryType category) {
+  searchCategory(CategoryType category, {String filter}) {
     _logger.finest(category);
     if (category != null) {
       _getProductListUseCase.execute(_GetProductListObserver(this),
-          ProductFilterParams(categoryId: category.category.id.toString()));
+          ProductFilterParams(categoryId: category.category.id.toString(), filterBy: filter));
     }
   }
 
-  searchCategoryById(String categoryId) {
+  searchCategoryById(String categoryId, {String filter}) {
     _logger.finest(categoryId);
     if (categoryId != null) {
       _getProductListUseCase.execute(_GetProductListObserver(this),
-          ProductFilterParams(categoryId: categoryId.toString()));
+          ProductFilterParams(categoryId: categoryId.toString(), filterBy: filter));
       _getCategoryUseCase.execute(_GetCategoryObserver(this), categoryId);
     }
   }
 
-  searchByQuery(String query){
-    _searchProductUseCase.execute(_GetProductListObserver(this), SearchProductParams(query: query));
+  searchByQuery(String query, {String filter}){
+    _searchProductUseCase.execute(_GetProductListObserver(this), SearchProductParams(query: query, filterBy: filter));
   }
 
   @override

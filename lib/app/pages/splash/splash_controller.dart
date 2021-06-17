@@ -41,15 +41,13 @@ class SplashController extends Controller {
 
   void onLoadCountries() async{
     var selectCountryId = await SessionHelper().getSelectedCountry();
-    Logger().e(selectCountryId);
+    //Logger().e(selectCountryId);
     if(selectCountryId == null || selectCountryId == 0){
       if(countries != null && countries.length > 0){
         var firstFind;
         var locale = await Devicelocale.currentLocale;
         String s = locale;
-        Logger().e("Locale ${locale}");
-
-
+        //Logger().e("Locale ${locale}");
         int idx = s.indexOf(Platform.isIOS ?  "-" :"_");
         if(idx >= 0){
           List parts = [s.substring(0,idx).trim(), s.substring(idx+1).trim()];
@@ -59,17 +57,16 @@ class SplashController extends Controller {
             locale = parts[0];
           }
         }
-
-        Logger().e(locale);
+        //Logger().e(locale);
         try{
           firstFind = countries.firstWhere((element) => element.country_code.toLowerCase() == locale.toLowerCase());
         }catch(e){
-          Logger().e(e);
+          //Logger().e(e);
         }
         if(firstFind == null){
           firstFind = countries.first;
         }
-        Logger().e(firstFind);
+        //Logger().e(firstFind);
         selectCountryId = firstFind.id;
         SessionHelper().setSelectedCountryId(firstFind.id);
       }

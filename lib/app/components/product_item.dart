@@ -45,7 +45,7 @@ class _ProductItemState extends State<ProductItem>
 
   Widget _buildProductCard() {
     return Card(
-      child: Column(
+      child: widget.product.product != null ? Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -140,7 +140,7 @@ class _ProductItemState extends State<ProductItem>
             ),
           )
         ],
-      ),
+      ) : SizedBox(),
     );
   }
 

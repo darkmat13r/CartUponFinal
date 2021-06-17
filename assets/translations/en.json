@@ -250,6 +250,10 @@
   "msgOrderCancelSuccess" : "Order cancel request submitted successfully",
   "msgOrderCancelFailed" : "Order cancel request failed.",
   "cancelOrder" : "Cancel order",
-  "currentOrder" : "Current Order"
+  "currentOrder" : "Current Order",
+  "sortLowPrice" : "Lowest Price",
+  "sortHighPrice" : "Highest Price",
+  "sortNew" : "Newest",
+  "sortBestOffer" : "Best Offer"
 
 }

@@ -8,6 +8,7 @@ import 'package:coupon_app/domain/entities/models/ProductWithRelated.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:logger/logger.dart';
+
 class DataProductRepository extends ProductRepository {
   Logger _logger;
 
@@ -21,12 +22,15 @@ class DataProductRepository extends ProductRepository {
 
   @override
   Future<List<ProductDetail>> getProducts(
-      {String categoryId, String type}) async {
+      {String categoryId, String type, String filterBy}) async {
     try {
       var params = {
         'lang': Config().getLanguageId().toString(),
         'country': (await SessionHelper().getSelectedCountry()).toString()
       };
+      if (filterBy != null) {
+        params['sort'] = filterBy;
+      }
       if (categoryId != null) {
         params['category_id'] = categoryId;
       }
@@ -57,11 +61,17 @@ class DataProductRepository extends ProductRepository {
   }
 
   @override
-  Future<List<ProductDetail>> search({String query}) async {
+  Future<List<ProductDetail>> search({String query, String filterBy}) async {
     try {
-      var params = {'lang': Config().getLanguageId().toString()};
+      var params = {
+        'lang': Config().getLanguageId().toString(),
+        'country': (await SessionHelper().getSelectedCountry()).toString()
+      };
       if (query != null) {
-        params['q'] = query;
+        params['search'] = query;
+      }
+      if (filterBy != null) {
+        params['sort'] = filterBy;
       }
       var uri = Constants.createUriWithParams(Constants.search, params);
       List<dynamic> data = await HttpHelper.invokeHttp(uri, RequestType.get);
@@ -81,10 +91,10 @@ class DataProductRepository extends ProductRepository {
         'country': (await SessionHelper().getSelectedCountry()).toString()
       };
       var id = int.tryParse(slug);
-      if( id != null){
-        params['id'] =  slug;
-      }else{
-        params['slug'] =  slug;
+      if (id != null) {
+        params['id'] = slug;
+      } else {
+        params['slug'] = slug;
       }
       _logger.i("Params ${params}");
       var uri = Constants.createUriWithParams(

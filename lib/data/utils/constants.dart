@@ -7,6 +7,7 @@ class Constants {
   // APIs
   static const String schema = "https";
   static const String baseUrl = '$schema://$baseUrlNoPrefix/v1';
+  static const String baseUrlWithoutV1 = '$schema://$baseUrlNoPrefix';
   static const String usersRoute = '$baseUrl/users';
 
   static const String loginRoute = '$baseUrl/login/';
@@ -37,7 +38,7 @@ class Constants {
   static var sliders = '$baseUrl/sliderreadapi';
   static var categories = '$baseUrl/categoryweb';
   static var products = '$baseUrl/productweb/';
-  static var search = '$baseUrl/search';
+  static var search = '$baseUrlWithoutV1/search/';
 
   static var home = '$baseUrl/homecommon';
 

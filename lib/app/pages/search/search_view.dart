@@ -26,25 +26,29 @@ class SearchPage extends View {
       categoryType: category, categoryId: categoryId, query: query);
 }
 
-class SearchPageState extends SearchableViewState<SearchPage, SearchController> {
+class SearchPageState
+    extends SearchableViewState<SearchPage, SearchController> {
   SearchPageState({CategoryType categoryType, String categoryId, String query})
       : super(SearchController(
             DataProductRepository(), DataCategoryRepository(),
             categoryType: categoryType, categoryId: categoryId, query: query));
+
   @override
-  Widget get title => ControlledWidgetBuilder(builder: (BuildContext context, SearchController controller){
-    return  Text(
-        controller.query != null
+  Widget get title => ControlledWidgetBuilder(
+          builder: (BuildContext context, SearchController controller) {
+        return Text(controller.query != null
             ? controller.query
             : (controller.categoryType != null
-            ? controller.categoryType.name
-            : ""));
-  });
+                ? controller.categoryType.name
+                : ""));
+      });
 
   @override
   Widget get body => _body;
+
   @override
   get key => globalKey;
+
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, SearchController controller) {
         double cardWidth = MediaQuery.of(context).size.width / 3.3;
@@ -95,19 +99,32 @@ class SearchPageState extends SearchableViewState<SearchPage, SearchController> 
 
   get _filterButton => ControlledWidgetBuilder(
           builder: (BuildContext context, SearchController controller) {
-        return InkWell(
-          onTap: () {
-            controller.filter();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(4),
-            child: Icon(
-              Feather.filter,
-              color: AppColors.neutralGray,
-            ),
+        return DropdownButton<Filter>(
+          focusColor:Colors.white,
+          value: controller.selectedFilter,
+          icon: const Icon(MaterialCommunityIcons.sort, color: AppColors.neutralGray,),
+          //elevation: 5,
+          style: TextStyle(color: Colors.white),
+          iconEnabledColor:Colors.black,
+          items: controller.filters.map<DropdownMenuItem<Filter>>((Filter value) {
+            return DropdownMenuItem<Filter>(
+              value: value,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(value.value,style:bodyTextNormal1.copyWith(color:AppColors.neutralGray),),
+              ),
+            );
+          }).toList(),
+          hint:Text(
+            "",
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+                fontWeight: FontWeight.w500),
           ),
+          onChanged: (Filter value) {
+            controller.setFilter(value);
+          },
         );
       });
-
-
 }

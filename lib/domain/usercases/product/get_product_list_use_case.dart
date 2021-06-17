@@ -16,7 +16,7 @@ class GetProductListUseCase extends CompletableUseCase<ProductFilterParams>{
   Future<Stream<List<ProductDetail>>> buildUseCaseStream(ProductFilterParams params) async{
     StreamController<List<ProductDetail>> controller = new StreamController();
     try{
-      List<ProductDetail> products = await _productRepository.getProducts(categoryId: params.categoryId, type: params.productType);
+      List<ProductDetail> products = await _productRepository.getProducts(categoryId: params.categoryId, type: params.productType, filterBy: params.filterBy);
       controller.add(products);
       controller.close();
     }catch(e){
@@ -32,6 +32,7 @@ class GetProductListUseCase extends CompletableUseCase<ProductFilterParams>{
 class ProductFilterParams{
   String categoryId;
   String productType;
+  String filterBy;
 
-  ProductFilterParams({this.categoryId, this.productType});
+  ProductFilterParams({this.categoryId, this.productType, this.filterBy});
 }
