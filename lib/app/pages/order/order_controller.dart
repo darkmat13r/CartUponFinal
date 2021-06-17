@@ -51,7 +51,6 @@ class OrderController extends BaseController{
       }, showCancel: false);
     };
     _presenter.cancelOrderOnError = (e){
-      Logger().e(e);
       dismissProgressDialog();
       showGenericSnackbar(getContext(), e.message, isError: true);
     };

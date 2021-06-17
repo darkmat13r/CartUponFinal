@@ -24,7 +24,7 @@ class CartStream {
   factory CartStream() => _instance;
 
   addToCart(Product productDetail, ProductVariantValue variantValue) async {
-    if(_cartItem == null){
+    if (_cartItem == null) {
       _cartItem = 0;
     }
     _cartItem++;
@@ -58,6 +58,6 @@ class CartStream {
   }
 
   void clear() {
-    updateQuantity(0);
+    updateCart(Cart());
   }
 }

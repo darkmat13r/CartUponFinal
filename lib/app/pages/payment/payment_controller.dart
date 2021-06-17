@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:coupon_app/app/pages/pages.dart';
@@ -26,11 +28,11 @@ class PaymentController extends Controller {
   void processResponse(String message) async {
     Map<String, dynamic> response = jsonDecode(message);
     if (response['Result'] == "COMPLETED" || response['Result'] == "APPROVED"  || response['Result'] == "CAPTURED"  ) {
+      CartStream().clear();
       showGenericConfirmDialog(
-          getContext(), LocaleKeys.order.tr(), LocaleKeys.msgOrderSuccess,
+          getContext(), LocaleKeys.order.tr(), LocaleKeys.msgOrderSuccess.tr(),
+          showCancel: false,
           onConfirm: () {
-        Navigator.of(getContext()).pushReplacementNamed(Pages.main);
-      }, onCancel: () {
         Navigator.of(getContext()).pushReplacementNamed(Pages.main);
       });
     } else {

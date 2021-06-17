@@ -142,7 +142,8 @@ class CheckoutController extends BaseController {
     _presenter.placeOrderOnComplete = (){
       dismissProgressDialog();
       if(paymentMethod == 1){
-        showGenericConfirmDialog(getContext(), LocaleKeys.order.tr(), LocaleKeys.msgOrderSuccess.tr(), onConfirm: (){
+
+        showGenericConfirmDialog(getContext(), LocaleKeys.order.tr(), LocaleKeys.msgOrderSuccess.tr(),showCancel: false, onConfirm: (){
           onCashOnDeliverOrderSuccess();
         }, onCancel: (){
           onCashOnDeliverOrderSuccess();
