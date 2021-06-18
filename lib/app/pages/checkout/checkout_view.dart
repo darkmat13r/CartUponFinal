@@ -1,6 +1,7 @@
 import 'package:coupon_app/app/components/cart_item.dart';
 import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/product_thumbnail.dart';
+import 'package:coupon_app/app/components/state_view.dart';
 import 'package:coupon_app/app/pages/checkout/checkout_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
@@ -38,7 +39,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
 
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, CheckoutController controller) {
-        return Column(
+        return StateView(controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT, Column(
           children: [
             Flexible(
                 flex: 1,
@@ -53,7 +54,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                 )),
             _placeOrder
           ],
-        );
+        ));
       });
 
   get _paymentMethods => ControlledWidgetBuilder(

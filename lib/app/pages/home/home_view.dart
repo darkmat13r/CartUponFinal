@@ -45,13 +45,17 @@ class HomePageView extends ViewState<HomePage, HomeController> {
           elevation: 0,
           backgroundColor: AppColors.primary,
           automaticallyImplyLeading: false,
-          title: TabBar(
-            indicatorColor: AppColors.accent,
-            isScrollable: true,
-            unselectedLabelColor: AppColors.neutralLight,
-            tabs: [
-              for (final tab in _tabsText) Tab(text: tab),
-            ],
+          title: Align(
+            alignment: Alignment.centerLeft,
+            child: TabBar(
+
+              indicatorColor: AppColors.accent,
+              isScrollable: true,
+              unselectedLabelColor: AppColors.neutralLight,
+              tabs: [
+                for (final tab in _tabsText) Tab(text: tab),
+              ],
+            ),
           ),
         ),
         body: TabBarView(

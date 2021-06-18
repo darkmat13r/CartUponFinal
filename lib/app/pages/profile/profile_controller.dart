@@ -79,10 +79,9 @@ class ProfileController extends BaseController {
     firstNameController.text = currentUser.user.first_name;
     lastNameController.text = currentUser.user.last_name;
     emailController.text = currentUser.user.username;
-    mobileNumberController.text = currentUser.mobile_no;
     gender = currentUser.gender;
     title = currentUser.title;
-    mobileNumberController.text = currentUser.mobile_no;
+    mobileNumberController.text = currentUser.user.username;
     dob = DateFormat("yyyy-MM-dd").parse(currentUser.date_of_birth);
     setDob(dob);
     updateNationality();

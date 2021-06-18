@@ -32,7 +32,7 @@ class CheckoutPresenter extends Presenter {
         _placeOrderUseCase = PlaceOrderUseCase(orderRepository),
         _addressesUseCase = GetAddressesUseCase(addressRepo) {
     fetchCart();
-    fetchAddresses();
+
   }
 
   fetchAddresses() {
