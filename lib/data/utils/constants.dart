@@ -57,7 +57,7 @@ class Constants {
   static String isLoginPopupShownKey = "isPopupShown";
 
   static var orderCreateRoute = "$baseUrl/ordercreate";
-  static var orderRoute = "$baseUrl/order/";
+  static var orderRoute = "$baseUrl/order";
   static var orderCancelRoute = "$baseUrl/order-cancel-request";
   static var changeCartUserIdRoute = "$baseUrl/cartwebapi/changeUser/";
 

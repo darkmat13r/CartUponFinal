@@ -11,6 +11,8 @@ import 'package:coupon_app/app/pages/main/main_view.dart';
 import 'package:coupon_app/app/pages/order/order_view.dart';
 import 'package:coupon_app/app/pages/orders/tab/orders_tabbed_view.dart';
 import 'package:coupon_app/app/pages/orders/orders_view.dart';
+import 'package:coupon_app/app/pages/otp/request/request_otp_view.dart';
+import 'package:coupon_app/app/pages/otp/verify/verify_otp_view.dart';
 import 'package:coupon_app/app/pages/payment/payment_view.dart';
 import 'package:coupon_app/app/pages/product/product_view.dart';
 import 'package:coupon_app/app/pages/profile/profile_view.dart';
@@ -80,6 +82,10 @@ class AppRouter {
 
       case Pages.settings :
         return buildRoute(settings, SettingsPage());
+      case Pages.requestOtp :
+        return buildRoute(settings, RequestOtpPage());
+      case Pages.verifyOtp :
+        return buildRoute(settings, VerifyOtpPage());
     }
   }
   Future<dynamic> orderDetails(BuildContext context, Order order) {

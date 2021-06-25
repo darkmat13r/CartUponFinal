@@ -259,10 +259,13 @@ class AddAddressPageState
                             onTap: () {
                               controller.onSelectBlock(block);
                             },
-                            child: Text(
-                              block.block_name,
-                              style: bodyTextNormal1.copyWith(
-                                  color: AppColors.neutralGray),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: Dimens.spacingNormal),
+                              child: Text(
+                                block.block_name,
+                                style: bodyTextNormal1.copyWith(
+                                    color: AppColors.neutralGray),
+                              ),
                             ));
                       })),
             ),
@@ -293,10 +296,13 @@ class AddAddressPageState
                             onTap: () {
                               controller.onSelectArea(area);
                             },
-                            child: Text(
-                              area.area_name,
-                              style: bodyTextNormal1.copyWith(
-                                  color: AppColors.neutralGray),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: Dimens.spacingNormal),
+                              child: Text(
+                                area.area_name,
+                                style: bodyTextNormal1.copyWith(
+                                    color: AppColors.neutralGray),
+                              ),
                             ));
                       })),
             ),

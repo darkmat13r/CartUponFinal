@@ -39,10 +39,12 @@ class DataOrderRepository extends OrderRepository{
     try{
       var url = Constants.createUriWithParams(Constants.orderRoute,
           {
-            "status" : status,
-            'lang': Config().getLanguageId().toString(),
+
           });
-      List<dynamic> data = await HttpHelper.invokeHttp(url, RequestType.get);
+      List<dynamic> data = await HttpHelper.invokeHttp(Constants.orderRoute, RequestType.get, body: {
+        "status" : status,
+        'lang': Config().getLanguageId().toString(),
+      });
       List<Order> response = data.map((e) => Order.fromJson(e)).toList();
       return response;
     }catch(e){

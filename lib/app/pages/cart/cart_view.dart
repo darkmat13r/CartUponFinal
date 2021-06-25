@@ -46,7 +46,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
           Expanded(
             flex: 1,
             child: ListView(
-              shrinkWrap: true,
+              shrinkWrap: false,
               children: [
                 _cartItems,
                 _cartInfo,
@@ -120,6 +120,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
           builder: (BuildContext context, CartController controller) {
         return ListView.builder(
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: controller.cart.cart.length,
             itemBuilder: (BuildContext context, int index) {
               return CartItemView(
