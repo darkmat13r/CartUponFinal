@@ -76,12 +76,12 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
-           /*   genderRadioButtons(controller),
+             emailField(controller),
 
 
               SizedBox(
                 height: Dimens.spacingMedium,
-              ),*/
+              ),
               mobileNumberField(controller),
               SizedBox(
                 height: Dimens.spacingMedium,
@@ -167,16 +167,38 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
         Expanded(
           child: TextFormField(
             keyboardType: TextInputType.phone,
+            enabled: false,
             controller: controller.mobileNumberController,
-            validator: (value) {
+            /*validator: (value) {
               if (value.isEmpty) {
                 return LocaleKeys.errorPhoneRequired.tr();
               }
               return null;
-            },
+            },*/
             decoration: InputDecoration(
+                fillColor: AppColors.neutralLightGray,
+                labelText: LocaleKeys.phoneNumber.tr(),
                 prefixIcon: Icon(MaterialCommunityIcons.phone),
                 hintText: LocaleKeys.phoneNumber.tr()),
+          ),
+        ),
+      ],
+    );
+  }
+  Widget emailField(ProfileController controller) {
+    return Row(
+      children: [
+        Expanded(
+          child: TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            enabled: false,
+
+            controller: controller.emailController,
+            decoration: InputDecoration(
+              fillColor: AppColors.neutralLightGray,
+                labelText: LocaleKeys.email.tr(),
+                prefixIcon: Icon(MaterialCommunityIcons.email),
+                hintText: LocaleKeys.email.tr()),
           ),
         ),
       ],
@@ -185,16 +207,16 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
   dialCode(ProfileController controller) {
     return Container(
       decoration: BoxDecoration(
-          color: AppColors.neutralLight,
+          color: AppColors.neutralLightGray,
           borderRadius: BorderRadius.circular(Dimens.cornerRadius),
-          border: Border.all(color: AppColors.neutralGray, width: Dimens.borderWidth)
+          border: Border.all(color: AppColors.neutralLightGray, width: Dimens.borderWidth)
       ),
       child: controller.selectedCountry != null
           ? Padding(
         padding: const EdgeInsets.symmetric(horizontal : Dimens.spacingMedium, vertical: Dimens.spacingNormal + 4),
         child: Text(
           (controller.selectedCountry.dial_code.startsWith("+") ?  "" : "+") +controller.selectedCountry.dial_code,
-          style: buttonText.copyWith(color: AppColors.primary),
+          style: bodyTextMedium2.copyWith(color: AppColors.neutralDark),
         ),
       )
           : Padding(
@@ -287,6 +309,7 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
     if (picked != null && picked != controller.dob) controller.setDob(picked);
   }
   void showCountryPicker(ProfileController controller) {
+    return;
     showDialog(
         context: context,
         builder: (BuildContext context) {

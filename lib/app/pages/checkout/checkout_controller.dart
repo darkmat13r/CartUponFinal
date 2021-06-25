@@ -69,7 +69,7 @@ class CheckoutController extends BaseController {
   }
 
   getCartOnComplete() {
-    dismissLoading();
+    _presenter.fetchAddresses();
   }
 
   @override

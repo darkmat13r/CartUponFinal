@@ -205,7 +205,6 @@ class DataAuthenticationRepository implements AuthenticationRepository {
           headers: headers,
           body: jsonEncode({
             'country_code': countryCode,
-            'mobile_no': mobileNo,
             'date_of_birth': dateOfBirth,
             'gender': gender,
             'nationlity': nationality,
@@ -213,7 +212,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
             'user': {
               'first_name': firstName,
               'last_name': lastName,
-              'is_active': "1",
+              'username': mobileNo,
             }
           }));
       Token token = Token.fromJson(body);
