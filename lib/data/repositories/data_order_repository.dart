@@ -3,6 +3,7 @@ import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
 import 'package:coupon_app/domain/entities/models/Order.dart';
 import 'package:coupon_app/domain/entities/models/OrderCancelResponse.dart';
+import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
 import 'package:coupon_app/domain/entities/models/PaymentOrder.dart';
 import 'package:coupon_app/domain/repositories/order_repository.dart';
 import 'package:logger/logger.dart';
@@ -35,7 +36,7 @@ class DataOrderRepository extends OrderRepository{
   }
 
   @override
-  Future<List<Order>> getOrders(String status) async{
+  Future<List<OrderDetail>> getOrders(String status) async{
     try{
       var url = Constants.createUriWithParams(Constants.orderRoute,
           {
@@ -45,10 +46,10 @@ class DataOrderRepository extends OrderRepository{
         "status" : status,
         'lang': Config().getLanguageId().toString(),
       });
-      List<Order> response = data.map((e) => Order.fromJson(e)).toList();
+      List<OrderDetail> response = data.map((e) => OrderDetail.fromJson(e)).toList();
       return response;
     }catch(e){
-      _logger.e(e);
+      _logger.e(e.stackTrace);
       rethrow;
     }
   }
@@ -56,17 +57,13 @@ class DataOrderRepository extends OrderRepository{
   @override
   Future<CancelOrderResponse> cancelOrder(String orderId) async{
     try{
-      var headers = {
-        'Content-Type' : 'application/x-www-form-urlencoded'
-      };
       dynamic data = await HttpHelper.invokeHttp(Constants.orderCancelRoute, RequestType.get, body: {
-        "order_id" : orderId
-      }, headers: headers);
-
+        "item_id" : orderId
+      });
       CancelOrderResponse response = CancelOrderResponse.fromJson(data);
       return response;
     }catch(e){
-      _logger.e(e);
+      _logger.e(e.stackTrace);
       rethrow;
     }
   }

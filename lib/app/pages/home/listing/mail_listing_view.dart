@@ -77,9 +77,6 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
   get _sliders =>
       ControlledWidgetBuilder(
           builder: (BuildContext context, MainListingController controller) {
-            print("controller.homeResponse ${controller.homeResponse != null
-                ? controller.homeResponse.sliders
-                : ""}");
             return controller.homeResponse != null &&
                 controller.homeResponse.sliders != null &&
                 controller.homeResponse.sliders.length > 0 ? CarouselSlider

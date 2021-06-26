@@ -21,7 +21,7 @@ class WelcomeController extends Controller{
   }
   void register() {
     Navigator.of(getContext()).pop();
-    Navigator.of(getContext()).pushNamed(Pages.verifyOtp);
+    Navigator.of(getContext()).pushNamed(Pages.requestOtp);
   }
 
   void back() {

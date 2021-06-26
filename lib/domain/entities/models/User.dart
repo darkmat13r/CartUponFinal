@@ -19,7 +19,7 @@ class User {
             password: json['password'], 
             user_type: json['user_type'], 
             username: json['username'],
-            email: json['username'],
+            email: json['email'],
         );
     }
 

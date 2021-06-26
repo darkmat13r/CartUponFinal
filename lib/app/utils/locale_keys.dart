@@ -289,5 +289,19 @@ class LocaleKeys {
   static var sortNew = "sortNew";
   static var sortBestOffer = "sortBestOffer";
 
+  static var otpVerification = "otpVerification";
+  static var otpRequestTitle = "otpRequestTitle";
+  static var fmtEnterOtp = "fmtEnterOtp";
+  static var dontReceiveOtp = "dontReceiveOtp";
+  static var verifyOtp = "verifyOtp";
+  static var errorOtpLength = "errorOtpLength";
+  static var otpSent = "otpSent";
+  static var getOtp = "getOtp";
+  static var mobileNumber = "mobileNumber";
+  static var formMustBeFilled = "formMustBeFilled";
+  static var errorCountryCodeRequired = "errorCountryCodeRequired";
+  static var resendOtp = "resendOtp";
+  static var resendOtpIn = "resendOtpIn";
+
 
 }

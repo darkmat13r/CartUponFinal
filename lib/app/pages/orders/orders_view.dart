@@ -10,6 +10,7 @@ import 'package:coupon_app/app/utils/theme_data.dart';
 import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/data/repositories/data_order_repository.dart';
 import 'package:coupon_app/domain/entities/models/Order.dart';
+import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -57,7 +58,7 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
     });
   }
 
-  Widget _orderItem(Order order) =>
+  Widget _orderItem(OrderDetail order) =>
       ControlledWidgetBuilder(
         builder: (BuildContext context, OrdersController controller) {
           return InkWell(
@@ -72,15 +73,15 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("#${order.id}",
-                      style: heading5.copyWith(color: AppColors.neutralDark),),
-                    Text(order.shipping_address != null ?  Utility.addressFormatter( order.shipping_address) : "",
-                      style: captionNormal1.copyWith(color: AppColors.neutralGray),),
-                    Text(LocaleKeys.orderAt.tr(namedArgs: {
+                    order.order != null  ? Text("#${order.id}",
+                      style: heading5.copyWith(color: AppColors.neutralDark),) : SizedBox(),
+                    order.order != null  ?  Text(order.order.shipping_address != null ?  Utility.addressFormatter( order.order.shipping_address) : "",
+                      style: captionNormal1.copyWith(color: AppColors.neutralGray),) : SizedBox(),
+                    order.order != null  ? Text(LocaleKeys.orderAt.tr(namedArgs: {
                       "location": "",
-                      "date": DateHelper.formatServerDate(order.created_at)
+                      "date": DateHelper.formatServerDate(order.order.created_at)
                     }), style: bodyTextNormal2.copyWith(
-                        color: AppColors.neutralGray),),
+                        color: AppColors.neutralGray),) : SizedBox(),
                     SizedBox(
                       height: Dimens.spacingSmall,
                     ),
@@ -97,7 +98,7 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
                         Expanded(child: Text(LocaleKeys.orderStatus.tr(),
                           style: bodyTextNormal2.copyWith(
                               color: AppColors.neutralGray),)),
-                        Text(Utility.capitalize(order.status),
+                        Text(Utility.capitalize(order.detail_status),
                             style: bodyTextNormal2.copyWith(color: AppColors
                                 .neutralDark))
                       ],
@@ -105,30 +106,30 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
                     SizedBox(
                       height: Dimens.spacingSmall,
                     ),
-                    Row(
+                   /* Row(
                       children: [
                         Expanded(child: Text(LocaleKeys.orderItems.tr(),
                           style: bodyTextNormal2.copyWith(
                               color: AppColors.neutralGray),)),
-                        Text(LocaleKeys.fmtItemsPurchased.tr(args: [(order.order_details != null ? order.order_details.length  : 0).toString()]),
+                        Text(LocaleKeys.fmtItemsPurchased.tr(args: [(order != null ? order.order_details.length  : 0).toString()]),
                             style: bodyTextNormal2.copyWith(color: AppColors
                                 .neutralDark))
                       ],
-                    ),
+                    ),*/
                     SizedBox(
                       height: Dimens.spacingSmall,
                     ),
-                    Row(
+                    order.order != null ?   Row(
                       children: [
                         Expanded(child: Text(LocaleKeys.price.tr(),
                           style: bodyTextNormal2.copyWith(
                               color: AppColors.neutralGray),)),
-                        Text(Utility.currencyFormat(order.total),
+                        Text(Utility.currencyFormat(order.order.total),
                             style: bodyTextNormal1.copyWith(color: AppColors
                                 .primary))
                       ],
-                    )
-                  ],
+                    ) : SizedBox()
+                  ] ,
                 ),
               )
               ),

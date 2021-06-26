@@ -5,17 +5,18 @@ import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/models/Order.dart';
+import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
 import 'package:coupon_app/domain/repositories/order_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logger/logger.dart';
 
 class OrderController extends BaseController{
-  Order order;
+  OrderDetail orderDetail;
 
   final OrderPresenter _presenter;
 
-  OrderController(OrderRepository orderRepository, {this.order}) : _presenter = OrderPresenter(orderRepository);
+  OrderController(OrderRepository orderRepository, {this.orderDetail}) : _presenter = OrderPresenter(orderRepository);
 
   @override
   void initListeners() {
@@ -30,11 +31,11 @@ class OrderController extends BaseController{
   }
 
   void cancelOrder() {
-    if(order == null){
+    if(orderDetail == null){
       return;
     }
     showProgressDialog();
-    _presenter.cancelOrder(order.id.toString());
+    _presenter.cancelOrder(orderDetail.id.toString());
   }
 
   @override

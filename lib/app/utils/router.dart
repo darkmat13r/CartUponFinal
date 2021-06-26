@@ -26,6 +26,7 @@ import 'package:coupon_app/app/pages/whishlist/whishlist_view.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/CategoryType.dart';
 import 'package:coupon_app/domain/entities/models/Order.dart';
+import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -84,11 +85,10 @@ class AppRouter {
         return buildRoute(settings, SettingsPage());
       case Pages.requestOtp :
         return buildRoute(settings, RequestOtpPage());
-      case Pages.verifyOtp :
-        return buildRoute(settings, VerifyOtpPage());
+
     }
   }
-  Future<dynamic> orderDetails(BuildContext context, Order order) {
+  Future<dynamic> orderDetails(BuildContext context, OrderDetail order) {
     return Navigator.of(context)
         .push(buildRoute(RouteSettings(), OrderPage(order: order,)));
   }
@@ -108,6 +108,13 @@ class AppRouter {
         RouteSettings(),
         SearchPage(
           category: category,
+        )));
+  }
+  verifyOtp(BuildContext context, String countryCode, String mobileNumber) {
+    Navigator.of(context).push(buildRoute(
+        RouteSettings(),
+        VerifyOtpPage(
+          countryCode, mobileNumber
         )));
   }
   querySearch(BuildContext context, String query) {
@@ -134,5 +141,14 @@ class AppRouter {
 
   MaterialPageRoute buildRoute(RouteSettings settings, Widget builder) {
     return new MaterialPageRoute(settings: settings, builder: (ctx) => builder);
+  }
+
+  void signup(BuildContext context, String countryCode, String mobileNumber) {
+    Navigator.of(context).push(buildRoute(
+        RouteSettings(),
+        RegisterPage(
+          countryCode: countryCode,
+          mobileNumber: mobileNumber,
+        )));
   }
 }

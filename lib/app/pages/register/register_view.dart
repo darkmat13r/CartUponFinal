@@ -15,14 +15,18 @@ import 'package:coupon_app/app/utils/extensions.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 
 class RegisterPage extends View {
+  final String countryCode;
+  final String mobileNumber;
+
+  RegisterPage({@required this.countryCode,@required  this.mobileNumber});
   @override
-  State<StatefulWidget> createState() => RegisterPageState();
+  State<StatefulWidget> createState() => RegisterPageState(countryCode, mobileNumber);
 }
 
 class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
-  RegisterPageState()
+  RegisterPageState(countryCode, mobileNumber)
       : super(RegisterController(
-            DataAuthenticationRepository(), DataNationalityRepository()));
+            DataAuthenticationRepository(), DataNationalityRepository(),countryCode, mobileNumber));
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordHidden = true;
 
@@ -130,7 +134,7 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
-              phoneField(controller),
+              mobileNumberField(controller),
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
@@ -221,22 +225,17 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
       ),
     );
   }
-
-  Widget phoneField(RegisterController controller) {
+  Widget mobileNumberField(RegisterController controller) {
     return Row(
       children: [
-        dialCode(controller),
         Expanded(
           child: TextFormField(
             keyboardType: TextInputType.phone,
+            enabled: false,
             controller: controller.mobileNumberController,
-            validator: (value) {
-              if (value.isEmpty) {
-                return LocaleKeys.errorPhoneRequired.tr();
-              }
-              return null;
-            },
             decoration: InputDecoration(
+                fillColor: AppColors.neutralLightGray,
+                labelText: LocaleKeys.phoneNumber.tr(),
                 prefixIcon: Icon(MaterialCommunityIcons.phone),
                 hintText: LocaleKeys.phoneNumber.tr()),
           ),
@@ -244,6 +243,20 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
       ],
     );
   }
+ /* Widget phoneField(RegisterController controller) {
+    return Row(
+      children: [
+        Expanded(
+          child: TextFormField(
+            keyboardType: TextInputType.phone,
+            decoration: InputDecoration(
+                prefixIcon: Icon(MaterialCommunityIcons.phone),
+                hintText: LocaleKeys.phoneNumber.tr()),
+          ),
+        ),
+      ],
+    );
+  }*/
 
   TextFormField dateOfBirthField(
       RegisterController controller, BuildContext context) {
@@ -366,7 +379,7 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
     );
   }
 
-  dialCode(RegisterController controller) {
+  /*dialCode(RegisterController controller) {
     return Container(
       decoration: BoxDecoration(
           color: AppColors.neutralLight,
@@ -464,5 +477,5 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
             ),
           );
         });
-  }
+  }*/
 }

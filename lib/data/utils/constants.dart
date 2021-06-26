@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 
 import './sensitive.dart';
@@ -58,8 +59,11 @@ class Constants {
 
   static var orderCreateRoute = "$baseUrl/ordercreate";
   static var orderRoute = "$baseUrl/order";
-  static var orderCancelRoute = "$baseUrl/order-cancel-request";
+  static var orderCancelRoute = "$baseUrl/item-cancel-request";
   static var changeCartUserIdRoute = "$baseUrl/cartwebapi/changeUser/";
+
+  static var sendOtp ="$baseUrl/sendOtp";
+  static var validateOtp ="$baseUrl/validateOTP";
 
 
   static String createUriWithParams(String route, Map<String, String> queryParams){
@@ -69,16 +73,9 @@ class Constants {
 }
 
 class Strings {
-  static const String registrationFormIncomplete = 'Form must be filled out.';
-  static const String tosNotAccepted =
-      'Please accept the Terms of Service to register.';
-  static const String registrationSuccessful = 'Registration Successful!';
-  static const String forgotEmailSent =
-      'Check your email for reset instructions.';
-  static const String forgotPwInstructions =
-      'Enter the email address associated with the forgotten account. Further instructions will be sent the account email.';
+  static  String registrationFormIncomplete = LocaleKeys.formMustBeFilled.tr();
 
-  static String loginFormIncomplete = "Form must be filled out";
+  static String loginFormIncomplete =  LocaleKeys.formMustBeFilled.tr();
 }
 
 extension AuthHeader on String{

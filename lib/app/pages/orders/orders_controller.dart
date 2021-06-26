@@ -5,6 +5,7 @@ import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/models/Order.dart';
+import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
 import 'package:coupon_app/domain/repositories/order_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ import 'package:logger/logger.dart';
 class OrdersController extends BaseController {
   final OrdersPresenter _presenter;
 
-  List<Order> orders;
+  List<OrderDetail> orders;
   Logger _logger;
   final String status;
 
@@ -29,7 +30,7 @@ class OrdersController extends BaseController {
     initOrdersListener();
   }
 
-  void orderDetails(Order order) async {
+  void orderDetails(OrderDetail order) async {
     final result = await Navigator.push(
       getContext(),
       MaterialPageRoute(

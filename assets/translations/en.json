@@ -254,6 +254,20 @@
   "sortLowPrice" : "Lowest Price",
   "sortHighPrice" : "Highest Price",
   "sortNew" : "Newest",
-  "sortBestOffer" : "Best Offer"
+  "sortBestOffer" : "Best Offer",
+  "otpVerification" : "Otp Verification",
+  "otpRequestTitle" : "We will send you an One Time Password on this mobile number",
+  "fmtEnterOtp" : "Enter the OTP sent to {}",
+  "dontReceiveOtp" : "Don't receive OTP?",
+  "verifyOtp" : "Verify & Proceed",
+  "errorOtpLength" : "OTP must be 6 digits",
+  "otpSent" : "OTP sent to your mobile number",
+  "resendOtp" : "Resend OTP",
+  "getOtp" : "Get OTP",
+  "mobileNumber" : "Mobile Number",
+  "formMustBeFilled" : "Form must be filled out.",
+  "resendOtpIn" : "Resend OTP in {}",
+  "errorCountryCodeRequired" : "Please select country code"
+
 
 }

@@ -22,8 +22,9 @@ class RegisterController extends BaseController {
   TextEditingController passwordController;
   TextEditingController mobileNumberController;
   TextEditingController dobController;
+  final String countryCode;
+  final String mobileNumber;
   DateTime dob;
-  String countryCode;
   int title;
   int gender;
   Nationality nationality;
@@ -35,8 +36,11 @@ class RegisterController extends BaseController {
   Logger _logger;
   List<Country> countries;
 
-  RegisterController(AuthenticationRepository authRepo,
-      NationalityRepository nationalityRepository)
+  RegisterController(
+      AuthenticationRepository authRepo,
+      NationalityRepository nationalityRepository,
+      this.countryCode,
+      this.mobileNumber)
       : _presenter = RegisterPresenter(authRepo, nationalityRepository) {
     _logger = Logger();
     firstNameController = TextEditingController();
@@ -47,12 +51,20 @@ class RegisterController extends BaseController {
     dobController = TextEditingController();
     getCachedCountry();
     getCachedCountries();
-
+    mobileNumberController.text = getSelectedMobileNumber();
+    if(countryCode == null && mobileNumber == null){
+      Navigator.of(getContext()).pop();
+      Navigator.of(getContext()).pushNamed(Pages.requestOtp);
+    }
   }
 
   @override
   void onResumed() {
     super.onResumed();
+  }
+
+  String getSelectedMobileNumber() {
+    return "${countryCode}${mobileNumber}";
   }
 
   @override
@@ -119,11 +131,11 @@ class RegisterController extends BaseController {
         lastName: lastNameController.text,
         email: emailController.text,
         countryCode:
-            selectedCountry != null ? selectedCountry.dial_code : countryCode,
+            countryCode,
         nationality: nationality.id,
         gender: gender,
         title: title,
-        mobileNo: mobileNumberController.text,
+        mobileNo: mobileNumber,
         dateOfBirth: DateFormat('yyyy-MM-dd').format(dob),
         password: passwordController.text));
   }
@@ -171,8 +183,6 @@ class RegisterController extends BaseController {
     this.gender = gender;
     refreshUI();
   }
-  
-
 
   void getCachedCountry() async {
     selectedCountry = Config().selectedCountry;
@@ -181,7 +191,7 @@ class RegisterController extends BaseController {
 
   void getCachedCountries() async {
     countries = await SessionHelper().cachedCounties();
-    
+
     refreshUI();
   }
 

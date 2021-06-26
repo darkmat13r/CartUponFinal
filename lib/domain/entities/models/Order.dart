@@ -24,7 +24,7 @@ class Order {
 
     factory Order.fromJson(Map<String, dynamic> json) {
         return Order(
-            billing_address: json['billing_address'] != null ? Address.fromJson(json['billing_address']) : null,
+            billing_address: json['billing_address'] != null && json['billing_address'] is Map? Address.fromJson(json['billing_address']) : null,
             created_at: json['created_at'], 
             id: json['id'], 
             order_details: json['order_details'] != null ? (json['order_details'] as List).map((i) => OrderDetail.fromJson(i)).toList() : null, 
@@ -33,7 +33,7 @@ class Order {
             pay_status: json['pay_status'], 
             payment_id: json['payment_id'] != null ? json['payment_id'] : null,
             ref: json['ref'] != null ? json['ref'] : null,
-            shipping_address: json['shipping_address'] != null ? Address.fromJson(json['shipping_address']) : null,
+            shipping_address: json['shipping_address'] != null  && json['billing_address'] is Map ? Address.fromJson(json['shipping_address']) : null,
             shipping_total: json['shipping_total'], 
             status: json['status'], 
             total: json['total'], 

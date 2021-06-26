@@ -78,7 +78,8 @@ class ProfileController extends BaseController {
   onAuthComplete() {
     firstNameController.text = currentUser.user.first_name;
     lastNameController.text = currentUser.user.last_name;
-    emailController.text = currentUser.user.username;
+    emailController.text = currentUser.user.email;
+    _logger.e( currentUser.user.email);
     gender = currentUser.gender;
     title = currentUser.title;
     mobileNumberController.text = currentUser.user.username;

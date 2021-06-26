@@ -5,9 +5,11 @@ import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
 
 class Utility {
   static String currencyFormat(dynamic price) {
+    if(price == null){
+      return "";
+    }
     if (price is String)
-      return NumberFormat.currency(symbol: "KD")
-          .format(double.tryParse(price));
+      return NumberFormat.currency(symbol: "KD").format(double.tryParse(price));
     return NumberFormat.currency(symbol: "KD").format(price);
   }
 
@@ -22,6 +24,7 @@ class Utility {
     }
     return Utility.currencyFormat(price);
   }
+
   static getOrderItemPrice(OrderDetail orderDetail) {
     double price = 0;
     if (orderDetail != null) {
@@ -34,12 +37,14 @@ class Utility {
     return Utility.currencyFormat(price);
   }
 
-  static addressFormatter(Address defaultAddress){
+  static addressFormatter(defaultAddress) {
+    if (defaultAddress is Address)
       return "${defaultAddress.floor_flat}," +
           "${defaultAddress.building}, ${defaultAddress.address}";
-
+    return "";
   }
-  static  String capitalize(String string) {
+
+  static String capitalize(String string) {
     if (string.isEmpty) {
       return string;
     }

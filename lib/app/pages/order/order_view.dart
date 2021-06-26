@@ -18,7 +18,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class OrderPage extends View {
-  final Order order;
+  final OrderDetail order;
 
   OrderPage({this.order});
 
@@ -27,8 +27,8 @@ class OrderPage extends View {
 }
 
 class OrderPageState extends ViewState<OrderPage, OrderController> {
-  OrderPageState({Order order})
-      : super(OrderController(DataOrderRepository(), order: order));
+  OrderPageState({OrderDetail order})
+      : super(OrderController(DataOrderRepository(), orderDetail: order));
 
   @override
   Widget get view => Scaffold(
@@ -98,7 +98,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
       });
 
   Widget _paymentDetails(OrderController controller) {
-    return controller.order != null
+    return controller.orderDetail != null
         ? Padding(
             padding: const EdgeInsets.all(Dimens.spacingNormal),
             child: Card(
@@ -108,20 +108,17 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                   children: [
                     _detailItem(
                         LocaleKeys.items.tr(args: [
-                          (controller.order.order_details != null
-                                  ? controller.order.order_details.length
-                                  : 0)
-                              .toString()
+                         "1"
                         ]),
-                        Utility.currencyFormat(controller.order.total)),
+                        Utility.currencyFormat(controller.orderDetail.order.total)),
                     DotWidget(
                       color: AppColors.neutralGray,
                     ),
                     _detailItem(
                         LocaleKeys.shipping.tr(),
-                        Utility.currencyFormat(controller.order.shipping_total)),
+                        Utility.currencyFormat(controller.orderDetail.order.shipping_total)),
                     _detailItem(LocaleKeys.totalPrice.tr(),
-                        Utility.currencyFormat(controller.order.total)),
+                        Utility.currencyFormat(controller.orderDetail.order.total)),
                   ],
                 ),
               ),
@@ -131,7 +128,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
   }
 
   Widget _shippingDetails(OrderController controller) {
-    return controller.order != null
+    return controller.orderDetail != null
         ? Padding(
             padding: const EdgeInsets.all(Dimens.spacingNormal),
             child: Card(
@@ -142,12 +139,12 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                     _detailItem(
                         LocaleKeys.orderShippingDate.tr(),
                         DateHelper.formatServerDate(
-                            controller.order.created_at)),
+                            controller.orderDetail.order.created_at)),
                     _detailItem(
                         LocaleKeys.address.tr(),
-                        controller.order.shipping_address != null
+                        controller.orderDetail.order.shipping_address != null
                             ? Utility.addressFormatter(
-                                controller.order.shipping_address)
+                                controller.orderDetail.order.shipping_address)
                             : ""),
                     _detailItem(LocaleKeys.orderStatus.tr(),
                         LocaleKeys.orderStatusShipping.tr()),
@@ -189,13 +186,10 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
     return ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount:
-            controller.order != null && controller.order.order_details != null
-                ? controller.order.order_details.length
-                : 0,
+        itemCount: 1,
         itemBuilder: (BuildContext context, int index) {
           return _productDetail(
-              controller.order.order_details[index], controller);
+              controller.orderDetail, controller);
         });
   }
 
