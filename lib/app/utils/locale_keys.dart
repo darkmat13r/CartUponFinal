@@ -302,6 +302,7 @@ class LocaleKeys {
   static var errorCountryCodeRequired = "errorCountryCodeRequired";
   static var resendOtp = "resendOtp";
   static var resendOtpIn = "resendOtpIn";
+  static var guestDetails = "guestDetails";
 
 
 }

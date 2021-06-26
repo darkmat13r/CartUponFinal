@@ -1,4 +1,5 @@
 import 'package:coupon_app/app/base_controller.dart';
+import 'package:coupon_app/app/pages/account/address/add/add_address_view.dart';
 import 'package:coupon_app/app/pages/account/address/addresses_view.dart';
 import 'package:coupon_app/app/pages/checkout/checkout_presenter.dart';
 import 'package:coupon_app/app/pages/pages.dart';
@@ -10,6 +11,7 @@ import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/PaymentOrder.dart';
 import 'package:coupon_app/domain/repositories/address_repository.dart';
+import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:coupon_app/domain/repositories/order_repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,15 +32,17 @@ class CheckoutController extends BaseController {
   Logger _logger;
   
   bool containsCoupon = false;
+  bool containsOnlyCoupon = false;
 
-  CheckoutController(AddressRepository addressRepo, CartRepository cartRepo, OrderRepository orderRepository)
-      : this._presenter = CheckoutPresenter(addressRepo, cartRepo, orderRepository) {
+  CheckoutController(AuthenticationRepository authRepo,AddressRepository addressRepo, CartRepository cartRepo, OrderRepository orderRepository)
+      : this._presenter = CheckoutPresenter(authRepo,addressRepo, cartRepo, orderRepository) {
     _logger = Logger();
     showLoading();
   }
 
   @override
   void initListeners() {
+    initBaseListeners(_presenter);
     _presenter.getCartOnNext = getCartOnNext;
     _presenter.getCartOnError = getCartOnError;
     _presenter.getCartOnComplete = getCartOnComplete;
@@ -46,21 +50,38 @@ class CheckoutController extends BaseController {
     initAddressListeners();
     initPlaceOrderListeners();
   }
+  @override
+  onAuthComplete() {
 
+    super.onAuthComplete();
+  }
   getCartOnNext(Cart cart) {
     this.cart = cart;
-    Logger().e(cart);
     try{
-      var item =  cart.cart.firstWhere((element) => !element.product_id.category_type);
-      if(item != null){
-        containsCoupon = true;
-      }
+      var item =  cart.cart.singleWhere((element) => element.product_id.category_type == false, orElse: null);
+      containsCoupon = item != null;
+      _logger.e("Container Coupon ${containsCoupon}");
     }catch(e){
-      Logger().e(e);
+      _logger.e(e);
     }
+
     CartStream().updateCart(cart);
     refreshUI();
     dismissProgressDialog();
+
+    try{
+      var anyProduct =  cart.cart.singleWhere((element) => element.product_id.category_type == true, orElse: null);
+      containsOnlyCoupon = containsCoupon && anyProduct == null;
+      _logger.e("Container only Coupon ${containsOnlyCoupon}");
+    }catch(e){
+      containsOnlyCoupon = containsCoupon;
+      refreshUI();
+    }
+    if(!containsOnlyCoupon){
+      _presenter.fetchAddresses();
+    }else{
+      dismissLoading();
+    }
   }
 
   getCartOnError(e) {
@@ -69,7 +90,7 @@ class CheckoutController extends BaseController {
   }
 
   getCartOnComplete() {
-    _presenter.fetchAddresses();
+
   }
 
   @override
@@ -89,8 +110,17 @@ class CheckoutController extends BaseController {
     };
   }
   void addAddress() async {
-    await Navigator.of(getContext()).pushNamed(Pages.addAddress);
-    _presenter.fetchAddresses();
+    if(currentUser != null){
+      await Navigator.of(getContext()).pushNamed(Pages.addAddress);
+      _presenter.fetchAddresses();
+    }else{
+      final result = await Navigator.push(
+        getContext(),
+        MaterialPageRoute(builder: (context) => AddAddressPage(guest: true, askPersonalDetailsOnly: containsOnlyCoupon,)),
+      );
+      this.defaultAddress = result;
+      refreshUI();
+    }
   }
 
   Future<void> changeAddress() async {

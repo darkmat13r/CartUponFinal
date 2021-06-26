@@ -1,11 +1,14 @@
 import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/account/address/add/add_address_presenter.dart';
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/Area.dart';
 import 'package:coupon_app/domain/entities/models/Block.dart';
+import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/repositories/address_repository.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
+import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
@@ -21,6 +24,7 @@ class AddAddressController extends BaseController {
   TextEditingController buildingText;
   TextEditingController addressText;
   TextEditingController phoneText;
+  TextEditingController emailText;
 
   Area selectedArea;
   Block selectedBlock;
@@ -29,6 +33,9 @@ class AddAddressController extends BaseController {
   bool isLoadingBlocks = false;
   bool isDefault = false;
 
+  bool askPersonalDetails = false;
+  bool guest = false;
+
   List<Area> areas;
   List<Block> blocks;
 
@@ -36,9 +43,11 @@ class AddAddressController extends BaseController {
 
   Address address;
 
+  Country selectedCountry;
+  List<Country> countries;
   AddAddressController(
       this.address,
-      AddressRepository addressRepository, AuthenticationRepository authRepo)
+      AddressRepository addressRepository, AuthenticationRepository authRepo,  { this.askPersonalDetails, this.guest})
       : _presenter = AddAddressPresenter(addressRepository, authRepo) {
     _logger = Logger("AddAddressController");
     firstNameText = TextEditingController();
@@ -49,13 +58,31 @@ class AddAddressController extends BaseController {
     phoneText = TextEditingController();
     areaText = TextEditingController();
     blockText = TextEditingController();
-
+    emailText = TextEditingController();
+    getCachedCountry();
+    getCachedCountries();
     isLoadingAreas = true;
     refreshUI();
     _presenter.fetchAreas();
     fillValues();
+
+  }
+  void getCachedCountry() async {
+    selectedCountry = Config().selectedCountry;
+    refreshUI();
   }
 
+  void getCachedCountries() async {
+    countries = await SessionHelper().cachedCounties();
+    if(address != null){
+      try{
+      //  selectedCountry = countries.firstWhere((element) => element.dial_code == address.)
+      }catch(e){
+
+      }
+    }
+    refreshUI();
+  }
   fillValues(){
     if(this.address != null){
         firstNameText.text = this.address.first_name;
@@ -74,7 +101,6 @@ class AddAddressController extends BaseController {
           selectedBlock = this.address.block;
         }
         isDefault = this.address.is_default;
-
 
     }
   }
@@ -176,7 +202,6 @@ class AddAddressController extends BaseController {
   void addAddress() {
     showLoading();
     Address data = Address(
-
         first_name: firstNameText.text,
         last_name: lastNameText.text,
         area: selectedArea,
@@ -184,10 +209,15 @@ class AddAddressController extends BaseController {
         floor_flat: flatText.text,
         building: buildingText.text,
         address: addressText.text,
+        email: emailText.text,
+        countryCode: selectedCountry.dial_code,
         phone_no: phoneText.text,
         is_default: isDefault);
-
-    _presenter.createAddress(data);
+    if(guest){
+      Navigator.of(getContext()).pop(data);
+    }else{
+      _presenter.createAddress(data);
+    }
   }
 
   @override
@@ -207,5 +237,10 @@ class AddAddressController extends BaseController {
         editAddress();
       }
     }
+  }
+
+  void setSelectedCountry(Country countri) {
+    selectedCountry = countri;
+    refreshUI();
   }
 }

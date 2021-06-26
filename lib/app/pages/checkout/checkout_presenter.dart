@@ -1,8 +1,10 @@
+import 'package:coupon_app/app/auth_presenter.dart';
 import 'package:coupon_app/app/pages/account/address/addresses_presenter.dart';
 import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/PaymentOrder.dart';
 import 'package:coupon_app/domain/repositories/address_repository.dart';
+import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:coupon_app/domain/repositories/order_repository.dart';
 import 'package:coupon_app/domain/usercases/address/get_addresses_use_case.dart';
@@ -10,7 +12,7 @@ import 'package:coupon_app/domain/usercases/cart/get_cart_items_use_case.dart';
 import 'package:coupon_app/domain/usercases/order/place_order_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
-class CheckoutPresenter extends Presenter {
+class CheckoutPresenter extends AuthPresenter {
   PlaceOrderUseCase _placeOrderUseCase;
   GetCartItemsUseCase _cartItemsUseCase;
   GetAddressesUseCase _addressesUseCase;
@@ -26,11 +28,11 @@ class CheckoutPresenter extends Presenter {
   Function placeOrderOnNext;
   Function placeOrderOnError;
 
-  CheckoutPresenter(AddressRepository addressRepo, CartRepository repository,
+  CheckoutPresenter(AuthenticationRepository authRepo,AddressRepository addressRepo, CartRepository repository,
       OrderRepository orderRepository)
       : _cartItemsUseCase = GetCartItemsUseCase(repository),
         _placeOrderUseCase = PlaceOrderUseCase(orderRepository),
-        _addressesUseCase = GetAddressesUseCase(addressRepo) {
+        _addressesUseCase = GetAddressesUseCase(addressRepo), super(authRepo) {
     fetchCart();
 
   }
@@ -52,6 +54,7 @@ class CheckoutPresenter extends Presenter {
 
   @override
   void dispose() {
+    super.dispose();
     _cartItemsUseCase.dispose();
   }
 }

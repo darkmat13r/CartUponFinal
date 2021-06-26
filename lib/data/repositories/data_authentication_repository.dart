@@ -204,7 +204,6 @@ class DataAuthenticationRepository implements AuthenticationRepository {
           RequestType.patch,
           headers: headers,
           body: jsonEncode({
-            'country_code': countryCode,
             'date_of_birth': dateOfBirth,
             'gender': gender,
             'nationlity': nationality,
@@ -212,7 +211,6 @@ class DataAuthenticationRepository implements AuthenticationRepository {
             'user': {
               'first_name': firstName,
               'last_name': lastName,
-              'username': mobileNo,
             }
           }));
       Token token = Token.fromJson(body);

@@ -12,9 +12,11 @@ class Address {
     int id;
     bool is_default;
     String phone_no;
+    String email;
+    String countryCode;
     int user;
 
-    Address({this.first_name, this.last_name,this.address, this.area, this.block, this.building, this.floor_flat, this.id, this.is_default, this.phone_no, this.user});
+    Address({this.first_name, this.last_name,this.address, this.area, this.block, this.building, this.floor_flat, this.id, this.is_default, this.phone_no, this.user, this.email, this.countryCode});
 
     factory Address.fromJson(Map<String, dynamic> json) {
         return Address(
@@ -25,7 +27,7 @@ class Address {
             block: (json['block'] !=  null && json['block'] is Map) ? Block.fromJson(json['block']) : null,
             building: json['building'], 
             floor_flat: json['floor_flat'], 
-            id: json['id'], 
+            id: json['id'],
             is_default: json['is_default'], 
             phone_no: json['phone_no'], 
             user: json['user'], 

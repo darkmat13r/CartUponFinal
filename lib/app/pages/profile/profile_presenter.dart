@@ -35,6 +35,7 @@ class ProfilePresenter extends AuthPresenter {
 
   @override
   void dispose() {
+    super.dispose();
     updateProfileUseCase.dispose();
   }
 

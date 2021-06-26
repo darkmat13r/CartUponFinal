@@ -102,8 +102,6 @@ class HttpHelper {
       print("${response.statusCode}");
       print("Response Body  ${url} : ${utf8.decode(response.bodyBytes)}" );
 
-
-
       // check for any errors
       if (response.statusCode != 200 && response.statusCode != 201) {
         print("====================>${response.statusCode}");

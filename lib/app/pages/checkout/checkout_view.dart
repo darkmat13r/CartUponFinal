@@ -8,6 +8,7 @@ import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/data/repositories/cart/data_cart_repository.dart';
 import 'package:coupon_app/data/repositories/data_address_repository.dart';
+import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
 import 'package:coupon_app/data/repositories/data_order_repository.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
@@ -23,8 +24,11 @@ class CheckoutPage extends View {
 
 class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
   _CheckoutPageState()
-      : super(
-            CheckoutController(DataAddressRepository(), DataCartRepository(), DataOrderRepository()));
+      : super(CheckoutController(
+            DataAuthenticationRepository(),
+            DataAddressRepository(),
+            DataCartRepository(),
+            DataOrderRepository()));
 
   @override
   Widget get view => Scaffold(
@@ -39,22 +43,24 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
 
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, CheckoutController controller) {
-        return StateView(controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT, Column(
-          children: [
-            Flexible(
-                flex: 1,
-                child: ListView(
-                  children: [
-                    controller.defaultAddress != null
-                        ? _defaultAddress(controller)
-                        : _addAddress,
-                    _orderDetails,
-                    _paymentMethods
-                  ],
-                )),
-            _placeOrder
-          ],
-        ));
+        return StateView(
+            controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT,
+            Column(
+              children: [
+                Flexible(
+                    flex: 1,
+                    child: ListView(
+                      children: [
+                        (controller.defaultAddress != null
+                            ? _defaultAddress(controller)
+                            : _addAddress),
+                        _orderDetails,
+                        _paymentMethods
+                      ],
+                    )),
+                _placeOrder
+              ],
+            ));
       });
 
   get _paymentMethods => ControlledWidgetBuilder(
@@ -82,15 +88,17 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                     SizedBox(
                       height: Dimens.spacingNormal,
                     ),
-                    !controller.containsCoupon ? RadioListTile(
-                      contentPadding: const EdgeInsets.all(0),
-                      title: Text(LocaleKeys.cashOnDeliver.tr()),
-                      value: 1,
-                      groupValue: controller.paymentMethod,
-                      onChanged: (int value) {
-                        controller.setPaymentMethod(value);
-                      },
-                    ) : SizedBox(),
+                    !controller.containsCoupon
+                        ? RadioListTile(
+                            contentPadding: const EdgeInsets.all(0),
+                            title: Text(LocaleKeys.cashOnDeliver.tr()),
+                            value: 1,
+                            groupValue: controller.paymentMethod,
+                            onChanged: (int value) {
+                              controller.setPaymentMethod(value);
+                            },
+                          )
+                        : SizedBox(),
                     RadioListTile(
                       contentPadding: const EdgeInsets.all(0),
                       title: Text(LocaleKeys.payOnline.tr()),
@@ -110,38 +118,41 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
 
   get _orderDetails => ControlledWidgetBuilder(
           builder: (BuildContext context, CheckoutController controller) {
-        return controller.cart != null ? Container(
-          color: AppColors.cardBg,
-          child: Padding(
-            padding: const EdgeInsets.all(Dimens.spacingMedium),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                        child: Text(
-                      LocaleKeys.orderDetails.tr(),
-                      style: heading5,
-                    )),
-                    Text(
-                      Utility.currencyFormat(controller.cart.net_total),
-                      style:
-                          captionNormal2.copyWith(color: AppColors.neutralGray),
-                    ),
-                  ],
+        return controller.cart != null
+            ? Container(
+                color: AppColors.cardBg,
+                child: Padding(
+                  padding: const EdgeInsets.all(Dimens.spacingMedium),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                              child: Text(
+                            LocaleKeys.orderDetails.tr(),
+                            style: heading5,
+                          )),
+                          Text(
+                            Utility.currencyFormat(controller.cart.net_total),
+                            style: captionNormal2.copyWith(
+                                color: AppColors.neutralGray),
+                          ),
+                        ],
+                      ),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.cart.cart.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _productDetail(
+                                controller.cart.cart[index], controller);
+                          })
+                    ],
+                  ),
                 ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: controller.cart.cart.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _productDetail(controller.cart.cart[index], controller);
-                    })
-              ],
-            ),
-          ),
-        ) : SizedBox();
+              )
+            : SizedBox();
       });
 
   get _addAddress => ControlledWidgetBuilder(
@@ -181,13 +192,19 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
           child: Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),
             child: RaisedButton(
-              onPressed: controller.paymentMethod != 0 ? () {
-                controller.placeOrder();
-              } : null,
-              child: Text(controller.paymentMethod == 2
-                  ? LocaleKeys.fmtPaySecurely.tr(
-                      args: [Utility.currencyFormat(controller.cart.net_total)])
-                  : LocaleKeys.placeOrder.tr(), style: buttonText,),
+              onPressed: controller.paymentMethod != 0
+                  ? () {
+                      controller.placeOrder();
+                    }
+                  : null,
+              child: Text(
+                controller.paymentMethod == 2
+                    ? LocaleKeys.fmtPaySecurely.tr(args: [
+                        Utility.currencyFormat(controller.cart.net_total)
+                      ])
+                    : LocaleKeys.placeOrder.tr(),
+                style: buttonText,
+              ),
             ),
           ),
         );
@@ -257,14 +274,12 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
     );
   }
 
-
   _productDetail(CartItem cart, CheckoutController controller) {
     return Padding(
       padding: const EdgeInsets.only(top: Dimens.spacingNormal),
       child: InkWell(
-        onTap: (){
-          if (cart.product_id != null &&
-              cart.product_id.product_detail != null)
+        onTap: () {
+          if (cart.product_id != null && cart.product_id.product_detail != null)
             controller.showProductDetails(
                 cart.product_id.product_detail.id.toString());
         },
@@ -275,9 +290,10 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(Dimens.spacingNormal),
-                  child: ProductThumbnail(cart != null && cart.product_id != null
-                      ? cart.product_id.thumb_img
-                      : ""),
+                  child: ProductThumbnail(
+                      cart != null && cart.product_id != null
+                          ? cart.product_id.thumb_img
+                          : ""),
                 ),
                 Expanded(
                   child: Column(
@@ -297,7 +313,8 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                               ? cart.product_id.product_detail.name ?? "-"
                               : "-",
                           maxLines: 1,
-                          style: heading6.copyWith(color: AppColors.neutralDark),
+                          style:
+                              heading6.copyWith(color: AppColors.neutralDark),
                         ),
                       ),
                       SizedBox(
@@ -311,14 +328,16 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                           children: [
                             Expanded(
                               child: Text(
-                                LocaleKeys.fmtQty.tr(args: [cart.qty.toString()]),
+                                LocaleKeys.fmtQty
+                                    .tr(args: [cart.qty.toString()]),
                                 style: captionNormal1.copyWith(
                                     color: AppColors.neutralGray),
                               ),
                             ),
                             Text(
                               Utility.getCartItemPrice(cart),
-                              style: heading6.copyWith(color: AppColors.primary),
+                              style:
+                                  heading6.copyWith(color: AppColors.primary),
                             ),
                           ],
                         ),

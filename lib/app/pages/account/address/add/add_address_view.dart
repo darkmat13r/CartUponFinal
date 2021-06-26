@@ -18,18 +18,32 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class AddAddressPage extends View {
   Address address;
+  bool askPersonalDetailsOnly = false;
+  bool guest = false;
 
-  AddAddressPage({this.address});
+  AddAddressPage({this.address, bool askPersonalDetailsOnly, bool guest})
+      : this.askPersonalDetailsOnly = askPersonalDetailsOnly ?? false,
+        this.guest = guest ?? false;
 
   @override
-  State<StatefulWidget> createState() => AddAddressPageState(address);
+  State<StatefulWidget> createState() => AddAddressPageState(
+        address,
+        askPersonalDetailsOnly: askPersonalDetailsOnly,
+      );
 }
 
 class AddAddressPageState
     extends ViewState<AddAddressPage, AddAddressController> {
-  AddAddressPageState(Address address)
-      : super(AddAddressController(address,
-            DataAddressRepository(), DataAuthenticationRepository()));
+  bool askPersonalDetailsOnly = false;
+  bool guest = false;
+
+  AddAddressPageState(Address address,
+      {bool askPersonalDetailsOnly, bool guest})
+      : this.askPersonalDetailsOnly = askPersonalDetailsOnly ?? false,
+        this.guest = guest ?? false,
+        super(AddAddressController(
+            address, DataAddressRepository(), DataAuthenticationRepository(),
+            askPersonalDetails: askPersonalDetailsOnly, guest: guest));
   final _formKey = GlobalKey<FormState>();
 
   final FocusNode areaFocusNode = FocusNode();
@@ -39,7 +53,11 @@ class AddAddressPageState
   Widget get view => Scaffold(
         appBar: customAppBar(
             title: Text(
-          widget.address == null ? LocaleKeys.addAddress.tr() : LocaleKeys.editAddress.tr(),
+          guest
+              ? LocaleKeys.guestDetails.tr()
+              : (widget.address == null
+                  ? LocaleKeys.addAddress.tr()
+                  : LocaleKeys.editAddress.tr()),
           style: heading5.copyWith(color: AppColors.primary),
         )),
         key: globalKey,
@@ -75,89 +93,66 @@ class AddAddressPageState
                       }
                       return null;
                     }),
-                Row(
-                  children: [
-                    Expanded(
-                      child: formField(
-                          label: LocaleKeys.area.tr(),
-                          hint: LocaleKeys.hintArea.tr(),
-                          textEditingController: controller.areaText,
-                          focusNode: areaFocusNode,
-                          onTap: () {
-                            areaFocusNode.unfocus();
-                            if(controller.areas != null ){
-                              showAreaDialog(controller);
-                            }
-                          },
-                          validation: (value) {
-                            if (value.isEmpty) {
-                              return LocaleKeys.errorLastNameRequired.tr();
-                            }
-                            return null;
-                          }),
-                    ),
-                    SizedBox(
-                      width: Dimens.spacingNormal,
-                    ),
-                    Expanded(
-                      child: formField(
-                          label: LocaleKeys.block.tr(),
-                          hint: LocaleKeys.hintBlock.tr(),
-                          focusNode: blockFocusNode,
-                          onTap: () {
-                            blockFocusNode.unfocus();
-                           if(controller.blocks != null){
-                             showBlockDialog(controller);
-                           }
-                          },
-                          textEditingController: controller.blockText,
-                          validation: (value) {
-                            if (value.isEmpty) {
-                              return LocaleKeys.errorLastNameRequired.tr();
-                            }
-                            return null;
-                          }),
-                    ),
-                  ],
-                ),
-                formField(
-                    label: LocaleKeys.floorFlat.tr(),
-                    hint: LocaleKeys.hintFlat.tr(),
-                    textEditingController: controller.flatText,
-                    validation: (value) {
-                      if (value.isEmpty) {
-                        return LocaleKeys.errorFloorFlatRequired.tr();
-                      }
-                      return null;
-                    }),
-                formField(
-                    label: LocaleKeys.building.tr(),
-                    hint: LocaleKeys.hintBuilding.tr(),
-                    textEditingController: controller.buildingText,
-                    validation: (value) {
-                      if (value.isEmpty) {
-                        return LocaleKeys.errorBuildingRequired.tr();
-                      }
-                      return null;
-                    }),
-                formField(
-                    label: LocaleKeys.address.tr(),
-                    hint: LocaleKeys.hintAddress.tr(),
-                    textEditingController: controller.addressText,
-                    validation: (value) {
-                      if (value.isEmpty) {
-                        return LocaleKeys.errorAddressRequired.tr();
-                      }
-                      return null;
-                    }),
+                _blockAndArea(controller),
+                askPersonalDetailsOnly == false
+                    ? formField(
+                        label: LocaleKeys.floorFlat.tr(),
+                        hint: LocaleKeys.hintFlat.tr(),
+                        textEditingController: controller.flatText,
+                        validation: (value) {
+                          if (value.isEmpty) {
+                            return LocaleKeys.errorFloorFlatRequired.tr();
+                          }
+                          return null;
+                        })
+                    : SizedBox(),
+                askPersonalDetailsOnly == false
+                    ? formField(
+                        label: LocaleKeys.building.tr(),
+                        hint: LocaleKeys.hintBuilding.tr(),
+                        textEditingController: controller.buildingText,
+                        validation: (value) {
+                          if (value.isEmpty) {
+                            return LocaleKeys.errorBuildingRequired.tr();
+                          }
+                          return null;
+                        })
+                    : SizedBox(),
+                askPersonalDetailsOnly == false
+                    ? formField(
+                        label: LocaleKeys.address.tr(),
+                        hint: LocaleKeys.hintAddress.tr(),
+                        textEditingController: controller.addressText,
+                        validation: (value) {
+                          if (value.isEmpty) {
+                            return LocaleKeys.errorAddressRequired.tr();
+                          }
+                          return null;
+                        })
+                    : SizedBox(),
+                guest
+                    ? formField(
+                        label: LocaleKeys.email.tr(),
+                        hint: LocaleKeys.hintEmail.tr(),
+                        inputType: TextInputType.phone,
+                        textEditingController: controller.emailText,
+                        validation: (value) {
+                          if (value.isEmpty) {
+                            return LocaleKeys.errorEmailRequired.tr();
+                          }
+                          return null;
+                        })
+                    : SizedBox(),
                 formField(
                     label: LocaleKeys.phone.tr(),
                     hint: LocaleKeys.hintPhone.tr(),
                     inputType: TextInputType.phone,
-                    prefix: Text(
-                      controller.currentUser.country_code,
-                      style: bodyTextNormal1,
-                    ),
+                    prefix: guest
+                        ? dialCode(controller)
+                        : Text(
+                            controller.currentUser.country_code,
+                            style: bodyTextNormal1,
+                          ),
                     textEditingController: controller.phoneText,
                     validation: (value) {
                       if (value.isEmpty) {
@@ -168,17 +163,22 @@ class AddAddressPageState
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
-                CheckboxListTile(
-                  contentPadding: EdgeInsets.all(0),
-                  title: Text(LocaleKeys.txtDefaultAddress.tr(), style: captionNormal1,),
-                  value: controller.isDefault,
-                  onChanged: (newValue) {
-                    setState(() {
-                      controller.isDefault = newValue;
-                    });
-                  },
-                  controlAffinity: ListTileControlAffinity.leading,
-                ),
+                askPersonalDetailsOnly == false
+                    ? CheckboxListTile(
+                        contentPadding: EdgeInsets.all(0),
+                        title: Text(
+                          LocaleKeys.txtDefaultAddress.tr(),
+                          style: captionNormal1,
+                        ),
+                        value: controller.isDefault,
+                        onChanged: (newValue) {
+                          setState(() {
+                            controller.isDefault = newValue;
+                          });
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
+                      )
+                    : SizedBox(),
                 SizedBox(
                   height: Dimens.spacingLarge,
                 ),
@@ -198,6 +198,145 @@ class AddAddressPageState
         );
       });
 
+  Row _blockAndArea(AddAddressController controller) {
+    return askPersonalDetailsOnly == false
+        ? Row(
+            children: [
+              Expanded(
+                child: formField(
+                    label: LocaleKeys.area.tr(),
+                    hint: LocaleKeys.hintArea.tr(),
+                    textEditingController: controller.areaText,
+                    focusNode: areaFocusNode,
+                    onTap: () {
+                      areaFocusNode.unfocus();
+                      if (controller.areas != null) {
+                        showAreaDialog(controller);
+                      }
+                    },
+                    validation: (value) {
+                      if (value.isEmpty) {
+                        return LocaleKeys.errorLastNameRequired.tr();
+                      }
+                      return null;
+                    }),
+              ),
+              SizedBox(
+                width: Dimens.spacingNormal,
+              ),
+              Expanded(
+                child: formField(
+                    label: LocaleKeys.block.tr(),
+                    hint: LocaleKeys.hintBlock.tr(),
+                    focusNode: blockFocusNode,
+                    onTap: () {
+                      blockFocusNode.unfocus();
+                      if (controller.blocks != null) {
+                        showBlockDialog(controller);
+                      }
+                    },
+                    textEditingController: controller.blockText,
+                    validation: (value) {
+                      if (value.isEmpty) {
+                        return LocaleKeys.errorLastNameRequired.tr();
+                      }
+                      return null;
+                    }),
+              ),
+            ],
+          )
+        : SizedBox();
+  }
+
+  dialCode(AddAddressController controller) {
+    return Container(
+      decoration: BoxDecoration(
+          color: AppColors.neutralLight,
+          borderRadius: BorderRadius.circular(Dimens.cornerRadius),
+          border: Border.all(
+              color: AppColors.neutralGray, width: Dimens.borderWidth)),
+      child: controller.selectedCountry != null
+          ? InkWell(
+              onTap: () {
+                showCountryPicker(controller);
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: Dimens.spacingMedium,
+                    vertical: Dimens.spacingNormal + 4),
+                child: Text(
+                  (controller.selectedCountry.dial_code.startsWith("+")
+                          ? ""
+                          : "+") +
+                      controller.selectedCountry.dial_code,
+                  style: buttonText.copyWith(color: AppColors.primary),
+                ),
+              ),
+            )
+          : SizedBox(),
+    );
+  }
+
+  void showCountryPicker(AddAddressController controller) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              LocaleKeys.chooseCountry.tr(),
+              style: heading5,
+            ),
+            content: SingleChildScrollView(
+              child: Material(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(
+                        controller.countries != null
+                            ? controller.countries.length
+                            : 0,
+                        (index) => InkWell(
+                              onTap: () {
+                                controller.setSelectedCountry(
+                                    controller.countries[index]);
+                                Navigator.pop(context);
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.all(Dimens.spacingNormal),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        (controller.countries[index].dial_code
+                                                    .startsWith("+")
+                                                ? ""
+                                                : "+") +
+                                            controller
+                                                .countries[index].dial_code,
+                                        style: bodyTextMedium2,
+                                      ),
+                                      SizedBox(
+                                        width: Dimens.spacingNormal,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          controller
+                                              .countries[index].country_name,
+                                          style: bodyTextMedium2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ))),
+              ),
+            ),
+          );
+        });
+  }
+
   Widget formField(
       {String label,
       Widget prefix,
@@ -205,7 +344,7 @@ class AddAddressPageState
       Controller controller,
       Function validation,
       FocusNode focusNode,
-        TextInputType inputType,
+      TextInputType inputType,
       TextEditingController textEditingController,
       Function onTap}) {
     return Column(
@@ -227,14 +366,17 @@ class AddAddressPageState
           onTap: onTap,
           controller: textEditingController,
           validator: validation,
-          decoration: InputDecoration(hintText:hint, prefix:  Padding(
-            padding: EdgeInsets.only(right: Dimens.spacingNormal),
-            child: prefix,
-          )),
+          decoration: InputDecoration(
+              hintText: hint,
+              prefix: Padding(
+                padding: EdgeInsets.only(right: Dimens.spacingNormal),
+                child: prefix,
+              )),
         )
       ],
     );
   }
+
   showBlockDialog(AddAddressController controller) {
     showDialog(
         context: context,
@@ -260,7 +402,8 @@ class AddAddressPageState
                               controller.onSelectBlock(block);
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: Dimens.spacingNormal),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: Dimens.spacingNormal),
                               child: Text(
                                 block.block_name,
                                 style: bodyTextNormal1.copyWith(
@@ -272,6 +415,7 @@ class AddAddressPageState
           );
         });
   }
+
   showAreaDialog(AddAddressController controller) {
     showDialog(
         context: context,
@@ -297,7 +441,8 @@ class AddAddressPageState
                               controller.onSelectArea(area);
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: Dimens.spacingNormal),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: Dimens.spacingNormal),
                               child: Text(
                                 area.area_name,
                                 style: bodyTextNormal1.copyWith(

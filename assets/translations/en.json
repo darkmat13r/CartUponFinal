@@ -262,6 +262,7 @@
   "verifyOtp" : "Verify & Proceed",
   "errorOtpLength" : "OTP must be 6 digits",
   "otpSent" : "OTP sent to your mobile number",
+  "guestDetails" : "Guest Details",
   "resendOtp" : "Resend OTP",
   "getOtp" : "Get OTP",
   "mobileNumber" : "Mobile Number",
