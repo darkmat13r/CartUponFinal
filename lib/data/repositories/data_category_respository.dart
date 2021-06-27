@@ -27,7 +27,7 @@ class DataCategoryRepository extends CategoryRepository {
         params['category_type'] = type;
       }
       params['lang'] = Config().getLanguageId().toString();
-      params['country'] = (await SessionHelper().getSelectedCountry()).toString();
+      params['country'] = (await SessionHelper().getSelectedCountryId()).toString();
       var url = Constants.createUriWithParams(Constants.categoriesRoute, params);
       List<dynamic> data = await HttpHelper.invokeHttp(url, RequestType.get);
       _logger.finest("Data ", data);

@@ -313,8 +313,13 @@ class LocaleKeys {
   static var loginRequired = "loginRequired";
   static var productReviews = "productReviews";
   static var fmtShareProduct = "fmtShareProduct";
-
-
-
+  static var walletTitle = "walletTitle";
+  static var msgWalletSuccess = "msgWalletSuccess";
+  static var errorWalletFailed = "errorWalletFailed";
+  static var enterAmount = "enterAmount";
+  static var proceed = "proceed";
+  static var invalidAmount = "invalidAmount";
+  static var addMoneyToWallet = "addMoneyToWallet";
+  static var currentBalance = "currentBalance";
 
 }

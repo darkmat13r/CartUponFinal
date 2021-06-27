@@ -40,7 +40,7 @@ class SplashController extends Controller {
   }
 
   void onLoadCountries() async{
-    var selectCountryId = await SessionHelper().getSelectedCountry();
+    var selectCountryId = await SessionHelper().getSelectedCountryId();
     //Logger().e(selectCountryId);
     if(selectCountryId == null || selectCountryId == 0){
       if(countries != null && countries.length > 0){

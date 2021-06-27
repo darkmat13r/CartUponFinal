@@ -278,7 +278,15 @@
   "loginRequired" : "You need to be logged in to perform this action.",
   "errorRatingMustBe" : "Rating must be between 1 to 5",
   "productReviews" : "Reviews",
-  "fmtShareProduct" : "Found exciting coupon \n Checkout {}"
+  "fmtShareProduct" : "Found exciting coupon \n Checkout {}",
+  "walletTitle" : "Wallet",
+  "msgWalletSuccess" : "Amount added to wallet successfully",
+  "errorWalletFailed" : "Unable to add amount to wallet. {}",
+  "enterAmount" : "Enter Amount",
+  "proceed" : "Proceed",
+  "addMoneyToWallet" : "Add Money To Wallet",
+  "invalidAmount" : "Enter a valid amount",
+  "currentBalance" : "Current Balance"
 
 
 }

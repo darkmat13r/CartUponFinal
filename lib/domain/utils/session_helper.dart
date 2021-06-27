@@ -136,13 +136,29 @@ class SessionHelper {
     return null;
   }
 
+  Future<Country> getSelectedCountry() async{
+    List<Country> countries = await cachedCounties();
+    try{
+      var selectedId = await getSelectedCountryId();
+
+      Country country =  countries.firstWhere((element) => element.id == selectedId);
+      if(country != null){
+        return country;
+      }
+
+    }catch(e){
+
+    }
+    return countries.first;
+  }
+
   void cacheCounties( List<Country> list) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString(Constants.cachedCountiesKey, jsonEncode(list));
   }
 
 
-  Future<int> getSelectedCountry() async{
+  Future<int> getSelectedCountryId() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int id = await preferences.getInt(Constants.selectCountryId);
     return id;

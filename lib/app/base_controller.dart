@@ -33,6 +33,10 @@ abstract class BaseController extends Controller {
     };
   }
 
+  fetchUser(){
+    _authPresenter.getUser();
+  }
+
   onAuthComplete() {
     isAuthUserLoading = false;
     refreshUI();

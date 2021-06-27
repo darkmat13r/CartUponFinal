@@ -25,21 +25,25 @@ class PaymentController extends Controller {
     //ProgressHUD.of(getContext()).dismiss();
   }
 
-  void processResponse(String message) async {
+  void processResponse(String message,bool isWallet) async {
     Map<String, dynamic> response = jsonDecode(message);
     if (response['Result'] == "COMPLETED" || response['Result'] == "APPROVED"  || response['Result'] == "CAPTURED"  ) {
       CartStream().clear();
       showGenericConfirmDialog(
-          getContext(), LocaleKeys.order.tr(), LocaleKeys.msgOrderSuccess.tr(),
+          getContext(), isWallet ? LocaleKeys.walletTitle.tr() : LocaleKeys.order.tr(),isWallet ? LocaleKeys.msgWalletSuccess.tr(): LocaleKeys.msgOrderSuccess.tr(),
           showCancel: false,
           onConfirm: () {
-        Navigator.of(getContext()).pushReplacementNamed(Pages.main);
+        if(isWallet){
+          Navigator.of(getContext()).pop(true);
+        }else{
+          Navigator.of(getContext()).pushReplacementNamed(Pages.main);
+        }
       });
     } else {
       showGenericConfirmDialog(getContext(), LocaleKeys.error.tr(),
-          LocaleKeys.msgOrderPaymentFailed.tr(args: [response['TranID']]),
+          isWallet ?  LocaleKeys.errorWalletFailed.tr(args: [response['TranID']]):  LocaleKeys.msgOrderPaymentFailed.tr(args: [response['TranID']]),
           showCancel: false, onConfirm: () {
-        Navigator.of(getContext()).pop();
+        Navigator.of(getContext()).pop(false);
       });
     }
     // ;

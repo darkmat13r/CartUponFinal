@@ -26,7 +26,7 @@ class DataProductRepository extends ProductRepository {
     try {
       var params = {
         'lang': Config().getLanguageId().toString(),
-        'country': (await SessionHelper().getSelectedCountry()).toString()
+        'country': (await SessionHelper().getSelectedCountryId()).toString()
       };
       if (filterBy != null) {
         params['sort'] = filterBy;
@@ -65,7 +65,7 @@ class DataProductRepository extends ProductRepository {
     try {
       var params = {
         'lang': Config().getLanguageId().toString(),
-        'country': (await SessionHelper().getSelectedCountry()).toString()
+        'country': (await SessionHelper().getSelectedCountryId()).toString()
       };
       if (query != null) {
         params['search'] = query;
@@ -88,7 +88,7 @@ class DataProductRepository extends ProductRepository {
     try {
       var params = {
         'lang': Config().getLanguageId().toString(),
-        'country': (await SessionHelper().getSelectedCountry()).toString()
+        'country': (await SessionHelper().getSelectedCountryId()).toString()
       };
       var id = int.tryParse(slug);
       if (id != null) {

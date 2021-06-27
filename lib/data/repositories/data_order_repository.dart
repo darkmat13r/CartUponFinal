@@ -2,6 +2,7 @@ import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
+import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/entities/models/Order.dart';
 import 'package:coupon_app/domain/entities/models/OrderCancelResponse.dart';
 import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
@@ -25,6 +26,7 @@ class DataOrderRepository extends OrderRepository{
   Future<PlaceOrderResponse> placeOrder({String shippingAddressId, String billingAddress, String payMode, String currencyCode, bool isGuest, Address address}) async {
     try{
       String userId = await SessionHelper().getUserId();
+      Country country = await SessionHelper().getSelectedCountry();
       var body = Map<String, String>();
       _logger.e(isGuest ?? false);
       if(isGuest ?? false){
@@ -43,14 +45,14 @@ class DataOrderRepository extends OrderRepository{
           'address' : address.address,
           'user_sessid' : userId.toString(),
           'pay_mode' : payMode,
-          'CurrencyCode' : currencyCode,
+          "CurrencyCode": country != null ? country.country_currency : "KWD",
         };
       }else{
         body = {
            'shipping_address' : shippingAddressId,
           'billing_address' : shippingAddressId,
           'pay_mode' : payMode,
-          'CurrencyCode' : currencyCode,
+          "CurrencyCode": country != null ? country.country_currency : "KWD",
         };
       }
       dynamic data = await HttpHelper.invokeHttp(Constants.orderCreateRoute, RequestType.post, body: body);

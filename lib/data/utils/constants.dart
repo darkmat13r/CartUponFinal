@@ -43,6 +43,8 @@ class Constants {
 
   static var sendOtpRoute ="$baseUrl/sendOtp";
   static var validateOtpRoute ="$baseUrl/validateOTP";
+  static var walletRequestRoute = "$baseUrl/walletRequest";
+
 
   // APIs no prefix
   //static const String baseUrlNoPrefix = 'cart-upon-api.herokuapp.com';
@@ -67,6 +69,7 @@ class Constants {
 
 
   static String isLoginPopupShownKey = "isPopupShown";
+
 
 
 

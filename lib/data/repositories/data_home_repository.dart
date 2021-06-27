@@ -23,7 +23,7 @@ class DataHomeRepository extends HomeRepository{
      try{
 
        var uri = Constants.createUriWithParams(Constants.homeRoute, {
-         'country' : (await SessionHelper().getSelectedCountry()).toString(),
+         'country' : (await SessionHelper().getSelectedCountryId()).toString(),
          'lang' : Config().getLanguageId().toString()
        });
       dynamic data = await HttpHelper.invokeHttp(uri, RequestType.get);

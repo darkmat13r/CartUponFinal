@@ -10,9 +10,10 @@ class Token {
     int nationality;
     int gender;
     int title;
+    String wallet_balance;
     User user;
 
-    Token({this.country_code, this.date_of_birth, this.id, this.key,this.token, this.mobile_no, this.user, this.nationality, this.gender, this.title});
+    Token({this.country_code, this.date_of_birth, this.id, this.key,this.token, this.mobile_no, this.user, this.wallet_balance,this.nationality, this.gender, this.title});
 
     factory Token.fromJson(Map<String, dynamic> json) {
         return Token(
@@ -24,6 +25,7 @@ class Token {
             nationality: json['nationlity'] ?? 0,
             gender: json['gender'] ?? 0,
             title: json['title'] ?? 0,
+            wallet_balance: json['wallet_balance'] ,
             user: json['user'] != null ? User.fromJson(json['user']) : null,
         );
     }
@@ -38,6 +40,7 @@ class Token {
         data['nationlity'] = this.nationality;
         data['gender'] = this.gender;
         data['title'] = this.title;
+        data['wallet_balance'] = this.wallet_balance;
         if (this.user != null) {
             data['user'] = this.user.toJson();
         }

@@ -1,6 +1,7 @@
 import 'package:coupon_app/app/components/rounded_box.dart';
 import 'package:coupon_app/app/pages/account/account_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
+import 'package:coupon_app/app/pages/wallet/add_to_wallet_view.dart';
 import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
@@ -48,7 +49,7 @@ class AccountPageState extends ViewState<AccountPage, AccountController> {
                   LocaleKeys.descUpdatePassword.tr()),
           _optionItem(Pages.addresses, MaterialCommunityIcons.pin,
               LocaleKeys.addresses.tr(), LocaleKeys.descAddress.tr()),
-          _optionItem(Pages.profile, MaterialCommunityIcons.wallet,
+          _optionItem(Pages.addMoneyToWallet, MaterialCommunityIcons.wallet,
               LocaleKeys.myWallet.tr(), LocaleKeys.descWallet.tr()),
          _optionItemClickable(
                   Pages.main,
@@ -174,6 +175,39 @@ class AccountPageState extends ViewState<AccountPage, AccountController> {
     });
   }
 
+  showAddMoneyToWallet(){
+    showBottomSheet(context: context,
+        elevation: 12,
+        builder: (BuildContext context){
+      return Wrap(
+        children: [ AddToWalletPage()],
+      );
+    });
+  }
+  Widget _optionWalletItem( icon, name, description) {
+    return ControlledWidgetBuilder(
+        builder: (BuildContext context, AccountController controller) {
+          return InkWell(
+            onTap: () {
+              showAddMoneyToWallet();
+            },
+            child: ListTile(
+              leading: Icon(
+                icon,
+                color: AppColors.neutralGray,
+                size: 24,
+              ),
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(name,
+                      style: heading5.copyWith(color: AppColors.neutralDark)),
+                ],
+              ),
+            ),
+          );
+        });
+  }
   Widget _optionItem(page, icon, name, description) {
     return ControlledWidgetBuilder(
         builder: (BuildContext context, AccountController controller) {

@@ -12,8 +12,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 // ignore: must_be_immutable
 class PaymentPage extends View {
   String paymentUrl;
+  bool wallet;
 
-  PaymentPage(this.paymentUrl);
+  PaymentPage(this.paymentUrl, {bool wallet}) : this.wallet = wallet ?? false;
 
   @override
   State<StatefulWidget> createState() => _PaymentPageState();
@@ -50,7 +51,7 @@ class _PaymentPageState extends ViewState<PaymentPage, PaymentController> {
                   //like here, the message is just being printed
                   //in Run/LogCat window of android studio
                   Logger().e(message.message);
-                  controller.processResponse(message.message);
+                  controller.processResponse(message.message, widget.wallet);
                 })
           ]),
         );
