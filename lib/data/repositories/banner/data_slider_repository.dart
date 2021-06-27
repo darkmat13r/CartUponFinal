@@ -22,7 +22,7 @@ class DataSliderRepository extends SliderRepository{
   Future<List<BannerSlider>> getAllBanners() async{
     try{
       _logger.finest("Data getAllBanners");
-      List<dynamic> data = await HttpHelper.invokeHttp(Constants.sliders, RequestType.get);
+      List<dynamic> data = await HttpHelper.invokeHttp(Constants.slidersRoute, RequestType.get);
       _logger.finest("Data ", data);
        dynamic response = data.map((e) => BannerSlider.fromJson(e)).toList();
       _logger.finest("Response ", data);

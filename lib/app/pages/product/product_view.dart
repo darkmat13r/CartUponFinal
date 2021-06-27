@@ -20,6 +20,7 @@ import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/date_helper.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/utility.dart';
+import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
 import 'package:coupon_app/data/repositories/data_product_repository.dart';
 import 'package:coupon_app/data/repositories/data_whishlist_repository.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
@@ -47,7 +48,7 @@ class ProductPageView
     extends SearchableViewState<ProductPage, ProductController> {
   ProductPageView(productSlug)
       : super(ProductController(
-      productSlug, DataProductRepository(), DataWhishlistRepository()));
+      productSlug,DataAuthenticationRepository(), DataProductRepository(), DataWhishlistRepository()));
 
   @override
   Widget get title => ControlledWidgetBuilder(
@@ -153,10 +154,31 @@ class ProductPageView
                       : "",
                   shrinkWrap: true,
                 ),
+                _reviews,
+                _addReview
               ],
             ),
           );
   }
+
+  get _addReview => ControlledWidgetBuilder(
+      builder: (BuildContext context, ProductController controller) {
+        return controller.currentUser != null ? SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(Dimens.spacingMedium),
+            child: OutlinedButton(
+              onPressed: () {
+                controller.addReview();
+              },
+              child: Text(
+                LocaleKeys.writeReview.tr(),
+                style: buttonText.copyWith(color: AppColors.accent),
+              ),
+            ),
+          ),
+        ) :SizedBox();
+      });
 
   SizedBox pricing(ProductController controller) {
     return SizedBox(
@@ -328,19 +350,27 @@ class ProductPageView
               Row(
                 children: [
                   Text(
-                    LocaleKeys.reviewProduct.tr() + ":",
+                    LocaleKeys.productReviews.tr(),
                     style: heading5.copyWith(color: AppColors.neutralDark),
                   ),
                   Expanded(child: SizedBox()),
-                  TextButton(
+                  controller.currentUser != null ? TextButton(
                     onPressed: () {
-                      controller.reviews();
+                      controller.addReview();
                     },
-                    child: Text(
-                      LocaleKeys.seeMore.tr(),
-                      style: linkText,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(FontAwesome.pencil, size: 12 , color: AppColors.primary,),
+                        ),
+                        Text(
+                          LocaleKeys.writeReview.tr(),
+                          style: linkText,
+                        ),
+                      ],
                     ),
-                  )
+                  ) : SizedBox()
                 ],
               ),
               Row(
@@ -390,7 +420,7 @@ class ProductPageView
                     onPressed: () {
                       if (controller.product.product != null)
                         controller.search(
-                            controller.product.product.category_id.toString());
+                            controller.product.product.category.id.toString());
                     },
                     child: Text(
                       LocaleKeys.seeMore.tr(),

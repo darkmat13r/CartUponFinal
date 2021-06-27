@@ -30,12 +30,17 @@ class CheckoutController extends BaseController {
   int paymentMethod;
 
   Logger _logger;
-  
+
   bool containsCoupon = false;
   bool containsOnlyCoupon = false;
 
-  CheckoutController(AuthenticationRepository authRepo,AddressRepository addressRepo, CartRepository cartRepo, OrderRepository orderRepository)
-      : this._presenter = CheckoutPresenter(authRepo,addressRepo, cartRepo, orderRepository) {
+  CheckoutController(
+      AuthenticationRepository authRepo,
+      AddressRepository addressRepo,
+      CartRepository cartRepo,
+      OrderRepository orderRepository)
+      : this._presenter = CheckoutPresenter(
+            authRepo, addressRepo, cartRepo, orderRepository) {
     _logger = Logger();
     showLoading();
   }
@@ -50,18 +55,21 @@ class CheckoutController extends BaseController {
     initAddressListeners();
     initPlaceOrderListeners();
   }
+
   @override
   onAuthComplete() {
-
     super.onAuthComplete();
   }
+
   getCartOnNext(Cart cart) {
     this.cart = cart;
-    try{
-      var item =  cart.cart.singleWhere((element) => element.product_id.category_type == false, orElse: null);
+    try {
+      var item = cart.cart.singleWhere(
+          (element) => element.product_id.category_type == false,
+          orElse: null);
       containsCoupon = item != null;
       _logger.e("Container Coupon ${containsCoupon}");
-    }catch(e){
+    } catch (e) {
       _logger.e(e);
     }
 
@@ -69,17 +77,19 @@ class CheckoutController extends BaseController {
     refreshUI();
     dismissProgressDialog();
 
-    try{
-      var anyProduct =  cart.cart.singleWhere((element) => element.product_id.category_type == true, orElse: null);
+    try {
+      var anyProduct = cart.cart.singleWhere(
+          (element) => element.product_id.category_type == true,
+          orElse: null);
       containsOnlyCoupon = containsCoupon && anyProduct == null;
-      _logger.e("Container only Coupon ${containsOnlyCoupon}");
-    }catch(e){
+    } catch (e) {
       containsOnlyCoupon = containsCoupon;
       refreshUI();
     }
-    if(!containsOnlyCoupon){
+    _logger.e("Contains Only Coupon ${containsOnlyCoupon}");
+    if (currentUser != null && containsOnlyCoupon == false) {
       _presenter.fetchAddresses();
-    }else{
+    } else {
       dismissLoading();
     }
   }
@@ -89,9 +99,7 @@ class CheckoutController extends BaseController {
     showGenericSnackbar(getContext(), e.message, isError: false);
   }
 
-  getCartOnComplete() {
-
-  }
+  getCartOnComplete() {}
 
   @override
   void onDisposed() {
@@ -109,88 +117,116 @@ class CheckoutController extends BaseController {
       showGenericSnackbar(getContext(), e.message);
     };
   }
+
   void addAddress() async {
-    if(currentUser != null){
+    if (currentUser != null) {
       await Navigator.of(getContext()).pushNamed(Pages.addAddress);
       _presenter.fetchAddresses();
-    }else{
-      final result = await Navigator.push(
-        getContext(),
-        MaterialPageRoute(builder: (context) => AddAddressPage(guest: true, askPersonalDetailsOnly: containsOnlyCoupon,)),
-      );
-      this.defaultAddress = result;
-      refreshUI();
+    } else {
+      guestDetailsAdd();
     }
   }
 
   Future<void> changeAddress() async {
-    final result = await Navigator.push(
-      getContext(),
-      MaterialPageRoute(builder: (context) => AddressesPage(selectionMode: true,)),
-    );
-    this.defaultAddress = result;
-    refreshUI();
+    if (currentUser != null) {
+      final result = await Navigator.push(
+        getContext(),
+        MaterialPageRoute(
+            builder: (context) => AddressesPage(
+                  selectionMode: true,
+                )),
+      );
+      this.defaultAddress = result;
+      refreshUI();
+    } else {
+      guestDetailsAdd();
+    }
   }
 
   _getAddressOnNext(List<Address> addresses) {
     this.addresses = addresses;
-    if(addresses.length > 0){
-      try{
-        defaultAddress =  addresses.firstWhere((element) => element.is_default);
-      }catch(e){
+    if (addresses.length > 0) {
+      try {
+        defaultAddress = addresses.firstWhere((element) => element.is_default);
+      } catch (e) {
         defaultAddress = addresses.first;
       }
     }
     refreshUI();
   }
-  void showProductDetails(String productId){
+
+  void showProductDetails(String productId) {
     AppRouter().productDetailsById(getContext(), productId);
   }
+
   void setPaymentMethod(int value) {
     this.paymentMethod = value;
     refreshUI();
   }
 
   void placeOrder() {
-    if(defaultAddress == null){
-      showGenericSnackbar(getContext(), LocaleKeys.errorSelectAddress.tr(), isError: true);
+    if (defaultAddress == null) {
+      showGenericSnackbar(
+          getContext(),
+          containsOnlyCoupon
+              ? LocaleKeys.errorAddDeliveryDetails.tr()
+              : LocaleKeys.errorSelectAddress.tr(),
+          isError: true);
       return;
     }
-    if(paymentMethod == 0 || paymentMethod == null){
-      showGenericSnackbar(getContext(), LocaleKeys.errorSelectPaymentMethod.tr(), isError: true);
+    if (paymentMethod == 0 || paymentMethod == null) {
+      showGenericSnackbar(
+          getContext(), LocaleKeys.errorSelectPaymentMethod.tr(),
+          isError: true);
       return;
     }
     showProgressDialog();
-    _presenter.placeOrder(defaultAddress.id, defaultAddress.id, paymentMethod == 1? "cash" : "online");
+    _presenter.placeOrder(defaultAddress.id, defaultAddress.id,
+        paymentMethod == 1 ? "cash" : "online",isGuest:  currentUser == null, address: defaultAddress);
   }
 
-  onCashOnDeliverOrderSuccess(){
+  onCashOnDeliverOrderSuccess() {
     Navigator.of(getContext()).pushReplacementNamed(Pages.main);
     CartStream().clear();
   }
-  void initPlaceOrderListeners() {
-    _presenter.placeOrderOnComplete = (){
-      dismissProgressDialog();
-      if(paymentMethod == 1){
 
-        showGenericConfirmDialog(getContext(), LocaleKeys.order.tr(), LocaleKeys.msgOrderSuccess.tr(),showCancel: false, onConfirm: (){
+  void initPlaceOrderListeners() {
+    _presenter.placeOrderOnComplete = () {
+      dismissProgressDialog();
+      if (paymentMethod == 1) {
+        showGenericConfirmDialog(getContext(), LocaleKeys.order.tr(),
+            LocaleKeys.msgOrderSuccess.tr(),
+            showCancel: false, onConfirm: () {
           onCashOnDeliverOrderSuccess();
-        }, onCancel: (){
+        }, onCancel: () {
           onCashOnDeliverOrderSuccess();
         });
       }
     };
-    _presenter.placeOrderOnNext = (PlaceOrderResponse response){
+    _presenter.placeOrderOnNext = (PlaceOrderResponse response) {
       _logger.e(response.paymentURL);
       dismissProgressDialog();
-      if(response.paymentURL  != null){
+      if (response.paymentURL != null) {
         AppRouter().payment(getContext(), response.paymentURL);
       }
     };
-    _presenter.placeOrderOnError = (e){
+    _presenter.placeOrderOnError = (e) {
       _logger.e(e);
       showGenericSnackbar(getContext(), e.message, isError: true);
       dismissProgressDialog();
     };
+  }
+
+  void guestDetailsAdd() async {
+    final result = await Navigator.push(
+      getContext(),
+      MaterialPageRoute(
+          builder: (context) => AddAddressPage(
+                guest: true,
+                askPersonalDetailsOnly: containsOnlyCoupon,
+              )),
+    );
+    if (result != null) this.defaultAddress = result;
+    refreshUI();
   }
 }

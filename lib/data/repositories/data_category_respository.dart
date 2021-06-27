@@ -28,7 +28,7 @@ class DataCategoryRepository extends CategoryRepository {
       }
       params['lang'] = Config().getLanguageId().toString();
       params['country'] = (await SessionHelper().getSelectedCountry()).toString();
-      var url = Constants.createUriWithParams(Constants.categories, params);
+      var url = Constants.createUriWithParams(Constants.categoriesRoute, params);
       List<dynamic> data = await HttpHelper.invokeHttp(url, RequestType.get);
       _logger.finest("Data ", data);
       dynamic response = data.map((e) => CategoryType.fromJson(e)).toList();
@@ -41,7 +41,7 @@ class DataCategoryRepository extends CategoryRepository {
   @override
   Future<CategoryType> getCategory(String categoryId) async {
     try{
-      Map<String, dynamic> data = await HttpHelper.invokeHttp("${Constants.categories}/$categoryId", RequestType.get);
+      Map<String, dynamic> data = await HttpHelper.invokeHttp("${Constants.categoriesRoute}/$categoryId", RequestType.get);
       CategoryType response = CategoryType.fromJson(data);
       return response;
     }catch(e){

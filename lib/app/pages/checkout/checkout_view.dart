@@ -175,7 +175,9 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                     color: AppColors.neutralGray,
                   ),
                   Text(
-                    LocaleKeys.addAddress.tr(),
+                    controller.containsOnlyCoupon
+                        ? LocaleKeys.addPersonalDetails.tr()
+                        : LocaleKeys.addAddress.tr(),
                     style: buttonText.copyWith(
                       color: AppColors.neutralGray,
                     ),
@@ -231,7 +233,9 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                 children: [
                   Expanded(
                       child: Text(
-                    LocaleKeys.deliveryAddress.tr(),
+                    controller.containsOnlyCoupon
+                        ? LocaleKeys.shippingDetails.tr()
+                        : LocaleKeys.deliveryAddress.tr(),
                     style: heading6.copyWith(color: AppColors.neutralDark),
                   )),
                   InkWell(
@@ -239,7 +243,9 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                       controller.changeAddress();
                     },
                     child: Text(
-                      LocaleKeys.changeAddress.tr(),
+                      controller.containsOnlyCoupon
+                          ? LocaleKeys.changeDetails.tr()
+                          : LocaleKeys.changeAddress.tr(),
                       style: captionNormal1.copyWith(color: AppColors.accent),
                     ),
                   )
@@ -255,10 +261,15 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
               SizedBox(
                 height: Dimens.spacingSmall,
               ),
-              Text(
-                Utility.addressFormatter(controller.defaultAddress),
-                style: captionNormal2.copyWith(color: AppColors.neutralDark),
-              ),
+              controller.containsOnlyCoupon
+                  ? Text(controller.defaultAddress.email,
+                      style:
+                          captionNormal2.copyWith(color: AppColors.neutralDark))
+                  : Text(
+                      Utility.addressFormatter(controller.defaultAddress),
+                      style:
+                          captionNormal2.copyWith(color: AppColors.neutralDark),
+                    ),
               SizedBox(
                 height: Dimens.spacingSmall,
               ),

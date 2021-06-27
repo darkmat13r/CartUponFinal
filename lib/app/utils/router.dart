@@ -62,8 +62,6 @@ class AppRouter {
         return buildRoute(settings, OrderPage());
       case Pages.reviews:
         return buildRoute(settings, ReviewsPage());
-      case Pages.createReview:
-        return buildRoute(settings, CreateReviewPage());
       case Pages.search:
         return buildRoute(settings, SearchPage());
       case Pages.filter:

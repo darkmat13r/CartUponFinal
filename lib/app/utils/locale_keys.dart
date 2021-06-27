@@ -303,6 +303,18 @@ class LocaleKeys {
   static var resendOtp = "resendOtp";
   static var resendOtpIn = "resendOtpIn";
   static var guestDetails = "guestDetails";
+  static var submit = "submit";
+  static var addPersonalDetails = "addPersonalDetails";
+  static var changeDetails = "changeDetails";
+  static var errorAddDeliveryDetails = "errorAddDeliveryDetails";
+  static var reviewPostedSuccessfully = "reviewPostedSuccessfully";
+  static var errorReviewRequired = "errorReviewRequired";
+  static var errorRatingMustBe = "errorRatingMustBe";
+  static var loginRequired = "loginRequired";
+  static var productReviews = "productReviews";
+  static var fmtShareProduct = "fmtShareProduct";
+
+
 
 
 }

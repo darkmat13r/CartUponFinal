@@ -1,11 +1,13 @@
 import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
+import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/Order.dart';
 import 'package:coupon_app/domain/entities/models/OrderCancelResponse.dart';
 import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
 import 'package:coupon_app/domain/entities/models/PaymentOrder.dart';
 import 'package:coupon_app/domain/repositories/order_repository.dart';
+import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:logger/logger.dart';
 
 class DataOrderRepository extends OrderRepository{
@@ -20,14 +22,38 @@ class DataOrderRepository extends OrderRepository{
 
   factory DataOrderRepository() => _instance;
   @override
-  Future<PlaceOrderResponse> placeOrder({String shippingAddressId, String billingAddress, String payMode, String currencyCode}) async {
+  Future<PlaceOrderResponse> placeOrder({String shippingAddressId, String billingAddress, String payMode, String currencyCode, bool isGuest, Address address}) async {
     try{
-      dynamic data = await HttpHelper.invokeHttp(Constants.orderCreateRoute, RequestType.post, body: {
-        'shipping_address' : shippingAddressId,
-        'billing_address' : shippingAddressId,
-        'pay_mode' : payMode,
-        'CurrencyCode' : currencyCode,
-      });
+      String userId = await SessionHelper().getUserId();
+      var body = Map<String, String>();
+      _logger.e(isGuest ?? false);
+      if(isGuest ?? false){
+        body = {
+          'guest' : "true",
+          'first_name' : address.first_name,
+          'last_name' : address.last_name,
+          'username' : "${address.countryCode}${address.phone_no}",
+          'password' : "Z8yNSEsdac77HeWU",
+          'confirm_password' : 'Z8yNSEsdac77HeWU',
+          'email' : address.email,
+          'area' : address.area != null ? address.area.id.toString() : "",
+          'block' : address.block != null ? address.block.toString() : "",
+          'building' : address.building,
+          'floor_flat' : address.floor_flat,
+          'address' : address.address,
+          'user_sessid' : userId.toString(),
+          'pay_mode' : payMode,
+          'CurrencyCode' : currencyCode,
+        };
+      }else{
+        body = {
+           'shipping_address' : shippingAddressId,
+          'billing_address' : shippingAddressId,
+          'pay_mode' : payMode,
+          'CurrencyCode' : currencyCode,
+        };
+      }
+      dynamic data = await HttpHelper.invokeHttp(Constants.orderCreateRoute, RequestType.post, body: body);
       return PlaceOrderResponse.fromJson(data);
     }catch(e){
       _logger.e(e);
@@ -40,12 +66,10 @@ class DataOrderRepository extends OrderRepository{
     try{
       var url = Constants.createUriWithParams(Constants.orderRoute,
           {
-
+            "status" : status,
+            'lang': Config().getLanguageId().toString(),
           });
-      List<dynamic> data = await HttpHelper.invokeHttp(Constants.orderRoute, RequestType.get, body: {
-        "status" : status,
-        'lang': Config().getLanguageId().toString(),
-      });
+      List<dynamic> data = await HttpHelper.invokeHttp(url, RequestType.get);
       List<OrderDetail> response = data.map((e) => OrderDetail.fromJson(e)).toList();
       return response;
     }catch(e){
@@ -57,7 +81,7 @@ class DataOrderRepository extends OrderRepository{
   @override
   Future<CancelOrderResponse> cancelOrder(String orderId) async{
     try{
-      dynamic data = await HttpHelper.invokeHttp(Constants.orderCancelRoute, RequestType.get, body: {
+      dynamic data = await HttpHelper.invokeHttp(Constants.orderCancelRoute, RequestType.post, body: {
         "item_id" : orderId
       });
       CancelOrderResponse response = CancelOrderResponse.fromJson(data);

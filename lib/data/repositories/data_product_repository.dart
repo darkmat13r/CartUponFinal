@@ -37,7 +37,7 @@ class DataProductRepository extends ProductRepository {
       if (type != null) {
         params['category_type'] = type;
       }
-      var uri = Constants.createUriWithParams(Constants.products, params);
+      var uri = Constants.createUriWithParams(Constants.productsRoute, params);
       List<dynamic> data = await HttpHelper.invokeHttp(uri, RequestType.get);
       dynamic response = data.map((e) => ProductDetail.fromJson(e)).toList();
       return response;
@@ -51,7 +51,7 @@ class DataProductRepository extends ProductRepository {
   Future<ProductDetail> getById(String productId) async {
     try {
       Map<String, dynamic> data = await HttpHelper.invokeHttp(
-          "${Constants.products}$productId", RequestType.get);
+          "${Constants.productsRoute}$productId", RequestType.get);
       ProductDetail product = ProductDetail.fromJson(data);
       return product;
     } catch (e) {
@@ -73,7 +73,7 @@ class DataProductRepository extends ProductRepository {
       if (filterBy != null) {
         params['sort'] = filterBy;
       }
-      var uri = Constants.createUriWithParams(Constants.search, params);
+      var uri = Constants.createUriWithParams(Constants.searchRoute, params);
       List<dynamic> data = await HttpHelper.invokeHttp(uri, RequestType.get);
       dynamic response = data.map((e) => ProductDetail.fromJson(e)).toList();
       return response;
@@ -96,13 +96,31 @@ class DataProductRepository extends ProductRepository {
       } else {
         params['slug'] = slug;
       }
-      _logger.i("Params ${params}");
       var uri = Constants.createUriWithParams(
           "${Constants.productDetailRoute}", params);
       Map<String, dynamic> data =
           await HttpHelper.invokeHttp(uri, RequestType.get);
       dynamic response = ProductWithRelated.fromJson(data);
       return response;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  @override
+  Future postReview({int productId, int rating, String review}) async {
+    try {
+      var params = {
+        'product': productId.toString(),
+        'rating': (rating ?? 1).toString(),
+        'review': review.toString()
+      };
+      dynamic data = await HttpHelper.invokeHttp(
+          Constants.ratingRoute, RequestType.post,
+          body: params);
+
+      return data;
     } catch (e) {
       print(e);
       rethrow;

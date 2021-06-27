@@ -234,7 +234,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       };
       Token currentUser = await getCurrentUser();
       Map<String, dynamic> body = await HttpHelper.invokeHttp(
-          "${Constants.changePassword}", RequestType.post,
+          "${Constants.changePasswordRoute}", RequestType.post,
           body: {
             'old_password': current,
             'new_password1': password,

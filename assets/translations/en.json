@@ -263,12 +263,22 @@
   "errorOtpLength" : "OTP must be 6 digits",
   "otpSent" : "OTP sent to your mobile number",
   "guestDetails" : "Guest Details",
+  "submit" : "Submit",
+  "addPersonalDetails" : "Add Details",
+  "errorAddDeliveryDetails" : "Please add delivery details",
+  "changeDetails" : "Change Details",
   "resendOtp" : "Resend OTP",
   "getOtp" : "Get OTP",
   "mobileNumber" : "Mobile Number",
   "formMustBeFilled" : "Form must be filled out.",
   "resendOtpIn" : "Resend OTP in {}",
-  "errorCountryCodeRequired" : "Please select country code"
+  "errorCountryCodeRequired" : "Please select country code",
+  "reviewPostedSuccessfully" : "Thank you for rating!",
+  "errorReviewRequired" : "Please add your review",
+  "loginRequired" : "You need to be logged in to perform this action.",
+  "errorRatingMustBe" : "Rating must be between 1 to 5",
+  "productReviews" : "Reviews",
+  "fmtShareProduct" : "Found exciting coupon \n Checkout {}"
 
 
 }

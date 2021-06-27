@@ -28,13 +28,16 @@ class CheckoutPresenter extends AuthPresenter {
   Function placeOrderOnNext;
   Function placeOrderOnError;
 
-  CheckoutPresenter(AuthenticationRepository authRepo,AddressRepository addressRepo, CartRepository repository,
+  CheckoutPresenter(
+      AuthenticationRepository authRepo,
+      AddressRepository addressRepo,
+      CartRepository repository,
       OrderRepository orderRepository)
       : _cartItemsUseCase = GetCartItemsUseCase(repository),
         _placeOrderUseCase = PlaceOrderUseCase(orderRepository),
-        _addressesUseCase = GetAddressesUseCase(addressRepo), super(authRepo) {
+        _addressesUseCase = GetAddressesUseCase(addressRepo),
+        super(authRepo) {
     fetchCart();
-
   }
 
   fetchAddresses() {
@@ -45,11 +48,16 @@ class CheckoutPresenter extends AuthPresenter {
     _cartItemsUseCase.execute(_GetCartObserver(this));
   }
 
-  placeOrder(int shippingAddressId, int billingAddressId, String payMode) {
-    _placeOrderUseCase.execute(_PlaceOrderObserver(this), PlaceOrderParams(
-        shippingAddress: shippingAddressId.toString(),
-        billingAddress: billingAddressId.toString(),
-        payMode: payMode));
+  placeOrder(int shippingAddressId, int billingAddressId, String payMode,
+      {bool isGuest, Address address}) {
+    _placeOrderUseCase.execute(
+        _PlaceOrderObserver(this),
+        PlaceOrderParams(
+            shippingAddress: shippingAddressId.toString(),
+            billingAddress: billingAddressId.toString(),
+            payMode: payMode,
+            isGuest: isGuest,
+            address: address));
   }
 
   @override
@@ -58,14 +66,16 @@ class CheckoutPresenter extends AuthPresenter {
     _cartItemsUseCase.dispose();
   }
 }
-class _PlaceOrderObserver extends Observer<PlaceOrderResponse>{
+
+class _PlaceOrderObserver extends Observer<PlaceOrderResponse> {
   final CheckoutPresenter _presenter;
 
   _PlaceOrderObserver(this._presenter);
+
   @override
   void onComplete() {
-   assert(_presenter.placeOrderOnComplete != null);
-   _presenter.placeOrderOnComplete();
+    assert(_presenter.placeOrderOnComplete != null);
+    _presenter.placeOrderOnComplete();
   }
 
   @override
@@ -79,7 +89,6 @@ class _PlaceOrderObserver extends Observer<PlaceOrderResponse>{
     assert(_presenter.placeOrderOnNext != null);
     _presenter.placeOrderOnNext(response);
   }
-
 }
 
 class _GetAddressesObserver extends Observer<List<Address>> {

@@ -116,9 +116,8 @@ class MainController extends BaseController {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pop(ctx);
-                    Navigator.of(_drawerKey.currentContext)
-                        .pushNamed(Pages.register);
+                    Navigator.of(ctx).pop();
+                    Navigator.of(_drawerKey.currentContext).pushNamed(Pages.requestOtp);
                   },
                   child: Text(
                     LocaleKeys.signUp.tr(),

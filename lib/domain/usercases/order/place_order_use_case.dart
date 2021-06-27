@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/PaymentOrder.dart';
 import 'package:coupon_app/domain/repositories/order_repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +20,8 @@ class PlaceOrderUseCase extends CompletableUseCase<PlaceOrderParams> {
           shippingAddressId: params.shippingAddress,
           billingAddress: params.billingAddress,
           payMode: params.payMode,
+          isGuest: params.isGuest,
+          address: params.address,
           currencyCode: "KWD");
       controller.add(data);
       controller.close();
@@ -35,10 +38,14 @@ class PlaceOrderParams {
   String billingAddress;
   String payMode;
   String currencyCode;
+  bool isGuest;
+  Address address;
 
   PlaceOrderParams(
       {@required this.shippingAddress,
       @required this.billingAddress,
       @required this.payMode,
+      this.isGuest,
+      this.address,
       this.currencyCode});
 }

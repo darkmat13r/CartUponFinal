@@ -209,7 +209,7 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
                           )),
                       TextButton(
                         onPressed: () {
-                          controller.search(section.id.toString());
+                          controller.search(section.category.id.toString());
                         },
                         child: Text(
                           LocaleKeys.seeMore.tr(),

@@ -8,4 +8,5 @@ abstract class ProductRepository{
   Future<ProductDetail> getById(String productId);
   Future<ProductWithRelated> getProductWithRelated(String slug);
   Future<List<ProductDetail>> search({String query, String filterBy});
+  Future<dynamic> postReview({int productId, int rating, String review});
 }

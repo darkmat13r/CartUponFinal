@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:logger/logger.dart';
 
 class AddAddressPage extends View {
   Address address;
@@ -23,13 +24,13 @@ class AddAddressPage extends View {
 
   AddAddressPage({this.address, bool askPersonalDetailsOnly, bool guest})
       : this.askPersonalDetailsOnly = askPersonalDetailsOnly ?? false,
-        this.guest = guest ?? false;
+        this.guest = guest ?? false {
+    Logger().e("IsGuest  ${guest}");
+  }
 
   @override
-  State<StatefulWidget> createState() => AddAddressPageState(
-        address,
-        askPersonalDetailsOnly: askPersonalDetailsOnly,
-      );
+  State<StatefulWidget> createState() => AddAddressPageState(address,
+      askPersonalDetailsOnly: askPersonalDetailsOnly, guest: guest);
 }
 
 class AddAddressPageState
@@ -53,7 +54,7 @@ class AddAddressPageState
   Widget get view => Scaffold(
         appBar: customAppBar(
             title: Text(
-          guest
+          guest && askPersonalDetailsOnly
               ? LocaleKeys.guestDetails.tr()
               : (widget.address == null
                   ? LocaleKeys.addAddress.tr()
@@ -134,7 +135,7 @@ class AddAddressPageState
                     ? formField(
                         label: LocaleKeys.email.tr(),
                         hint: LocaleKeys.hintEmail.tr(),
-                        inputType: TextInputType.phone,
+                        inputType: TextInputType.emailAddress,
                         textEditingController: controller.emailText,
                         validation: (value) {
                           if (value.isEmpty) {
@@ -143,27 +144,52 @@ class AddAddressPageState
                           return null;
                         })
                     : SizedBox(),
-                formField(
-                    label: LocaleKeys.phone.tr(),
-                    hint: LocaleKeys.hintPhone.tr(),
-                    inputType: TextInputType.phone,
-                    prefix: guest
-                        ? dialCode(controller)
-                        : Text(
+                guest || controller.currentUser == null
+                    ? Padding(
+                        padding: const EdgeInsets.only(
+                            top: Dimens.spacingMedium,
+                            bottom: Dimens.spacingNormal),
+                        child: Text(
+                          LocaleKeys.phone.tr(),
+                          style: labelText,
+                        ),
+                      )
+                    : SizedBox(),
+                Row(
+                  children: [
+                    guest || controller.currentUser == null
+                        ? Padding(
+                            padding: const EdgeInsets.only(
+                                right: Dimens.spacingNormal),
+                            child: dialCode(controller),
+                          )
+                        : SizedBox(),
+                    Expanded(
+                      child: formField(
+                          label: guest || controller.currentUser == null
+                              ? null
+                              : LocaleKeys.phone.tr(),
+                          hint: LocaleKeys.hintPhone.tr(),
+                          prefix: controller.currentUser != null
+                              ? Text(
                             controller.currentUser.country_code,
                             style: bodyTextNormal1,
-                          ),
-                    textEditingController: controller.phoneText,
-                    validation: (value) {
-                      if (value.isEmpty) {
-                        return LocaleKeys.errorPhoneRequired.tr();
-                      }
-                      return null;
-                    }),
+                          ) : SizedBox(),
+                          inputType: TextInputType.phone,
+                          textEditingController: controller.phoneText,
+                          validation: (value) {
+                            if (value.isEmpty) {
+                              return LocaleKeys.errorPhoneRequired.tr();
+                            }
+                            return null;
+                          }),
+                    ),
+                  ],
+                ),
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
-                askPersonalDetailsOnly == false
+                guest == false
                     ? CheckboxListTile(
                         contentPadding: EdgeInsets.all(0),
                         title: Text(
@@ -198,7 +224,7 @@ class AddAddressPageState
         );
       });
 
-  Row _blockAndArea(AddAddressController controller) {
+  _blockAndArea(AddAddressController controller) {
     return askPersonalDetailsOnly == false
         ? Row(
             children: [
@@ -351,14 +377,16 @@ class AddAddressPageState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: Dimens.spacingMedium,
+          height: label != null ? Dimens.spacingMedium : 0,
         ),
-        Text(
-          label,
-          style: labelText,
-        ),
+        label != null
+            ? Text(
+                label,
+                style: labelText,
+              )
+            : SizedBox(),
         SizedBox(
-          height: Dimens.spacingNormal,
+          height: label != null ? Dimens.spacingNormal : 0,
         ),
         TextFormField(
           keyboardType: inputType,
@@ -466,6 +494,6 @@ class AddAddressPageState
                 'globalKey': globalKey
               });
             },
-            text: LocaleKeys.addAddress.tr());
+            text: guest ? LocaleKeys.submit.tr() :(widget.address == null ?LocaleKeys.editAddress : LocaleKeys.addAddress.tr()));
       });
 }

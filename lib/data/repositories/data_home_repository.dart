@@ -22,7 +22,7 @@ class DataHomeRepository extends HomeRepository{
   Future<HomeData> getHomePage() async{
      try{
 
-       var uri = Constants.createUriWithParams(Constants.home, {
+       var uri = Constants.createUriWithParams(Constants.homeRoute, {
          'country' : (await SessionHelper().getSelectedCountry()).toString(),
          'lang' : Config().getLanguageId().toString()
        });

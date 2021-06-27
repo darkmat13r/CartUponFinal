@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/product/product_presenter.dart';
+import 'package:coupon_app/app/pages/reviews/create/create_review_view.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/date_helper.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
@@ -12,6 +13,7 @@ import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariant.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
 import 'package:coupon_app/domain/entities/models/ProductWithRelated.dart';
+import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:coupon_app/domain/repositories/whishlist_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
@@ -31,46 +33,48 @@ class ProductController extends BaseController {
 
   ProductDetail product;
 
-  ProductController(this.productId, ProductRepository productRepository,WhishlistRepository whishlistRepository)
-      : _presenter = ProductPresenter( productRepository, whishlistRepository, productId: productId);
+  ProductController(
+      this.productId,
+      AuthenticationRepository authRepo,
+      ProductRepository productRepository,
+      WhishlistRepository whishlistRepository)
+      : _presenter = ProductPresenter(
+            authRepo, productRepository, whishlistRepository,
+            productId: productId);
 
   String elapsedTime;
 
   @override
   void initListeners() {
+    initBaseListeners(_presenter);
     showLoading();
     _initGetProductDetailsListeners();
-   // _initSimilarProductListeners();
+    // _initSimilarProductListeners();
     _initAddToWhishlistListeners();
   }
 
   addItemToWhishlist(Product product) async {
     var currentUser = await SessionHelper().getCurrentUser();
-    if(currentUser == null){
+    if (currentUser == null) {
       Navigator.of(getContext()).pushNamed(Pages.login);
-    }else{
-      if(product != null){
+    } else {
+      if (product != null) {
         isAddedToWhishlist = true;
         refreshUI();
         showGenericSnackbar(getContext(), LocaleKeys.itemAddedToWhishlist.tr());
         _presenter.addToWhishlist(product);
       }
     }
-
   }
 
-  _initAddToWhishlistListeners(){
-    _presenter.addToWhichlistOnNext = (whishlist){
-
+  _initAddToWhishlistListeners() {
+    _presenter.addToWhichlistOnNext = (whishlist) {};
+    _presenter.addToWhishlistOnError = (e) {
+      showGenericSnackbar(getContext(), e.message, isError: true);
     };
-    _presenter.addToWhishlistOnError = (e){
-
-      showGenericSnackbar(getContext(), e.message, isError : true);
-    };
-    _presenter.addToWhishlistOnComplete = (){
-
-    };
+    _presenter.addToWhishlistOnComplete = () {};
   }
+
   _initSimilarProductListeners() {
     _presenter.getSimilarProductOnNext = (similarProducts) {
       this.similarProducts = similarProducts;
@@ -109,10 +113,11 @@ class ProductController extends BaseController {
     refreshUI();
   }
 
-  void shareProduct() async{
+  void shareProduct() async {
     final PackageInfo info = await PackageInfo.fromPlatform();
     final RenderBox box = getContext().findRenderObject() as RenderBox;
-    Share.share("Found exciting coupon\n Checkout https://mallzaad.com/product/detail/${this.product.id}",
+    Share.share(
+        LocaleKeys.fmtShareProduct.tr(args:  ["https://mallzaad.com/product/detail/${this.product.id}"]),
         subject: "CartUpon",
         sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
@@ -125,5 +130,21 @@ class ProductController extends BaseController {
   void dispose() {
     _presenter.dispose();
     super.dispose();
+  }
+
+  void addReview() async {
+    if(this.product == null && this.product.product != null){
+      return;
+    }
+    final result = await Navigator.push(
+      getContext(),
+      MaterialPageRoute(
+          builder: (context) =>
+              CreateReviewPage(this.product.product.id)),
+    );
+    if (result != null && result) {
+      _presenter.fetchProduct();
+    }
+    refreshUI();
   }
 }

@@ -57,10 +57,21 @@ class RegisterController extends BaseController {
       Navigator.of(getContext()).pushNamed(Pages.requestOtp);
     }
   }
+  @override
+  void initController(GlobalKey<State<StatefulWidget>> key) {
+    super.initController(key);
 
+  }
+  @override
+  void onInitState() {
+
+    super.onInitState();
+  }
   @override
   void onResumed() {
+
     super.onResumed();
+
   }
 
   String getSelectedMobileNumber() {
@@ -69,6 +80,7 @@ class RegisterController extends BaseController {
 
   @override
   void initListeners() {
+
     _presenter.registerOnComplete = () {
       dismissLoading();
     };

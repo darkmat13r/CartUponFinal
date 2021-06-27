@@ -63,7 +63,8 @@ class LoginController extends Controller{
   }
 
   void register() {
-    Navigator.of(getContext()).pushNamed(Pages.register);
+    Navigator.of(getContext()).pop();
+    Navigator.of(getContext()).pushNamed(Pages.requestOtp);
   }
 
   void forgotPassword() {

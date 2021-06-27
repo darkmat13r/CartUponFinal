@@ -21,7 +21,7 @@ class DataVerificationRepository extends VerificationRepository {
     var params = {'mobileno': mobileNumber};
     try {
       dynamic data =
-          await HttpHelper.invokeHttp(Constants.sendOtp, RequestType.post, body: params);
+          await HttpHelper.invokeHttp(Constants.sendOtpRoute, RequestType.post, body: params);
 
       return data;
     } catch (e) {
@@ -35,7 +35,7 @@ class DataVerificationRepository extends VerificationRepository {
     var params = {'mobileno': mobileNumber, 'otpno' : otp};
     try {
       dynamic data =
-          await HttpHelper.invokeHttp(Constants.validateOtp, RequestType.post, body: params);
+          await HttpHelper.invokeHttp(Constants.validateOtpRoute, RequestType.post, body: params);
       VerificationResponse response = VerificationResponse.fromJson(data);
       return response;
     } catch (e) {

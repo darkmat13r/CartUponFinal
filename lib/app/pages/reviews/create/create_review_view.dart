@@ -3,6 +3,8 @@ import 'package:coupon_app/app/pages/reviews/create/create_review_controller.dar
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
+import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
+import 'package:coupon_app/data/repositories/data_product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -10,13 +12,20 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class CreateReviewPage extends View {
+  int productId;
+
+  CreateReviewPage(this.productId);
+
   @override
-  State<StatefulWidget> createState() => CreateReviewPageState();
+  State<StatefulWidget> createState() => _CreateReviewPageState(productId);
 }
 
-class CreateReviewPageState
+class _CreateReviewPageState
     extends ViewState<CreateReviewPage, CreateReviewController> {
-  CreateReviewPageState() : super(CreateReviewController());
+  _CreateReviewPageState(int productId)
+      : super(CreateReviewController(productId, DataAuthenticationRepository(),
+            DataProductRepository()));
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget get view => Scaffold(
@@ -51,17 +60,7 @@ class CreateReviewPageState
                 SizedBox(
                   height: Dimens.spacingNormal,
                 ),
-                Row(
-                  children: [
-                    Rating(
-                      size: 36,
-                    ),
-                    Text(
-                      "4/5",
-                      style: heading5.copyWith(color: AppColors.neutralGray),
-                    )
-                  ],
-                ),
+                rating(),
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
@@ -72,24 +71,33 @@ class CreateReviewPageState
                 SizedBox(
                   height: Dimens.spacingNormal,
                 ),
-                TextFormField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 4,
-                  decoration: InputDecoration(
-                    hintText: LocaleKeys.writeYourReviewHint.tr(),
+                Form(
+                  key: _formKey,
+                  child: TextFormField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 4,
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return LocaleKeys.errorReviewRequired.tr();
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: LocaleKeys.writeYourReviewHint.tr(),
+                    ),
                   ),
                 ),
-                SizedBox(
+                /*  SizedBox(
                   height: Dimens.spacingMedium,
                 ),
                 Text(
                   LocaleKeys.addPhoto.tr(),
                   style: heading5.copyWith(color: AppColors.neutralDark),
-                ),
-                SizedBox(
+                ),*/
+                /*  SizedBox(
                   height: Dimens.spacingNormal,
-                ),
-                SizedBox(
+                ),*/
+                /*SizedBox(
                     width: 80,
                     height: 80,
                     child: OutlinedButton(
@@ -97,25 +105,58 @@ class CreateReviewPageState
                         child: Icon(
                           Feather.plus,
                           color: AppColors.neutralGray,
-                        ))),
+                        ))),*/
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
                 SizedBox(
                   height: Dimens.spacingMedium,
                 ),
-                SizedBox(
-                  width: double.infinity,
-                    child: RaisedButton(
-                  onPressed: () {},
-                  child: Text(
-                    LocaleKeys.submitReview.tr(),
-                    style: buttonText.copyWith(color: Colors.white),
-                  ),
-                ))
+                _writeReviewButton()
               ],
             ),
           )
         ],
       );
+
+  _writeReviewButton() {
+    return ControlledWidgetBuilder(
+        builder: (BuildContext context, CreateReviewController controller) {
+      return SizedBox(
+          width: double.infinity,
+          child: RaisedButton(
+            onPressed: () {
+              controller.checkForm({
+                'context': context,
+                'formKey': _formKey,
+                'globalKey': globalKey
+              });
+            },
+            child: Text(
+              LocaleKeys.submitReview.tr(),
+              style: buttonText.copyWith(color: Colors.white),
+            ),
+          ));
+    });
+  }
+
+  rating() {
+    return ControlledWidgetBuilder(
+        builder: (BuildContext context, CreateReviewController controller) {
+      return Row(
+        children: [
+          Rating(
+            size: 36,
+            onRatingChange: controller.changeRating,
+          ),
+          controller.rating != null && controller.rating > 0
+              ? Text(
+                  "${controller.rating}/5",
+                  style: heading5.copyWith(color: AppColors.neutralGray),
+                )
+              : SizedBox()
+        ],
+      );
+    });
+  }
 }

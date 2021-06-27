@@ -24,6 +24,25 @@ class Constants {
   static const String whishlistRoute = '$baseUrl/wishlistapi/';
   static const String userRoute = '$baseUrl/user';
   static const String productDetailRoute = '$baseUrl/productdetail/';
+  static const String ratingRoute = '$baseUrl/ratingRequest';
+  static var slidersRoute = '$baseUrl/sliderreadapi';
+  static var categoriesRoute = '$baseUrl/categoryweb';
+  static var productsRoute = '$baseUrl/productweb/';
+  static var searchRoute = '$baseUrl/search/';
+
+  static var homeRoute = '$baseUrl/homecommon';
+
+  static var changePasswordRoute = "$baseUrl/password/change/";
+
+  static var nationalityRoute = "$baseUrl/nationalitylist";
+  static String countriesRoute = "$baseUrl/countryopenapi/";
+  static var orderCreateRoute = "$baseUrl/ordercreate";
+  static var orderRoute = "$baseUrl/order";
+  static var orderCancelRoute = "$baseUrl/item-cancel-request";
+  static var changeCartUserIdRoute = "$baseUrl/cartwebapi/changeUser/";
+
+  static var sendOtpRoute ="$baseUrl/sendOtp";
+  static var validateOtpRoute ="$baseUrl/validateOTP";
 
   // APIs no prefix
   //static const String baseUrlNoPrefix = 'cart-upon-api.herokuapp.com';
@@ -36,34 +55,20 @@ class Constants {
   static const String userKey = 'user_key';
   static const String isAuthenticatedKey = 'isUserAuthenticated';
 
-  static var sliders = '$baseUrl/sliderreadapi';
-  static var categories = '$baseUrl/categoryweb';
-  static var products = '$baseUrl/productweb/';
-  static var search = '$baseUrl/search/';
 
-  static var home = '$baseUrl/homecommon';
-
-  static var changePassword = "$baseUrl/password/change/";
-
-  static var nationalityRoute = "$baseUrl/nationalitylist";
 
   static String lastLoginPopupShownKey = "lastLoginPopupShown";
+
 
   static String cachedCountiesKey = "countriesCached";
   static String selectCountryId = "selectedCountryId";
   static String selectedLanguage = "selectedLanguage";
 
-  static String countriesRoute = "$baseUrl/countryopenapi/";
+
 
   static String isLoginPopupShownKey = "isPopupShown";
 
-  static var orderCreateRoute = "$baseUrl/ordercreate";
-  static var orderRoute = "$baseUrl/order";
-  static var orderCancelRoute = "$baseUrl/item-cancel-request";
-  static var changeCartUserIdRoute = "$baseUrl/cartwebapi/changeUser/";
 
-  static var sendOtp ="$baseUrl/sendOtp";
-  static var validateOtp ="$baseUrl/validateOTP";
 
 
   static String createUriWithParams(String route, Map<String, String> queryParams){

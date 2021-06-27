@@ -49,7 +49,8 @@ class MainListingController extends BaseController{
     Navigator.of(getContext()).pushNamed(Pages.login);
   }
   register(){
-    Navigator.of(getContext()).pushNamed(Pages.register);
+    Navigator.of(getContext()).pop();
+    Navigator.of(getContext()).pushNamed(Pages.requestOtp);
   }
 
   getHomeOnNext(HomeData res) {
