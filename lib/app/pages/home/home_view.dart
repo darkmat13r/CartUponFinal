@@ -1,7 +1,7 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:coupon_app/app/components/product_item.dart';
-import 'package:coupon_app/app/components/rating.dart';
+import 'package:coupon_app/app/components/rating_bar.dart';
 import 'package:coupon_app/app/components/search_app_bar.dart';
 import 'package:coupon_app/app/pages/home/home_controller.dart';
 import 'package:coupon_app/app/pages/home/products/products_view.dart';

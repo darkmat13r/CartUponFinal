@@ -17,10 +17,10 @@ class LoginUseCase extends CompletableUseCase<LoginUseCaseParams> {
   }
 
   @override
-  Future<Stream<Token>> buildUseCaseStream(LoginUseCaseParams params) async {
-    final StreamController<Token> controller = StreamController();
+  Future<Stream<Customer>> buildUseCaseStream(LoginUseCaseParams params) async {
+    final StreamController<Customer> controller = StreamController();
     try {
-      Token userEntity  = await _authenticationRepository.authenticate(
+      Customer userEntity  = await _authenticationRepository.authenticate(
           email: params._email, password: params._password);
       controller.add(userEntity);
       controller.close();

@@ -35,25 +35,35 @@ class _PaymentPageState extends ViewState<PaymentPage, PaymentController> {
 
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, PaymentController controller) {
-        return WebView(
-          initialUrl:
+        return Stack(
+          children: [
+
+            WebView(
+              initialUrl:
               widget.paymentUrl,
-          javascriptMode: JavascriptMode.unrestricted,
-          onWebViewCreated: (WebViewController w) {
-            webViewController = w;
-          },
-          javascriptChannels: Set.from([
-            JavascriptChannel(
-                name: 'App',
-                onMessageReceived: (JavascriptMessage message) {
-                  //This is where you receive message from
-                  //javascript code and handle in Flutter/Dart
-                  //like here, the message is just being printed
-                  //in Run/LogCat window of android studio
-                  Logger().e(message.message);
-                  controller.processResponse(message.message, widget.wallet);
-                })
-          ]),
+              javascriptMode: JavascriptMode.unrestricted,
+              onWebViewCreated: (WebViewController w) {
+                webViewController = w;
+              },
+              onPageFinished: (finish){
+                controller.dismissLoading();
+              },
+              javascriptChannels: Set.from([
+                JavascriptChannel(
+                    name: 'App',
+                    onMessageReceived: (JavascriptMessage message) {
+                      //This is where you receive message from
+                      //javascript code and handle in Flutter/Dart
+                      //like here, the message is just being printed
+                      //in Run/LogCat window of android studio
+                      Logger().e(message.message);
+                      controller.processResponse(message.message, widget.wallet);
+                    })
+              ]),
+            ),
+            controller.isLoading ? Center( child: CircularProgressIndicator(),)
+                : Stack(),
+          ],
         );
       });
 }

@@ -1,17 +1,32 @@
-import 'package:coupon_app/app/components/rating.dart';
+import 'package:coupon_app/app/components/rating_bar.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/date_helper.dart';
+import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/app/utils/utility.dart';
+import 'package:coupon_app/domain/entities/models/Rating.dart';
+import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ReviewItem extends StatefulWidget{
+class ReviewItem extends StatefulWidget {
+  final Rating rating;
+  final Customer token;
+
+  ReviewItem(this.rating, {this.token});
+
   @override
   State<StatefulWidget> createState() => ReviewState();
 
 }
 
-class ReviewState extends State<ReviewItem>{
-  final String demoReview = "air max are always very comfortable fit, clean and just perfect in every way. just the box was too small and scrunched the sneakers up a little bit, not sure if the box was always this small but the 90s are and will always be one of my favorites.";
+class ReviewState extends State<ReviewItem> {
+
+  get _reviewText =>
+      widget.rating != null && widget.rating.review != null &&
+          widget.rating.review.length > 0 ? widget.rating.review : LocaleKeys
+          .noReviewText.tr();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,18 +35,19 @@ class ReviewState extends State<ReviewItem>{
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CircleAvatar(
+            /*CircleAvatar(
               radius: 25,
               child: Image.asset(Resources.shoe),
             ),
             SizedBox(
               width: Dimens.spacingMedium,
-            ),
-            Column(
+            ),*/
+           Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text("James Lawson", style: heading5.copyWith(color: AppColors.neutralDark),),
-                Rating(size: 20,)
+                widget.token != null ?  Text(widget.token.user.first_name,
+                  style: heading5.copyWith(color: AppColors.neutralDark),): SizedBox(),
+                widget.rating != null && widget.rating.rating != null ?  RatingBar(size: 20,initialRating: widget.rating.rating,) : SizedBox()
               ],
             )
           ],
@@ -39,11 +55,11 @@ class ReviewState extends State<ReviewItem>{
         SizedBox(
           height: Dimens.spacingNormal,
         ),
-        Text(demoReview, style: bodyTextNormal2,),
+        Text(_reviewText, style: bodyTextNormal2,),
         SizedBox(
           height: Dimens.spacingMedium,
         ),
-        Row(
+       /* Row(
           children: [
             Container(
                 width: 80,
@@ -85,11 +101,13 @@ class ReviewState extends State<ReviewItem>{
                   image: AssetImage(Resources.shoe),
                 )),
           ],
-        ),
+        ),*/
         SizedBox(
           height: Dimens.spacingNormal,
         ),
-        Text("December 10, 2016", style: captionNormal2.copyWith(color: AppColors.neutralGray),)
+        Text(widget.rating != null && widget.rating.created != null ? DateHelper
+            .formatServerDate(widget.rating.created) : "",
+          style: captionNormal2.copyWith(color: AppColors.neutralGray),)
       ],
     );
   }

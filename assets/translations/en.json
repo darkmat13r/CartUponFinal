@@ -286,7 +286,9 @@
   "proceed" : "Proceed",
   "addMoneyToWallet" : "Add Money To Wallet",
   "invalidAmount" : "Enter a valid amount",
-  "currentBalance" : "Current Balance"
+  "currentBalance" : "Current Balance",
+  "noReviewText" : "No comment yet",
+  "yourReview" : "Your Review"
 
 
 }

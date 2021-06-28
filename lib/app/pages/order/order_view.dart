@@ -2,12 +2,15 @@ import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/dotted_view.dart';
 import 'package:coupon_app/app/components/outlined_box.dart';
 import 'package:coupon_app/app/components/product_thumbnail.dart';
+import 'package:coupon_app/app/components/review.dart';
+import 'package:coupon_app/app/components/state_view.dart';
 import 'package:coupon_app/app/pages/order/order_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/date_helper.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
 import 'package:coupon_app/app/utils/utility.dart';
+import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
 import 'package:coupon_app/data/repositories/data_order_repository.dart';
 import 'package:coupon_app/domain/entities/models/Order.dart';
 import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
@@ -28,7 +31,7 @@ class OrderPage extends View {
 
 class OrderPageState extends ViewState<OrderPage, OrderController> {
   OrderPageState({OrderDetail order})
-      : super(OrderController(DataOrderRepository(), orderDetail: order));
+      : super(OrderController(DataAuthenticationRepository(),DataOrderRepository(), orderDetail: order));
 
   @override
   Widget get view => Scaffold(
@@ -38,7 +41,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
           style: heading5.copyWith(color: AppColors.primary),
         )),
         key: globalKey,
-        body: _body,
+        body: _stateViewBody,
       );
 
   get _body => ControlledWidgetBuilder(
@@ -78,6 +81,9 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
               ),
             ),
             _paymentDetails(controller),
+            controller.rating != null && controller.rating.rating != null
+                ? reviewItem(controller)
+                : _addReview,
             Padding(
               padding: const EdgeInsets.all(Dimens.spacingMedium),
               child: SizedBox(
@@ -97,6 +103,62 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
         );
       });
 
+   reviewItem(OrderController controller) {
+    return Padding(
+      padding: const EdgeInsets.all(Dimens.spacingNormal),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding:
+            const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+            child: Text(
+              LocaleKeys.yourReview.tr(),
+              style: heading5.copyWith(color: AppColors.neutralDark),
+            ),
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(Dimens.spacingMedium),
+              child: ReviewItem(
+                controller.rating,
+                token: controller.currentUser,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  get _addReview => ControlledWidgetBuilder(
+          builder: (BuildContext context, OrderController controller) {
+        return controller.currentUser != null
+            ? SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(Dimens.spacingMedium),
+                  child: OutlinedButton(
+                    onPressed: () {
+                      controller.addReview();
+                    },
+                    child: Text(
+                      LocaleKeys.writeReview.tr(),
+                      style: buttonText.copyWith(color: AppColors.accent),
+                    ),
+                  ),
+                ),
+              )
+            : SizedBox();
+      });
+
+  get _stateViewBody => ControlledWidgetBuilder(
+          builder: (BuildContext context, OrderController controller) {
+        return StateView(
+            controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT,
+            _body);
+      });
+
   Widget _paymentDetails(OrderController controller) {
     return controller.orderDetail != null
         ? Padding(
@@ -107,18 +169,20 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                 child: Column(
                   children: [
                     _detailItem(
-                        LocaleKeys.items.tr(args: [
-                         "1"
-                        ]),
-                        Utility.currencyFormat(controller.orderDetail.order.total)),
+                        LocaleKeys.items.tr(args: ["1"]),
+                        Utility.currencyFormat(
+                            controller.orderDetail.order.total)),
                     DotWidget(
                       color: AppColors.neutralGray,
                     ),
                     _detailItem(
                         LocaleKeys.shipping.tr(),
-                        Utility.currencyFormat(controller.orderDetail.order.shipping_total)),
-                    _detailItem(LocaleKeys.totalPrice.tr(),
-                        Utility.currencyFormat(controller.orderDetail.order.total)),
+                        Utility.currencyFormat(
+                            controller.orderDetail.order.shipping_total)),
+                    _detailItem(
+                        LocaleKeys.totalPrice.tr(),
+                        Utility.currencyFormat(
+                            controller.orderDetail.order.total)),
                   ],
                 ),
               ),
@@ -188,8 +252,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
         physics: const NeverScrollableScrollPhysics(),
         itemCount: 1,
         itemBuilder: (BuildContext context, int index) {
-          return _productDetail(
-              controller.orderDetail, controller);
+          return _productDetail(controller.orderDetail, controller);
         });
   }
 

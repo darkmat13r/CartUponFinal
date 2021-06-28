@@ -5,14 +5,14 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:coupon_app/domain/entities/user_entity.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 
-class GetUserProfileUseCase extends UseCase<Token, void>{
+class GetUserProfileUseCase extends UseCase<Customer, void>{
   AuthenticationRepository _authenticationRepository;
   GetUserProfileUseCase(this._authenticationRepository);
   @override
-  Future<Stream<Token>> buildUseCaseStream(params) async {
-    final StreamController<Token> controller = StreamController();
+  Future<Stream<Customer>> buildUseCaseStream(params) async {
+    final StreamController<Customer> controller = StreamController();
     try {
-      Token  user = await _authenticationRepository.getProfile();
+      Customer  user = await _authenticationRepository.getProfile();
       logger.finest('GetAuthStatusUseCase successful. ${user}');
       controller.add(user);
       logger.finest('GetAuthStatusUseCase successful.');

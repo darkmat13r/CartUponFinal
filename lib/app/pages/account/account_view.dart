@@ -1,7 +1,7 @@
 import 'package:coupon_app/app/components/rounded_box.dart';
 import 'package:coupon_app/app/pages/account/account_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
-import 'package:coupon_app/app/pages/wallet/add_to_wallet_view.dart';
+import 'package:coupon_app/app/pages/wallet/add/add_to_wallet_view.dart';
 import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
@@ -49,7 +49,7 @@ class AccountPageState extends ViewState<AccountPage, AccountController> {
                   LocaleKeys.descUpdatePassword.tr()),
           _optionItem(Pages.addresses, MaterialCommunityIcons.pin,
               LocaleKeys.addresses.tr(), LocaleKeys.descAddress.tr()),
-          _optionItem(Pages.addMoneyToWallet, MaterialCommunityIcons.wallet,
+          _optionItem(Pages.wallet, MaterialCommunityIcons.wallet,
               LocaleKeys.myWallet.tr(), LocaleKeys.descWallet.tr()),
          _optionItemClickable(
                   Pages.main,

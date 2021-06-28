@@ -30,7 +30,7 @@ class LoginPresenter extends Presenter{
 }
 
 /// The [Observer] used to observe the `Observable` of the [LoginUseCase]
-class _LoginUserCaseObserver implements Observer<Token> {
+class _LoginUserCaseObserver implements Observer<Customer> {
 
   // The above presenter
   LoginPresenter _loginPresenter;

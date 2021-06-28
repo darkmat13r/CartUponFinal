@@ -1,6 +1,6 @@
 import 'package:coupon_app/app/components/loading_button.dart';
 import 'package:coupon_app/app/pages/searchable_view_state.dart';
-import 'package:coupon_app/app/pages/wallet/add_to_wallet_controller.dart';
+import 'package:coupon_app/app/pages/wallet/add/add_to_wallet_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/utility.dart';
@@ -30,7 +30,7 @@ class _AddToWalletPageState
             child: ListView(
               shrinkWrap: true,
               children: [
-                _currentBalance,
+
                 SizedBox(
                   height: Dimens.spacingLarge,
                 ),
@@ -95,28 +95,6 @@ class _AddToWalletPageState
         );
       });
 
-  get _currentBalance => ControlledWidgetBuilder(
-          builder: (BuildContext context, AddToWalletController controller) {
-        return Card(
-          child: Padding(
-            padding: const EdgeInsets.all(Dimens.spacingMedium),
-            child: Column(
-              children: [
-                Text(
-                  LocaleKeys.currentBalance.tr(),
-                  style: captionNormal1.copyWith(color: AppColors.neutralGray),
-                ),
-                Text(
-                  Utility.currencyFormat(controller.currentUser != null
-                      ? (controller.currentUser.wallet_balance ?? "0")
-                      : "0"),
-                  style: heading4,
-                )
-              ],
-            ),
-          ),
-        );
-      });
 
   @override
   Widget get body => _body;

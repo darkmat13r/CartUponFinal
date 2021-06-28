@@ -11,7 +11,7 @@ abstract class BaseController extends Controller {
   bool isLoading = false;
   bool isAuthUserLoading = false;
 
-  Token currentUser;
+  Customer currentUser;
   AuthPresenter _authPresenter;
 
 

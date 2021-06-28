@@ -8,7 +8,7 @@ import 'package:coupon_app/app/components/product_item.dart';
 import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/product_colors.dart';
 import 'package:coupon_app/app/components/product_sizes.dart';
-import 'package:coupon_app/app/components/rating.dart';
+import 'package:coupon_app/app/components/rating_bar.dart';
 import 'package:coupon_app/app/components/review.dart';
 import 'package:coupon_app/app/components/social_share.dart';
 import 'package:coupon_app/app/components/state_view.dart';
@@ -154,31 +154,14 @@ class ProductPageView
                       : "",
                   shrinkWrap: true,
                 ),
-                _reviews,
-                _addReview
+              //  _reviews,
+               // _addReview
               ],
             ),
           );
   }
 
-  get _addReview => ControlledWidgetBuilder(
-      builder: (BuildContext context, ProductController controller) {
-        return controller.currentUser != null ? SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(Dimens.spacingMedium),
-            child: OutlinedButton(
-              onPressed: () {
-                controller.addReview();
-              },
-              child: Text(
-                LocaleKeys.writeReview.tr(),
-                style: buttonText.copyWith(color: AppColors.accent),
-              ),
-            ),
-          ),
-        ) :SizedBox();
-      });
+
 
   SizedBox pricing(ProductController controller) {
     return SizedBox(
@@ -343,7 +326,7 @@ class ProductPageView
     );
   }
 
-  get _reviews => ControlledWidgetBuilder(
+ /* get _reviews => ControlledWidgetBuilder(
         builder: (BuildContext context, ProductController controller) {
           return Column(
             children: [
@@ -375,7 +358,7 @@ class ProductPageView
               ),
               Row(
                 children: [
-                  Rating(
+                  RatingBar(
                     size: 20,
                   ),
                   Text("4.5",
@@ -393,7 +376,7 @@ class ProductPageView
             ],
           );
         },
-      );
+      );*/
 
   get _view => ControlledWidgetBuilder(
           builder: (BuildContext context, ProductController controller) {

@@ -69,7 +69,7 @@ class _NationalityObserver extends Observer<List<Nationality>>{
 
 }
 
-class _RegisterObserver extends Observer<Token> {
+class _RegisterObserver extends Observer<Customer> {
   RegisterPresenter _presenter;
 
   _RegisterObserver(this._presenter);
@@ -88,7 +88,7 @@ class _RegisterObserver extends Observer<Token> {
   }
 
   @override
-  void onNext(Token response) {
+  void onNext(Customer response) {
     assert(_presenter.registerOnNext != null);
     _presenter.registerOnNext(response);
   }

@@ -36,7 +36,7 @@ class DataAddressRepository extends AddressRepository {
   @override
   Future<List<Address>> getAddresses() async {
     try {
-      Token token = await SessionHelper().getCurrentUser();
+      Customer token = await SessionHelper().getCurrentUser();
       var url = Constants.createUriWithParams(
           "${Constants.addressGetRoute}", {'user_id': token.user.id.toString()});
       List<dynamic> addressesData =
@@ -65,7 +65,7 @@ class DataAddressRepository extends AddressRepository {
       bool isDefault,
       String phoneNo}) async {
     try {
-      Token token = await SessionHelper().getCurrentUser();
+      Customer token = await SessionHelper().getCurrentUser();
       Map<String, dynamic> data = await HttpHelper.invokeHttp(
           "${Constants.addressRoute}", RequestType.post,
           headers: {

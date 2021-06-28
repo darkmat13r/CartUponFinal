@@ -1,6 +1,6 @@
 import 'package:coupon_app/domain/entities/models/User.dart';
 
-class Token {
+class Customer {
     String country_code;
     String date_of_birth;
     int id;
@@ -13,10 +13,10 @@ class Token {
     String wallet_balance;
     User user;
 
-    Token({this.country_code, this.date_of_birth, this.id, this.key,this.token, this.mobile_no, this.user, this.wallet_balance,this.nationality, this.gender, this.title});
+    Customer({this.country_code, this.date_of_birth, this.id, this.key,this.token, this.mobile_no, this.user, this.wallet_balance,this.nationality, this.gender, this.title});
 
-    factory Token.fromJson(Map<String, dynamic> json) {
-        return Token(
+    factory Customer.fromJson(Map<String, dynamic> json) {
+        return Customer(
             country_code: json['country_code'] ?? "",
             date_of_birth: json['date_of_birth'] ?? "",
             id: json['id'] ?? 0,

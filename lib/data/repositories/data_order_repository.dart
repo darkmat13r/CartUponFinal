@@ -6,6 +6,7 @@ import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/entities/models/Order.dart';
 import 'package:coupon_app/domain/entities/models/OrderCancelResponse.dart';
 import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
+import 'package:coupon_app/domain/entities/models/OrderDetailResponse.dart';
 import 'package:coupon_app/domain/entities/models/PaymentOrder.dart';
 import 'package:coupon_app/domain/repositories/order_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
@@ -55,7 +56,7 @@ class DataOrderRepository extends OrderRepository{
           "CurrencyCode": country != null ? country.country_currency : "KWD",
         };
       }
-      dynamic data = await HttpHelper.invokeHttp(Constants.orderCreateRoute, RequestType.post, body: body);
+      dynamic data = await HttpHelper.invokeHttp(isGuest ? Constants.orderGuestCreateRoute : Constants.orderCreateRoute, RequestType.post, body: body);
       return PlaceOrderResponse.fromJson(data);
     }catch(e){
       _logger.e(e);
@@ -87,6 +88,22 @@ class DataOrderRepository extends OrderRepository{
         "item_id" : orderId
       });
       CancelOrderResponse response = CancelOrderResponse.fromJson(data);
+      return response;
+    }catch(e){
+      _logger.e(e.stackTrace);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<OrderDetailResponse> getOrder(String orderId) async{
+    try{
+      var url = Constants.createUriWithParams(Constants.orderDetailRoute, {
+        "oid" : orderId,
+        "lang" : Config().getLanguageId().toString(),
+      });
+      dynamic data = await HttpHelper.invokeHttp(url, RequestType.get );
+      OrderDetailResponse response = OrderDetailResponse.fromJson(data);
       return response;
     }catch(e){
       _logger.e(e.stackTrace);

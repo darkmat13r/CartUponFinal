@@ -12,9 +12,9 @@ class LoginWithFacebookUsecase extends CompletableUseCase<FbLoginParams>{
 
   @override
   Future<Stream<void>> buildUseCaseStream(FbLoginParams params) async {
-    final StreamController<Token> controller = StreamController();
+    final StreamController<Customer> controller = StreamController();
     try {
-      Token userEntity  = await _repository.authenticateFacebook(
+      Customer userEntity  = await _repository.authenticateFacebook(
           accessToken: params.accessToken);
       controller.add(userEntity);
       controller.close();

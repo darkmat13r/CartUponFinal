@@ -24,17 +24,17 @@ class SessionHelper {
   factory SessionHelper() => _instance;
 
   /// Returns the current authenticated `User` from `SharedPreferences`.
-  Future<Token> getCurrentUser() async {
+  Future<Customer> getCurrentUser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String json = preferences.getString(Constants.userKey);
     if (json != null) {
-      Token user = Token.fromJson(jsonDecode(json));
+      Customer user = Customer.fromJson(jsonDecode(json));
       return user;
     }
     return null;
   }
 
-  void updateUser({@required Token user}) async {
+  void updateUser({@required Customer user}) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await Future.wait([
@@ -48,7 +48,7 @@ class SessionHelper {
   }
 
   /// Saves the [token] and the [user] in `SharedPreferences`.
-  void saveCredentials({@required String token, @required Token user}) async {
+  void saveCredentials({@required String token, @required Customer user}) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       await Future.wait([
@@ -86,7 +86,7 @@ class SessionHelper {
   }
 
   getUserId() async {
-    Token token = await getCurrentUser();
+    Customer token = await getCurrentUser();
     if (token == null || token.user == null) {
       var tempId = await getTempId();
       if (tempId == null || tempId == 0 || tempId == -1) {

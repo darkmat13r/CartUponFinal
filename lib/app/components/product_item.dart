@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:coupon_app/app/components/app_image.dart';
 import 'package:coupon_app/app/components/buy_now_button.dart';
 import 'package:coupon_app/app/components/countdown.dart';
-import 'package:coupon_app/app/components/rating.dart';
+import 'package:coupon_app/app/components/rating_bar.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/date_helper.dart';

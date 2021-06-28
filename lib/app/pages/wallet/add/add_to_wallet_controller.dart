@@ -1,6 +1,6 @@
 import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/payment/payment_view.dart';
-import 'package:coupon_app/app/pages/wallet/add_to_wallet_presenter.dart';
+import 'package:coupon_app/app/pages/wallet/add/add_to_wallet_presenter.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/models/PaymentOrder.dart';
@@ -71,9 +71,7 @@ class AddToWalletController extends BaseController {
                     wallet: true,
                   )),
         );
-        showProgressDialog();
-        fetchUser();
-        refreshUI();
+        Navigator.pop(getContext(), result);
       }
     };
     _presenter.addToWalletOnError = (e) {

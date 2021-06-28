@@ -7,7 +7,7 @@ import 'package:coupon_app/domain/entities/user_entity.dart';
 /// A repository tasked with user authentication and registration.
 abstract class AuthenticationRepository {
   /// Registers a new user using the provided [username] and [password]
-  Future<Token> register(
+  Future<Customer> register(
       {@required String firstName,
       @required String lastName,
       @required String username,
@@ -22,20 +22,20 @@ abstract class AuthenticationRepository {
       @required String password});
 
   /// Authenticates a user using his [username] and [password]
-  Future<Token> authenticate(
+  Future<Customer> authenticate(
       {@required String email, @required String password});
 
 
-  Future<Token> authenticateFacebook(
+  Future<Customer> authenticateFacebook(
       {@required String accessToken});
 
   /// Returns whether the [UserEntity] is authenticated.
   Future<bool> isAuthenticated();
 
   /// Returns the current authenticated [UserEntity].
-  Future<Token> getCurrentUser();
+  Future<Customer> getCurrentUser();
 
-  Future<Token> getProfile();
+  Future<Customer> getProfile();
 
   /// Resets the password of a [UserEntity]
   Future<void> forgotPassword(String email);
@@ -43,7 +43,7 @@ abstract class AuthenticationRepository {
   /// Logs out the [UserEntity]
   Future<void> logout();
 
-  Future<Token> update(
+  Future<Customer> update(
       {String firstName,
       String lastName,
       String username,
@@ -56,5 +56,5 @@ abstract class AuthenticationRepository {
       String dateOfBirth,
       String isActive});
 
-  Future<Token> updatePassword({String current , String password, String passwordRepeat});
+  Future<Customer> updatePassword({String current , String password, String passwordRepeat});
 }

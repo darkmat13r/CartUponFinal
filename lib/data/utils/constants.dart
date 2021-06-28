@@ -37,13 +37,16 @@ class Constants {
   static var nationalityRoute = "$baseUrl/nationalitylist";
   static String countriesRoute = "$baseUrl/countryopenapi/";
   static var orderCreateRoute = "$baseUrl/ordercreate";
+  static var orderGuestCreateRoute = "$baseUrl/orderCreateGuest";
   static var orderRoute = "$baseUrl/order";
   static var orderCancelRoute = "$baseUrl/item-cancel-request";
+  static var orderDetailRoute = "$baseUrl/orderDetail";
   static var changeCartUserIdRoute = "$baseUrl/cartwebapi/changeUser/";
 
   static var sendOtpRoute ="$baseUrl/sendOtp";
   static var validateOtpRoute ="$baseUrl/validateOTP";
   static var walletRequestRoute = "$baseUrl/walletRequest";
+  static var walletHistoryRoute = "$baseUrl/userWalletHistroy";
 
 
   // APIs no prefix

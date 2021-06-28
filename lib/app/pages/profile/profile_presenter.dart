@@ -73,7 +73,7 @@ class _NationalityObserver extends Observer<List<Nationality>>{
 
 
 }
-class _UpdateProfileObserver extends Observer<Token> {
+class _UpdateProfileObserver extends Observer<Customer> {
   ProfilePresenter _presenter;
 
   _UpdateProfileObserver(this._presenter);
@@ -91,7 +91,7 @@ class _UpdateProfileObserver extends Observer<Token> {
   }
 
   @override
-  void onNext(Token response) {
+  void onNext(Customer response) {
     assert(_presenter.updateProfileOnNext != null);
     _presenter.updateProfileOnNext(response);
   }

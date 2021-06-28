@@ -65,7 +65,7 @@ class _LogoutObserver extends Observer<void> {
   }
 }
 
-class _GetCurrentUserObserver extends Observer<Token> {
+class _GetCurrentUserObserver extends Observer<Customer> {
   AuthPresenter _presenter;
 
   _GetCurrentUserObserver(this._presenter);
@@ -83,7 +83,7 @@ class _GetCurrentUserObserver extends Observer<Token> {
   }
 
   @override
-  void onNext(Token response) {
+  void onNext(Customer response) {
     assert(_presenter.getCurrentUserOnNext != null);
     _presenter.getCurrentUserOnNext(response);
   }

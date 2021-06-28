@@ -13,7 +13,7 @@ class PostRatingUseCase extends CompletableUseCase<PostRatingParams>{
   Future<Stream<dynamic>> buildUseCaseStream(PostRatingParams params) async{
     final StreamController<dynamic> controller = StreamController();
     try{
-     dynamic item = await _repository.postReview(productId: params.productId, rating: params.rating, review: params.review);
+     dynamic item = await _repository.postReview(orderId: params.productId, rating: params.rating, review: params.review);
       controller.add(item);
       controller.close();
     }catch(e){

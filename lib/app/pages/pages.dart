@@ -28,6 +28,7 @@ class Pages{
   static const String whishlist = "/whishlist";
   static const String checkout = "/checkout";
   static const String addMoneyToWallet = "/walletAddMoney";
+  static const String wallet = "/wallet";
   static const String settings = "/settings";
   static const String requestOtp = "/requestOtp";
   static const String verifyOtp = "/verifyOtp";

@@ -109,10 +109,10 @@ class DataProductRepository extends ProductRepository {
   }
 
   @override
-  Future postReview({int productId, int rating, String review}) async {
+  Future postReview({int orderId, int rating, String review}) async {
     try {
       var params = {
-        'product': productId.toString(),
+        'orderdetail': orderId.toString(),
         'rating': (rating ?? 1).toString(),
         'review': review.toString()
       };

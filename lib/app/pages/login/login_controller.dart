@@ -24,7 +24,7 @@ class LoginController extends Controller{
     _loginPresenter.loginOnError = this._loginOnError;
   }
 
-  void _loginOnComplete(Token user) {
+  void _loginOnComplete(Customer user) {
     dismissLoading();
     goToHome();
   }

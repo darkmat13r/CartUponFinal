@@ -21,7 +21,8 @@ import 'package:coupon_app/app/pages/reviews/create/create_review_view.dart';
 import 'package:coupon_app/app/pages/reviews/reviews_view.dart';
 import 'package:coupon_app/app/pages/search/search_view.dart';
 import 'package:coupon_app/app/pages/setting/settings_view.dart';
-import 'package:coupon_app/app/pages/wallet/add_to_wallet_view.dart';
+import 'package:coupon_app/app/pages/wallet/add/add_to_wallet_view.dart';
+import 'package:coupon_app/app/pages/wallet/wallet_view.dart';
 import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
 import 'package:coupon_app/app/pages/whishlist/whishlist_view.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
@@ -81,6 +82,8 @@ class AppRouter {
         return buildRoute(settings, CheckoutPage());
       case Pages.addMoneyToWallet :
         return buildRoute(settings, AddToWalletPage());
+      case Pages.wallet :
+        return buildRoute(settings, WalletPage());
       case Pages.settings :
         return buildRoute(settings, SettingsPage());
       case Pages.requestOtp :

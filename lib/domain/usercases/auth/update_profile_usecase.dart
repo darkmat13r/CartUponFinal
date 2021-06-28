@@ -18,9 +18,9 @@ class UpdateProfileUseCase extends CompletableUseCase<UpdateProfileParams> {
 
   @override
   Future<Stream<void>> buildUseCaseStream(UpdateProfileParams params) async {
-    StreamController<Token> controller = StreamController();
+    StreamController<Customer> controller = StreamController();
     try {
-      Token user = await authRepo.update(firstName: params.firstName,
+      Customer user = await authRepo.update(firstName: params.firstName,
           lastName: params.lastName,
           username: params.email,
           email: params.email,

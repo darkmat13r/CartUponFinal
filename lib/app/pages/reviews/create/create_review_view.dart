@@ -1,4 +1,4 @@
-import 'package:coupon_app/app/components/rating.dart';
+import 'package:coupon_app/app/components/rating_bar.dart';
 import 'package:coupon_app/app/pages/reviews/create/create_review_controller.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
@@ -145,7 +145,7 @@ class _CreateReviewPageState
         builder: (BuildContext context, CreateReviewController controller) {
       return Row(
         children: [
-          Rating(
+          RatingBar(
             size: 36,
             onRatingChange: controller.changeRating,
           ),

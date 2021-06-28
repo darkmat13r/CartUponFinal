@@ -17,10 +17,10 @@ class RegisterUseCase extends CompletableUseCase<RegisterParams> {
   }
 
   @override
-  Future<Stream<Token>> buildUseCaseStream(RegisterParams params) async {
-    StreamController<Token> controller = StreamController();
+  Future<Stream<Customer>> buildUseCaseStream(RegisterParams params) async {
+    StreamController<Customer> controller = StreamController();
     try {
-      Token user = await authRepo.register(
+      Customer user = await authRepo.register(
           firstName: params.firstName,
           lastName: params.lastName,
           username: params.email,

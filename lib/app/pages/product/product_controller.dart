@@ -132,19 +132,5 @@ class ProductController extends BaseController {
     super.dispose();
   }
 
-  void addReview() async {
-    if(this.product == null && this.product.product != null){
-      return;
-    }
-    final result = await Navigator.push(
-      getContext(),
-      MaterialPageRoute(
-          builder: (context) =>
-              CreateReviewPage(this.product.product.id)),
-    );
-    if (result != null && result) {
-      _presenter.fetchProduct();
-    }
-    refreshUI();
-  }
+
 }
