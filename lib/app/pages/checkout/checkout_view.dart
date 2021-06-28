@@ -51,9 +51,9 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                     flex: 1,
                     child: ListView(
                       children: [
-                        (controller.defaultAddress != null
+                        controller.addressRequired() ? (controller.defaultAddress != null
                             ? _defaultAddress(controller)
-                            : _addAddress),
+                            : _addAddress) : SizedBox(),
                         _orderDetails,
                         _paymentMethods
                       ],
@@ -262,7 +262,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                 height: Dimens.spacingSmall,
               ),
               controller.containsOnlyCoupon
-                  ? Text(controller.defaultAddress.email,
+                  ? Text(controller.defaultAddress != null && controller.defaultAddress.email != null ? controller.defaultAddress.email : "",
                       style:
                           captionNormal2.copyWith(color: AppColors.neutralDark))
                   : Text(

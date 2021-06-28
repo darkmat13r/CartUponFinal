@@ -71,22 +71,7 @@ class _CreateReviewPageState
                 SizedBox(
                   height: Dimens.spacingNormal,
                 ),
-                Form(
-                  key: _formKey,
-                  child: TextFormField(
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 4,
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return LocaleKeys.errorReviewRequired.tr();
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: LocaleKeys.writeYourReviewHint.tr(),
-                    ),
-                  ),
-                ),
+                form(),
                 /*  SizedBox(
                   height: Dimens.spacingMedium,
                 ),
@@ -118,6 +103,28 @@ class _CreateReviewPageState
           )
         ],
       );
+
+   form() {
+    return ControlledWidgetBuilder(builder: (BuildContext context, CreateReviewController controller){
+      return  Form(
+        key: _formKey,
+        child: TextFormField(
+          keyboardType: TextInputType.multiline,
+          maxLines: 4,
+          controller: controller.reviewTextController,
+          validator: (value) {
+            if (value.isEmpty) {
+              return LocaleKeys.errorReviewRequired.tr();
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            hintText: LocaleKeys.writeYourReviewHint.tr(),
+          ),
+        ),
+      );
+    });
+  }
 
   _writeReviewButton() {
     return ControlledWidgetBuilder(

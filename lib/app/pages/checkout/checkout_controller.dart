@@ -64,7 +64,7 @@ class CheckoutController extends BaseController {
   getCartOnNext(Cart cart) {
     this.cart = cart;
     try {
-      var item = cart.cart.singleWhere(
+      var item = cart.cart.firstWhere(
           (element) => element.product_id.category_type == false,
           orElse: null);
       containsCoupon = item != null;
@@ -78,7 +78,7 @@ class CheckoutController extends BaseController {
     dismissProgressDialog();
 
     try {
-      var anyProduct = cart.cart.singleWhere(
+      var anyProduct = cart.cart.firstWhere(
           (element) => element.product_id.category_type == true,
           orElse: null);
       containsOnlyCoupon = containsCoupon && anyProduct == null;
@@ -163,17 +163,24 @@ class CheckoutController extends BaseController {
     this.paymentMethod = value;
     refreshUI();
   }
+  addressRequired(){
+    _logger.e("AddRessRequired ${(currentUser == null && !containsCoupon)}");
+    return (currentUser != null && !containsOnlyCoupon) || (currentUser == null && containsOnlyCoupon) || (currentUser == null && !containsOnlyCoupon);
+  }
 
   void placeOrder() {
-    if (defaultAddress == null) {
-      showGenericSnackbar(
-          getContext(),
-          containsOnlyCoupon
-              ? LocaleKeys.errorAddDeliveryDetails.tr()
-              : LocaleKeys.errorSelectAddress.tr(),
-          isError: true);
-      return;
+    if(addressRequired()){
+      if (defaultAddress == null) {
+        showGenericSnackbar(
+            getContext(),
+            containsOnlyCoupon
+                ? LocaleKeys.errorAddDeliveryDetails.tr()
+                : LocaleKeys.errorSelectAddress.tr(),
+            isError: true);
+        return;
+      }
     }
+
     if (paymentMethod == 0 || paymentMethod == null) {
       showGenericSnackbar(
           getContext(), LocaleKeys.errorSelectPaymentMethod.tr(),
@@ -181,7 +188,8 @@ class CheckoutController extends BaseController {
       return;
     }
     showProgressDialog();
-    _presenter.placeOrder(defaultAddress.id, defaultAddress.id,
+    var addressId = defaultAddress != null ? defaultAddress.id : 1;
+    _presenter.placeOrder(addressId, addressId,
         paymentMethod == 1 ? "cash" : "online",isGuest:  currentUser == null, address: defaultAddress);
   }
 
