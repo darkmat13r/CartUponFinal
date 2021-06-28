@@ -323,5 +323,6 @@ class LocaleKeys {
   static var currentBalance = "currentBalance";
   static var noReviewText = "noReviewText";
   static var yourReview = "yourReview";
+  static var terms = "terms";
 
 }

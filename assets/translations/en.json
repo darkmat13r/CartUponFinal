@@ -288,7 +288,8 @@
   "invalidAmount" : "Enter a valid amount",
   "currentBalance" : "Current Balance",
   "noReviewText" : "No comment yet",
-  "yourReview" : "Your Review"
+  "yourReview" : "Your Review",
+  "terms" : "Terms & Conditions"
 
 
 }

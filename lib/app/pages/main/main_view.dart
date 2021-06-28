@@ -24,11 +24,11 @@ class MainPage extends View {
 
 class MainPageView extends ViewState<MainPage, MainController> {
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
+
   MainPageView() : super(MainController(DataAuthenticationRepository()));
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
 
   void _onItemTapped(int index, MainController controller) {
     setState(() {
@@ -41,7 +41,6 @@ class MainPageView extends ViewState<MainPage, MainController> {
       }
     });
   }
-
 
   bool _isSearching = false;
   String searchQuery = null;
@@ -62,21 +61,22 @@ class MainPageView extends ViewState<MainPage, MainController> {
 
   void _startSearch() {
     print("open search box");
-    ModalRoute
-        .of(context)
+    ModalRoute.of(context)
         .addLocalHistoryEntry(new LocalHistoryEntry(onRemove: _stopSearching));
 
     setState(() {
       _isSearching = true;
     });
   }
+
   Widget _buildSearchField() {
-    return  ControlledWidgetBuilder(builder: (BuildContext context, MainController controller){
+    return ControlledWidgetBuilder(
+        builder: (BuildContext context, MainController controller) {
       return TextField(
         controller: _searchQuery,
         autofocus: true,
         textInputAction: TextInputAction.search,
-        onSubmitted: (value){
+        onSubmitted: (value) {
           String query = value;
           setState(() {
             _stopSearching();
@@ -95,6 +95,7 @@ class MainPageView extends ViewState<MainPage, MainController> {
       );
     });
   }
+
   void _stopSearching() {
     _clearSearchQuery();
 
@@ -102,14 +103,14 @@ class MainPageView extends ViewState<MainPage, MainController> {
       _isSearching = false;
     });
   }
-  void updateSearchQuery(String newQuery) {
 
+  void updateSearchQuery(String newQuery) {
     setState(() {
       searchQuery = newQuery;
     });
     print("search query " + newQuery);
-
   }
+
   void _clearSearchQuery() {
     print("close search box");
     setState(() {
@@ -117,6 +118,7 @@ class MainPageView extends ViewState<MainPage, MainController> {
       updateSearchQuery("Search query");
     });
   }
+
   _buildActions() {
     if (_isSearching) {
       return <Widget>[
@@ -160,10 +162,17 @@ class MainPageView extends ViewState<MainPage, MainController> {
         body: _body,
         endDrawer: ControlledWidgetBuilder(
           builder: (BuildContext ctx, MainController controller) {
-
             return NavigationDrawer(controller.currentUser != null
                 ? controller.currentUser.user
-                : null);
+                : null, onSelectHome: (){
+              setState(() {
+                controller.selectedIndex = 0;
+              });
+            },onSelectCategory: (){
+              setState(() {
+                controller.selectedIndex = 1;
+              });
+            },);
           },
         ),
         bottomNavigationBar: _bottomNavigation,
@@ -171,7 +180,7 @@ class MainPageView extends ViewState<MainPage, MainController> {
 
   get _bottomNavigation => ControlledWidgetBuilder(
           builder: (BuildContext context, MainController controller) {
-            controller.setKey(_drawerKey);
+        controller.setKey(_drawerKey);
         return Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -218,25 +227,27 @@ class MainPageView extends ViewState<MainPage, MainController> {
           ),
         );
       });
-  getChildWidget(index, MainController controller){
-    switch(index){
-      case 0 :
-        return HomePage();
-      case 1 :
-        return  ExplorePage();
-      case 2 :
-        return   AccountPage(onLogout: (){
-          setState(() {
-            controller.currentUser = null;
-            controller.selectedIndex = 0;
-          });
-        },);
-      case 3 :
-        return   WhishlistPage();
-      case 4 :
-        return  CartPage();
-    }
 
+  getChildWidget(index, MainController controller) {
+    switch (index) {
+      case 0:
+        return HomePage();
+      case 1:
+        return ExplorePage();
+      case 2:
+        return AccountPage(
+          onLogout: () {
+            setState(() {
+              controller.currentUser = null;
+              controller.selectedIndex = 0;
+            });
+          },
+        );
+      case 3:
+        return WhishlistPage();
+      case 4:
+        return CartPage();
+    }
   }
 
   get _body => ControlledWidgetBuilder(
@@ -245,8 +256,4 @@ class MainPageView extends ViewState<MainPage, MainController> {
           child: getChildWidget(controller.selectedIndex, controller),
         );
       });
-
-
-
-
 }

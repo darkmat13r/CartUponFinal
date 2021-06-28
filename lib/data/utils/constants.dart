@@ -8,6 +8,7 @@ class Constants {
   // APIs
   static const String schema = "https";
   static const String baseUrl = '$schema://$baseUrlNoPrefix/v1';
+  static const String websiteBaseUrl = '$schema://$websiteBaseUrlNoPrefix/v1';
   static const String baseUrlWithoutV1 = '$schema://$baseUrlNoPrefix';
   static const String usersRoute = '$baseUrl/users';
 
@@ -48,10 +49,16 @@ class Constants {
   static var walletRequestRoute = "$baseUrl/walletRequest";
   static var walletHistoryRoute = "$baseUrl/userWalletHistroy";
 
+  static var privacyUrl = "$websiteBaseUrl/privacy/";
+  static var termsUrl = "$baseUrl/termsandconditions/";
+  static var contactUsUrl = "$baseUrl/contact/";
+  static var aboutUsUrl = "$baseUrl/about/";
+
 
   // APIs no prefix
   //static const String baseUrlNoPrefix = 'cart-upon-api.herokuapp.com';
   static const String baseUrlNoPrefix = 'api.mallzaad.com';
+  static const String websiteBaseUrlNoPrefix = 'mallzaad.com';
   static const String forgotPasswordPath = '/forgot-password';
 
   // Local Storage
