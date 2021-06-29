@@ -170,16 +170,20 @@ class _WalletPageState extends SearchableViewState<WalletPage, WalletController>
                     child: _currentBalance,
                   ),
                   _tabs,
-                  IndexedStack(
-                    children: [_credited, _debited],
-                    index: _tabController.index,
-                  )
+                  _getTabContent(_tabController.index)
                 ],
               ),
             ),
           ],
         );
       });
+
+  _getTabContent(int index) {
+    if(index  == 0){
+      return _credited;
+    }
+    return _debited;
+  }
 
   get _currentBalance => ControlledWidgetBuilder(
           builder: (BuildContext context, WalletController controller) {
