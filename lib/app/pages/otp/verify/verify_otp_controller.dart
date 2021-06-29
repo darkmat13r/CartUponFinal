@@ -33,13 +33,13 @@ class VerifyOtpController extends BaseController {
   @override
   void initListeners() {
     //showProgressDialog();
-    _presenter.requestOtp(getSelectedMobileNumber());
+    _presenter.requestOtp(mobileNumber: mobileNumber, countryCode: countryCode);
     initRequestOtpListeners();
     initVerifyOtpListeners();
   }
 
   String getSelectedMobileNumber() {
-    return "${countryCode.replaceAll("+", "")}${mobileNumber}";
+    return "${countryCode}-${mobileNumber}";
   }
 
   @override
@@ -89,11 +89,11 @@ class VerifyOtpController extends BaseController {
 
   void verifyOtp() {
     showLoading();
-    _presenter.verifyOtp(getSelectedMobileNumber(), otpController.text);
+    _presenter.verifyOtp(mobileNumber: mobileNumber, countryCode: countryCode, text:   otpController.text);
   }
 
   void resendOtp() {
     showProgressDialog();
-    _presenter.requestOtp(getSelectedMobileNumber());
+    _presenter.requestOtp(mobileNumber: mobileNumber, countryCode: countryCode);
   }
 }

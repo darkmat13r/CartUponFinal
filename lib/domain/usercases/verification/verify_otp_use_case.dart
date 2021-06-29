@@ -16,7 +16,7 @@ class VerifyOtpUseCase extends CompletableUseCase<VerifyOtpParams>{
   Future<Stream<VerificationResponse>> buildUseCaseStream(VerifyOtpParams params) async {
     StreamController<VerificationResponse> controller = new StreamController();
     try{
-      dynamic response = await _repository.verifyOtp(params.mobileNumber,  params.otp);
+      dynamic response = await _repository.verifyOtp(countryCode  : params.countryCode, mobileNumber : params.mobileNumber , otp : params.otp);
       controller.add(response);
       controller.close();
     }catch(e){
@@ -30,6 +30,7 @@ class VerifyOtpUseCase extends CompletableUseCase<VerifyOtpParams>{
 class VerifyOtpParams{
   String mobileNumber;
   String otp;
+  String countryCode;
 
-  VerifyOtpParams(this.mobileNumber, this.otp);
+  VerifyOtpParams({this.mobileNumber, this.otp, this.countryCode});
 }

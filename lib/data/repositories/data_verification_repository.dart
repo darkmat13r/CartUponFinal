@@ -17,8 +17,8 @@ class DataVerificationRepository extends VerificationRepository {
   factory DataVerificationRepository() => instance;
 
   @override
-  Future requestOtp(String mobileNumber) async {
-    var params = {'mobileno': mobileNumber};
+  Future requestOtp({String mobileNumber, String countryCode}) async {
+    var params = {'mobileno': mobileNumber, 'country_code' : countryCode};
     try {
       dynamic data =
           await HttpHelper.invokeHttp(Constants.sendOtpRoute, RequestType.post, body: params);
@@ -31,8 +31,8 @@ class DataVerificationRepository extends VerificationRepository {
   }
 
   @override
-  Future<VerificationResponse> verifyOtp(String mobileNumber, String otp) async{
-    var params = {'mobileno': mobileNumber, 'otpno' : otp};
+  Future<VerificationResponse> verifyOtp({String mobileNumber, String otp,  String countryCode}) async{
+    var params = {'mobileno': mobileNumber, 'otpno' : otp,  'country_code' : countryCode};
     try {
       dynamic data =
           await HttpHelper.invokeHttp(Constants.validateOtpRoute, RequestType.post, body: params);

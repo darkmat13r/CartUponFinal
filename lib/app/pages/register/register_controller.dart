@@ -75,7 +75,7 @@ class RegisterController extends BaseController {
   }
 
   String getSelectedMobileNumber() {
-    return "${countryCode}${mobileNumber}";
+    return "${countryCode}-${mobileNumber}";
   }
 
   @override

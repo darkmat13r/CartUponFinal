@@ -18,8 +18,9 @@ class VerifyOtpPresenter extends Presenter {
       : _verifyOtpUseCase = VerifyOtpUseCase(verificationRepository),
         _requestOtpUseCase = RequestOtpUseCase(verificationRepository);
 
-  requestOtp(String mobileNumber){
-    _requestOtpUseCase.execute(_RequestOtpObserver(this), mobileNumber);
+  requestOtp({String mobileNumber, String countryCode}) {
+    _requestOtpUseCase.execute(_RequestOtpObserver(this),
+        RequestOtpParams(mobileNumber: mobileNumber, countryCode: countryCode));
   }
 
   @override
@@ -28,11 +29,13 @@ class VerifyOtpPresenter extends Presenter {
     _requestOtpUseCase.dispose();
   }
 
-  void verifyOtp(String selectedMobileNumber, String text) {
-    _verifyOtpUseCase.execute(_VerifyOtpObserver(this), VerifyOtpParams(selectedMobileNumber, text));
+  void verifyOtp({String mobileNumber, String countryCode, String text}) {
+    _verifyOtpUseCase.execute(
+        _VerifyOtpObserver(this), VerifyOtpParams(mobileNumber: mobileNumber, countryCode: countryCode, otp: text));
   }
 }
-class _VerifyOtpObserver extends Observer<dynamic>{
+
+class _VerifyOtpObserver extends Observer<dynamic> {
   final VerifyOtpPresenter _presenter;
 
   _VerifyOtpObserver(this._presenter);
@@ -54,9 +57,9 @@ class _VerifyOtpObserver extends Observer<dynamic>{
     assert(_presenter.verifyOtpOnNext != null);
     _presenter.verifyOtpOnNext(response);
   }
-
 }
-class _RequestOtpObserver extends Observer<dynamic>{
+
+class _RequestOtpObserver extends Observer<dynamic> {
   final VerifyOtpPresenter _presenter;
 
   _RequestOtpObserver(this._presenter);
@@ -78,5 +81,4 @@ class _RequestOtpObserver extends Observer<dynamic>{
     assert(_presenter.requestOtpOnNext != null);
     _presenter.requestOtpOnNext(response);
   }
-
 }
