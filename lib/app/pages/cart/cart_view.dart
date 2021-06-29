@@ -7,6 +7,7 @@ import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
 import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/data/repositories/cart/data_cart_repository.dart';
+import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -20,7 +21,7 @@ class CartPage extends View {
 }
 
 class CartPageState extends ViewState<CartPage, CartController> {
-  CartPageState() : super(CartController(DataCartRepository()));
+  CartPageState() : super(CartController(DataAuthenticationRepository(),DataCartRepository()));
 
   @override
   Widget get view => Scaffold(

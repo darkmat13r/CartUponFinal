@@ -38,7 +38,6 @@ class MainController extends BaseController {
 
   onResumed() {
     super.onResumed();
-    Logger().e("OnResume ${_currentContext} ${currentUser} ${_drawerKey}");
   }
 
   BuildContext _currentContext;
@@ -51,7 +50,6 @@ class MainController extends BaseController {
     if (_drawerKey == null) {
       _drawerKey = drawerKey;
       Future.delayed(const Duration(milliseconds: 500), () {
-        Logger().e("Code Should Run");
         showLoginDialog();
       });
     }

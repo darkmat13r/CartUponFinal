@@ -62,7 +62,6 @@ class HttpHelper {
   /// Invoke the `http` request, returning the [http.Response] unparsed.
   static Future<http.Response> _invoke(dynamic url, RequestType type, {Map<String, String> headers, dynamic body, Encoding encoding}) async {
     http.Response response;
-
     if(headers == null || headers.isEmpty){
       var token = await SessionHelper().getToken();
       Logger().e(token);
@@ -74,10 +73,6 @@ class HttpHelper {
     }else if(!headers.containsKey(HttpHeaders.authorizationHeader)){
       headers[HttpHeaders.authorizationHeader] = "Token ${await SessionHelper().getToken()}";
     }
-    print("URL =>>>>> ${url}");
-    print("headers----------> ${headers}");
-    print("Uri.parse(url)----------> ${Uri.parse(url)}");
-    print("type----------> ${type}");
     try {
       var uri = Uri.parse(url);
       switch (type) {
@@ -99,19 +94,12 @@ class HttpHelper {
           response = await http.delete(uri, headers: headers);
           break;
       }
-      print("${response.statusCode}");
-      print("Response Body  ${url} : ${utf8.decode(response.bodyBytes)}" );
-
       // check for any errors
       if (response.statusCode != 200 && response.statusCode != 201) {
-        print("====================>${response.statusCode}");
-        print("====================>response.body ${response.body.length}");
         if(response.body.length > 0){
           dynamic responseBody = jsonDecode(utf8.decode(response.bodyBytes));
           if(responseBody is Map){
             var values = (responseBody as Map).entries.first.value;
-            print("----------------> is ${values is List}");
-            print("----------------> is map ${values is Map}");
             if(values is List){
               throw APIException(
                   values.first.toString(), response.statusCode,  values.first.toString());

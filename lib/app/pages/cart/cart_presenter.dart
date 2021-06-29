@@ -1,5 +1,7 @@
+import 'package:coupon_app/app/auth_presenter.dart';
 import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
+import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:coupon_app/domain/usercases/cart/add_to_cart_use_case.dart';
 import 'package:coupon_app/domain/usercases/cart/delete_cart_item_use_case.dart';
@@ -7,7 +9,7 @@ import 'package:coupon_app/domain/usercases/cart/get_cart_items_use_case.dart';
 import 'package:coupon_app/domain/usercases/cart/update_cart_quanity_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
-class CartPresenter extends Presenter{
+class CartPresenter extends AuthPresenter{
 
   GetCartItemsUseCase _cartItemsUseCase;
   DeleteCartItemUseCase _deleteCartItemUseCase;
@@ -25,9 +27,9 @@ class CartPresenter extends Presenter{
   Function deleteCartItemOnComplete;
   Function deleteCartItemOnError;
 
-  CartPresenter(CartRepository repository):_cartItemsUseCase = GetCartItemsUseCase(repository),
+  CartPresenter(AuthenticationRepository  authRepo,CartRepository repository):_cartItemsUseCase = GetCartItemsUseCase(repository),
         _deleteCartItemUseCase = DeleteCartItemUseCase(repository),
-        _addToCartUseCase = UpdateCartQuantity(repository){
+        _addToCartUseCase = UpdateCartQuantity(repository), super(authRepo){
     fetchCart();
   }
 

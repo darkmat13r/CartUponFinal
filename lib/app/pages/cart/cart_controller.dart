@@ -8,6 +8,7 @@ import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
+import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -19,12 +20,13 @@ class CartController extends BaseController{
   Cart cart;
 
 
-  CartController(CartRepository cartRepository) : this._presenter = CartPresenter(cartRepository){
+  CartController(AuthenticationRepository authRepo, CartRepository cartRepository) : this._presenter = CartPresenter(authRepo,cartRepository){
     showLoading();
   }
 
   @override
   void initListeners() {
+    initBaseListeners(_presenter);
     _presenter.getCartOnNext = getCartOnNext;
     _presenter.getCartOnError = getCartOnError;
     _presenter.getCartOnComplete = getCartOnComplete;
@@ -98,6 +100,7 @@ class CartController extends BaseController{
     AppRouter().productDetailsById(getContext(), productId);
   }
   void checkout() {
+
     Navigator.of(getContext()).pushNamed(Pages.checkout);
   }
 }
