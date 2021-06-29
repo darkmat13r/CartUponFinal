@@ -293,6 +293,8 @@
   "walletDeposit" : "Deposit",
   "walletUsed" : "Used",
   "orderNo" : "Order No.",
+  "continueAsGuest" : "Continue as guest",
+  "completeCheckout" : "Complete Checkout",
   "useWalletBalance" : "Use wallet balance"
 
 

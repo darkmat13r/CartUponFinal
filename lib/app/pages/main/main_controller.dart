@@ -73,58 +73,17 @@ class MainController extends BaseController {
     if (currentUser == null && _currentContext == null && _drawerKey != null) {
       SessionHelper().updateLastShownPopup();
       SessionHelper().setShownPopup();
-      showDialog(
-          context: _drawerKey.currentContext,
-          builder: (ctx) {
-            _currentContext = ctx;
-            return AlertDialog(
-              title: new Text(
-                LocaleKeys.completePurchaseFaster.tr(),
-                style: bodyTextMedium1,
-              ),
-              titlePadding: EdgeInsets.only(
-                  left: Dimens.spacingMedium,
-                  right: Dimens.spacingMedium,
-                  top: Dimens.spacingMedium),
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
-              actionsPadding: EdgeInsets.zero,
-              content: new Text(LocaleKeys.messageSignIn.tr(),
-                  style: bodyTextNormal2),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                  },
-                  child: Text(
-                    LocaleKeys.later.tr(),
-                    style: buttonText.copyWith(color: AppColors.accent),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                    Navigator.of(_drawerKey.currentContext)
-                        .pushNamed(Pages.login);
-                  },
-                  child: Text(
-                    LocaleKeys.signIn.tr(),
-                    style: buttonText.copyWith(color: AppColors.accent),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                    Navigator.of(_drawerKey.currentContext).pushNamed(Pages.requestOtp);
-                  },
-                  child: Text(
-                    LocaleKeys.signUp.tr(),
-                    style: buttonText.copyWith(color: AppColors.accent),
-                  ),
-                )
-              ],
-            );
-          });
+      showLoginPopup(_drawerKey.currentContext, onCreate: (BuildContext context){
+        _currentContext = context;
+      }, onGuestSelected: (BuildContext context){
+
+      }, onLoginSelected: (BuildContext context){
+        Navigator.of(_drawerKey.currentContext)
+            .pushNamed(Pages.login);
+      }, onRegisterSelected: (BuildContext context){
+        Navigator.of(_drawerKey.currentContext).pushNamed(Pages.requestOtp);
+      });
+
     }
   }
 }

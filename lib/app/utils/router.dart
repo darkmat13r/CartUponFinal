@@ -113,11 +113,11 @@ class AppRouter {
           category: category,
         )));
   }
-  verifyOtp(BuildContext context, String countryCode, String mobileNumber) {
-    Navigator.of(context).push(buildRoute(
+  verifyOtp(BuildContext context, String countryCode, String mobileNumber,{ bool returnResult}) {
+   return Navigator.of(context).push(buildRoute(
         RouteSettings(),
         VerifyOtpPage(
-          countryCode, mobileNumber
+          countryCode, mobileNumber,returnResult: returnResult,
         )));
   }
   querySearch(BuildContext context, String query) {
@@ -146,12 +146,13 @@ class AppRouter {
     return new MaterialPageRoute(settings: settings, builder: (ctx) => builder);
   }
 
-  void signup(BuildContext context, String countryCode, String mobileNumber) {
-    Navigator.of(context).push(buildRoute(
+   signup(BuildContext context, String countryCode, String mobileNumber,{bool returnResult}) {
+   return Navigator.of(context).push(buildRoute(
         RouteSettings(),
         RegisterPage(
           countryCode: countryCode,
           mobileNumber: mobileNumber,
+          returnResult: returnResult,
         )));
   }
 }

@@ -10,15 +10,16 @@ import 'package:coupon_app/domain/repositories/verification_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:logger/logger.dart';
 
 class RequestOtpController extends BaseController {
   TextEditingController mobileNumberController;
   Country selectedCountry;
   List<Country> countries;
   final RequestOtpPresenter _presenter;
+  bool returnResult;
 
-
-  RequestOtpController()
+  RequestOtpController(  {this.returnResult})
       : _presenter = RequestOtpPresenter() {
     mobileNumberController = TextEditingController();
     getCachedCountry();
@@ -59,8 +60,11 @@ class RequestOtpController extends BaseController {
     }
   }
 
-  void requestOtp() {
-   AppRouter().verifyOtp(getContext(), selectedCountry.dial_code, mobileNumberController.text);
+  void requestOtp() async{
+    dynamic result = await  AppRouter().verifyOtp(getContext(), selectedCountry.dial_code, mobileNumberController.text, returnResult  : returnResult);
+    if (returnResult != null && returnResult){
+      Navigator.pop(getContext(), result);
+    }
 
   }
 

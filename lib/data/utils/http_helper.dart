@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
@@ -98,20 +99,23 @@ class HttpHelper {
       if (response.statusCode != 200 && response.statusCode != 201) {
         if(response.body.length > 0){
           dynamic responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+          Logger().i(responseBody);
           if(responseBody is Map){
             var values = (responseBody as Map).entries.first.value;
+            var key = (responseBody as Map).entries.first.key;
             if(values is List){
               throw APIException(
-                  values.first.toString(), response.statusCode,  values.first.toString());
+                 "${Utility.capitalize(key)} : ${values.first.toString()}" , response.statusCode,  values.first.toString());
             } else if (values is Map) {
               var firstValue = (values as Map).entries.first.value;
+              var key = (values as Map).entries.first.key;
               if(firstValue is List){
                 throw APIException(
-                    firstValue.first.toString(),
+                    "${Utility.capitalize(key)} : ${firstValue.first.toString()}",
                     response.statusCode,  firstValue.first.toString());
               }else{
                 throw APIException(
-                    firstValue.toString(),
+                   "${Utility.capitalize(key)} : ${firstValue.toString()}" ,
                     response.statusCode, firstValue.toString());
               }
 

@@ -1,6 +1,9 @@
 import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/cart/cart_presenter.dart';
+import 'package:coupon_app/app/pages/login/login_view.dart';
+import 'package:coupon_app/app/pages/otp/request/request_otp_view.dart';
 import 'package:coupon_app/app/pages/pages.dart';
+import 'package:coupon_app/app/pages/register/register_view.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
@@ -13,14 +16,14 @@ import 'package:coupon_app/domain/repositories/cart/cart_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
-class CartController extends BaseController{
-
+class CartController extends BaseController {
   CartPresenter _presenter;
 
   Cart cart;
 
-
-  CartController(AuthenticationRepository authRepo, CartRepository cartRepository) : this._presenter = CartPresenter(authRepo,cartRepository){
+  CartController(
+      AuthenticationRepository authRepo, CartRepository cartRepository)
+      : this._presenter = CartPresenter(authRepo, cartRepository) {
     showLoading();
   }
 
@@ -31,45 +34,41 @@ class CartController extends BaseController{
     _presenter.getCartOnError = getCartOnError;
     _presenter.getCartOnComplete = getCartOnComplete;
 
-    _presenter.updateCartOnNext = (cartItem){
+    _presenter.updateCartOnNext = (cartItem) {
       dismissLoading();
     };
-    _presenter.updateCartOnError = (e){
+    _presenter.updateCartOnError = (e) {
       dismissLoading();
-      showGenericSnackbar(getContext(), e.message, isError : true);
+      showGenericSnackbar(getContext(), e.message, isError: true);
       _presenter.fetchCart();
     };
-    _presenter.updateCartOnComplete = (){
+    _presenter.updateCartOnComplete = () {
       _presenter.fetchCart();
-
     };
-    _presenter.deleteCartItemOnNext = (res){
-    };
-    _presenter.deleteCartItemOnError = (e){
+    _presenter.deleteCartItemOnNext = (res) {};
+    _presenter.deleteCartItemOnError = (e) {
       showProgressDialog();
       _presenter.fetchCart();
-    //  showGenericSnackbar(getContext(), e.message, isError : true);
+      //  showGenericSnackbar(getContext(), e.message, isError : true);
     };
-    _presenter.deleteCartItemOnComplete = (){
+    _presenter.deleteCartItemOnComplete = () {
       showProgressDialog();
       _presenter.fetchCart();
 
-     // CartStream().fetchQuantity();
+      // CartStream().fetchQuantity();
     };
   }
 
-
-  updateCart(CartItem cartItem , int qty){
+  updateCart(CartItem cartItem, int qty) {
     showProgressDialog();
     cartItem.qty = qty;
     _presenter.updateQty(cartItem);
     refreshUI();
   }
 
-
-  removeItem(CartItem cartItem){
-
-    showGenericConfirmDialog(getContext(), LocaleKeys.alert.tr() , LocaleKeys.confirmRemoveCartItem.tr(),onConfirm: (){
+  removeItem(CartItem cartItem) {
+    showGenericConfirmDialog(getContext(), LocaleKeys.alert.tr(),
+        LocaleKeys.confirmRemoveCartItem.tr(), onConfirm: () {
       _presenter.delete(cartItem);
     });
   }
@@ -94,13 +93,58 @@ class CartController extends BaseController{
 
   getCartOnComplete() {
     dismissLoading();
-
   }
-  void showProductDetails(String productId){
+
+  void showProductDetails(String productId) {
     AppRouter().productDetailsById(getContext(), productId);
   }
-  void checkout() {
 
+  proceedCheckout() {
     Navigator.of(getContext()).pushNamed(Pages.checkout);
+  }
+
+  void checkout() async {
+    if (currentUser != null) {
+      proceedCheckout();
+    } else {
+      var dialogContext;
+      showLoginPopup(getContext(), onCreate: (BuildContext context) {
+        dialogContext = context;
+      },
+          guestText: LocaleKeys.continueAsGuest.tr(),
+          onGuestSelected: onGuestSelected,
+          onLoginSelected: onLoginSelected,
+          onRegisterSelected: onRegisterSelected);
+    }
+  }
+
+  onGuestSelected(context) async {
+    proceedCheckout();
+  }
+
+  onLoginSelected(context) async {
+    var user = await Navigator.of(getContext()).push(MaterialPageRoute(
+        builder: (context) => LoginPage(
+              returnResult: true,
+            )));
+    proceedCheckout();
+  }
+
+  onRegisterSelected(context) async {
+    var result = await Navigator.of(getContext()).push(MaterialPageRoute(
+        builder: (context) => RequestOtpPage(
+              returnResult: true,
+            )));
+    if (result is Map) {
+      var mobile = result['mobile'];
+      var countryCode = result['country_code'];
+      var user = await Navigator.of(getContext()).push(MaterialPageRoute(
+          builder: (context) => RegisterPage(
+                mobileNumber: mobile,
+                countryCode: countryCode,
+                returnResult: true,
+              )));
+      proceedCheckout();
+    }
   }
 }

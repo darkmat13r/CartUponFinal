@@ -10,13 +10,17 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class RequestOtpPage extends View {
+  final bool returnResult;
+
+  RequestOtpPage({this.returnResult});
+
   @override
-  State<StatefulWidget> createState() => _RequestOtpPageState();
+  State<StatefulWidget> createState() => _RequestOtpPageState( returnResult: returnResult);
 }
 
 class _RequestOtpPageState
     extends ViewState<RequestOtpPage, RequestOtpController> {
-  _RequestOtpPageState() : super(RequestOtpController());
+  _RequestOtpPageState( {bool returnResult}) : super(RequestOtpController(returnResult : returnResult));
   final _formKey = GlobalKey<FormState>();
 
   @override

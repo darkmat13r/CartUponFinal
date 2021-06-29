@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:coupon_app/app/auth_presenter.dart';
 import 'package:coupon_app/app/pages/pages.dart';
+import 'package:coupon_app/app/utils/auth_state_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/router.dart';
@@ -13,9 +16,10 @@ abstract class BaseController extends Controller {
 
   Customer currentUser;
   AuthPresenter _authPresenter;
-
-
+  StreamSubscription<Customer> streamSubscription;
+  final authStream =  AuthStateStream();
   initBaseListeners(AuthPresenter authPresenter) {
+
     isAuthUserLoading = true;
     refreshUI();
     this._authPresenter = authPresenter;
@@ -31,6 +35,10 @@ abstract class BaseController extends Controller {
       dismissLoading();
       showGenericSnackbar(getContext(), e.messsage, isError: true);
     };
+    streamSubscription = authStream.onAuthStateChanged().listen((event) {
+      currentUser = event;
+      onAuthComplete();
+    });
   }
 
   fetchUser(){
@@ -81,6 +89,14 @@ abstract class BaseController extends Controller {
 
   dismissProgressDialog() {
     dismissDialog();
+  }
+
+  @override
+  void onDisposed() {
+    if(streamSubscription !=  null ){
+      streamSubscription.cancel();
+    }
+    super.onDisposed();
   }
 
   void startSearch(GlobalKey<State<StatefulWidget>> globalKey, String query) {

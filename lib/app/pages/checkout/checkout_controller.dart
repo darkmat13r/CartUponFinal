@@ -1,7 +1,9 @@
 import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/account/address/add/add_address_view.dart';
 import 'package:coupon_app/app/pages/account/address/addresses_view.dart';
+import 'package:coupon_app/app/pages/account/guest/guest_info_view.dart';
 import 'package:coupon_app/app/pages/checkout/checkout_presenter.dart';
+import 'package:coupon_app/app/pages/otp/request/request_otp_view.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
@@ -37,6 +39,8 @@ class CheckoutController extends BaseController {
   bool useWallet = false;
   bool enableUseWallet = false;
   double amountToPay = 0;
+  String countryCode;
+  String mobileNumber;
 
   CheckoutController(
       AuthenticationRepository authRepo,
@@ -157,8 +161,6 @@ class CheckoutController extends BaseController {
     if (currentUser != null) {
       await Navigator.of(getContext()).pushNamed(Pages.addAddress);
       _presenter.fetchAddresses();
-    } else {
-      guestDetailsAdd();
     }
   }
 
@@ -173,8 +175,6 @@ class CheckoutController extends BaseController {
       );
       this.defaultAddress = result;
       refreshUI();
-    } else {
-      guestDetailsAdd();
     }
   }
 
@@ -200,35 +200,16 @@ class CheckoutController extends BaseController {
   }
 
   addressRequired() {
-    return (currentUser != null && !containsOnlyCoupon) ||
-        (currentUser == null && containsOnlyCoupon) ||
-        (currentUser == null && !containsOnlyCoupon);
+    return (currentUser != null && !containsOnlyCoupon);
   }
 
   void placeOrder() {
-    if (addressRequired()) {
-      if (defaultAddress == null) {
-        showGenericSnackbar(
-            getContext(),
-            containsOnlyCoupon
-                ? LocaleKeys.errorAddDeliveryDetails.tr()
-                : LocaleKeys.errorSelectAddress.tr(),
-            isError: true);
-        return;
-      }
+    if (currentUser != null) {
+      authCheckout();
+    } else {
+      //Guest Checkout
+      verifyOtp();
     }
-
-    if (paymentMethod == 0 || paymentMethod == null) {
-      showGenericSnackbar(
-          getContext(), LocaleKeys.errorSelectPaymentMethod.tr(),
-          isError: true);
-      return;
-    }
-    showProgressDialog();
-    var addressId = defaultAddress != null ? defaultAddress.id : 1;
-    _presenter.placeOrder(
-        addressId, addressId, paymentMethod == 1 && paymentMethod  != 3 ? "cash" : "online",
-        isGuest: currentUser == null, address: defaultAddress,useWallet: useWallet);
   }
 
   onCashOnDeliverOrderSuccess() {
@@ -263,16 +244,63 @@ class CheckoutController extends BaseController {
     };
   }
 
-  void guestDetailsAdd() async {
+  void guestCheckout(String countryCode, String mobile) async {
     final result = await Navigator.push(
       getContext(),
       MaterialPageRoute(
-          builder: (context) => AddAddressPage(
-                guest: true,
-                askPersonalDetailsOnly: containsOnlyCoupon,
+          builder: (context) => GuestInfoPage(
+                payMode: paymentMethod,
+                onlyCoupon: containsOnlyCoupon,
+                mobileNumber: mobileNumber,
+                countryCode: countryCode,
+                useWallet: useWallet,
               )),
     );
-    if (result != null) this.defaultAddress = result;
-    refreshUI();
+    Navigator.pop(getContext());
+  }
+
+  void verifyOtp() async {
+    var result = await Navigator.of(getContext()).push(MaterialPageRoute(
+        builder: (context) => RequestOtpPage(
+              returnResult: true,
+            )));
+    if (result is Map) {
+      _logger.e("RequestOtpResult ${result}");
+      this.mobileNumber = result['mobile'];
+      this.countryCode = result['country_code'];
+      guestCheckout(countryCode, mobileNumber);
+    } else {
+      showGenericSnackbar(
+          getContext(), "You need to verify phone number in order to continue",
+          isError: true);
+      Navigator.pop(getContext());
+    }
+  }
+
+  void authCheckout() {
+    if (addressRequired()) {
+      if (defaultAddress == null) {
+        showGenericSnackbar(
+            getContext(),
+            containsOnlyCoupon
+                ? LocaleKeys.errorAddDeliveryDetails.tr()
+                : LocaleKeys.errorSelectAddress.tr(),
+            isError: true);
+        return;
+      }
+    }
+    if (paymentMethod == 0 || paymentMethod == null) {
+      showGenericSnackbar(
+          getContext(), LocaleKeys.errorSelectPaymentMethod.tr(),
+          isError: true);
+      return;
+    }
+    showProgressDialog();
+    var addressId = defaultAddress != null ? defaultAddress.id : 1;
+    _presenter.placeOrder(addressId, addressId,
+        paymentMethod == 1 && paymentMethod != 3 ? "cash" : "online",
+        isGuest: currentUser == null,
+        address: defaultAddress,
+        useWallet: useWallet);
   }
 }

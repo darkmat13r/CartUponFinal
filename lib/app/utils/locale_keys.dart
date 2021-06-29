@@ -328,5 +328,7 @@ class LocaleKeys {
   static var walletUsed = "walletUsed";
   static var orderNo = "orderNo";
   static var useWalletBalance = "useWalletBalance";
+  static var continueAsGuest = "continueAsGuest";
+  static var completeCheckout = "completeCheckout";
 
 }

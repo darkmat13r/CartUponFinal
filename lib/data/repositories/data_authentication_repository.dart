@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:coupon_app/app/utils/auth_state_stream.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
 import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:flutter/foundation.dart';
@@ -47,8 +48,9 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       Customer user = Customer.fromJson(body);
       SessionHelper().saveCredentials(token: user.key, user: user);
 
+      AuthStateStream().notifyLoggedIn(user);
       try {
-        HttpHelper.invokeHttp(Constants.changeCartUserIdRoute, RequestType.post,
+        await HttpHelper.invokeHttp(Constants.changeCartUserIdRoute, RequestType.post,
             body: {'olduser_id': oldUserId.toString(), 'newuser_id': user.user.id.toString()});
       } catch (e) {}
       return user;
@@ -138,8 +140,9 @@ class DataAuthenticationRepository implements AuthenticationRepository {
 
       Customer token = Customer.fromJson(body);
       SessionHelper().saveCredentials(token: token.token, user: token);
+      AuthStateStream().notifyLoggedIn(token);
       try {
-        HttpHelper.invokeHttp(Constants.changeCartUserIdRoute, RequestType.post,
+       await HttpHelper.invokeHttp(Constants.changeCartUserIdRoute, RequestType.post,
             body: {'olduser_id': oldUserId.toString(), 'newuser_id': token.user.id.toString()});
       } catch (e) {}
       _logger.finest('Registration is successful');

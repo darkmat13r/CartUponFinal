@@ -12,8 +12,8 @@ class LoginController extends Controller{
   TextEditingController passwordTextController;
   bool isLoading =  false;
   LoginPresenter _loginPresenter;
-
-  LoginController(authRepo) : _loginPresenter = LoginPresenter(authRepo) {
+  bool returnResult;
+  LoginController(authRepo,{this.returnResult}) : _loginPresenter = LoginPresenter(authRepo) {
     emailTextController = TextEditingController();
     passwordTextController = TextEditingController();
   }
@@ -26,7 +26,11 @@ class LoginController extends Controller{
 
   void _loginOnComplete(Customer user) {
     dismissLoading();
-    goToHome();
+    if (returnResult != null && returnResult){
+      Navigator.pop(getContext(), user);
+    }else{
+      goToHome();
+    }
   }
 
   void _loginOnError( e) {

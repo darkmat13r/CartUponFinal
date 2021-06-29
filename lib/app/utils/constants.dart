@@ -82,6 +82,68 @@ SnackBar _getGenericSnackbar(String text, bool isError) {
   );
 }
 
+
+showLoginPopup(BuildContext context,{@required Function onCreate, String guestText,String customMessage, Function onGuestSelected , Function onLoginSelected, Function onRegisterSelected} ){
+  showDialog(
+      context: context,
+      builder: (ctx) {
+        onCreate(ctx);
+        return AlertDialog(
+          title: new Text(
+            LocaleKeys.completePurchaseFaster.tr(),
+            style: bodyTextMedium1,
+          ),
+          titlePadding: EdgeInsets.only(
+              left: Dimens.spacingMedium,
+              right: Dimens.spacingMedium,
+              top: Dimens.spacingMedium),
+          contentPadding:
+          EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+          actionsPadding: EdgeInsets.zero,
+          content:  Text(customMessage ?? LocaleKeys.messageSignIn.tr() ,
+              style: bodyTextNormal2),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                if(onGuestSelected != null){
+                  onGuestSelected(ctx);
+                }
+              },
+              child: Text(
+              guestText ??  LocaleKeys.later.tr(),
+                style: buttonText.copyWith(color: AppColors.accent),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                if(onLoginSelected != null){
+                  onLoginSelected(ctx);
+                }
+              },
+              child: Text(
+                LocaleKeys.signIn.tr(),
+                style: buttonText.copyWith(color: AppColors.accent),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                if(onRegisterSelected != null){
+                  onRegisterSelected(ctx);
+                }
+              },
+              child: Text(
+                LocaleKeys.signUp.tr(),
+                style: buttonText.copyWith(color: AppColors.accent),
+              ),
+            )
+          ],
+        );
+      });
+}
+
 /// Shows a generic [Snackbar]
 void showGenericSnackbar(BuildContext context, String text,
     {bool isError = false}) {

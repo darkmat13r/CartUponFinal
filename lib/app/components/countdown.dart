@@ -67,6 +67,9 @@ class _CountdownViewState extends State<CountdownView>{
   }
 
   _createTimer() {
+    if(_timer != null ){
+      _timer.cancel();
+    }
     if (_isValidToValid()) {
       _timer = Timer.periodic(Duration(seconds: 1), (timer) {
         if (mounted) {

@@ -12,6 +12,7 @@ import 'package:coupon_app/domain/repositories/nationality_repository.dart';
 import 'package:coupon_app/domain/usercases/auth/register_usecase.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logger/logger.dart';
 
@@ -35,12 +36,14 @@ class RegisterController extends BaseController {
 
   Logger _logger;
   List<Country> countries;
+  bool returnResult;
 
   RegisterController(
       AuthenticationRepository authRepo,
       NationalityRepository nationalityRepository,
       this.countryCode,
-      this.mobileNumber)
+      this.mobileNumber,
+      {this.returnResult})
       : _presenter = RegisterPresenter(authRepo, nationalityRepository) {
     _logger = Logger();
     firstNameController = TextEditingController();
@@ -52,26 +55,25 @@ class RegisterController extends BaseController {
     getCachedCountry();
     getCachedCountries();
     mobileNumberController.text = getSelectedMobileNumber();
-    if(countryCode == null && mobileNumber == null){
+    if (countryCode == null && mobileNumber == null) {
       Navigator.of(getContext()).pop();
       Navigator.of(getContext()).pushNamed(Pages.requestOtp);
     }
   }
+
   @override
   void initController(GlobalKey<State<StatefulWidget>> key) {
     super.initController(key);
-
   }
+
   @override
   void onInitState() {
-
     super.onInitState();
   }
+
   @override
   void onResumed() {
-
     super.onResumed();
-
   }
 
   String getSelectedMobileNumber() {
@@ -80,13 +82,17 @@ class RegisterController extends BaseController {
 
   @override
   void initListeners() {
-
     _presenter.registerOnComplete = () {
       dismissLoading();
     };
 
     _presenter.registerOnNext = (user) {
-      goToHome();
+      if (returnResult != null && returnResult){
+        Navigator.pop(getContext(), user);
+      }else{
+        goToHome();
+      }
+
     };
     _presenter.registerOnError = (e) {
       _logger.e(e);
@@ -142,8 +148,7 @@ class RegisterController extends BaseController {
         firstName: firstNameController.text,
         lastName: lastNameController.text,
         email: emailController.text,
-        countryCode:
-            countryCode,
+        countryCode: countryCode,
         nationality: nationality.id,
         gender: gender,
         title: title,

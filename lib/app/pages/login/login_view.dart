@@ -10,12 +10,16 @@ import 'package:coupon_app/app/utils/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class LoginPage extends View {
+  final bool returnResult;
+
+  LoginPage({this.returnResult});
+
   @override
-  State<StatefulWidget> createState() => LoginPageView();
+  State<StatefulWidget> createState() => LoginPageView( returnResult: returnResult);
 }
 
 class LoginPageView extends ViewState<LoginPage, LoginController> {
-  LoginPageView() : super(LoginController(DataAuthenticationRepository()));
+  LoginPageView( {bool returnResult}) : super(LoginController(DataAuthenticationRepository( ),returnResult: returnResult));
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordHidden = true;
 

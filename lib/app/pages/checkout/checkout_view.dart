@@ -18,6 +18,10 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class CheckoutPage extends View {
+
+
+  CheckoutPage();
+
   @override
   State<StatefulWidget> createState() => _CheckoutPageState();
 }
