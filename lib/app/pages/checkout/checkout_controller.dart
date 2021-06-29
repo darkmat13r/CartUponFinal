@@ -227,7 +227,7 @@ class CheckoutController extends BaseController {
     showProgressDialog();
     var addressId = defaultAddress != null ? defaultAddress.id : 1;
     _presenter.placeOrder(
-        addressId, addressId, paymentMethod == 1 || paymentMethod  == 3 ? "cash" : "online",
+        addressId, addressId, paymentMethod == 1 && paymentMethod  != 3 ? "cash" : "online",
         isGuest: currentUser == null, address: defaultAddress,useWallet: useWallet);
   }
 
@@ -239,7 +239,7 @@ class CheckoutController extends BaseController {
   void initPlaceOrderListeners() {
     _presenter.placeOrderOnComplete = () {
       dismissProgressDialog();
-      if (paymentMethod == 1 && paymentMethod == 3) {
+      if (paymentMethod == 1 || paymentMethod == 3) {
         showGenericConfirmDialog(getContext(), LocaleKeys.order.tr(),
             LocaleKeys.msgOrderSuccess.tr(),
             showCancel: false, onConfirm: () {

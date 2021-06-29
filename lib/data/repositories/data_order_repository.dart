@@ -62,7 +62,7 @@ class DataOrderRepository extends OrderRepository {
           'shipping_address': shippingAddressId,
           'billing_address': shippingAddressId,
           'pay_mode': payMode,
-          'use_wallet' : useWallet.toString(),
+          'wallet' : useWallet.toString(),
           "CurrencyCode": country != null ? country.country_currency : "KWD",
         };
       }
