@@ -22,6 +22,7 @@ class PlaceOrderUseCase extends CompletableUseCase<PlaceOrderParams> {
           payMode: params.payMode,
           isGuest: params.isGuest,
           address: params.address,
+          useWallet: params.useWallet,
           currencyCode: "KWD");
       controller.add(data);
       controller.close();
@@ -39,6 +40,7 @@ class PlaceOrderParams {
   String payMode;
   String currencyCode;
   bool isGuest;
+  bool useWallet;
   Address address;
 
   PlaceOrderParams(
@@ -46,6 +48,7 @@ class PlaceOrderParams {
       @required this.billingAddress,
       @required this.payMode,
       this.isGuest,
+      this.useWallet,
       this.address,
       this.currencyCode});
 }

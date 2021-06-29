@@ -289,7 +289,11 @@
   "currentBalance" : "Current Balance",
   "noReviewText" : "No comment yet",
   "yourReview" : "Your Review",
-  "terms" : "Terms & Conditions"
+  "terms" : "Terms & Conditions",
+  "walletDeposit" : "Deposit",
+  "walletUsed" : "Used",
+  "orderNo" : "Order No.",
+  "useWalletBalance" : "Use wallet balance"
 
 
 }

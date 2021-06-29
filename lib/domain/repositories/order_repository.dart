@@ -10,7 +10,7 @@ abstract class OrderRepository {
   Future<PlaceOrderResponse> placeOrder(
       {@required String shippingAddressId,
       @required String billingAddress,
-      @required String payMode, bool isGuest,
+      @required String payMode, bool isGuest, bool useWallet,
         Address address,
       String currencyCode});
 

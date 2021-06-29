@@ -7,6 +7,7 @@ import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/router.dart';
+import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/domain/entities/Cart.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/PaymentOrder.dart';
@@ -33,6 +34,9 @@ class CheckoutController extends BaseController {
 
   bool containsCoupon = false;
   bool containsOnlyCoupon = false;
+  bool useWallet = false;
+  bool enableUseWallet = false;
+  double amountToPay = 0;
 
   CheckoutController(
       AuthenticationRepository authRepo,
@@ -42,6 +46,7 @@ class CheckoutController extends BaseController {
       : this._presenter = CheckoutPresenter(
             authRepo, addressRepo, cartRepo, orderRepository) {
     _logger = Logger();
+    paymentMethod = 0;
     showLoading();
   }
 
@@ -56,9 +61,40 @@ class CheckoutController extends BaseController {
     initPlaceOrderListeners();
   }
 
+  toggleUseWallet() {
+    this.useWallet = !this.useWallet;
+    if (this.useWallet && paymentMethod == 1) {
+      paymentMethod = 2;
+    }
+    verifyAmount();
+    refreshUI();
+  }
+
+  verifyAmount() {
+    if (currentUser != null) {
+      var amount = double.tryParse(currentUser.wallet_balance) ?? 0;
+      if (useWallet && amount > cart.net_total) {
+        amountToPay = 0;
+        paymentMethod = 3;
+        return;
+      }
+    }
+    amountToPay = cart.net_total;
+  }
+
   @override
   onAuthComplete() {
     super.onAuthComplete();
+    if (currentUser != null) {
+      var amount = double.tryParse(currentUser.wallet_balance) ?? 0;
+      enableUseWallet = amount > 0;
+      refreshUI();
+    }
+  }
+
+  getAmountToPay() {
+    verifyAmount();
+    return Utility.currencyFormat(amountToPay);
   }
 
   getCartOnNext(Cart cart) {
@@ -86,7 +122,6 @@ class CheckoutController extends BaseController {
       containsOnlyCoupon = containsCoupon;
       refreshUI();
     }
-    _logger.e("Contains Only Coupon ${containsOnlyCoupon}");
     if (currentUser != null && containsOnlyCoupon == false) {
       _presenter.fetchAddresses();
     } else {
@@ -163,13 +198,15 @@ class CheckoutController extends BaseController {
     this.paymentMethod = value;
     refreshUI();
   }
-  addressRequired(){
-    _logger.e("AddRessRequired ${(currentUser == null && !containsCoupon)}");
-    return (currentUser != null && !containsOnlyCoupon) || (currentUser == null && containsOnlyCoupon) || (currentUser == null && !containsOnlyCoupon);
+
+  addressRequired() {
+    return (currentUser != null && !containsOnlyCoupon) ||
+        (currentUser == null && containsOnlyCoupon) ||
+        (currentUser == null && !containsOnlyCoupon);
   }
 
   void placeOrder() {
-    if(addressRequired()){
+    if (addressRequired()) {
       if (defaultAddress == null) {
         showGenericSnackbar(
             getContext(),
@@ -189,8 +226,9 @@ class CheckoutController extends BaseController {
     }
     showProgressDialog();
     var addressId = defaultAddress != null ? defaultAddress.id : 1;
-    _presenter.placeOrder(addressId, addressId,
-        paymentMethod == 1 ? "cash" : "online",isGuest:  currentUser == null, address: defaultAddress);
+    _presenter.placeOrder(
+        addressId, addressId, paymentMethod == 1 || paymentMethod  == 3 ? "cash" : "online",
+        isGuest: currentUser == null, address: defaultAddress,useWallet: useWallet);
   }
 
   onCashOnDeliverOrderSuccess() {
@@ -201,7 +239,7 @@ class CheckoutController extends BaseController {
   void initPlaceOrderListeners() {
     _presenter.placeOrderOnComplete = () {
       dismissProgressDialog();
-      if (paymentMethod == 1) {
+      if (paymentMethod == 1 && paymentMethod == 3) {
         showGenericConfirmDialog(getContext(), LocaleKeys.order.tr(),
             LocaleKeys.msgOrderSuccess.tr(),
             showCancel: false, onConfirm: () {

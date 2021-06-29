@@ -1,4 +1,5 @@
 import 'package:coupon_app/app/auth_presenter.dart';
+import 'package:coupon_app/domain/entities/models/WalletHistoryResponse.dart';
 import 'package:coupon_app/domain/entities/models/WalletTransaction.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/repositories/wallet_repository.dart';
@@ -15,7 +16,7 @@ class WalletPresenter extends AuthPresenter {
       AuthenticationRepository authRepo, WalletRepository walletRepository)
       : _getWalletHistoryUseCase = GetWalletHistoryUseCase(walletRepository),
         super(authRepo){
-    fetchHistory();
+ //   fetchHistory();
   }
 
   fetchHistory(){
@@ -30,7 +31,7 @@ class WalletPresenter extends AuthPresenter {
 }
 
 
-class _GetWalletHistoryObserver extends Observer<List<WalletTransaction>>{
+class _GetWalletHistoryObserver extends Observer<WalletHistoryResponse>{
   final WalletPresenter _walletPresenter;
 
 
@@ -49,7 +50,7 @@ class _GetWalletHistoryObserver extends Observer<List<WalletTransaction>>{
   }
 
   @override
-  void onNext(List<WalletTransaction> response) {
+  void onNext(WalletHistoryResponse response) {
     assert(_walletPresenter.getWalletHistoryOnNext != null);
     _walletPresenter.getWalletHistoryOnNext(response);
   }

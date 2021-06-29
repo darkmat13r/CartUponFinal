@@ -64,6 +64,8 @@ class AppColors {
   static const Color formHintText = const Color(0xff9098B1);
   static const Color formFieldBg = const Color(0xffffffff);
   static const Color cardBg = const Color(0xffFEFEFE);
+
+  static var green = const Color(0xff45c2b5);
 }
 
 /// Returns the app's default snackbar with a [text].

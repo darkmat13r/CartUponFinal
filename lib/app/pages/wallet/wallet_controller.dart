@@ -2,6 +2,7 @@ import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/wallet/wallet_presenter.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/domain/entities/models/WalletHistoryResponse.dart';
 import 'package:coupon_app/domain/entities/models/WalletTransaction.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/repositories/wallet_repository.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
 class WalletController extends BaseController {
-  List<WalletTransaction> transactions;
+  WalletHistoryResponse transactions;
 
   final WalletPresenter _presenter;
 
@@ -23,6 +24,11 @@ class WalletController extends BaseController {
   void initListeners() {
     initBaseListeners(_presenter);
     initWalletHistoryListener();
+  }
+  @override
+  onAuthComplete() {
+    super.onAuthComplete();
+    _presenter.fetchHistory();
   }
 
   void initWalletHistoryListener() {
@@ -50,7 +56,7 @@ class WalletController extends BaseController {
         await Navigator.of(getContext()).pushNamed(Pages.addMoneyToWallet);
     if (result != null && result) {
       showLoading();
-      _presenter.fetchHistory();
+      fetchUser();
     }
   }
 }

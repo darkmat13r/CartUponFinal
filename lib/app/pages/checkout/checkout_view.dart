@@ -51,10 +51,13 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                     flex: 1,
                     child: ListView(
                       children: [
-                        controller.addressRequired() ? (controller.defaultAddress != null
-                            ? _defaultAddress(controller)
-                            : _addAddress) : SizedBox(),
+                        controller.addressRequired()
+                            ? (controller.defaultAddress != null
+                                ? _defaultAddress(controller)
+                                : _addAddress)
+                            : SizedBox(),
                         _orderDetails,
+                        _useWalletBalance,
                         _paymentMethods
                       ],
                     )),
@@ -94,7 +97,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                             title: Text(LocaleKeys.cashOnDeliver.tr()),
                             value: 1,
                             groupValue: controller.paymentMethod,
-                            onChanged: (int value) {
+                            onChanged: controller.useWallet ? null :(int value) {
                               controller.setPaymentMethod(value);
                             },
                           )
@@ -104,9 +107,9 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                       title: Text(LocaleKeys.payOnline.tr()),
                       value: 2,
                       groupValue: controller.paymentMethod,
-                      onChanged: (int value) {
+                      onChanged: (controller.useWallet && controller.amountToPay > 0)  || (!controller.useWallet)? (int value) {
                         controller.setPaymentMethod(value);
-                      },
+                      } : null,
                     ),
                   ],
                 )
@@ -187,6 +190,34 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
             ));
       });
 
+  get _useWalletBalance => ControlledWidgetBuilder(
+          builder: (BuildContext context, CheckoutController controller) {
+        return controller.currentUser != null ?  CheckboxListTile(
+            activeColor: Colors.red,
+            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal:  Dimens.spacingMedium,) ,
+            controlAffinity: ListTileControlAffinity.leading,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    LocaleKeys.useWalletBalance.tr(),
+                    style: captionNormal2,
+                  ),
+                ),
+                Text(
+                  Utility.currencyFormat(controller.currentUser.wallet_balance),
+                  style: captionNormal1,
+                )
+              ],
+            ),
+
+            value: controller.useWallet,
+            onChanged: controller.enableUseWallet ? (value) {
+              controller.toggleUseWallet();
+            } : null) : SizedBox();
+      });
+
   get _placeOrder => ControlledWidgetBuilder(
           builder: (BuildContext context, CheckoutController controller) {
         return SizedBox(
@@ -200,9 +231,9 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                     }
                   : null,
               child: Text(
-                controller.paymentMethod == 2
+                controller.paymentMethod == 2 &&  controller.amountToPay > 0
                     ? LocaleKeys.fmtPaySecurely.tr(args: [
-                        Utility.currencyFormat(controller.cart.net_total)
+                        controller.getAmountToPay()
                       ])
                     : LocaleKeys.placeOrder.tr(),
                 style: buttonText,
@@ -262,7 +293,11 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                 height: Dimens.spacingSmall,
               ),
               controller.containsOnlyCoupon
-                  ? Text(controller.defaultAddress != null && controller.defaultAddress.email != null ? controller.defaultAddress.email : "",
+                  ? Text(
+                      controller.defaultAddress != null &&
+                              controller.defaultAddress.email != null
+                          ? controller.defaultAddress.email
+                          : "",
                       style:
                           captionNormal2.copyWith(color: AppColors.neutralDark))
                   : Text(

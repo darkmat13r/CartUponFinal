@@ -324,5 +324,9 @@ class LocaleKeys {
   static var noReviewText = "noReviewText";
   static var yourReview = "yourReview";
   static var terms = "terms";
+  static var walletDeposit = "walletDeposit";
+  static var walletUsed = "walletUsed";
+  static var orderNo = "orderNo";
+  static var useWalletBalance = "useWalletBalance";
 
 }

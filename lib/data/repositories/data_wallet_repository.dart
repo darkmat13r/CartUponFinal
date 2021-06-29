@@ -2,6 +2,7 @@ import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
 import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/entities/models/PaymentOrder.dart';
+import 'package:coupon_app/domain/entities/models/WalletHistoryResponse.dart';
 import 'package:coupon_app/domain/entities/models/WalletTransaction.dart';
 import 'package:coupon_app/domain/repositories/wallet_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
@@ -36,11 +37,11 @@ class DataWalletRepository extends WalletRepository{
   }
 
   @override
-  Future<List<WalletTransaction>> walletHistory() async{
+  Future<WalletHistoryResponse> walletHistory() async{
     try {
-      List<dynamic> response = await HttpHelper.invokeHttp(
-          Constants.walletRequestRoute, RequestType.get);
-      List<WalletTransaction>  item = response.map((e) => WalletTransaction.fromJson(e)).toList();
+      dynamic response = await HttpHelper.invokeHttp(
+          Constants.walletHistoryRoute, RequestType.get);
+      WalletHistoryResponse  item =WalletHistoryResponse.fromJson(response);
       return item;
     } catch (e) {
       _logger.e(e.stackTrace);

@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/entities/models/PaymentOrder.dart';
+import 'package:coupon_app/domain/entities/models/WalletHistoryResponse.dart';
 import 'package:coupon_app/domain/entities/models/WalletTransaction.dart';
 import 'package:coupon_app/domain/repositories/coutry_repository.dart';
 import 'package:coupon_app/domain/repositories/wallet_repository.dart';
@@ -15,10 +16,10 @@ class GetWalletHistoryUseCase extends CompletableUseCase<void>{
   GetWalletHistoryUseCase(this._repository);
 
   @override
-  Future<Stream<List<WalletTransaction>>> buildUseCaseStream(params) async {
-    StreamController<List<WalletTransaction>> controller = new StreamController();
+  Future<Stream<WalletHistoryResponse>> buildUseCaseStream(params) async {
+    StreamController<WalletHistoryResponse> controller = new StreamController();
     try{
-      List<WalletTransaction> response = await _repository.walletHistory();
+      WalletHistoryResponse response = await _repository.walletHistory();
       controller.add(response);
       controller.close();
     }catch(e){

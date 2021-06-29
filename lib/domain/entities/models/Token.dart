@@ -26,7 +26,7 @@ class Customer {
             gender: json['gender'] ?? 0,
             title: json['title'] ?? 0,
             wallet_balance: json['wallet_balance'] ,
-            user: json['user'] != null ? User.fromJson(json['user']) : null,
+            user: json['user'] != null && json['user'] is Map ? User.fromJson(json['user']) : null,
         );
     }
 
