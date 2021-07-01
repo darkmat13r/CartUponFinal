@@ -16,6 +16,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:logger/logger.dart';
 
 class MainPage extends View {
   @override
@@ -172,6 +173,9 @@ class MainPageView extends ViewState<MainPage, MainController> {
               setState(() {
                 controller.selectedIndex = 1;
               });
+            },onOpenUrl: (url){
+              Logger().e("onOpenUrl");
+              controller.openUrl(context, url);
             },);
           },
         ),

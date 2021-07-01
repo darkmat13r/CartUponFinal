@@ -31,16 +31,18 @@ class AddressesController extends BaseController {
     };
     _presenter.getAddressesOnComplete = () {
       dismissLoading();
+      dismissProgressDialog();
     };
 
     _presenter.getAddressesOnError = (e) {
       dismissLoading();
-
+      dismissProgressDialog();
       showGenericSnackbar(getContext(), e.message);
     };
 
     _presenter.deleteAddressOnNext = (res) {};
     _presenter.deleteAddressOnError = (e) {
+      dismissProgressDialog();
       showGenericSnackbar(getContext(), e.message, isError: true);
     };
     _presenter.deleteAddressOnComplete = () {
@@ -63,9 +65,7 @@ class AddressesController extends BaseController {
         getContext(), LocaleKeys.warning.tr(), LocaleKeys.confirmDelete.tr(),
         onConfirm: () {
           addresses.remove(address);
-      Navigator.of(getContext()).pop();
       showLoadingDialog(getContext());
-
       _presenter.delete(address);
     });
   }

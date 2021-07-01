@@ -1,6 +1,7 @@
 import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/main/main_presenter.dart';
 import 'package:coupon_app/app/pages/pages.dart';
+import 'package:coupon_app/app/pages/payment/payment_view.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/router.dart';
@@ -62,6 +63,9 @@ class MainController extends BaseController {
   Future<void> login() async {
     await Navigator.of(getContext()).pushNamed(Pages.welcome);
     _presenter.getUser();
+  }
+  openUrl(context, String url) {
+
   }
 
   Future<void> showLoginDialog() async {

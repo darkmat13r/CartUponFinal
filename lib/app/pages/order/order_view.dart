@@ -90,8 +90,8 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
             _paymentDetails(controller),
             controller.rating != null && controller.rating.rating != null
                 ? reviewItem(controller)
-                : _addReview,
-            Padding(
+                : controller.canPostReview() ? _addReview : SizedBox(),
+          controller.canCancelOrder()?  Padding(
               padding: const EdgeInsets.all(Dimens.spacingMedium),
               child: SizedBox(
                 width: double.infinity,
@@ -105,7 +105,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                   ),
                 ),
               ),
-            )
+            ) : SizedBox()
           ],
         );
       });

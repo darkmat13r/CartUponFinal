@@ -196,23 +196,28 @@ class ProfileController extends BaseController {
   }
 
   Future<bool> onWillPop() {
-    var areChangesMade =
-        currentUser.user.first_name != firstNameController.text ||
-            currentUser.user.last_name != lastNameController.text ||
-            currentUser.mobile_no != mobileNumberController.text ||
-            currentUser.country_code.replaceAll("+", "") != selectedCountry.dial_code.replaceAll("+", "") ||
-            currentUser.nationality != nationality.id ||
-            currentUser.gender != gender ||
-            currentUser.title != title ||
-            currentUser.date_of_birth != DateFormat('yyyy-MM-dd').format(dob);
-    if (areChangesMade) {
-      showGenericConfirmDialog(getContext(), LocaleKeys.discardChanges.tr(),
-          LocaleKeys.confirmDiscardChanges.tr(), onConfirm: () {
-        Navigator.of(getContext()).pop();
-      });
-    } else {
+    if(currentUser.user == null){
       Navigator.of(getContext()).pop();
+    }else{
+      var areChangesMade =
+          currentUser.user.first_name != firstNameController.text ||
+              currentUser.user.last_name != lastNameController.text ||
+              currentUser.mobile_no != mobileNumberController.text ||
+              currentUser.country_code.replaceAll("+", "") != selectedCountry.dial_code.replaceAll("+", "") ||
+              currentUser.nationality != nationality.id ||
+              currentUser.gender != gender ||
+              currentUser.title != title ||
+              currentUser.date_of_birth != DateFormat('yyyy-MM-dd').format(dob);
+      if (areChangesMade) {
+        showGenericConfirmDialog(getContext(), LocaleKeys.discardChanges.tr(),
+            LocaleKeys.confirmDiscardChanges.tr(), onConfirm: () {
+              Navigator.of(getContext()).pop();
+            });
+      } else {
+        Navigator.of(getContext()).pop();
+      }
     }
+
   }
 
   void updateNationality() {

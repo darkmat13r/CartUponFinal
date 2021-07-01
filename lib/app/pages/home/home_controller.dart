@@ -24,7 +24,6 @@ class HomeController extends BaseController{
     try {
       final initialLink = await getInitialLink();
       openLink(initialLink);
-      Logger().e("Initial Link ${initialLink}");
     } on PlatformException {
       showGenericSnackbar(getContext(), LocaleKeys.invalidLink.tr(),
           isError: true);

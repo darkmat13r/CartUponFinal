@@ -2,8 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_view/photo_view.dart';
-
+import 'package:pinch_zoom/pinch_zoom.dart';
 class ZoomImage extends StatefulWidget{
   final String url;
   ZoomImage(this.url);
@@ -19,9 +18,16 @@ class _ZoomImageState extends State<ZoomImage>{
     return Scaffold(
       appBar: customAppBar(),
       body: Container(
-          child: PhotoView(
+          child:PinchZoom(
+            image: Image.network(widget.url),
+            zoomedBackgroundColor: Colors.black.withOpacity(0.5),
+            resetDuration: const Duration(milliseconds: 100),
+            maxScale: 2.5,
+            onZoomStart: (){print('Start zooming');},
+            onZoomEnd: (){print('Stop zooming');},
+          )/*PhotoView(
             imageProvider: NetworkImage(widget.url),
-          )
+          )*/
       ),
     );
   }

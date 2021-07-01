@@ -8,7 +8,7 @@ class Constants {
   // APIs
   static const String schema = "https";
   static const String baseUrl = '$schema://$baseUrlNoPrefix/v1';
-  static const String websiteBaseUrl = '$schema://$websiteBaseUrlNoPrefix/v1';
+  static const String websiteBaseUrl = '$schema://$websiteBaseUrlNoPrefix';
   static const String baseUrlWithoutV1 = '$schema://$baseUrlNoPrefix';
   static const String usersRoute = '$baseUrl/users';
 
@@ -49,10 +49,10 @@ class Constants {
   static var walletRequestRoute = "$baseUrl/walletRequest";
   static var walletHistoryRoute = "$baseUrl/userWalletHistroy";
 
-  static var privacyUrl = "$websiteBaseUrl/privacy/";
-  static var termsUrl = "$baseUrl/termsandconditions/";
-  static var contactUsUrl = "$baseUrl/contact/";
-  static var aboutUsUrl = "$baseUrl/about/";
+  static var privacyUrl = "$websiteBaseUrl/privacy";
+  static var termsUrl = "$websiteBaseUrl/termsandconditions";
+  static var contactUsUrl = "$websiteBaseUrl/contact";
+  static var aboutUsUrl = "$websiteBaseUrl/about";
 
 
   // APIs no prefix

@@ -10,13 +10,15 @@ import 'package:coupon_app/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:logger/logger.dart';
 
 class NavigationDrawer extends StatefulWidget {
   final User user;
   Function onSelectHome;
   Function onSelectCategory;
+  Function onOpenUrl;
 
-  NavigationDrawer(this.user, {this.onSelectHome, this.onSelectCategory});
+  NavigationDrawer(this.user, {this.onSelectHome, this.onSelectCategory, this.onOpenUrl});
 
   @override
   State<StatefulWidget> createState() => _NavigationDrawerState();
@@ -79,21 +81,20 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               title: Text(LocaleKeys.privacyPolicy.tr()),
               onTap: () {
                 openUrl(context, Constants.privacyUrl);
-                Navigator.pop(context);
               },
             ),
             ListTile(
               title: Text(LocaleKeys.terms.tr()),
               onTap: () {
                 openUrl(context, Constants.termsUrl);
-                Navigator.pop(context);
+
               },
             ),
             ListTile(
               title: Text(LocaleKeys.contactUs.tr()),
               onTap: () {
                 openUrl(context, Constants.aboutUsUrl);
-                Navigator.pop(context);
+
               },
             ),
           ],
@@ -103,12 +104,17 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   openUrl(context, String url) {
+    Navigator.pop(context);
+    Logger().e("Url ${url}");
     Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => PaymentPage(
-                url,
-              )),
+            url,
+          )),
     );
+    if(widget.onOpenUrl!= null){
+      widget.onOpenUrl(url);
+    }
   }
 }

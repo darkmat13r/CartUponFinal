@@ -70,6 +70,24 @@ class OrderController extends BaseController {
     refreshUI();
   }
 
+  canCancelOrder(){
+    if(orderDetail != null ){
+      var status =  orderDetail.detail_status.toLowerCase();
+      return status  == 'created' || status == 'shipped' || status == 'delivered';
+    }
+    return false;
+  }
+  canPostReview(){
+    if(rating == null){
+      return true;
+    }
+    if(orderDetail != null ){
+      var status =  orderDetail.detail_status.toLowerCase();
+      var rated =  rating.rating != null;
+      return rated == false && ( status == 'delivered'  ||  status == 'refunded' ||  status == 'cancelled' ||  status == 'used');
+    }
+    return false;
+  }
   @override
   void onDisposed() {
     _presenter.dispose();

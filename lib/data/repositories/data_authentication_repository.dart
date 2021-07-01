@@ -244,7 +244,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
             'new_password2': passwordRepeat
           });
       Customer token = Customer.fromJson(body);
-      SessionHelper().updateUser(user: token);
+     // SessionHelper().updateUser(user: token);
       _logger.finest('Update is successful');
       return token;
     } catch (error) {
