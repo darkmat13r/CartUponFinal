@@ -53,7 +53,6 @@ class DataOrderRepository extends OrderRepository {
           'floor_flat': address.floor_flat,
           'address': address.address,
           'user_sessid': userId.toString(),
-          'user': userId.toString(),
           'pay_mode': payMode,
           "CurrencyCode": country != null ? country.country_currency : "KWD",
         };
