@@ -1,4 +1,5 @@
 import 'package:coupon_app/app/base_controller.dart';
+import 'package:coupon_app/app/pages/image/zoom_image.dart';
 import 'package:coupon_app/app/pages/order/order_presenter.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/reviews/create/create_review_view.dart';
@@ -108,5 +109,11 @@ class OrderController extends BaseController {
       dismissLoading();
       showGenericSnackbar(getContext(), error.message, isError: true);
     };
+  }
+
+  void showImage(String qr_image) {
+    Navigator.of(getContext()).push(MaterialPageRoute(
+        builder: (context) => ZoomImage(qr_image
+        )));
   }
 }

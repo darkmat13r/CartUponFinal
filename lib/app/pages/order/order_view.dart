@@ -115,22 +115,27 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
         return controller.orderDetail != null &&
                 controller.orderDetail.product_id != null &&
                 controller.orderDetail.product_id.category_type == false
-            ? Column(
-                children: [
-                  SizedBox(
-                    width: 120,
-                      height : 120,
-                      child: AppImage(controller.orderDetail.qr_image)),
-                  Text(
-                    LocaleKeys.couponCode.tr(),
-                    style: heading6.copyWith(color: AppColors.neutralGray),
-                  ),
-                  Text(
-                    controller.orderDetail.qr_code,
-                    style: heading5,
-                  )
-                ],
-              )
+            ? InkWell(
+          onTap: (){
+            controller.showImage(controller.orderDetail.qr_image);
+          },
+              child: Column(
+                  children: [
+                    SizedBox(
+                      width: 220,
+                        height : 220,
+                        child: AppImage(controller.orderDetail.qr_image)),
+                    Text(
+                      LocaleKeys.couponCode.tr(),
+                      style: heading6.copyWith(color: AppColors.neutralGray),
+                    ),
+                    Text(
+                      controller.orderDetail.qr_code,
+                      style: heading5,
+                    )
+                  ],
+                ),
+            )
             : SizedBox();
       });
 
@@ -203,6 +208,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                         LocaleKeys.items.tr(args: ["1"]),
                         Utility.currencyFormat(
                             controller.orderDetail.order.total)),
+
                     DotWidget(
                       color: AppColors.neutralGray,
                     ),
@@ -340,6 +346,11 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                       ),
                       Padding(
                         padding:
+                        const EdgeInsets.only(left: Dimens.spacingMedium),
+                        child: Text(Utility.capitalize(controller.orderDetail.detail_status.toLowerCase())),
+                      ),
+                      Padding(
+                        padding:
                             const EdgeInsets.only(left: Dimens.spacingMedium),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -352,6 +363,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                                     color: AppColors.neutralGray),
                               ),
                             ),
+
                             Text(
                               Utility.getOrderItemPrice(orderDetail),
                               style:

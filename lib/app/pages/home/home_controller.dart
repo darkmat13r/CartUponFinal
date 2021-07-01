@@ -32,11 +32,11 @@ class HomeController extends BaseController{
   }
 
   openLink(String link) {
-    if(link  ==null){
+    if(link  ==null || link == "#"){
       return;
     }
     var parts = split(link);
-    if (parts.length > 0) {
+    if (parts.length > 0 && parts[parts.length - 1] != "#") {
       AppRouter().productDetailsById(
           getContext(), parts[parts.length - 1]);
     } else {
