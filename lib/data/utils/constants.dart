@@ -37,6 +37,7 @@ class Constants {
 
   static var nationalityRoute = "$baseUrl/nationalitylist";
   static String countriesRoute = "$baseUrl/countryopenapi/";
+  static String ipDetechApi = "http://ip-api.com/json";
   static var orderCreateRoute = "$baseUrl/ordercreate";
   static var orderGuestCreateRoute = "$baseUrl/orderCreateGuest";
   static var orderRoute = "$baseUrl/order";
