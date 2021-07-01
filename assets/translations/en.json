@@ -297,6 +297,7 @@
   "loginWithGoogle" : "SIGN IN WITH GOOGLE",
   "loginCancelled" : "Sign In cancelled",
   "loginError" : "Unable to login",
+  "couponCode" : "Coupon Code",
   "useWalletBalance" : "Use wallet balance"
 
 

@@ -8,12 +8,15 @@ class OrderDetail {
     int id;
     int order_id;
     String price;
+    String qr_code;
+    String qr_image;
+
     Product product_id;
     Order order;
     int qty;
     ProductVariantValue variant_value_id;
 
-    OrderDetail({this.detail_status, this.discount, this.id, this.order_id, this.price, this.product_id, this.qty, this.variant_value_id,  this.order});
+    OrderDetail({this.detail_status,this.qr_code, this.qr_image, this.discount, this.id, this.order_id, this.price, this.product_id, this.qty, this.variant_value_id,  this.order});
 
     factory OrderDetail.fromJson(Map<String, dynamic> json) {
         return OrderDetail(
@@ -22,6 +25,9 @@ class OrderDetail {
             price: json['price'],
             product_id: json['product_id'] != null ? Product.fromJson(json['product_id']) : null,
             qty: json['qty'],
+            qr_code: json['qr_code'],
+            qr_image: json['qr_imgage'],
+
             variant_value_id: json['variant_value_id'] != null ? ProductVariantValue.fromJson(json['variant_value_id']) : null,
             detail_status: json['detail_status'],
             order: json['order_id'] != null && json['order_id'] is Map ?  Order.fromJson(json['order_id']) : null,

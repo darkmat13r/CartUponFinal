@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/components/app_image.dart';
 import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/dotted_view.dart';
 import 'package:coupon_app/app/components/outlined_box.dart';
@@ -31,7 +32,9 @@ class OrderPage extends View {
 
 class OrderPageState extends ViewState<OrderPage, OrderController> {
   OrderPageState({OrderDetail order})
-      : super(OrderController(DataAuthenticationRepository(),DataOrderRepository(), orderDetail: order));
+      : super(OrderController(
+            DataAuthenticationRepository(), DataOrderRepository(),
+            orderDetail: order));
 
   @override
   Widget get view => Scaffold(
@@ -48,6 +51,10 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
           builder: (BuildContext context, OrderController controller) {
         return ListView(
           children: [
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            _qrCode,
             SizedBox(
               height: Dimens.spacingMedium,
             ),
@@ -103,7 +110,31 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
         );
       });
 
-   reviewItem(OrderController controller) {
+  get _qrCode => ControlledWidgetBuilder(
+          builder: (BuildContext context, OrderController controller) {
+        return controller.orderDetail != null &&
+                controller.orderDetail.product_id != null &&
+                controller.orderDetail.product_id.category_type == false
+            ? Column(
+                children: [
+                  SizedBox(
+                    width: 120,
+                      height : 120,
+                      child: AppImage(controller.orderDetail.qr_image)),
+                  Text(
+                    LocaleKeys.couponCode.tr(),
+                    style: heading6.copyWith(color: AppColors.neutralGray),
+                  ),
+                  Text(
+                    controller.orderDetail.qr_code,
+                    style: heading5,
+                  )
+                ],
+              )
+            : SizedBox();
+      });
+
+  reviewItem(OrderController controller) {
     return Padding(
       padding: const EdgeInsets.all(Dimens.spacingNormal),
       child: Column(
@@ -111,7 +142,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
         children: [
           Padding(
             padding:
-            const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+                const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
             child: Text(
               LocaleKeys.yourReview.tr(),
               style: heading5.copyWith(color: AppColors.neutralDark),

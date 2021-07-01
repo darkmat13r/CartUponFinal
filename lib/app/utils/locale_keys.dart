@@ -333,5 +333,6 @@ class LocaleKeys {
   static var loginWithFacebook = "loginWithFacebook";
   static var loginCancelled = "loginCancelled";
   static var loginError = "loginError";
+  static var couponCode = "couponCode";
 
 }
