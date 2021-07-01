@@ -6,8 +6,6 @@
   "hintEmail": "Email",
   "hintPassword"  : "Password",
   "signIn" : "Sign In",
-  "loginWithGoogle"  : "Login with Google",
-  "loginWithFb" : "Login with facebook",
   "forgotPassword" : "Forgot Password?",
   "dontHaveAccount": "Don't have an account?",
   "register" : "Sign Up",
@@ -295,6 +293,10 @@
   "orderNo" : "Order No.",
   "continueAsGuest" : "Continue as guest",
   "completeCheckout" : "Complete Checkout",
+  "loginWithFacebook" : "SIGN IN WITH FACEBOOK",
+  "loginWithGoogle" : "SIGN IN WITH GOOGLE",
+  "loginCancelled" : "Sign In cancelled",
+  "loginError" : "Unable to login",
   "useWalletBalance" : "Use wallet balance"
 
 

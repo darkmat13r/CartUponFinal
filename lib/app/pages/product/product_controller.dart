@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:coupon_app/app/base_controller.dart';
+import 'package:coupon_app/app/pages/image/zoom_image.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/product/product_presenter.dart';
 import 'package:coupon_app/app/pages/reviews/create/create_review_view.dart';
@@ -130,6 +131,12 @@ class ProductController extends BaseController {
   void dispose() {
     _presenter.dispose();
     super.dispose();
+  }
+
+  void openImage(String image) {
+    Navigator.of(getContext()).push(MaterialPageRoute(
+        builder: (context) => ZoomImage(image
+        )));
   }
 
 

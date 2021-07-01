@@ -456,7 +456,11 @@ class ProductPageView
         itemBuilder: (BuildContext context, int index) {
           var gallery =
               controller.product.product.product_gallery ?? [];
-          return AppImage(gallery[index].image);
+          return InkWell(
+            onTap: (){
+              controller.openImage(gallery[index].image);
+            },
+              child: AppImage(gallery[index].image));
         },
         options: CarouselOptions(
           height: 240,

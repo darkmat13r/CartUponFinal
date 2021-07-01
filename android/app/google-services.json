@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "206344598212",
+    "project_id": "cartupon-b8360",
+    "storage_bucket": "cartupon-b8360.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:206344598212:android:ad41c9e0f30a5b2f4c0f91",
+        "android_client_info": {
+          "package_name": "com.darkmat13r.cart_upon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "206344598212-2hide999ot6cnktgsn10rde8n84mh47j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC78RmYdsewwI2MEhVy3t9ENW8OkCPHspU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "206344598212-2hide999ot6cnktgsn10rde8n84mh47j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

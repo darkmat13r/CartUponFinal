@@ -146,85 +146,93 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
     );
   });
 
-  Widget get googleLogin => Padding(
-        padding: const EdgeInsets.fromLTRB(50, 0, 50, 16),
-        child: SizedBox(
-          width: double.infinity,
-          height: 48,
-          child: MaterialButton(
-            color: Colors.white,
-            onPressed: () => {},
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              //Center Column contents vertically,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              //Center Column contents horizontally,
-              children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image(
-                      image: AssetImage(
-                        Resources.google_logo,
-                      ),
-                      height: 36.0,
+  Widget get googleLogin => ControlledWidgetBuilder(builder: (BuildContext context, WelcomeController controller){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(50, 0, 50, 16),
+      child: SizedBox(
+        width: double.infinity,
+        height: 48,
+        child: MaterialButton(
+          color: Colors.white,
+          onPressed: () => {
+            controller.loginWithGoogle()
+          },
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            //Center Column contents vertically,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            //Center Column contents horizontally,
+            children: [
+              Container(
+                margin: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    image: AssetImage(
+                      Resources.google_logo,
                     ),
+                    height: 36.0,
                   ),
                 ),
-                SizedBox(
-                  width: 16,
-                ),
-                Text(
-                  "SIGN IN WITH GOOGLE",
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.black),
-                ),
-              ],
-            ),
+              ),
+              SizedBox(
+                width: 16,
+              ),
+              Text(
+                LocaleKeys.loginWithGoogle.tr(),
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.black),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  });
 
-  Widget get facebookLogin => Padding(
-        padding: const EdgeInsets.fromLTRB(50, 0, 50, 16),
-        child: SizedBox(
-          width: double.infinity,
-          height: 48,
-          child: MaterialButton(
-            color: Colors.blue.shade800,
-            onPressed: () => {},
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              //Center Column contents vertically,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              //Center Column contents horizontally,
-              children: [
-                Icon(
-                  MaterialCommunityIcons.facebook,
-                  color: Colors.white,
-                ),
-                SizedBox(
-                  width: 16,
-                ),
-                Text(
-                  "SIGN IN WITH FACEBOOK",
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white),
-                ),
-              ],
-            ),
+  Widget get facebookLogin => ControlledWidgetBuilder(builder: (BuildContext context, WelcomeController controller){
+  return  Padding(
+      padding: const EdgeInsets.fromLTRB(50, 0, 50, 16),
+      child: SizedBox(
+        width: double.infinity,
+        height: 48,
+        child: MaterialButton(
+          color: Colors.blue.shade800,
+          onPressed: () => {
+            controller.loginWithFacebook()
+          },
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            //Center Column contents vertically,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            //Center Column contents horizontally,
+            children: [
+              Icon(
+                MaterialCommunityIcons.facebook,
+                color: Colors.white,
+              ),
+              SizedBox(
+                width: 16,
+              ),
+              Text(
+                LocaleKeys.loginWithFacebook.tr(),
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  });
 
   Container get banner => Container(
           child: Image.asset(

@@ -494,6 +494,6 @@ class AddAddressPageState
                 'globalKey': globalKey
               });
             },
-            text: guest ? LocaleKeys.submit.tr() :(widget.address == null ?LocaleKeys.editAddress : LocaleKeys.addAddress.tr()));
+            text: guest ? LocaleKeys.submit.tr() :(widget.address == null ?LocaleKeys.addAddress.tr() : LocaleKeys.editAddress.tr()));
       });
 }

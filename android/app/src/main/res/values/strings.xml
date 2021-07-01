@@ -3,5 +3,5 @@
     <string name="app_name">CartUpon</string>
 
     <string name="facebook_app_id">4304477512950423</string>
-    <string name="fb_login_protocol_scheme">fb000000000000</string>
+    <string name="fb_login_protocol_scheme">fb4304477512950423</string>
 </resources>

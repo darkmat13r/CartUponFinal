@@ -330,5 +330,8 @@ class LocaleKeys {
   static var useWalletBalance = "useWalletBalance";
   static var continueAsGuest = "continueAsGuest";
   static var completeCheckout = "completeCheckout";
+  static var loginWithFacebook = "loginWithFacebook";
+  static var loginCancelled = "loginCancelled";
+  static var loginError = "loginError";
 
 }
