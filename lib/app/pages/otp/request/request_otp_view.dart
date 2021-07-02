@@ -20,7 +20,7 @@ class RequestOtpPage extends View {
 
 class _RequestOtpPageState
     extends ViewState<RequestOtpPage, RequestOtpController> {
-  _RequestOtpPageState( {bool returnResult}) : super(RequestOtpController(returnResult : returnResult));
+  _RequestOtpPageState( {bool returnResult}) : super(RequestOtpController(DataVerificationRepository(),returnResult : returnResult));
   final _formKey = GlobalKey<FormState>();
 
   @override

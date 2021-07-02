@@ -80,10 +80,10 @@ class MainListingController extends BaseController{
   openLink(String link){
     var parts = split(link );
     _logger.e(parts[parts.length-1]);
-    if(parts.length > 0){
+    if(parts.length > 0 && parts[parts.length-1] != null && parts[parts.length-1].length >  0  &&  parts[parts.length-1]  != "#"  ){
       AppRouter().productDetailsById(getContext(), parts[parts.length-1]);
     }else{
-      showGenericSnackbar(getContext(), LocaleKeys.invalidLink.tr(), isError: true);
+    //  showGenericSnackbar(getContext(), LocaleKeys.invalidLink.tr(), isError: true);
     }
   }
 

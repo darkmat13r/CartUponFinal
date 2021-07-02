@@ -12,7 +12,6 @@ class DateHelper {
     return formatElapsedTime(timeRemaining);
   }
   static DateTime parseServerDateTime(String serverDate) {
-    Logger().e("Parse server time ${ DateTime.parse(serverDate)}");
     return DateTime.parse(serverDate);
   }
 

@@ -90,22 +90,26 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
             _paymentDetails(controller),
             controller.rating != null && controller.rating.rating != null
                 ? reviewItem(controller)
-                : controller.canPostReview() ? _addReview : SizedBox(),
-          controller.canCancelOrder()?  Padding(
-              padding: const EdgeInsets.all(Dimens.spacingMedium),
-              child: SizedBox(
-                width: double.infinity,
-                child: RaisedButton(
-                  onPressed: () {
-                    controller.cancelOrder();
-                  },
-                  child: Text(
-                    LocaleKeys.cancelOrder.tr(),
-                    style: buttonText,
-                  ),
-                ),
-              ),
-            ) : SizedBox()
+                : controller.canPostReview()
+                    ? _addReview
+                    : SizedBox(),
+            controller.canCancelOrder()
+                ? Padding(
+                    padding: const EdgeInsets.all(Dimens.spacingMedium),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: RaisedButton(
+                        onPressed: () {
+                          controller.cancelOrder();
+                        },
+                        child: Text(
+                          LocaleKeys.cancelOrder.tr(),
+                          style: buttonText,
+                        ),
+                      ),
+                    ),
+                  )
+                : SizedBox()
           ],
         );
       });
@@ -116,14 +120,14 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                 controller.orderDetail.product_id != null &&
                 controller.orderDetail.product_id.category_type == false
             ? InkWell(
-          onTap: (){
-            controller.showImage(controller.orderDetail.qr_image);
-          },
-              child: Column(
+                onTap: () {
+                  controller.showImage(controller.orderDetail.qr_image);
+                },
+                child: Column(
                   children: [
                     SizedBox(
-                      width: 220,
-                        height : 220,
+                        width: 220,
+                        height: 220,
                         child: AppImage(controller.orderDetail.qr_image)),
                     Text(
                       LocaleKeys.couponCode.tr(),
@@ -135,7 +139,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                     )
                   ],
                 ),
-            )
+              )
             : SizedBox();
       });
 
@@ -208,7 +212,6 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                         LocaleKeys.items.tr(args: ["1"]),
                         Utility.currencyFormat(
                             controller.orderDetail.order.total)),
-
                     DotWidget(
                       color: AppColors.neutralGray,
                     ),
@@ -237,6 +240,16 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                 padding: const EdgeInsets.all(Dimens.spacingMedium),
                 child: Column(
                   children: [
+                    _detailItem(
+                        LocaleKeys.fullName.tr(),
+                        controller.orderDetail.order.shipping_address != null
+                            ? "${controller.orderDetail.order.shipping_address.first_name} ${controller.orderDetail.order.shipping_address.last_name}"
+                            : ""),
+                    _detailItem(
+                        LocaleKeys.mobileNumber.tr(),
+                        controller.orderDetail.order.shipping_address != null
+                            ? "${controller.orderDetail.order.shipping_address.phone_no}"
+                            : ""),
                     _detailItem(
                         LocaleKeys.orderShippingDate.tr(),
                         DateHelper.formatServerDate(
@@ -346,8 +359,10 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                       ),
                       Padding(
                         padding:
-                        const EdgeInsets.only(left: Dimens.spacingMedium),
-                        child: Text(Utility.capitalize(controller.orderDetail.detail_status.toLowerCase())),
+                            const EdgeInsets.only(left: Dimens.spacingMedium),
+                        child: Text(Utility.capitalize(controller
+                            .orderDetail.detail_status
+                            .toLowerCase())),
                       ),
                       Padding(
                         padding:
@@ -363,7 +378,6 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                                     color: AppColors.neutralGray),
                               ),
                             ),
-
                             Text(
                               Utility.getOrderItemPrice(orderDetail),
                               style:

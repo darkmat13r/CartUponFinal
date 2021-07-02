@@ -55,6 +55,7 @@ class VerifyOtpController extends BaseController {
   void initRequestOtpListeners() {
     _presenter.requestOtpOnNext = (response) {};
     _presenter.requestOtpOnError = (error) {
+      Navigator.of(getContext()).pop();
       showGenericSnackbar(getContext(), error.message, isError: true);
       dismissProgressDialog();
     };

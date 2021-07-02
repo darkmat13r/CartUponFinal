@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:logger/logger.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NavigationDrawer extends StatefulWidget {
   final User user;
@@ -103,16 +104,17 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     );
   }
 
-  openUrl(context, String url) {
+  openUrl(context, String url) async{
     Navigator.pop(context);
     Logger().e("Url ${url}");
-    Navigator.push(
+    await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
+   /* Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => PaymentPage(
             url,
           )),
-    );
+    );*/
     if(widget.onOpenUrl!= null){
       widget.onOpenUrl(url);
     }

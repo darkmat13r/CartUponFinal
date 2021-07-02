@@ -19,8 +19,8 @@ class RequestOtpController extends BaseController {
   final RequestOtpPresenter _presenter;
   bool returnResult;
 
-  RequestOtpController(  {this.returnResult})
-      : _presenter = RequestOtpPresenter() {
+  RequestOtpController(VerificationRepository verificationRepository,  {this.returnResult})
+      : _presenter = RequestOtpPresenter(verificationRepository) {
     mobileNumberController = TextEditingController();
     getCachedCountry();
     getCachedCountries();
@@ -28,9 +28,20 @@ class RequestOtpController extends BaseController {
 
   @override
   void initListeners() {
-
+    initRequestOtpListeners();
   }
-
+  void initRequestOtpListeners() {
+    _presenter.requestOtpOnNext = (response) {};
+    _presenter.requestOtpOnError = (error) {
+      showGenericSnackbar(getContext(), error.message, isError: true);
+      dismissLoading();
+    };
+    _presenter.requestOtpOnComplete = () {
+      showGenericSnackbar(getContext(), LocaleKeys.otpSent.tr());
+      openVerification();
+      dismissLoading();
+    };
+  }
   void getCachedCountry() async {
     selectedCountry = Config().selectedCountry;
     refreshUI();
@@ -61,13 +72,16 @@ class RequestOtpController extends BaseController {
   }
 
   void requestOtp() async{
+    showLoading();
+    _presenter.requestOtp(mobileNumber: mobileNumberController.text  , countryCode: selectedCountry.dial_code);
+  }
+
+  void openVerification() async{
     dynamic result = await  AppRouter().verifyOtp(getContext(), selectedCountry.dial_code, mobileNumberController.text, returnResult  : returnResult);
     if (returnResult != null && returnResult){
       Navigator.pop(getContext(), result);
     }
-
   }
-
   void setSelectedCountry(Country countri) {
     selectedCountry = countri;
     refreshUI();
