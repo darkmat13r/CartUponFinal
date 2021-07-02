@@ -27,6 +27,7 @@ class ProductController extends BaseController {
   List<ProductDetail> similarProducts = [];
   bool isAddedToWhishlist = false;
   String productId;
+  bool showTimer = false;
 
   ProductPresenter _presenter;
 
@@ -137,6 +138,11 @@ class ProductController extends BaseController {
     Navigator.of(getContext()).push(MaterialPageRoute(
         builder: (context) => ZoomImage(image
         )));
+  }
+
+  void isValidTime(isValid) {
+    showTimer = isValid;
+    refreshUI();
   }
 
 

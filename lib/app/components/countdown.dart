@@ -10,9 +10,10 @@ class CountdownView extends StatefulWidget{
   DateTime validTo;
   bool showIcon = true;
   TextStyle textStyle;
+  Function isValidTime;
 
 
-  CountdownView({this.validFrom, this.validTo, this.showIcon, this.textStyle});
+  CountdownView({this.validFrom, this.validTo, this.showIcon, this.textStyle, this.isValidTime});
 
   @override
   State<StatefulWidget> createState() => _CountdownViewState();
@@ -30,7 +31,10 @@ class _CountdownViewState extends State<CountdownView>{
   @override
   Widget build(BuildContext context) {
     _createTimer();
-    return _elapsedTime != null
+    if(widget.isValidTime  != null ){
+      widget.isValidTime(_isValidToValid());
+    }
+    return _elapsedTime != null && _isValidToValid()
         ? Row(
       children: [
         (widget.showIcon ?? true ) ? Image.asset(

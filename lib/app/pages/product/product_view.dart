@@ -247,7 +247,7 @@ class ProductPageView
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        controller.product != null
+        controller.product != null && controller.showTimer
             ? Row(
                 children: [
                   Image.asset(
@@ -272,6 +272,9 @@ class ProductPageView
                        CountdownView(
                          showIcon: false,
                          textStyle: heading5.copyWith(color: AppColors.accent),
+                         isValidTime: (isValid){
+                           controller.isValidTime(isValid);
+                         },
                          validTo: DateHelper.parseServerDateTime(
                              controller.product.product.valid_to),
                          validFrom: DateHelper.parseServerDateTime(

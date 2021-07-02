@@ -1,4 +1,5 @@
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:logger/logger.dart';
 
 class DateHelper {
   static String formatExpiry(DateTime startDate, String serverDate) {
@@ -11,6 +12,7 @@ class DateHelper {
     return formatElapsedTime(timeRemaining);
   }
   static DateTime parseServerDateTime(String serverDate) {
+    Logger().e("Parse server time ${ DateTime.parse(serverDate)}");
     return DateTime.parse(serverDate);
   }
 

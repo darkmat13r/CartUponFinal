@@ -20,7 +20,8 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   Locale userSelectedLocale = await SessionHelper().getLanguage();
-  Config().locale = userSelectedLocale;
+
+  Config().locale = userSelectedLocale ?? Locale('en');
   runApp(
     EasyLocalization(
         supportedLocales: [Locale('en'), Locale('ar')],
