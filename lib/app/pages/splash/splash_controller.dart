@@ -5,6 +5,7 @@ import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/splash/splash_presenter.dart';
 import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/domain/entities/models/Country.dart';
+import 'package:coupon_app/domain/entities/models/ipdetect/IPDetectResponse.dart';
 import 'package:coupon_app/domain/repositories/coutry_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:devicelocale/devicelocale.dart';
@@ -17,21 +18,33 @@ class SplashController extends Controller {
 
   List<Country> countries;
   Country selectedCountry;
+  IPDetectResponse ipDetectResponse;
 
   SplashController(CountryRepository repo) : _presenter = SplashPresenter(repo);
 
   @override
   void initListeners() {
+    _presenter.detectCountryOnComplete = (){
+      _presenter.fetchCountries();
+    };
+    _presenter.detectCountryOnNext = (IPDetectResponse response){
+      this.ipDetectResponse = response;
+
+    };
+    _presenter.detectCountryOnError = (){
+      home();
+    };
     _presenter.getCountriesOnNext = (response) {
       countries = response;
       refreshUI();
       onLoadCountries();
+      home();
     };
     _presenter.getCountriesOnError = (e) {
       home();
     };
     _presenter.getCountriesOnComplete = () {
-      home();
+     // home();
     };
   }
 
@@ -41,13 +54,15 @@ class SplashController extends Controller {
 
   void onLoadCountries() async{
     var selectCountryId = await SessionHelper().getSelectedCountryId();
-    //Logger().e(selectCountryId);
+    Logger().e(selectCountryId);
+
     if(selectCountryId == null || selectCountryId == 0){
+      Logger().e("Countries  ${countries}");
       if(countries != null && countries.length > 0){
         var firstFind;
         var locale = await Devicelocale.currentLocale;
         String s = locale;
-        //Logger().e("Locale ${locale}");
+        Logger().e("Locale ${locale}");
         int idx = s.indexOf(Platform.isIOS ?  "-" :"_");
         if(idx >= 0){
           List parts = [s.substring(0,idx).trim(), s.substring(idx+1).trim()];
@@ -57,16 +72,26 @@ class SplashController extends Controller {
             locale = parts[0];
           }
         }
-        //Logger().e(locale);
-        try{
-          firstFind = countries.firstWhere((element) => element.country_code.toLowerCase() == locale.toLowerCase());
-        }catch(e){
-          //Logger().e(e);
+
+        if(ipDetectResponse != null){
+          try{
+
+            firstFind = countries.firstWhere((element) => element.country_code.toLowerCase() == ipDetectResponse.countryCode.toLowerCase());
+          }catch(e){
+            Logger().e(e);
+          }
+        }
+        if(firstFind == null){
+          try{
+            firstFind = countries.firstWhere((element) => element.country_code.toLowerCase() == locale.toLowerCase());
+          }catch(e){
+            Logger().e(e);
+          }
         }
         if(firstFind == null){
           firstFind = countries.first;
         }
-        //Logger().e(firstFind);
+
         selectCountryId = firstFind.id;
         SessionHelper().setSelectedCountryId(firstFind.id);
       }

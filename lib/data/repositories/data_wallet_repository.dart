@@ -27,7 +27,7 @@ class DataWalletRepository extends WalletRepository{
           Constants.walletRequestRoute, RequestType.post,
           body: {
             "amount": amount,
-            "CurrencyCode": country != null ? country.country_currency : "KWD"});
+            "CurrencyCode": country != null ? country.country_currency_symbol : "KWD"});
       PlaceOrderResponse  item = PlaceOrderResponse.fromJson(response);
       return item;
     } catch (e) {

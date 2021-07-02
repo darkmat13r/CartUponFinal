@@ -54,7 +54,7 @@ class DataOrderRepository extends OrderRepository {
           'address': address.address,
           'user_sessid': userId.toString(),
           'pay_mode': payMode,
-          "CurrencyCode": country != null ? country.country_currency : "KWD",
+          "CurrencyCode": country != null ? country.country_currency_symbol : "KWD",
         };
       } else {
         body = {
@@ -62,7 +62,7 @@ class DataOrderRepository extends OrderRepository {
           'billing_address': shippingAddressId,
           'pay_mode': payMode,
           'wallet' : useWallet.toString(),
-          "CurrencyCode": country != null ? country.country_currency : "KWD",
+          "CurrencyCode": country != null ? country.country_currency_symbol : "KWD",
         };
       }
       dynamic data = await HttpHelper.invokeHttp(
