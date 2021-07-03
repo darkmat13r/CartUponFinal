@@ -46,6 +46,7 @@ class _AddToWalletPageState
                   child: TextFormField(
                     controller: controller.amountTextController,
                     keyboardType: TextInputType.number,
+                    maxLength: 5,
                     validator: (value) {
                       if (value.isEmpty) {
                         return LocaleKeys.invalidAmount.tr();

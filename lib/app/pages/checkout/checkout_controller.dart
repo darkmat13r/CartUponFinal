@@ -70,8 +70,9 @@ class CheckoutController extends BaseController {
     if (this.useWallet && paymentMethod == 1) {
       paymentMethod = 2;
     }else{
-      paymentMethod = -1;
+      paymentMethod = 0;
     }
+    Logger().e("Payment Mode ${ this.paymentMethod }");
     verifyAmount();
     refreshUI();
   }
@@ -84,8 +85,13 @@ class CheckoutController extends BaseController {
         paymentMethod = 3;
         return;
       }
+      if(useWallet){
+        amountToPay = cart.net_total - amount;
+        return;
+      }
     }
     amountToPay = cart.net_total;
+
   }
 
   @override

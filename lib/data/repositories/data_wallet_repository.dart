@@ -31,7 +31,6 @@ class DataWalletRepository extends WalletRepository{
       PlaceOrderResponse  item = PlaceOrderResponse.fromJson(response);
       return item;
     } catch (e) {
-      _logger.e(e.stackTrace);
       rethrow;
     }
   }
