@@ -223,43 +223,52 @@ void showGenericConfirmDialog(
     {Function onCancel, Function onConfirm, String confirmText, bool showCancel}) {
   var dialog = showDialog(
       context: context,
-      builder: (ctx) => new AlertDialog(
-            title: title != null ? new Text(title, style: heading6,) : SizedBox(),
-            content: new Text(message, style: bodyTextNormal2,),
-        titlePadding: EdgeInsets.only(
-            left: Dimens.spacingMedium,
-            right: Dimens.spacingMedium,
-            top: Dimens.spacingMedium),
-        contentPadding:
-        EdgeInsets.symmetric(horizontal: Dimens.spacingMedium, vertical: Dimens.spacingNormal),
-        actionsPadding: EdgeInsets.zero,
-            actions: [
-              showCancel ?? true ? TextButton(
-                onPressed: () {
-                  if (onCancel != null) {
-                    onCancel();
-                  }
-                  Navigator.pop(ctx);
-                },
-                child: Text(
-                  LocaleKeys.cancel.tr(),
-                  style: buttonText.copyWith(color: AppColors.accent),
-                ),
-              ) : SizedBox(),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(ctx);
-                  if (onConfirm != null) {
-                    onConfirm();
-                  }
-                },
-                child: Text(
-                  confirmText != null ? confirmText : LocaleKeys.ok.tr(),
-                  style: buttonText.copyWith(color: AppColors.accent),
-                ),
-              )
-            ],
-          ));
+      builder: (ctx) =>  WillPopScope(
+        onWillPop: () {
+          Navigator.pop(ctx);
+          if (onCancel != null) {
+            onCancel();
+          }
+          return Future.value(true);
+        },
+        child: AlertDialog(
+              title: title != null ? new Text(title, style: heading6,) : SizedBox(),
+              content: new Text(message, style: bodyTextNormal2,),
+          titlePadding: EdgeInsets.only(
+              left: Dimens.spacingMedium,
+              right: Dimens.spacingMedium,
+              top: Dimens.spacingMedium),
+          contentPadding:
+          EdgeInsets.symmetric(horizontal: Dimens.spacingMedium, vertical: Dimens.spacingNormal),
+          actionsPadding: EdgeInsets.zero,
+              actions: [
+                showCancel ?? true ? TextButton(
+                  onPressed: () {
+                    if (onCancel != null) {
+                      onCancel();
+                    }
+                    Navigator.pop(ctx);
+                  },
+                  child: Text(
+                    LocaleKeys.cancel.tr(),
+                    style: buttonText.copyWith(color: AppColors.accent),
+                  ),
+                ) : SizedBox(),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                    if (onConfirm != null) {
+                      onConfirm();
+                    }
+                  },
+                  child: Text(
+                    confirmText != null ? confirmText : LocaleKeys.ok.tr(),
+                    style: buttonText.copyWith(color: AppColors.accent),
+                  ),
+                )
+              ],
+            ),
+      ));
 }
 
 class Dimens {

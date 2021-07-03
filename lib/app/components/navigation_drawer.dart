@@ -1,6 +1,7 @@
 import 'package:coupon_app/app/components/rounded_box.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/payment/payment_view.dart';
+import 'package:coupon_app/app/pages/webview/webpage_view.dart';
 import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
@@ -81,20 +82,20 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             ListTile(
               title: Text(LocaleKeys.privacyPolicy.tr()),
               onTap: () {
-                openUrl(context, Constants.privacyUrl);
+                openUrl(context,LocaleKeys.privacyPolicy.tr(), Constants.privacyUrl);
               },
             ),
             ListTile(
               title: Text(LocaleKeys.terms.tr()),
               onTap: () {
-                openUrl(context, Constants.termsUrl);
+                openUrl(context,LocaleKeys.terms.tr(), Constants.termsUrl);
 
               },
             ),
             ListTile(
               title: Text(LocaleKeys.contactUs.tr()),
               onTap: () {
-                openUrl(context, Constants.aboutUsUrl);
+                openUrl(context,LocaleKeys.contactUs.tr(), Constants.aboutUsUrl);
 
               },
             ),
@@ -104,19 +105,15 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     );
   }
 
-  openUrl(context, String url) async{
+  openUrl(context,String title,  String page) async{
     Navigator.pop(context);
-    Logger().e("Url ${url}");
-    await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
-   /* Navigator.push(
+    Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => PaymentPage(
-            url,
+          builder: (context) => WebPage(
+            page: page,
+            title: title,
           )),
-    );*/
-    if(widget.onOpenUrl!= null){
-      widget.onOpenUrl(url);
-    }
+    );
   }
 }

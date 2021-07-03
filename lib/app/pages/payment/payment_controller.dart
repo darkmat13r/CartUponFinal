@@ -10,10 +10,12 @@ import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/payment/payment_presenter.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/domain/entities/user_entity.dart';
+import 'package:logger/logger.dart';
 
 class PaymentController extends BaseController {
   PaymentPresenter _presenter;
   var progressHUD;
+  var result = false;
 
   PaymentController(authRepo) : _presenter = PaymentPresenter(authRepo) {
     isLoading = true;
@@ -22,7 +24,10 @@ class PaymentController extends BaseController {
   @override
   void initListeners() {}
 
-
+  Future<bool> onWillPop() {
+    Logger().e("OnWillPOp ${result}");
+    Navigator.of(getContext()).pop(result);
+  }
 
   void processResponse(String message, bool isWallet) async {
     Map<String, dynamic> response = jsonDecode(message);
@@ -36,12 +41,10 @@ class PaymentController extends BaseController {
           isWallet
               ? LocaleKeys.msgWalletSuccess.tr()
               : LocaleKeys.msgOrderSuccess.tr(),
-          showCancel: false, onConfirm: () {
-        if (isWallet) {
-          Navigator.of(getContext()).pop(true);
-        } else {
-          Navigator.of(getContext()).pushReplacementNamed(Pages.main);
-        }
+          showCancel: false, onCancel: () {
+        paymentSuccessRedirect(isWallet);
+      }, onConfirm: () {
+        paymentSuccessRedirect(isWallet);
       });
     } else {
       showGenericConfirmDialog(
@@ -51,9 +54,19 @@ class PaymentController extends BaseController {
               ? LocaleKeys.errorWalletFailed.tr(args: [response['TranID']])
               : LocaleKeys.msgOrderPaymentFailed.tr(args: [response['TranID']]),
           showCancel: false, onConfirm: () {
+        result = false;
         Navigator.of(getContext()).pop(false);
       });
     }
     // ;
+  }
+
+  void paymentSuccessRedirect(bool isWallet) {
+    result = true;
+    if (isWallet) {
+      Navigator.of(getContext()).pop(true);
+    } else {
+      Navigator.of(getContext()).pushReplacementNamed(Pages.main);
+    }
   }
 }

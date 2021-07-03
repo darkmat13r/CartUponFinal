@@ -234,7 +234,7 @@ class CheckoutController extends BaseController {
       _logger.e(response.paymentURL);
       dismissProgressDialog();
       if (response.paymentURL != null) {
-        AppRouter().payment(getContext(), response.paymentURL);
+       startPaymentPage(response.paymentURL);
       }
     };
     _presenter.placeOrderOnError = (e) {
@@ -265,7 +265,6 @@ class CheckoutController extends BaseController {
               returnResult: true,
             )));
     if (result is Map) {
-      _logger.e("RequestOtpResult ${result}");
       this.mobileNumber = result['mobile'];
       this.countryCode = result['country_code'];
       guestCheckout(countryCode, mobileNumber);
@@ -302,5 +301,12 @@ class CheckoutController extends BaseController {
         isGuest: currentUser == null,
         address: defaultAddress,
         useWallet: useWallet);
+  }
+
+  void startPaymentPage(String paymentUrl) async{
+    var result = await AppRouter().payment(getContext(), paymentUrl);
+    if(result ?? false){
+      Navigator.of(getContext()).pushReplacementNamed(Pages.home);
+    }
   }
 }

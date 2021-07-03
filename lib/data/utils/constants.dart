@@ -50,10 +50,10 @@ class Constants {
   static var walletRequestRoute = "$baseUrl/walletRequest";
   static var walletHistoryRoute = "$baseUrl/userWalletHistroy";
 
-  static var privacyUrl = "$websiteBaseUrl/privacy";
-  static var termsUrl = "$websiteBaseUrl/termsandconditions";
-  static var contactUsUrl = "$websiteBaseUrl/contact";
-  static var aboutUsUrl = "$websiteBaseUrl/about";
+  static var privacyUrl = "privacy.html";
+  static var termsUrl = "terms.html";
+  static var contactUsUrl = "contact.html";
+  static var aboutUsUrl = "about.html";
 
 
   // APIs no prefix

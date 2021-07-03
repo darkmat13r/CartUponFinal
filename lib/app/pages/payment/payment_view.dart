@@ -27,17 +27,22 @@ class _PaymentPageState extends ViewState<PaymentPage, PaymentController> {
   WebViewController webViewController;
 
   @override
-  Widget get view => Scaffold(
-        appBar: customAppBar(title: Text(LocaleKeys.payment.tr())),
+  Widget get view => ControlledWidgetBuilder(builder: (BuildContext context, PaymentController controller){
+    return WillPopScope(
+      onWillPop: controller.onWillPop,
+      child: Scaffold(
+        appBar: customAppBar(title: Text(LocaleKeys.payment.tr(), style: heading5.copyWith(color: AppColors.primary),)),
         key: globalKey,
+
         body: _body,
-      );
+      ),
+    );
+  });
 
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, PaymentController controller) {
         return Stack(
           children: [
-
             WebView(
               initialUrl:
               widget.paymentUrl,

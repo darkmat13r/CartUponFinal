@@ -94,6 +94,9 @@ flutter:
     - assets/images/social/
     - assets/google_fonts/
     - assets/translations/
+    - assets/html/
+    - assets/html/en/
+    - assets/html/ar/
 flutter_icons:
   android: true
   ios: true
