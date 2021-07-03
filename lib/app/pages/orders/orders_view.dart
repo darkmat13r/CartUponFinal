@@ -88,6 +88,11 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
                       SizedBox(
                         height: Dimens.spacingMedium,
                       ),
+                      order.order != null  ? Padding(
+                        padding:   const EdgeInsets.only(left: Dimens.spacingMedium),
+                        child: Text("#${order.id}",
+                          style: heading5.copyWith(color: AppColors.neutralDark),),
+                      ) : SizedBox(),
                       Padding(
                         padding:
                         const EdgeInsets.only(left: Dimens.spacingMedium),
@@ -103,6 +108,7 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
                           heading6.copyWith(color: AppColors.neutralDark),
                         ),
                       ),
+
                       SizedBox(
                         height: Dimens.spacingNormal,
                       ),

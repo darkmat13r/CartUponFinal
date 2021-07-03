@@ -58,7 +58,7 @@ class GuestInfoController extends BaseController {
   int payMode;
   bool useWallet;
   bool onlyCoupon;
-
+var success =false;
   GuestInfoController(AddressRepository addressRepository,
       OrderRepository orderRepository, AuthenticationRepository authRepo,
       {this.mobileNumber,
@@ -113,9 +113,11 @@ class GuestInfoController extends BaseController {
     _presenter.placeOrderOnComplete = () {
       dismissLoading();
       if (payMode == 1 || payMode == 3) {
+        success = true;
         showGenericConfirmDialog(getContext(), LocaleKeys.order.tr(),
             LocaleKeys.msgOrderSuccess.tr(),
-            showCancel: false, onConfirm: () {
+            showCancel: false,
+            onConfirm: () {
           onCashOnDeliverOrderSuccess();
         }, onCancel: () {
           onCashOnDeliverOrderSuccess();
@@ -126,7 +128,7 @@ class GuestInfoController extends BaseController {
       _logger.e(response.paymentURL);
       dismissLoading();
       if (response.paymentURL != null) {
-        AppRouter().payment(getContext(), response.paymentURL);
+       startPaymentPage(response.paymentURL);
       }
     };
     _presenter.placeOrderOnError = (e) {
@@ -135,10 +137,21 @@ class GuestInfoController extends BaseController {
       dismissProgressDialog();
     };
   }
-
+  void startPaymentPage(String paymentUrl) async{
+    var result = await AppRouter().payment(getContext(), paymentUrl);
+    if(result ?? false){
+      success = true;
+      Navigator.of(getContext()).pushReplacementNamed(Pages.main);
+    }
+  }
   onCashOnDeliverOrderSuccess() {
     Navigator.of(getContext()).pushReplacementNamed(Pages.main);
     CartStream().clear();
+  }
+  Future<bool> onWillPop() {
+    if(success){
+      Navigator.of(getContext()).pushReplacementNamed(Pages.main);
+    }
   }
 
   initBlocksListeners() {

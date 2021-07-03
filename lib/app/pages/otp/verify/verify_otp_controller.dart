@@ -36,7 +36,7 @@ class VerifyOtpController extends BaseController {
   void initListeners() {
     //showProgressDialog();
     Logger().e("Return result ${returnResult}");
-    _presenter.requestOtp(mobileNumber: mobileNumber, countryCode: countryCode);
+   // _presenter.requestOtp(mobileNumber: mobileNumber, countryCode: countryCode);
     initRequestOtpListeners();
     initVerifyOtpListeners();
   }

@@ -34,9 +34,11 @@ class _CartButtonState extends State<CartButton> with SingleTickerProviderStateM
         _cartItemCount = event;
         _enabled =  true;
         Timer(Duration(milliseconds: 500), () {
-          setState(() {
-            _enabled =  false;
-          });
+          if(mounted){
+            setState(() {
+              _enabled =  false;
+            });
+          }
         });
       });
     });

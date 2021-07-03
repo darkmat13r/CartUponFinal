@@ -63,15 +63,17 @@ class _GuestInfoPageState
   final FocusNode blockFocusNode = FocusNode();
 
   @override
-  Widget get view => Scaffold(
-        appBar: customAppBar(
-            title: Text(
-          LocaleKeys.guestDetails.tr(),
-          style: heading5.copyWith(color: AppColors.primary),
-        )),
-        key: globalKey,
-        body: _body,
-      );
+  Widget get view => ControlledWidgetBuilder(builder: (BuildContext context , GuestInfoController controller){
+    return Scaffold(
+      appBar: customAppBar(
+          title: Text(
+            LocaleKeys.guestDetails.tr(),
+            style: heading5.copyWith(color: AppColors.primary),
+          )),
+      key: globalKey,
+      body: _body,
+    );
+  });
 
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, GuestInfoController controller) {

@@ -264,7 +264,12 @@ class CheckoutController extends BaseController {
                 useWallet: useWallet,
               )),
     );
-    Navigator.pop(getContext());
+    /*
+    if(result ?? false){
+      Navigator.pushReplacementNamed(getContext(), Pages.home);
+      return;
+    }
+    Navigator.pop(getContext());*/
   }
 
   void verifyOtp() async {
@@ -314,7 +319,7 @@ class CheckoutController extends BaseController {
   void startPaymentPage(String paymentUrl) async{
     var result = await AppRouter().payment(getContext(), paymentUrl);
     if(result ?? false){
-      Navigator.of(getContext()).pushReplacementNamed(Pages.home);
+      Navigator.of(getContext()).pushReplacementNamed(Pages.main);
     }
   }
 }
