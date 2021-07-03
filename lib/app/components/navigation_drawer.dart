@@ -99,7 +99,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                 openUrl(context,LocaleKeys.aboutUs.tr(), Constants.aboutUsUrl);
               },
             ),
-            ListTile(
+           /* ListTile(
               title: Text(LocaleKeys.contactUs.tr()),
               onTap: () {
                 Navigator.pop(context);
@@ -109,7 +109,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                       builder: (context) => ContactUsPage()),
                 );
               },
-            ),
+            ),*/
           ],
         ),
       ),
