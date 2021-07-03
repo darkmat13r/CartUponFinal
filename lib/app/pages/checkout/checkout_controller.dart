@@ -69,6 +69,8 @@ class CheckoutController extends BaseController {
     this.useWallet = !this.useWallet;
     if (this.useWallet && paymentMethod == 1) {
       paymentMethod = 2;
+    }else{
+      paymentMethod = -1;
     }
     verifyAmount();
     refreshUI();

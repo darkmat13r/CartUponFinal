@@ -334,5 +334,6 @@ class LocaleKeys {
   static var loginCancelled = "loginCancelled";
   static var loginError = "loginError";
   static var couponCode = "couponCode";
+  static var aboutUs = "aboutUs";
 
 }

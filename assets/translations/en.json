@@ -298,7 +298,8 @@
   "loginCancelled" : "Sign In cancelled",
   "loginError" : "Unable to login",
   "couponCode" : "Coupon Code",
-  "useWalletBalance" : "Use wallet balance"
+  "useWalletBalance" : "Use wallet balance",
+  "aboutUs" : "About Us"
 
 
 }

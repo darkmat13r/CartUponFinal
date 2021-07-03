@@ -1,4 +1,5 @@
 import 'package:coupon_app/app/components/rounded_box.dart';
+import 'package:coupon_app/app/pages/contactus/contact_us_view.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/payment/payment_view.dart';
 import 'package:coupon_app/app/pages/webview/webpage_view.dart';
@@ -93,10 +94,20 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               },
             ),
             ListTile(
+              title: Text(LocaleKeys.aboutUs.tr()),
+              onTap: () {
+                openUrl(context,LocaleKeys.aboutUs.tr(), Constants.aboutUsUrl);
+              },
+            ),
+            ListTile(
               title: Text(LocaleKeys.contactUs.tr()),
               onTap: () {
-                openUrl(context,LocaleKeys.contactUs.tr(), Constants.aboutUsUrl);
-
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ContactUsPage()),
+                );
               },
             ),
           ],
