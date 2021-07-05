@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:coupon_app/app/components/loading_button.dart';
 import 'package:coupon_app/app/pages/register/register_controller.dart';
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
@@ -337,7 +338,9 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
       ),
       showSearchBox: true,
       onFind: (String filter) => controller.getFilterNationality(filter),
-      itemAsString: (Nationality u) => u.country_name,
+      itemAsString: (Nationality u) => Config().locale.languageCode == "en"
+      ? u.country_name
+      : u.country_name_ar,
       onChanged: (Nationality data) => controller.setNationality(data),
     );
   }

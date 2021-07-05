@@ -152,7 +152,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                       ),
                       IconButton(
                         icon: Icon(Icons.content_copy_rounded),
-                        color: AppColors.primary,
+                        color: AppColors.accent,
                         onPressed: () {
                           final data = ClipboardData(
                               text: controller.orderDetail.qr_code);
