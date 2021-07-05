@@ -284,6 +284,9 @@
   "loginError" : "غير قادر علي الدخول",
   "couponCode" : "كود الكوبون",
   "useWalletBalance" : "استخدم رصيد المحفظة",
-  "aboutUs" : "معلومات عنا"
+  "aboutUs" : "معلومات عنا",
+  "orderDetailId" : "معرف تفاصيل الطلب",
+  "orderNumber" : "رقم الطلب",
+  "outOfStock": "إنتهى من المخزن"
 
 }
