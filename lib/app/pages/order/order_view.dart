@@ -211,7 +211,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                     _detailItem(
                         LocaleKeys.items.tr(args: ["1"]),
                         Utility.currencyFormat(
-                            controller.orderDetail.order.total)),
+                            controller.orderDetail.price)),
                     DotWidget(
                       color: AppColors.neutralGray,
                     ),
@@ -222,7 +222,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                     _detailItem(
                         LocaleKeys.totalPrice.tr(),
                         Utility.currencyFormat(
-                            controller.orderDetail.order.total)),
+                            controller.orderDetail.price)),
                   ],
                 ),
               ),
