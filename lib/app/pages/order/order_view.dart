@@ -16,6 +16,7 @@ import 'package:coupon_app/data/repositories/data_order_repository.dart';
 import 'package:coupon_app/domain/entities/models/Order.dart';
 import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -119,26 +120,50 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
         return controller.orderDetail != null &&
                 controller.orderDetail.product_id != null &&
                 controller.orderDetail.product_id.category_type == false
-            ? InkWell(
-                onTap: () {
-                  controller.showImage(controller.orderDetail.qr_image);
-                },
-                child: Column(
-                  children: [
-                    SizedBox(
+            ? Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      controller.showImage(controller.orderDetail.qr_image);
+                    },
+                    child: SizedBox(
                         width: 220,
                         height: 220,
                         child: AppImage(controller.orderDetail.qr_image)),
-                    Text(
-                      LocaleKeys.couponCode.tr(),
-                      style: heading6.copyWith(color: AppColors.neutralGray),
-                    ),
-                    Text(
-                      controller.orderDetail.qr_code,
-                      style: heading5,
-                    )
-                  ],
-                ),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            LocaleKeys.couponCode.tr(),
+                            style:
+                                heading6.copyWith(color: AppColors.neutralGray),
+                          ),
+                          Text(
+                            controller.orderDetail.qr_code,
+                            style: heading5,
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.content_copy_rounded),
+                        color: AppColors.primary,
+                        onPressed: () {
+                          final data = ClipboardData(
+                              text: controller.orderDetail.qr_code);
+                          Clipboard.setData(data).then((value) =>
+                              showGenericSnackbar(
+                                  context, LocaleKeys.couponCodeMessage.tr()));
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               )
             : SizedBox();
       });
@@ -208,10 +233,8 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                 padding: const EdgeInsets.all(Dimens.spacingMedium),
                 child: Column(
                   children: [
-                    _detailItem(
-                        LocaleKeys.items.tr(args: ["1"]),
-                        Utility.currencyFormat(
-                            controller.orderDetail.price)),
+                    _detailItem(LocaleKeys.items.tr(args: ["1"]),
+                        Utility.currencyFormat(controller.orderDetail.price)),
                     DotWidget(
                       color: AppColors.neutralGray,
                     ),
@@ -219,10 +242,8 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                         LocaleKeys.shipping.tr(),
                         Utility.currencyFormat(
                             controller.orderDetail.order.shipping_total)),
-                    _detailItem(
-                        LocaleKeys.totalPrice.tr(),
-                        Utility.currencyFormat(
-                            controller.orderDetail.price)),
+                    _detailItem(LocaleKeys.totalPrice.tr(),
+                        Utility.currencyFormat(controller.orderDetail.price)),
                   ],
                 ),
               ),

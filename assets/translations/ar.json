@@ -285,6 +285,7 @@
   "aboutUs" : "معلومات عنا",
   "orderDetailId" : "معرف تفاصيل الطلب",
   "orderNumber" : "رقم الطلب",
-  "outOfStock": "إنتهى من المخزن"
+  "outOfStock": "إنتهى من المخزن",
+  "couponCodeMessage": "تم نسخ رمز القسيمة بنجاح"
 
 }

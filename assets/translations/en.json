@@ -302,6 +302,7 @@
   "aboutUs" : "About Us",
   "orderDetailId" : "Order Detail ID",
   "orderNumber" : "Order No",
-  "outOfStock": "Out Of Stock"
+  "outOfStock": "Out Of Stock",
+  "couponCodeMessage": "Coupon Code Copied Successfully"
 
 }

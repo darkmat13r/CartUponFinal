@@ -86,6 +86,7 @@ class LocaleKeys {
   static const price = "price";
   static const orderStatusShipping = "orderStatusShipping";
   static const fmtItemsPurchased = "fmtItemsPurchased";
+  static const couponCodeMessage = "couponCodeMessage";
 
   //Order Details
   static const orderDetails = "orderDetails";

@@ -51,7 +51,6 @@ class HomePageView extends ViewState<HomePage, HomeController> {
             ? Alignment.centerLeft
             : Alignment.centerRight,
             child: TabBar(
-
               indicatorColor: AppColors.accent,
               isScrollable: true,
               unselectedLabelColor: AppColors.neutralLight,
