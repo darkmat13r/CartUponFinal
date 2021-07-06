@@ -287,6 +287,8 @@
   "orderNumber" : "رقم الطلب",
   "outOfStock": "إنتهى من المخزن",
   "couponCodeMessage": "تم نسخ رمز القسيمة بنجاح",
-  "followUsOn": "اتبعنا"
+  "followUsOn": "اتبعنا",
+  "outOfStockTitle": "عنصر غير متوفر في المخزون",
+  "outOfStockMessage": "هناك عناصر في عربة التسوق الخاصة بك غير متوفرة"
 
 }

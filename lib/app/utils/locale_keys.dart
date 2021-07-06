@@ -53,6 +53,8 @@ class LocaleKeys {
   static const totalPrice = 'totalPrice';
   static const checkout = 'checkout';
   static const orderConfirm = 'orderConfirm';
+  static const outOfStockTitle = "outOfStockTitle";
+  static const outOfStockMessage = "outOfStockMessage";
 
   //Checkout Page
 

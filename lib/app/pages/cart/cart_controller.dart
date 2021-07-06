@@ -104,8 +104,17 @@ class CartController extends BaseController {
   }
 
   void checkout() async {
-    if (currentUser != null) {
+    bool itemOutOfStock = false;
+    for (var item in cart.cart) {
+      if (item.product_id.stock <= 0) {
+        itemOutOfStock = true;
+        break;
+      }
+    }
+    if (currentUser != null && !itemOutOfStock) {
       proceedCheckout();
+    } else if (itemOutOfStock) {
+      showGenericDialog(getContext(), LocaleKeys.outOfStockTitle.tr(), LocaleKeys.outOfStockMessage.tr());
     } else {
       var dialogContext;
       showLoginPopup(getContext(), onCreate: (BuildContext context) {

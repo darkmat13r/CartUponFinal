@@ -126,6 +126,7 @@ class CartPageState extends ViewState<CartPage, CartController> {
             itemBuilder: (BuildContext context, int index) {
               return CartItemView(
                 controller.cart.cart[index],
+                inStock: controller.cart.cart[index].product_id.stock > 0,
                 onSelect: (CartItem cartItem) {
                   if (cartItem.product_id != null &&
                       cartItem.product_id.product_detail != null)

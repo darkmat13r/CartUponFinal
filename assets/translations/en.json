@@ -304,6 +304,8 @@
   "orderNumber" : "Order No",
   "outOfStock": "Out Of Stock",
   "couponCodeMessage": "Coupon Code Copied Successfully",
-  "followUsOn": "Follow Us On"
+  "followUsOn": "Follow Us On",
+  "outOfStockTitle": "Item Out of Stock",
+  "outOfStockMessage": "There are items in your cart that are Out of Stock"
 
 }
