@@ -27,6 +27,9 @@ jobs:
       - run: flutter build apk
       - run: pwd
       - run: ls
+      - run: cd ./build/app/outputs/flutter-apk/
+      - run: ls
+      - run: cd /home/runner/work/CartUponFinal/CartUponFinal
       - name: Deploy
         uses: garygrossgarten/github-action-scp@release
         with:
