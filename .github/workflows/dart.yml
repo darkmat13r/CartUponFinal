@@ -33,7 +33,7 @@ jobs:
       - name: Deploy
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: ./build/app/outputs/flutter-apk/app-release.apk
+          local: build/app/outputs/apk/release/app-release.apk
           remote: /var/www/api/media/
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USERNAME }}
