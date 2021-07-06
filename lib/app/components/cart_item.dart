@@ -105,6 +105,7 @@ class CartItemViewState extends State<CartItemView> {
                             ),
                             QuantityButton(
                               widget.item.qty,
+                              inStock: widget.inStock,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               max: widget.item.variant_value_id != null
                                   ? widget.item.variant_value_id.stock
