@@ -45,6 +45,10 @@ class Resources {
   static String facebook = "assets/images/social/facebook.png";
   static String twitter = "assets/images/social/twitter.png";
   static String whatsapp = "assets/images/social/whatsapp.png";
+  static String facebookUrl = "https://www.facebook.com/";
+  static String youtubeUrl = "https://www.youtube.com/";
+  static String instagramUrl = "https://www.instagram.com/";
+  static String twitterUrl = "https://twitter.com/?lang=en";
 }
 
 class AppColors {

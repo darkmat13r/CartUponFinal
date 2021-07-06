@@ -53,6 +53,8 @@ class LocaleKeys {
   static const totalPrice = 'totalPrice';
   static const checkout = 'checkout';
   static const orderConfirm = 'orderConfirm';
+  static const outOfStockTitle = "outOfStockTitle";
+  static const outOfStockMessage = "outOfStockMessage";
 
   //Checkout Page
 
@@ -269,6 +271,7 @@ class LocaleKeys {
   static var genderFemale = "genderFemale";
   static var confirmRemoveWhishlistItem = "confirmRemoveWhishlistItem";
 
+  static var followUsOn = "followUsOn";
   static var privacyPolicy = "privacyPolicy";
   static var languageEnglish = "languageEnglish";
   static var languageArabic = "languageArabic";
