@@ -25,11 +25,12 @@ jobs:
           channel: 'dev'
       - run: flutter pub get
       - run: flutter build apk
-      
+      - run: pwd
+      - run: ls
       - name: Deploy
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: /home/runner/work/CartUponFinal/build/app/outputs/flutter-apk/app-release.apk
+          local: ./build/app/outputs/flutter-apk/app-release.apk
           remote: /var/www/api/media/
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USERNAME }}
