@@ -3,6 +3,7 @@ import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/loading_button.dart';
 import 'package:coupon_app/app/pages/profile/profile_controller.dart';
 import 'package:coupon_app/app/pages/register/register_controller.dart';
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
@@ -260,7 +261,9 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
       ),
       showSearchBox: true,
       onFind: (String filter) => controller.getFilterNationality(filter),
-      itemAsString: (Nationality u) => u.country_name,
+      itemAsString: (Nationality u) => Config().locale.languageCode == "en"
+      ? u.country_name
+      : u.country_name_ar,
       onChanged: (Nationality data) => controller.setNationality(data),
     );
   }

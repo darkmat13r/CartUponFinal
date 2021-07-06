@@ -194,9 +194,9 @@
   "signinOrSignup": " دخول/تسجيل للاستمرار",
   "nationality": "الجنسية",
   "selectNationality": "اختار الجنسية",
-  "titleMr": "سيد.",
-  "titleMs": "انسة.",
-  "titleMrs": "سيدة.",
+  "titleMr": "السيد.",
+  "titleMs": "آنسة.",
+  "titleMrs": "السيدة.",
   "genderMale": "رجل",
   "genderFemale": "امراة",
   "errorSelectGender": "اختار الجنس",
@@ -216,9 +216,7 @@
   "yourPreferredLanguageId": "لغتك المفضلة هي",
   "confirmRemoveWhishlistItem": " هل تريد الغاء المنتج من قائمتك المفضلة?",
   "errorSelectNationality": "أرجو اختيار الجنسية",
-
   "orderConfirm" : "تأكيد الطلب",
-
   "deliveryAddress" : "عنوان التوصيل",
   "changeAddress" : "تغيير العنوان",
   "cashOnDeliver" : "نقدا عند التوصيل",
@@ -284,6 +282,10 @@
   "loginError" : "غير قادر علي الدخول",
   "couponCode" : "كود الكوبون",
   "useWalletBalance" : "استخدم رصيد المحفظة",
-  "aboutUs" : "معلومات عنا"
+  "aboutUs" : "معلومات عنا",
+  "orderDetailId" : "معرف تفاصيل الطلب",
+  "orderNumber" : "رقم الطلب",
+  "outOfStock": "إنتهى من المخزن",
+  "couponCodeMessage": "تم نسخ رمز القسيمة بنجاح"
 
 }

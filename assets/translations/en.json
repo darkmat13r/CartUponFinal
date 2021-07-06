@@ -299,7 +299,10 @@
   "loginError" : "Unable to login",
   "couponCode" : "Coupon Code",
   "useWalletBalance" : "Use wallet balance",
-  "aboutUs" : "About Us"
-
+  "aboutUs" : "About Us",
+  "orderDetailId" : "Order Detail ID",
+  "orderNumber" : "Order No",
+  "outOfStock": "Out Of Stock",
+  "couponCodeMessage": "Coupon Code Copied Successfully"
 
 }

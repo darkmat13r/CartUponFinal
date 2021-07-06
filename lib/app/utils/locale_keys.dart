@@ -43,6 +43,7 @@ class LocaleKeys {
   static const reviewProduct = 'reviewProduct';
   static const youMayLike = 'youMayLike';
   static const addToCart = 'addToCart';
+  static const outOfStock = "outOfStock";
 
   //Cart Page
   static const yourCart = 'yourCart';
@@ -85,6 +86,7 @@ class LocaleKeys {
   static const price = "price";
   static const orderStatusShipping = "orderStatusShipping";
   static const fmtItemsPurchased = "fmtItemsPurchased";
+  static const couponCodeMessage = "couponCodeMessage";
 
   //Order Details
   static const orderDetails = "orderDetails";
@@ -101,6 +103,8 @@ class LocaleKeys {
   static const fmtPhone = "fmtPhone";
   static const errorSelectAddress = "errorSelectAddress";
   static const errorSelectPaymentMethod = "errorSelectPaymentMethod";
+  static const orderDetailId = "orderDetailId";
+  static const orderNumber = "orderNumber";
 
   static const reviews = "reviews";
   static const allReviews = "allReviews";

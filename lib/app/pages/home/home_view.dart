@@ -7,6 +7,7 @@ import 'package:coupon_app/app/pages/home/home_controller.dart';
 import 'package:coupon_app/app/pages/home/products/products_view.dart';
 import 'package:coupon_app/app/pages/login/login_view.dart';
 import 'package:coupon_app/app/pages/home/listing/mail_listing_view.dart';
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
@@ -46,9 +47,10 @@ class HomePageView extends ViewState<HomePage, HomeController> {
           backgroundColor: AppColors.primary,
           automaticallyImplyLeading: false,
           title: Align(
-            alignment: Alignment.centerLeft,
+            alignment: Config().locale.languageCode == "en"
+            ? Alignment.centerLeft
+            : Alignment.centerRight,
             child: TabBar(
-
               indicatorColor: AppColors.accent,
               isScrollable: true,
               unselectedLabelColor: AppColors.neutralLight,
