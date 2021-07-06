@@ -20,22 +20,30 @@ class RegisterPage extends View {
   final String mobileNumber;
   final bool returnResult;
 
-  RegisterPage({@required this.countryCode,@required  this.mobileNumber, this.returnResult});
+  RegisterPage(
+      {@required this.countryCode,
+      @required this.mobileNumber,
+      this.returnResult});
+
   @override
-  State<StatefulWidget> createState() => RegisterPageState(countryCode, mobileNumber, returnResult: returnResult);
+  State<StatefulWidget> createState() =>
+      RegisterPageState(countryCode, mobileNumber, returnResult: returnResult);
 }
 
 class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
   RegisterPageState(countryCode, mobileNumber, {bool returnResult})
-      : super(RegisterController(
-            DataAuthenticationRepository(), DataNationalityRepository(),countryCode, mobileNumber, returnResult : returnResult));
+      : super(RegisterController(DataAuthenticationRepository(),
+            DataNationalityRepository(), countryCode, mobileNumber,
+            returnResult: returnResult));
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordHidden = true;
 
   @override
   Widget get view => Scaffold(
         key: globalKey,
-    appBar: AppBar(elevation: 0,),
+        appBar: AppBar(
+          elevation: 0,
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(Dimens.spacingMedium),
@@ -227,6 +235,7 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
       ),
     );
   }
+
   Widget mobileNumberField(RegisterController controller) {
     return Row(
       children: [
@@ -236,7 +245,12 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
             enabled: false,
             controller: controller.mobileNumberController,
             decoration: InputDecoration(
-                fillColor: AppColors.neutralLightGray,
+                // fillColor: AppColors.neutralLightGray,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: AppColors.neutralLightGray,
+                      width: Dimens.borderWidth),
+                ),
                 labelText: LocaleKeys.phoneNumber.tr(),
                 prefixIcon: Icon(MaterialCommunityIcons.phone),
                 hintText: LocaleKeys.phoneNumber.tr()),
@@ -245,7 +259,8 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
       ],
     );
   }
- /* Widget phoneField(RegisterController controller) {
+
+  /* Widget phoneField(RegisterController controller) {
     return Row(
       children: [
         Expanded(
@@ -339,8 +354,8 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
       showSearchBox: true,
       onFind: (String filter) => controller.getFilterNationality(filter),
       itemAsString: (Nationality u) => Config().locale.languageCode == "en"
-      ? u.country_name
-      : u.country_name_ar,
+          ? u.country_name
+          : u.country_name_ar,
       onChanged: (Nationality data) => controller.setNationality(data),
     );
   }
@@ -383,7 +398,7 @@ class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
     );
   }
 
-  /*dialCode(RegisterController controller) {
+/*dialCode(RegisterController controller) {
     return Container(
       decoration: BoxDecoration(
           color: AppColors.neutralLight,
