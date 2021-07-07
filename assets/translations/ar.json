@@ -289,6 +289,9 @@
   "couponCodeMessage": "تم نسخ رمز القسيمة بنجاح",
   "followUsOn": "اتبعنا",
   "outOfStockTitle": "عنصر غير متوفر في المخزون",
-  "outOfStockMessage": "هناك عناصر في عربة التسوق الخاصة بك غير متوفرة"
+  "outOfStockMessage": "هناك عناصر في عربة التسوق الخاصة بك غير متوفرة",
+  "landmark" : "Landmark",
+  "hintLandmark" : "Enter landmark",
+  "errorLandmarkRequired": "Landmark Required"
 
 }

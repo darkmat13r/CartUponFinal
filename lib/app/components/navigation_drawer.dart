@@ -6,6 +6,7 @@ import 'package:coupon_app/app/pages/webview/webpage_view.dart';
 import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
+import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/domain/entities/models/User.dart';
 import 'package:coupon_app/main.dart';
@@ -65,12 +66,12 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                       Resources.toolbarLogo2,
                       width: 80,
                     ),
-                    // SizedBox(
-                    //   height: Dimens.spacingLarge,
-                    // ),
-                    // widget.user != null
-                    //     ? Text(widget.user.first_name)
-                    //     : SizedBox(),
+                     SizedBox(
+                       height: Dimens.spacingLarge,
+                     ),
+                     widget.user != null
+                        ? Text(Utility.capitalize(widget.user.first_name), style: heading5,)
+                        : SizedBox(),
                     SizedBox(
                       height: Dimens.spacingLarge * 2,
                     ),
@@ -78,7 +79,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                 ),
               ),
               ListTile(
-                leading: Icon(MaterialCommunityIcons.home),
+                leading: Icon(MaterialCommunityIcons.home, color: AppColors.primary,),
                 title: Text(
                   LocaleKeys.tabHome.tr(),
                   style: heading5,
@@ -94,7 +95,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                 endIndent: 20,
               ),
               ListTile(
-                leading: Icon(MaterialCommunityIcons.view_dashboard),
+                leading: Icon(MaterialCommunityIcons.view_dashboard, color: AppColors.primary,),
                 title: Text(
                   LocaleKeys.tabCategories.tr(),
                   style: heading5,
@@ -110,7 +111,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                 endIndent: 20,
               ),
               ListTile(
-                leading: Icon(MaterialCommunityIcons.settings),
+                leading: Icon(MaterialCommunityIcons.settings, color: AppColors.primary,),
                 title: Text(
                   LocaleKeys.settings.tr(),
                   style: heading5,

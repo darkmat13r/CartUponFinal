@@ -24,7 +24,7 @@ class _PaymentPageState extends ViewState<PaymentPage, PaymentController> {
   _PaymentPageState()
       : super(PaymentController(DataAuthenticationRepository())) {}
 
-  WebViewController webViewController;
+
 
   @override
   Widget get view => ControlledWidgetBuilder(builder: (BuildContext context, PaymentController controller){
@@ -48,7 +48,7 @@ class _PaymentPageState extends ViewState<PaymentPage, PaymentController> {
               widget.paymentUrl,
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController w) {
-                webViewController = w;
+                controller.webViewController = w;
               },
               onPageFinished: (finish){
                 controller.dismissLoading();

@@ -79,6 +79,7 @@ class ExplorePageState extends ViewState<ExplorePage, ExploreController> {
         builder: (BuildContext context, ExploreController controller) {
           return CategoryButton(
             category: category,
+            chipStyle: false,
             size: 80,
             onClick: () {
               controller.search(category);
