@@ -75,6 +75,18 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
               padding:
                   const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
               child: Text(
+                LocaleKeys.orderDetails.tr(),
+                style: heading5.copyWith(color: AppColors.neutralDark),
+              ),
+            ),
+            _orderDetails(controller),
+            SizedBox(
+              height: Dimens.spacingMedium,
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+              child: Text(
                 LocaleKeys.shippingDetails.tr(),
                 style: heading5.copyWith(color: AppColors.neutralDark),
               ),
@@ -244,6 +256,33 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                             controller.orderDetail.order.shipping_total)),
                     _detailItem(LocaleKeys.totalPrice.tr(),
                         Utility.currencyFormat(controller.orderDetail.price)),
+                  ],
+                ),
+              ),
+            ),
+          )
+        : SizedBox();
+  }
+
+  Widget _orderDetails(OrderController controller) {
+    return controller.orderDetail != null
+        ? Padding(
+            padding: const EdgeInsets.all(Dimens.spacingNormal),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(Dimens.spacingMedium),
+                child: Column(
+                  children: [
+                    _detailItem(
+                        LocaleKeys.orderDetailId.tr(),
+                        controller.orderDetail.id != null
+                            ? "${controller.orderDetail.id}"
+                            : ""),
+                    _detailItem(
+                        LocaleKeys.orderNumber.tr(),
+                        controller.orderDetail.order.order_no != null
+                            ? "${controller.orderDetail.order.order_no}"
+                            : ""),
                   ],
                 ),
               ),

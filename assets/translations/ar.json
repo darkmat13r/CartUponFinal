@@ -290,8 +290,8 @@
   "followUsOn": "اتبعنا",
   "outOfStockTitle": "عنصر غير متوفر في المخزون",
   "outOfStockMessage": "هناك عناصر في عربة التسوق الخاصة بك غير متوفرة",
-  "landmark" : "Landmark",
-  "hintLandmark" : "Enter landmark",
-  "errorLandmarkRequired": "Landmark Required"
+  "landmark" : "ارشادات اضافية",
+  "hintLandmark" : "ادخل ارشادات اضافية",
+  "errorLandmarkRequired": "مطلوب ادخال ارشادات اضافية"
 
 }
