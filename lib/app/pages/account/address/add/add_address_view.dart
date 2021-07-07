@@ -121,12 +121,12 @@ class AddAddressPageState
                     : SizedBox(),
                 askPersonalDetailsOnly == false
                     ? formField(
-                        label: LocaleKeys.address.tr(),
-                        hint: LocaleKeys.hintAddress.tr(),
+                        label: LocaleKeys.landmark.tr(),
+                        hint: LocaleKeys.landmark.tr(),
                         textEditingController: controller.addressText,
                         validation: (value) {
                           if (value.isEmpty) {
-                            return LocaleKeys.errorAddressRequired.tr();
+                            return LocaleKeys.errorLandmarkRequired.tr();
                           }
                           return null;
                         })

@@ -9,8 +9,9 @@ class CategoryButton extends StatefulWidget {
   final Function onClick;
   final double size;
   final bool showLabel;
+  final bool chipStyle;
 
-  const CategoryButton({this.category, this.onClick, this.size, this.showLabel})
+  const CategoryButton({this.category, this.onClick, this.size, this.showLabel, this.chipStyle})
       : super();
 
   @override
@@ -23,18 +24,18 @@ class _CategoryButtonState extends State<CategoryButton> {
         padding: const EdgeInsets.only(right: 8.0),
         child: InkWell(
           onTap: widget.onClick,
-          child: Chip(
+          child:widget.chipStyle ?? true ? Chip(
             backgroundColor: AppColors.cardBg,
             elevation: 3.0,
             shadowColor: AppColors.neutralDark,
-            label: Text(
+            label:  Text(
               widget.category != null ? widget.category.name : "",
               textAlign: TextAlign.center,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: captionNormal1.copyWith(color: AppColors.primary),
-            ),
-          ),
+            )
+          ): _buildColumn(),
         ),
       );
 
@@ -57,12 +58,16 @@ class _CategoryButtonState extends State<CategoryButton> {
                     blurRadius: 2.0,
                   ),
                 ]),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(Dimens.spacingNormal),
-                child: AppImage(widget.category != null
-                    ? widget.category.mobile_image
-                    : ""),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(widget.size ?? 36),
+              child: Center(
+
+                child: Padding(
+                  padding: const EdgeInsets.all(Dimens.spacingNormal),
+                  child: AppImage(widget.category != null
+                      ? widget.category.mobile_image
+                      : "", fit: BoxFit.contain,),
+                ),
               ),
             ),
           ),

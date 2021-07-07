@@ -34,7 +34,7 @@ class _StateViewState extends State<StateView> {
   Widget build(BuildContext context) {
     switch (widget.state) {
       case EmptyState.EMPTY:
-        return _emptyState;
+        return SizedBox();
       case EmptyState.NETWORK_ERROR:
         return  _errorView("Network Error", "Something went wrong");
       case EmptyState.ERROR:
@@ -44,7 +44,7 @@ class _StateViewState extends State<StateView> {
       case EmptyState.LOADING:
         return _loader;
     }
-    return _emptyState;
+    return SizedBox();
   }
 
   Widget _errorView(title , message ){
@@ -56,7 +56,7 @@ class _StateViewState extends State<StateView> {
     );
   }
 
-  get _emptyState => Container(
+  /*get _emptyState => Container(
     width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -69,7 +69,7 @@ class _StateViewState extends State<StateView> {
             Text(widget.emptyStateMessage ?? LocaleKeys.noData.tr(), style: heading5.copyWith(color: AppColors.neutralGray),)
           ],
         ),
-      );
+      );*/
 
   get _loader => Container(
         child: SpinKitWanderingCubes(
