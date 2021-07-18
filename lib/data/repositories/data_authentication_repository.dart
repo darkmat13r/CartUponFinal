@@ -257,12 +257,11 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   Future<Customer> authenticateFacebook({String accessToken}) async {
     try {
       Map<String, String> headers = {
-        HttpHeaders.contentTypeHeader: "application/json",
-        HttpHeaders.connectionHeader: "keep-alive",
+
       };
       Map<String, dynamic> body = await HttpHelper.invokeHttp(
           Constants.facebookRoute, RequestType.post,
-          headers: headers, body: {"token": accessToken});
+          headers: headers, body: {"access_token": accessToken});
       Customer token = Customer.fromJson(body);
       SessionHelper().saveCredentials(token: token.token, user: token);
       _logger.finest('Registration is successful');
@@ -276,12 +275,11 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   Future<Customer> authenticateGoogle({String accessToken}) async {
     try {
       Map<String, String> headers = {
-        HttpHeaders.contentTypeHeader: "application/json",
-        HttpHeaders.connectionHeader: "keep-alive",
+
       };
       Map<String, dynamic> body = await HttpHelper.invokeHttp(
           Constants.googleRoute, RequestType.post,
-          headers: headers, body: {"token": accessToken});
+          headers: headers, body: {"access_token": accessToken});
       Customer token = Customer.fromJson(body);
       SessionHelper().saveCredentials(token: token.token, user: token);
       _logger.finest('Registration is successful');

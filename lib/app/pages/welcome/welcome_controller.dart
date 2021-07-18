@@ -37,11 +37,11 @@ class WelcomeController extends Controller {
   }
 
   void goToHome() {
-    Navigator.of(getContext()).pushReplacementNamed(Pages.home);
+    Navigator.of(getContext()).pushReplacementNamed(Pages.main);
   }
 
   void skip() {
-    Navigator.of(getContext()).pushNamed(Pages.home);
+    Navigator.of(getContext()).pushNamed(Pages.main);
   }
 
   void login() {
