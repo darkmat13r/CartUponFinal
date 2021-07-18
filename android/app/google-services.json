@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "376940591794",
-    "project_id": "cartupon-318511",
-    "storage_bucket": "cartupon-318511.appspot.com"
+    "project_number": "930867921270",
+    "project_id": "cartuponappweb",
+    "storage_bucket": "cartuponappweb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:376940591794:android:c5216aaec70b6f6a37e7ab",
+        "mobilesdk_app_id": "1:930867921270:android:c3a83fb81ea44155253a57",
         "android_client_info": {
           "package_name": "com.darkmat13r.cart_upon"
         }
       },
       "oauth_client": [
         {
-          "client_id": "376940591794-7vl7u3h52ehpril5hatdhlkuoict2mvv.apps.googleusercontent.com",
+          "client_id": "930867921270-op7vlc6d236kteue3fi753t7sd0rb7m2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAKIVPvI82ppbjHPJAetGS1t4oc0x7OJ2o"
+          "current_key": "AIzaSyBqPzuOCP938-5sToEhniuaGGAOfFQL5_M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "376940591794-7vl7u3h52ehpril5hatdhlkuoict2mvv.apps.googleusercontent.com",
+              "client_id": "930867921270-op7vlc6d236kteue3fi753t7sd0rb7m2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
