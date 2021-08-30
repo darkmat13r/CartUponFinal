@@ -29,6 +29,7 @@ class ProductItem extends StatefulWidget {
 class _ProductItemState extends State<ProductItem>
     with TickerProviderStateMixin {
   final _cartStream = CartStream();
+  bool _showTimer = false;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +102,7 @@ class _ProductItemState extends State<ProductItem>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         widget.product != null &&
-                                double.parse(widget.product.product.dis_per) > 0
+                                double.parse(widget.product.product.price) > double.parse(widget.product.product.sale_price)
                             ? Text(
                                 Utility.currencyFormat(widget.product != null
                                     ? widget.product.product.price
@@ -113,7 +114,7 @@ class _ProductItemState extends State<ProductItem>
                             : SizedBox(),
                         Text(
                           Utility.currencyFormat(widget.product != null
-                              ? widget.product.product.sale_price
+                              ? _showTimer ? widget.product.product.offer_price : widget.product.product.sale_price
                               : "0"),
                           style: bodyTextNormal1.copyWith(
                               color: AppColors.primary),
@@ -154,8 +155,13 @@ class _ProductItemState extends State<ProductItem>
     if (product.product.valid_to != null &&
         product.product.valid_from != null) {
       return CountdownView(
-        validFrom: DateHelper.parseServerDateTime(product.product.valid_from),
-        validTo: DateHelper.parseServerDateTime(product.product.valid_to),
+        isValidTime: (isValid){
+          setState(() {
+            _showTimer = isValid;
+          });
+      },
+        validFrom: DateHelper.parseServerDateTime(product.product.offer_from),
+        validTo: DateHelper.parseServerDateTime(product.product.offer_to),
       );
     }
     return SizedBox();

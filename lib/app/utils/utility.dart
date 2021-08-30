@@ -13,6 +13,7 @@ class Utility {
     return NumberFormat.currency(symbol: "KD").format(price);
   }
 
+
   static getCartItemPrice(CartItem cartItem) {
     double price = 0;
     if (cartItem != null) {

@@ -175,9 +175,7 @@ class ProductPageView
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             controller.product != null &&
-                                    double.parse(controller
-                                            .product.product.dis_per) >
-                                        0
+                            double.parse(controller.product.product.price) > double.parse(controller.product.product.sale_price)
                                 ? Text(
                                     Utility.currencyFormat(
                                         controller.product != null
@@ -192,7 +190,7 @@ class ProductPageView
                             Text(
                               Utility.currencyFormat(
                                   controller.product != null
-                                      ? controller.product.product.sale_price
+                                      ? controller.showTimer ? controller.product.product.offer_price :  controller.product.product.sale_price
                                       : 0),
                               style: bodyTextNormal1.copyWith(
                                   color: AppColors.primary),
@@ -276,9 +274,9 @@ class ProductPageView
                            controller.isValidTime(isValid);
                          },
                          validTo: DateHelper.parseServerDateTime(
-                             controller.product.product.valid_to),
+                             controller.product.product.offer_to),
                          validFrom: DateHelper.parseServerDateTime(
-                             controller.product.product.valid_from),
+                             controller.product.product.offer_from),
                        )
                      ],
                    )
