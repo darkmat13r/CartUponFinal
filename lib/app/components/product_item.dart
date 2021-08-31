@@ -29,7 +29,6 @@ class ProductItem extends StatefulWidget {
 class _ProductItemState extends State<ProductItem>
     with TickerProviderStateMixin {
   final _cartStream = CartStream();
-  bool _showTimer = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,39 +45,41 @@ class _ProductItemState extends State<ProductItem>
 
   Widget _buildProductCard() {
     return Card(
-      child: widget.product.product != null ? Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Expanded(
-            child: Container(
-                width: double.infinity,
-                height: Dimens.thumbImageHeight,
-                child: AppImage(widget.product.product != null
-                    ? widget.product.product.thumb_img
-                    : "")),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: Dimens.spacingMedium,
-                vertical: Dimens.spacingNormal),
-            child: Column(
+      child: widget.product.product != null
+          ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Flexible(
-                  child: Text(
-                    widget.product != null && widget.product.name != null
-                        ? widget.product.name
-                        : "",
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: bodyTextNormal1.copyWith(color: AppColors.primary),
-                  ),
+                Expanded(
+                  child: Container(
+                      width: double.infinity,
+                      height: Dimens.thumbImageHeight,
+                      child: AppImage(widget.product.product != null
+                          ? widget.product.product.thumb_img
+                          : "")),
                 ),
-                /*Text(
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: Dimens.spacingMedium,
+                      vertical: Dimens.spacingNormal),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          widget.product != null && widget.product.name != null
+                              ? widget.product.name
+                              : "",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: bodyTextNormal1.copyWith(
+                              color: AppColors.primary),
+                        ),
+                      ),
+                      /*Text(
                   widget.product != null &&
                           widget.product.short_description != null
                       ? widget.product.short_description
@@ -87,61 +88,80 @@ class _ProductItemState extends State<ProductItem>
                   maxLines: 1,
                   style: captionNormal1.copyWith(color: AppColors.neutralGray),
                 ),*/
-                SizedBox(
-                  height: Dimens.spacingSmall,
-                ),
-                _countdownView(widget.product),
-                SizedBox(
-                  height: Dimens.spacingSmall,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        widget.product != null &&
-                                double.parse(widget.product.product.price) > double.parse(widget.product.product.sale_price)
-                            ? Text(
-                                Utility.currencyFormat(widget.product != null
-                                    ? widget.product.product.price
-                                    : "0"),
-                                style: captionNormal2.copyWith(
-                                    color: AppColors.neutralGray,
-                                    decoration: TextDecoration.lineThrough),
-                              )
-                            : SizedBox(),
-                        Text(
-                          Utility.currencyFormat(widget.product != null
-                              ? _showTimer ? widget.product.product.offer_price : widget.product.product.sale_price
-                              : "0"),
-                          style: bodyTextNormal1.copyWith(
-                              color: AppColors.primary),
-                        )
-                      ],
-                    ),
-                    Expanded(
-                      child: SizedBox(),
-                    ),
-                    InkWell(
-                      child: Icon(
-                        MaterialCommunityIcons.cart_plus,
-                        color: AppColors.accent,
+                      SizedBox(
+                        height: Dimens.spacingSmall,
                       ),
-                      onTap: () {
-                       /* showGenericSnackbar(
-                            context, LocaleKeys.itemAddedToCart.tr());*/
-                        _cartStream.addToCart(widget.product.product, null);
-                      },
-                    ),
-                  ],
+                      _countdownView(widget.product),
+                      SizedBox(
+                        height: Dimens.spacingSmall,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Visibility(
+                                visible: widget.product.product != null &&
+                                    widget.product.product.stock <= 0,
+                                child: Text(
+                                  LocaleKeys.outOfStock.tr(),
+                                  style: captionNormal2.copyWith(
+                                      color: AppColors.error),
+                                ),
+                              ),
+                              widget.product != null &&
+                                      double.parse(
+                                              widget.product.product.dis_per) >
+                                          0
+                                  ? Text(
+                                      Utility.currencyFormat(
+                                          widget.product != null
+                                              ? widget.product.product.price
+                                              : "0"),
+                                      style: captionNormal2.copyWith(
+                                          color: AppColors.neutralGray,
+                                          decoration:
+                                              TextDecoration.lineThrough),
+                                    )
+                                  : SizedBox(),
+                              Text(
+                                Utility.currencyFormat(widget.product != null
+                                    ? widget.product.product.sale_price
+                                    : "0"),
+                                style: bodyTextNormal1.copyWith(
+                                    color: AppColors.primary),
+                              )
+                            ],
+                          ),
+                          Expanded(
+                            child: SizedBox(),
+                          ),
+                          Visibility(
+                            visible: widget.product.product != null &&
+                                widget.product.product.stock > 0,
+                            child: InkWell(
+                              child: Icon(
+                                MaterialCommunityIcons.cart_plus,
+                                color: AppColors.accent,
+                              ),
+                              onTap: () {
+                                /* showGenericSnackbar(
+                              context, LocaleKeys.itemAddedToCart.tr());*/
+                                _cartStream.addToCart(
+                                    widget.product.product, null);
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 )
               ],
-            ),
-          )
-        ],
-      ) : SizedBox(),
+            )
+          : SizedBox(),
     );
   }
 
@@ -155,13 +175,8 @@ class _ProductItemState extends State<ProductItem>
     if (product.product.valid_to != null &&
         product.product.valid_from != null) {
       return CountdownView(
-        isValidTime: (isValid){
-          setState(() {
-            _showTimer = isValid;
-          });
-      },
-        validFrom: DateHelper.parseServerDateTime(product.product.offer_from),
-        validTo: DateHelper.parseServerDateTime(product.product.offer_to),
+        validFrom: DateHelper.parseServerDateTime(product.product.valid_from),
+        validTo: DateHelper.parseServerDateTime(product.product.valid_to),
       );
     }
     return SizedBox();

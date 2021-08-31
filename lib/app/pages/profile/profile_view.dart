@@ -3,6 +3,7 @@ import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/loading_button.dart';
 import 'package:coupon_app/app/pages/profile/profile_controller.dart';
 import 'package:coupon_app/app/pages/register/register_controller.dart';
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
@@ -17,40 +18,47 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:coupon_app/app/utils/extensions.dart';
 import 'package:group_radio_button/group_radio_button.dart';
-class ProfilePage extends View{
+
+class ProfilePage extends View {
   @override
   State<StatefulWidget> createState() => ProfilePageState();
-
 }
 
-
-class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
-  ProfilePageState() : super(ProfileController(DataAuthenticationRepository(), DataNationalityRepository()));
+class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
+  ProfilePageState()
+      : super(ProfileController(
+            DataAuthenticationRepository(), DataNationalityRepository()));
   final _formKey = GlobalKey<FormState>();
-  @override
-  Widget get view => ControlledWidgetBuilder(builder: (BuildContext ctx, ProfileController controller){
-    return WillPopScope(child: Scaffold(
-      appBar: customAppBar(
-          title: Text(
-            LocaleKeys.updateProfile.tr(),
-            style: heading5.copyWith(color: AppColors.primary),
-          )),
-      key: globalKey,
-      body: _body,
-    ), onWillPop: controller.onWillPop);
-  });
 
-  get _body => ControlledWidgetBuilder(builder: (BuildContext context, ProfileController controller){
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(Dimens.spacingMedium),
-          child: _registerForm(),
-        )
-      ],
-    );
-  });
+  @override
+  Widget get view => ControlledWidgetBuilder(
+          builder: (BuildContext ctx, ProfileController controller) {
+        return WillPopScope(
+            child: Scaffold(
+              appBar: customAppBar(
+                  title: Text(
+                LocaleKeys.updateProfile.tr(),
+                style: heading5.copyWith(color: AppColors.primary),
+              )),
+              key: globalKey,
+              body: _body,
+            ),
+            onWillPop: controller.onWillPop);
+      });
+
+  get _body => ControlledWidgetBuilder(
+          builder: (BuildContext context, ProfileController controller) {
+        return ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(Dimens.spacingMedium),
+              child: _registerForm(),
+            )
+          ],
+        );
+      });
   FocusNode focusNode = new FocusNode();
+
   Widget _registerForm() {
     return ControlledWidgetBuilder<ProfileController>(
       builder: (BuildContext context, ProfileController controller) {
@@ -68,7 +76,6 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
                 height: Dimens.spacingMedium,
               ),
               lastNameField(controller),
-
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
@@ -76,9 +83,7 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
-             emailField(controller),
-
-
+              emailField(controller),
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
@@ -96,12 +101,12 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
                   isLoading: controller.isLoading,
                   onPressed: () {
                     controller.checkForm({
-                      'context' : context,
-                      'formKey' : _formKey,
-                      'globalKey' : globalKey
+                      'context': context,
+                      'formKey': _formKey,
+                      'globalKey': globalKey
                     });
                   },
-                  text:  LocaleKeys.updateProfile.tr(),
+                  text: LocaleKeys.updateProfile.tr(),
                 ),
               ),
             ],
@@ -113,51 +118,50 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
 
   TextFormField firstNameField(ProfileController controller) {
     return TextFormField(
-              controller: controller.firstNameController,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return LocaleKeys.errorFirstNameRequired.tr();
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                  prefixIcon: Icon(MaterialCommunityIcons.account),
-                  hintText: LocaleKeys.firstName.tr()),
-            );
+      controller: controller.firstNameController,
+      validator: (value) {
+        if (value.isEmpty) {
+          return LocaleKeys.errorFirstNameRequired.tr();
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          prefixIcon: Icon(MaterialCommunityIcons.account),
+          hintText: LocaleKeys.firstName.tr()),
+    );
   }
 
   TextFormField lastNameField(ProfileController controller) {
     return TextFormField(
-              controller: controller.lastNameController,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return LocaleKeys.errorLastNameRequired.tr();
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                  hintText: LocaleKeys.lastName.tr()),
-            );
+      controller: controller.lastNameController,
+      validator: (value) {
+        if (value.isEmpty) {
+          return LocaleKeys.errorLastNameRequired.tr();
+        }
+        return null;
+      },
+      decoration: InputDecoration(hintText: LocaleKeys.lastName.tr()),
+    );
   }
 
   TextFormField dobField(ProfileController controller, BuildContext context) {
     return TextFormField(
-              controller: controller.dobController,
-              focusNode: focusNode,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return LocaleKeys.errorDateOfBirthRequired.tr();
-                }
-                return null;
-              },
-              onTap: (){
-                focusNode.unfocus();
-                _selectDate(context, controller);
-              },
-              decoration: InputDecoration(
-                  prefixIcon: Icon(MaterialCommunityIcons.calendar),
-                  hintText: LocaleKeys.dob.tr()),
-            );
+      controller: controller.dobController,
+      focusNode: focusNode,
+      validator: (value) {
+        if (value.isEmpty) {
+          return LocaleKeys.errorDateOfBirthRequired.tr();
+        }
+        return null;
+      },
+      onTap: () {
+        focusNode.unfocus();
+        _selectDate(context, controller);
+      },
+      decoration: InputDecoration(
+          prefixIcon: Icon(MaterialCommunityIcons.calendar),
+          hintText: LocaleKeys.dob.tr()),
+    );
   }
 
   Widget mobileNumberField(ProfileController controller) {
@@ -176,7 +180,12 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
               return null;
             },*/
             decoration: InputDecoration(
-                fillColor: AppColors.neutralLightGray,
+                // fillColor: AppColors.neutralLightGray,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: AppColors.neutralLightGray,
+                      width: Dimens.borderWidth),
+                ),
                 labelText: LocaleKeys.phoneNumber.tr(),
                 prefixIcon: Icon(MaterialCommunityIcons.phone),
                 hintText: LocaleKeys.phoneNumber.tr()),
@@ -185,6 +194,7 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
       ],
     );
   }
+
   Widget emailField(ProfileController controller) {
     return Row(
       children: [
@@ -192,10 +202,14 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
           child: TextFormField(
             keyboardType: TextInputType.emailAddress,
             enabled: false,
-
             controller: controller.emailController,
             decoration: InputDecoration(
-              fillColor: AppColors.neutralLightGray,
+                // fillColor: AppColors.neutralLightGray,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: AppColors.neutralLightGray,
+                      width: Dimens.borderWidth),
+                ),
                 labelText: LocaleKeys.email.tr(),
                 prefixIcon: Icon(MaterialCommunityIcons.email),
                 hintText: LocaleKeys.email.tr()),
@@ -204,92 +218,108 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
       ],
     );
   }
+
   dialCode(ProfileController controller) {
     return Container(
       decoration: BoxDecoration(
-          color: AppColors.neutralLightGray,
+          // color: AppColors.neutralLightGray,
           borderRadius: BorderRadius.circular(Dimens.cornerRadius),
-          border: Border.all(color: AppColors.neutralLightGray, width: Dimens.borderWidth)
-      ),
+          border: Border.all(
+              color: AppColors.neutralLightGray, width: Dimens.borderWidth)),
       child: controller.selectedCountry != null
           ? Padding(
-        padding: const EdgeInsets.symmetric(horizontal : Dimens.spacingMedium, vertical: Dimens.spacingNormal + 4),
-        child: Text(
-          (controller.selectedCountry.dial_code.startsWith("+") ?  "" : "+") +controller.selectedCountry.dial_code,
-          style: bodyTextMedium2.copyWith(color: AppColors.neutralDark),
-        ),
-      )
-          : Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: Dimens.spacingMedium,
-            vertical: Dimens.spacingNormal + 4),
-            child: CountryCodePicker(
-        onChanged: (CountryCode value) {
-            controller.countryCode = value.dialCode;
-        },
-        onInit: (CountryCode value) {
-            controller.countryCode = value.dialCode;
-        },
-        showCountryOnly: false,
-        showFlag: false,
-        showOnlyCountryWhenClosed: false,
-        padding: EdgeInsets.all(12),
-        builder: (CountryCode countryCode) {
-            return Padding(
-              padding:
-              const EdgeInsets.only(right: Dimens.spacingMedium),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: Dimens.spacingMedium,
+                  vertical: Dimens.spacingNormal + 4),
               child: Text(
-                countryCode.dialCode,
-                style: bodyTextNormal1,
+                (controller.selectedCountry.dial_code.startsWith("+")
+                        ? ""
+                        : "+") +
+                    controller.selectedCountry.dial_code,
+                style: bodyTextMedium2.copyWith(color: AppColors.neutralDark),
               ),
-            );
-        },
-      ),
-          ),
+            )
+          : Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: Dimens.spacingMedium,
+                  vertical: Dimens.spacingNormal + 4),
+              child: CountryCodePicker(
+                onChanged: (CountryCode value) {
+                  controller.countryCode = value.dialCode;
+                },
+                onInit: (CountryCode value) {
+                  controller.countryCode = value.dialCode;
+                },
+                showCountryOnly: false,
+                showFlag: false,
+                showOnlyCountryWhenClosed: false,
+                padding: EdgeInsets.all(12),
+                builder: (CountryCode countryCode) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: Dimens.spacingMedium),
+                    child: Text(
+                      countryCode.dialCode,
+                      style: bodyTextNormal1,
+                    ),
+                  );
+                },
+              ),
+            ),
     );
   }
+
   nationalities(ProfileController controller) {
     return DropdownSearch<Nationality>(
       label: LocaleKeys.nationality.tr(),
       mode: Mode.DIALOG,
       enabled: controller.nationalities != null,
       selectedItem: controller.nationality,
-      popupTitle:Padding(
+      popupTitle: Padding(
         padding: const EdgeInsets.all(Dimens.spacingMedium),
-        child: Text( LocaleKeys.nationality.tr(), style: heading6,),
+        child: Text(
+          LocaleKeys.nationality.tr(),
+          style: heading6,
+        ),
       ),
       showSearchBox: true,
       onFind: (String filter) => controller.getFilterNationality(filter),
-      itemAsString: (Nationality u) => u.country_name,
+      itemAsString: (Nationality u) => Config().locale.languageCode == "en"
+          ? u.country_name
+          : u.country_name_ar,
       onChanged: (Nationality data) => controller.setNationality(data),
     );
   }
 
-  static var titles = [LocaleKeys.titleMr.tr(),LocaleKeys.titleMs.tr(), LocaleKeys.titleMrs.tr()];
-  static var genders = [LocaleKeys.genderMale.tr(),LocaleKeys.genderFemale.tr()];
+  static var titles = [
+    LocaleKeys.titleMr.tr(),
+    LocaleKeys.titleMs.tr(),
+    LocaleKeys.titleMrs.tr()
+  ];
+  static var genders = [
+    LocaleKeys.genderMale.tr(),
+    LocaleKeys.genderFemale.tr()
+  ];
+
   titleRadioButtons(ProfileController controller) {
     return RadioGroup<int>.builder(
       groupValue: controller.title,
       direction: Axis.horizontal,
       spacebetween: 10,
       horizontalAlignment: MainAxisAlignment.start,
-      onChanged: (value) => {
-        controller.setTitle(value)
-      },
-      items: [0,1,2],
+      onChanged: (value) => {controller.setTitle(value)},
+      items: [0, 1, 2],
       itemBuilder: (item) => RadioButtonBuilder(
         titles[item],
       ),
     );
   }
+
   genderRadioButtons(ProfileController controller) {
     return RadioGroup<int>.builder(
       groupValue: controller.gender,
       direction: Axis.horizontal,
-      onChanged: (value) => {
-        controller.setGender(value)
-      },
-      items: [0,1],
+      onChanged: (value) => {controller.setGender(value)},
+      items: [0, 1],
       spacebetween: 10,
       horizontalAlignment: MainAxisAlignment.start,
       itemBuilder: (item) => RadioButtonBuilder(
@@ -297,8 +327,8 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
       ),
     );
   }
-  _selectDate(BuildContext context, ProfileController controller) async {
 
+  _selectDate(BuildContext context, ProfileController controller) async {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: controller.dob == null ? DateTime.now() : controller.dob,
@@ -308,6 +338,7 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
     );
     if (picked != null && picked != controller.dob) controller.setDob(picked);
   }
+
   void showCountryPicker(ProfileController controller) {
     return;
     showDialog(
@@ -326,33 +357,43 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController>{
                         controller.countries != null
                             ? controller.countries.length
                             : 0,
-                            (index) => InkWell(
-                          onTap: () {
-                            controller.setSelectedCountry(
-                                controller.countries[index]);
-                            Navigator.pop(context);
-                          },
-                          child: Padding(
-                            padding:
-                            const EdgeInsets.all(Dimens.spacingNormal),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Row(
-                                children: [
-                                  Text(
-                                    (controller.countries[index].dial_code.startsWith("+") ?  "" : "+") +controller.countries[index].dial_code, style: bodyTextMedium2,),
-                                  SizedBox(
-                                    width: Dimens.spacingNormal,
+                        (index) => InkWell(
+                              onTap: () {
+                                controller.setSelectedCountry(
+                                    controller.countries[index]);
+                                Navigator.pop(context);
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.all(Dimens.spacingNormal),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        (controller.countries[index].dial_code
+                                                    .startsWith("+")
+                                                ? ""
+                                                : "+") +
+                                            controller
+                                                .countries[index].dial_code,
+                                        style: bodyTextMedium2,
+                                      ),
+                                      SizedBox(
+                                        width: Dimens.spacingNormal,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          controller
+                                              .countries[index].country_name,
+                                          style: bodyTextMedium2,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      controller.countries[index].country_name, style: bodyTextMedium2,),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        ))),
+                            ))),
               ),
             ),
           );

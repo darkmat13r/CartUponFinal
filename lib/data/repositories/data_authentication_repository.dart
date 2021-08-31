@@ -257,12 +257,29 @@ class DataAuthenticationRepository implements AuthenticationRepository {
   Future<Customer> authenticateFacebook({String accessToken}) async {
     try {
       Map<String, String> headers = {
-        HttpHeaders.contentTypeHeader: "application/json",
-        HttpHeaders.connectionHeader: "keep-alive",
+
       };
       Map<String, dynamic> body = await HttpHelper.invokeHttp(
-          Constants.registerRoute, RequestType.post,
-          headers: headers, body: {"token": accessToken});
+          Constants.facebookRoute, RequestType.post,
+          headers: headers, body: {"access_token": accessToken});
+      Customer token = Customer.fromJson(body);
+      SessionHelper().saveCredentials(token: token.token, user: token);
+      _logger.finest('Registration is successful');
+      return token;
+    } catch (error) {
+      _logger.warning('Could not register new user.', error);
+      rethrow;
+    }
+  }
+  @override
+  Future<Customer> authenticateGoogle({String accessToken}) async {
+    try {
+      Map<String, String> headers = {
+
+      };
+      Map<String, dynamic> body = await HttpHelper.invokeHttp(
+          Constants.googleRoute, RequestType.post,
+          headers: headers, body: {"access_token": accessToken});
       Customer token = Customer.fromJson(body);
       SessionHelper().saveCredentials(token: token.token, user: token);
       _logger.finest('Registration is successful');

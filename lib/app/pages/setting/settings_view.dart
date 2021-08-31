@@ -72,8 +72,12 @@ class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
                 Expanded(
                   child: Text(
                     controller.newSelectedCountry != null
-                        ? controller.newSelectedCountry.country_name
-                        : ( controller.selectedCountry != null ? controller.selectedCountry.country_name :""),
+                        ? (Config().locale.languageCode == "en"
+                            ? controller.newSelectedCountry.country_name
+                            : controller.newSelectedCountry.country_name_ar)
+                        : (controller.selectedCountry != null
+                            ? controller.selectedCountry.country_name
+                            : ""),
                     style:
                         bodyTextMedium1.copyWith(color: AppColors.neutralDark),
                   ),
@@ -102,7 +106,9 @@ class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
               },
               leading: _createLanguage("EN"),
               title: Text(LocaleKeys.languageEnglish.tr()),
-              trailing:  (controller.languageCode != null ? controller.languageCode.toLowerCase() == "en" : true)
+              trailing: (controller.languageCode != null
+                      ? controller.languageCode.toLowerCase() == "en"
+                      : true)
                   ? Icon(
                       Feather.check_circle,
                       color: AppColors.accent,
@@ -115,7 +121,9 @@ class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
               },
               leading: _createLanguage("AR"),
               title: Text(LocaleKeys.languageArabic.tr()),
-              trailing:(controller.languageCode != null ?  controller.languageCode.toLowerCase() == "ar" : false)
+              trailing: (controller.languageCode != null
+                      ? controller.languageCode.toLowerCase() == "ar"
+                      : false)
                   ? Icon(
                       Feather.check_circle,
                       color: AppColors.accent,
@@ -154,7 +162,7 @@ class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
             content: SingleChildScrollView(
               child: Material(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: List.generate(
                         controller.countries != null
                             ? controller.countries.length
@@ -170,8 +178,9 @@ class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
                                     const EdgeInsets.all(Dimens.spacingNormal),
                                 child: SizedBox(
                                   width: double.infinity,
-                                  child: Text(
-                                      controller.countries[index].country_name),
+                                  child: Text(Config().locale.languageCode == "en"
+                                  ? controller.countries[index].country_name
+                                  : controller.countries[index].country_name_ar),
                                 ),
                               ),
                             ))),

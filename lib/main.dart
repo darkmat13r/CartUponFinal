@@ -5,6 +5,8 @@ import 'package:coupon_app/app/pages/splash/splash_view.dart';
 import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -18,6 +20,7 @@ import 'package:logger/logger.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
 
   Locale userSelectedLocale = await SessionHelper().getLanguage();
 
@@ -97,14 +100,14 @@ class MyAppState extends State<MyApp> {
   }
 
     _myApp(){
-
+      FirebaseAnalytics analytics = FirebaseAnalytics();
       return MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: appTheme(context),
         home: SplashPage(),
         onGenerateRoute: _router.getRoute,
-        navigatorObservers: [_router.routeObserver],
+        navigatorObservers: [_router.routeObserver, FirebaseAnalyticsObserver(analytics: analytics),],
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,

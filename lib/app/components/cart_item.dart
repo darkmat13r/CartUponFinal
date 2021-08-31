@@ -11,13 +11,15 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class CartItemView extends StatefulWidget {
   final CartItem item;
+  final bool inStock;
 
   final Function onAdd;
   final Function onDelete;
   final Function onRemove;
   final Function onSelect;
 
-  CartItemView(this.item, {this.onAdd, this.onDelete, this.onRemove, this.onSelect});
+  CartItemView(this.item,
+      {this.onAdd, this.onDelete, this.onRemove, this.onSelect, this.inStock});
 
   @override
   State<StatefulWidget> createState() => CartItemViewState();
@@ -32,9 +34,11 @@ class CartItemViewState extends State<CartItemView> {
       padding: const EdgeInsets.fromLTRB(
           Dimens.spacingNormal, Dimens.spacingNormal, Dimens.spacingNormal, 0),
       child: InkWell(
-        onTap: widget.onSelect != null ? (){
-          widget.onSelect(widget.item);
-        } : null,
+        onTap: widget.onSelect != null
+            ? () {
+                widget.onSelect(widget.item);
+              }
+            : null,
         child: Card(
           child: IntrinsicHeight(
             child: Row(
@@ -42,10 +46,10 @@ class CartItemViewState extends State<CartItemView> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(Dimens.spacingNormal),
-                  child: ProductThumbnail(widget.item != null &&
-                          widget.item.product_id != null
-                      ? widget.item.product_id.thumb_img
-                      : ""),
+                  child: ProductThumbnail(
+                      widget.item != null && widget.item.product_id != null
+                          ? widget.item.product_id.thumb_img
+                          : ""),
                 ),
                 Expanded(
                   child: Column(
@@ -60,11 +64,14 @@ class CartItemViewState extends State<CartItemView> {
                             const EdgeInsets.only(left: Dimens.spacingMedium),
                         child: Text(
                           widget.item != null &&
-                                  widget.item.product_id != null && widget.item.product_id.product_detail != null
-                              ? widget.item.product_id.product_detail.name ?? "-"
+                                  widget.item.product_id != null &&
+                                  widget.item.product_id.product_detail != null
+                              ? widget.item.product_id.product_detail.name ??
+                                  "-"
                               : "-",
                           maxLines: 1,
-                          style: heading6.copyWith(color: AppColors.neutralDark),
+                          style:
+                              heading6.copyWith(color: AppColors.neutralDark),
                         ),
                       ),
                       SizedBox(
@@ -72,34 +79,49 @@ class CartItemViewState extends State<CartItemView> {
                       ),
                       Padding(
                         padding:
-                        const EdgeInsets.only(left: Dimens.spacingMedium),
+                            const EdgeInsets.only(left: Dimens.spacingMedium),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
-                              child: Text(
-                                Utility.getCartItemPrice(widget.item),
-                                style: heading6.copyWith(color: AppColors.primary),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Visibility(
+                                    visible: !widget.inStock,
+                                    child: Text(
+                                      LocaleKeys.outOfStock.tr(),
+                                      style: captionNormal2.copyWith(
+                                          color: AppColors.error),
+                                    ),
+                                  ),
+                                  Text(
+                                    Utility.getCartItemPrice(widget.item),
+                                    style: heading6.copyWith(
+                                        color: AppColors.primary),
+                                  ),
+                                ],
                               ),
                             ),
                             QuantityButton(
                               widget.item.qty,
+                              inStock: widget.inStock,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               max: widget.item.variant_value_id != null
                                   ? widget.item.variant_value_id.stock
                                   : widget.item.product_id.stock,
-                              onAdd: (qty){
-                                if(widget.onAdd != null){
+                              onAdd: (qty) {
+                                if (widget.onAdd != null) {
                                   widget.onAdd(widget.item, qty);
                                 }
                               },
-                              onDelete: (){
-                                if(widget.onDelete != null){
+                              onDelete: () {
+                                if (widget.onDelete != null) {
                                   widget.onDelete(widget.item);
                                 }
                               },
-                              onRemove: (qty){
-                                if(widget.onRemove != null){
+                              onRemove: (qty) {
+                                if (widget.onRemove != null) {
                                   widget.onRemove(widget.item, qty);
                                 }
                               },
@@ -110,7 +132,6 @@ class CartItemViewState extends State<CartItemView> {
                     ],
                   ),
                 ),
-
                 SizedBox(
                   width: Dimens.spacingMedium,
                 ),

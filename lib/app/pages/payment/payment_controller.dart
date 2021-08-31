@@ -11,9 +11,11 @@ import 'package:coupon_app/app/pages/payment/payment_presenter.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/domain/entities/user_entity.dart';
 import 'package:logger/logger.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentController extends BaseController {
   PaymentPresenter _presenter;
+  WebViewController webViewController;
   var progressHUD;
   var result = false;
 
@@ -31,6 +33,7 @@ class PaymentController extends BaseController {
 
   void processResponse(String message, bool isWallet) async {
     Map<String, dynamic> response = jsonDecode(message);
+    loadEmptyUrl();
     if (response['Result'] == "COMPLETED" ||
         response['Result'] == "APPROVED" ||
         response['Result'] == "CAPTURED") {
@@ -59,6 +62,12 @@ class PaymentController extends BaseController {
       });
     }
     // ;
+  }
+
+  void loadEmptyUrl(){
+    if(webViewController != null){
+      webViewController.loadUrl('about:blank');
+    }
   }
 
   void paymentSuccessRedirect(bool isWallet) {

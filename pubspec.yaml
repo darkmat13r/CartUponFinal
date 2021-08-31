@@ -61,6 +61,7 @@ dependencies:
   pin_code_fields: ^7.2.0
   pinch_zoom: ^0.1.0
   firebase_core: "^1.3.0"
+  firebase_analytics: ^8.2.0
   firebase_messaging: ^10.0.3
   dart_ipify: ^1.0.2
   google_sign_in: ^5.0.4

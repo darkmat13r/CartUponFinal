@@ -12,7 +12,7 @@ class DateHelper {
     return formatElapsedTime(timeRemaining);
   }
   static DateTime parseServerDateTime(String serverDate) {
-    return DateTime.parse(serverDate);
+    return DateTime.parse(serverDate).toLocal();
   }
   static isValidTime(String dateFrom, String dateTo){
     var isValid = false;

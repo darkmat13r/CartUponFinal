@@ -25,9 +25,9 @@ abstract class AuthenticationRepository {
   Future<Customer> authenticate(
       {@required String email, @required String password});
 
+  Future<Customer> authenticateFacebook({@required String accessToken});
 
-  Future<Customer> authenticateFacebook(
-      {@required String accessToken});
+  Future<Customer> authenticateGoogle({@required String accessToken});
 
   /// Returns whether the [UserEntity] is authenticated.
   Future<bool> isAuthenticated();
@@ -56,5 +56,6 @@ abstract class AuthenticationRepository {
       String dateOfBirth,
       String isActive});
 
-  Future<Customer> updatePassword({String current , String password, String passwordRepeat});
+  Future<Customer> updatePassword(
+      {String current, String password, String passwordRepeat});
 }
