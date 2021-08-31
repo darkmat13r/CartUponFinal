@@ -16,12 +16,15 @@ class Product {
   List<ProductGallery> product_gallery;
   List<ProductVariant> product_variants;
   String sale_price;
+  String offer_price;
   String sku;
   int stock;
   String thumb_img;
   String title;
   String uid;
   String valid_from;
+  String offer_from;
+  String offer_to;
   int category_id;
   Category category;
   String valid_to;
@@ -37,6 +40,7 @@ class Product {
       this.category_id,
       this.product_variants,
       this.sale_price,
+      this.offer_price,
       this.sku,
       this.stock,
       this.thumb_img,
@@ -45,6 +49,8 @@ class Product {
       this.valid_from,
       this.category,
       this.valid_to,
+      this.offer_from,
+      this.offer_to,
       this.product_detail,
       this.product_details});
 
@@ -67,12 +73,15 @@ class Product {
           .toList()
           : null,
       sale_price: json['sale_price'].toString(),
+      offer_price: json['offer_price'].toString(),
       sku: json['sku'],
       stock: json['stock'],
       thumb_img: json['thumb_img'] != null ? json['thumb_img'].toString().contains("http") ? json['thumb_img'] : "${Constants.baseUrlWithoutV1}${json['thumb_img']}" : "",
       title: json['title'],
       uid: json['uid'],
       valid_from: json['valid_from'] != null ? json['valid_from'] : null,
+      offer_from: json['offer_from'] != null ? json['offer_from'] : null,
+      offer_to: json['offer_to'] != null ? json['offer_to'] : null,
       valid_to: json['valid_to'] != null ? json['valid_to'] : null,
       product_details: json['product_detail'] != null
           ? (json['product_detail'] as List)

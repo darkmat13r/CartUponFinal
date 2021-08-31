@@ -14,6 +14,19 @@ class DateHelper {
   static DateTime parseServerDateTime(String serverDate) {
     return DateTime.parse(serverDate).toLocal();
   }
+  static isValidTime(String dateFrom, String dateTo){
+    var isValid = false;
+    if (dateFrom == null && dateTo == null) {
+      return false;
+    }
+    var validFrom = dateFrom;
+    var validTo = dateTo;
+    if (validFrom != null &&
+        validTo != null) {
+    //  isValid = validFrom.toUtc().isBefore(validTo.toUtc()) && validTo.toUtc().isAfter(DateTime.now());
+    }
+    return isValid;
+  }
 
   static String formatElapsedTime(Duration d) {
     var seconds = d.inSeconds;
