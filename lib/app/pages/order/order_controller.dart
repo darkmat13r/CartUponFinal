@@ -121,6 +121,7 @@ class OrderController extends BaseController {
           this.orderDetail =response.orderDetail;
         }
         this.rating = response.rating;
+        Logger().e(this.orderDetail.toJson());
       }
     };
     _presenter.getOrderDetailsOnError = (error) {

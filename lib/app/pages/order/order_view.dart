@@ -237,31 +237,30 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
       });
 
   Widget _paymentDetails(OrderController controller) {
-    return controller.orderDetail != null
-        ? Padding(
-            padding: const EdgeInsets.all(Dimens.spacingNormal),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(Dimens.spacingMedium),
-                child: Column(
-                  children: [
-                    _detailItem(LocaleKeys.items.tr(args: ["1"]),
-                        Utility.currencyFormat(controller.orderDetail.price)),
-                    DotWidget(
-                      color: AppColors.neutralGray,
-                    ),
-                    _detailItem(
-                        LocaleKeys.shipping.tr(),
-                        Utility.currencyFormat(
-                            controller.orderDetail.order.shipping_total)),
-                    _detailItem(LocaleKeys.totalPrice.tr(),
-                        Utility.currencyFormat(controller.orderDetail.price)),
-                  ],
-                ),
+    return
+        Visibility(child: Padding(
+          padding: const EdgeInsets.all(Dimens.spacingNormal),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(Dimens.spacingMedium),
+              child: Column(
+                children: [
+                  _detailItem(LocaleKeys.items.tr(args: [controller.orderDetail.qty.toString()]),
+                      Utility.currencyFormat(controller.orderDetail.price)),
+                  DotWidget(
+                    color: AppColors.neutralGray,
+                  ),
+                  _detailItem(
+                      LocaleKeys.shipping.tr(),
+                      Utility.currencyFormat(
+                          controller.orderDetail.order.shipping_total)),
+                  _detailItem(LocaleKeys.totalPrice.tr(),
+                      Utility.currencyFormat(controller.orderDetail.order.total)),
+                ],
               ),
             ),
-          )
-        : SizedBox();
+          ),
+        ), visible: controller.orderDetail != null,);
   }
 
   Widget _orderDetails(OrderController controller) {

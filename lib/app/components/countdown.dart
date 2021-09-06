@@ -16,24 +16,22 @@ class CountdownView extends StatefulWidget{
   CountdownView({this.validFrom, this.validTo, this.showIcon, this.textStyle, this.isValidTime});
 
   @override
-  State<StatefulWidget> createState() => _CountdownViewState();
+  State<StatefulWidget> createState() => _CountdownViewState(isValidTime);
 
 }
 
 class _CountdownViewState extends State<CountdownView>{
   Timer _timer;
   String _elapsedTime;
+  Function isValidTime;
 
-  _CountdownViewState(){
-
+  _CountdownViewState(this.isValidTime){
   }
 
   @override
   Widget build(BuildContext context) {
     _createTimer();
-    if(widget.isValidTime  != null ){
-      widget.isValidTime(_isValidToValid());
-    }
+
     return _elapsedTime != null && _isValidToValid()
         ? Row(
       children: [
@@ -63,11 +61,7 @@ class _CountdownViewState extends State<CountdownView>{
     }
     var validFrom = widget.validFrom;
     var validTo = widget.validTo;
-    if (validFrom != null &&
-        validTo != null) {
-      isValid = validFrom.toUtc().isBefore(validTo.toUtc()) && validTo.toUtc().isAfter(DateTime.now());
-    }
-    return isValid;
+    return DateHelper.isValidTime(validFrom, validTo);
   }
 
   _createTimer() {

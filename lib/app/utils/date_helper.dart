@@ -14,7 +14,7 @@ class DateHelper {
   static DateTime parseServerDateTime(String serverDate) {
     return DateTime.parse(serverDate).toLocal();
   }
-  static isValidTime(String dateFrom, String dateTo){
+  static isValidTime(DateTime dateFrom, DateTime dateTo){
     var isValid = false;
     if (dateFrom == null && dateTo == null) {
       return false;
@@ -23,7 +23,7 @@ class DateHelper {
     var validTo = dateTo;
     if (validFrom != null &&
         validTo != null) {
-    //  isValid = validFrom.toUtc().isBefore(validTo.toUtc()) && validTo.toUtc().isAfter(DateTime.now());
+      isValid = validFrom.toUtc().isBefore(validTo.toUtc()) && validTo.toUtc().isAfter(DateTime.now());
     }
     return isValid;
   }

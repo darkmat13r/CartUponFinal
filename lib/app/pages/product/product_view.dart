@@ -242,8 +242,8 @@ class ProductPageView
   }
 
   Widget _elapsedTime(ProductController controller) {
-    return controller.product.product.valid_from != null &&
-            controller.product.product.valid_to != null
+    return controller.product.product.offer_from != null &&
+            controller.product.product.offer_to != null
         ? Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -278,9 +278,9 @@ class ProductPageView
                                 controller.isValidTime(isValid);
                               },
                               validTo: DateHelper.parseServerDateTime(
-                                  controller.product.product.valid_to),
+                                  controller.product.product.offer_from),
                               validFrom: DateHelper.parseServerDateTime(
-                                  controller.product.product.valid_from),
+                                  controller.product.product.offer_to),
                             )
                           ],
                         )

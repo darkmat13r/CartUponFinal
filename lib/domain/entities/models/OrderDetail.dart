@@ -44,6 +44,8 @@ class OrderDetail {
         data['price'] = this.price;
         data['qty'] = this.qty;
         data['detail_status'] = this.detail_status;
+        if (this.order != null)
+        data['order'] = this.order.toJson();
         if (this.product_id != null) {
             data['product_id'] = this.product_id.toJson();
         }

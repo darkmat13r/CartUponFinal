@@ -29,7 +29,7 @@ class ProductItem extends StatefulWidget {
 class _ProductItemState extends State<ProductItem>
     with TickerProviderStateMixin {
   final _cartStream = CartStream();
-
+  bool _showTimer = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -113,8 +113,9 @@ class _ProductItemState extends State<ProductItem>
                               ),
                               widget.product != null &&
                                       double.parse(
-                                              widget.product.product.dis_per) >
-                                          0
+                                              widget.product.product.price) >
+                                          double.parse(
+                                              widget.product.product.sale_price)
                                   ? Text(
                                       Utility.currencyFormat(
                                           widget.product != null
@@ -128,7 +129,7 @@ class _ProductItemState extends State<ProductItem>
                                   : SizedBox(),
                               Text(
                                 Utility.currencyFormat(widget.product != null
-                                    ? widget.product.product.sale_price
+                                    ? _showTimer ? widget.product.product.offer_price :  widget.product.product.sale_price
                                     : "0"),
                                 style: bodyTextNormal1.copyWith(
                                     color: AppColors.primary),
@@ -172,12 +173,19 @@ class _ProductItemState extends State<ProductItem>
 
   _countdownView(ProductDetail product) {
     if (product.product == null) return SizedBox();
-    if (product.product.valid_to != null &&
-        product.product.valid_from != null) {
-      return CountdownView(
-        validFrom: DateHelper.parseServerDateTime(product.product.valid_from),
-        validTo: DateHelper.parseServerDateTime(product.product.valid_to),
-      );
+    if (product.product.offer_from != null &&
+        product.product.offer_to != null) {
+      return Visibility(
+        visible: true,
+          child: CountdownView(
+        isValidTime: (showTimer ){
+          setState(() {
+            _showTimer = showTimer;
+          });
+        },
+        validFrom: DateHelper.parseServerDateTime(product.product.offer_from),
+        validTo: DateHelper.parseServerDateTime(product.product.offer_to),
+      ));
     }
     return SizedBox();
   }

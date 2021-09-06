@@ -133,7 +133,7 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
                         child: order != null && order.order != null
                             ? Row(
                           children: [
-                            Text(Utility.currencyFormat(order.price),
+                            Text(Utility.currencyFormat(order.order.total),
                                 style: bodyTextNormal1.copyWith(
                                     color: AppColors.primary)),
                             Expanded(

@@ -20,6 +20,7 @@ import 'package:coupon_app/domain/repositories/whishlist_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:logger/logger.dart';
 import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
 
@@ -91,10 +92,19 @@ class ProductController extends BaseController {
     };
   }
 
+  _checkValidTimer(){
+    if(product.product.offer_from != null && product.product.offer_to != null){
+      isValidTime(DateHelper.isValidTime(DateHelper.parseServerDateTime(
+          product.product.offer_from), DateHelper.parseServerDateTime(
+          product.product.offer_to)));
+    }
+  }
+
   _initGetProductDetailsListeners() {
     _presenter.getProductOnNext = (ProductWithRelated details) {
       this.product = details.productDetail;
       this.similarProducts = details.relatedProducts;
+      _checkValidTimer();
       refreshUI();
     };
     _presenter.getProductOnComplete = () {
@@ -142,6 +152,7 @@ class ProductController extends BaseController {
 
   void isValidTime(isValid) {
     showTimer = isValid;
+    Logger().e("IsValidTime ${showTimer}");
     refreshUI();
   }
 
