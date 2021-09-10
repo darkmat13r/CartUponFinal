@@ -34,6 +34,7 @@ class Constants {
   static var searchRoute = '$baseUrl/search/';
 
   static var homeRoute = '$baseUrl/homecommon';
+  static var webSettingRoute = '$baseUrl/getWebSetting';
 
   static var changePasswordRoute = "$baseUrl/password/change/";
 

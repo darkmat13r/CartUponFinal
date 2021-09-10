@@ -2,15 +2,24 @@ import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
+import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
+import 'package:logger/logger.dart';
 
 class Utility {
   static String currencyFormat(dynamic price) {
     if(price == null){
       return "";
     }
-    if (price is String)
-      return NumberFormat.currency(symbol: "KD").format(double.tryParse(price));
-    return NumberFormat.currency(symbol: "KD").format(price);
+    try{
+      if (price is String){
+        var convertedPrice = double.tryParse(price);
+        return NumberFormat.currency(symbol: "KD").format(convertedPrice);
+      }
+      return NumberFormat.currency(symbol: "KD").format(price);
+    }catch(e){
+      Logger().e("NumberFormatException ${price} ${e}");
+    }
+    return NumberFormat.currency(symbol: "KD").format(0);
   }
 
 
@@ -51,5 +60,12 @@ class Utility {
     }
 
     return string[0].toUpperCase() + string.substring(1);
+  }
+  static bool checkOfferPrice(ProductDetail product, bool showTimer) {
+    var originalPrice = double.parse(product.product.price ?? "0.0");
+    var salePrice = product.product.sale_price != null ?  double.parse(product.product.sale_price ?? "0.0") : 0;
+    var offerPrice = product.product.offer_price != null ? double.parse(product.product.offer_price) :  0.00;
+    return product != null && product.product.price != null &&
+        originalPrice > (showTimer && offerPrice > 0 ? offerPrice : salePrice);
   }
 }

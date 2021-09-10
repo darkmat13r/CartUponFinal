@@ -7,6 +7,7 @@ import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/entities/models/ipdetect/IPDetectResponse.dart';
 import 'package:coupon_app/domain/repositories/coutry_repository.dart';
+import 'package:coupon_app/domain/repositories/home_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,7 +21,7 @@ class SplashController extends Controller {
   Country selectedCountry;
   IPDetectResponse ipDetectResponse;
 
-  SplashController(CountryRepository repo) : _presenter = SplashPresenter(repo);
+  SplashController(CountryRepository repo, HomeRepository _homeRepo) : _presenter = SplashPresenter(repo, _homeRepo);
 
   @override
   void initListeners() {
@@ -45,6 +46,16 @@ class SplashController extends Controller {
     };
     _presenter.getCountriesOnComplete = () {
      // home();
+    };
+
+    _presenter.getWebSettingsOnNext = (response){
+        Config().webSettings = response;
+    };
+    _presenter.getWebSettingsOnComplete =(){
+
+    };
+    _presenter.getWebSettingsOnError = (e){
+
     };
   }
 

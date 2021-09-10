@@ -184,8 +184,7 @@ class ProductPageView
                     style: captionNormal2.copyWith(color: AppColors.error),
                   ),
                 ),
-                controller.product != null &&
-                        double.parse(controller.product.product.dis_per) > 0
+                Utility.checkOfferPrice(controller.product, controller.showTimer)
                     ? Text(
                         Utility.currencyFormat(controller.product != null
                             ? controller.product.product.price
@@ -195,17 +194,19 @@ class ProductPageView
                             decoration: TextDecoration.lineThrough),
                       )
                     : SizedBox(),
+                Text(controller.showTimer.toString()),
                 Text(
                   Utility.currencyFormat(controller.product != null
-                      ? controller.product.product.sale_price
+                      ? controller.showTimer && controller.product.product.offer_price != "0"
+                      ? controller.product.product.offer_price
+                      :  controller.product.product.sale_price
                       : 0),
                   style: bodyTextNormal1.copyWith(color: AppColors.primary),
                 )
               ],
             ),
           ),
-          controller.product != null &&
-                  double.parse(controller.product.product.dis_per) > 0
+          Utility.checkOfferPrice(controller.product, controller.showTimer)
               ? Stack(
                   children: [
                     Image.asset(
@@ -241,9 +242,11 @@ class ProductPageView
     );
   }
 
+
+
   Widget _elapsedTime(ProductController controller) {
-    return controller.product.product.offer_from != null &&
-            controller.product.product.offer_to != null
+    return controller.product.product.valid_from != null &&
+            controller.product.product.valid_to != null
         ? Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -278,9 +281,9 @@ class ProductPageView
                                 controller.isValidTime(isValid);
                               },
                               validTo: DateHelper.parseServerDateTime(
-                                  controller.product.product.offer_from),
-                              validFrom: DateHelper.parseServerDateTime(
                                   controller.product.product.offer_to),
+                              validFrom: DateHelper.parseServerDateTime(
+                                  controller.product.product.offer_from),
                             )
                           ],
                         )

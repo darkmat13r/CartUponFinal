@@ -150,11 +150,14 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             children: [
               InkWell(
                 onTap: () {
-                  openUrl(context, LocaleKeys.terms.tr(), Constants.termsUrl);
+                  openUrl(context, LocaleKeys.whatIsCartUpon.tr(), Constants.termsUrl);
                 },
-                child: Text(
-                  LocaleKeys.terms.tr(),
-                  style: captionNormal1.copyWith(color: AppColors.accent),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    LocaleKeys.whatIsCartUpon.tr(),
+                    style: captionNormal1.copyWith(color: AppColors.accent),
+                  ),
                 ),
               ),
               InkWell(
@@ -162,9 +165,12 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                   openUrl(context, LocaleKeys.privacyPolicy.tr(),
                       Constants.privacyUrl);
                 },
-                child: Text(
-                  LocaleKeys.privacyPolicy.tr(),
-                  style: captionNormal1.copyWith(color: AppColors.accent),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    LocaleKeys.privacyPolicy.tr(),
+                    style: captionNormal1.copyWith(color: AppColors.accent),
+                  ),
                 ),
               ),
             ],
@@ -174,9 +180,12 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             onTap: () {
               openUrl(context, LocaleKeys.aboutUs.tr(), Constants.aboutUsUrl);
             },
-            child: Text(
-              LocaleKeys.aboutUs.tr(),
-              style: captionNormal1.copyWith(color: AppColors.accent),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                LocaleKeys.aboutUs.tr(),
+                style: captionNormal1.copyWith(color: AppColors.accent),
+              ),
             ),
           ),
         ],
@@ -185,6 +194,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   Container _buildFollowUsOn() {
+    var webSettings = Config().webSettings;
     return Container(
       child: Column(
         children: [
@@ -202,16 +212,16 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                   color: AppColors.primary,
                 ),
                 onPressed: () {
-                  openSocialSites(Resources.facebookUrl);
+                  openSocialSites(webSettings != null && webSettings.fb_link != null ? webSettings.fb_link : Resources.facebookUrl);
                 },
               ),
               IconButton(
                 icon: Icon(
-                  FontAwesome.youtube,
+                  FontAwesome.linkedin,
                   color: AppColors.primary,
                 ),
                 onPressed: () {
-                  openSocialSites(Resources.youtubeUrl);
+                  openSocialSites(webSettings != null && webSettings.linkedin_link != null ? webSettings.linkedin_link :Resources.linkedinUrl);
                 },
               ),
               IconButton(
@@ -220,7 +230,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                   color: AppColors.primary,
                 ),
                 onPressed: () {
-                  openSocialSites(Resources.instagramUrl);
+                  openSocialSites(webSettings != null && webSettings.instagram_link != null ? webSettings.instagram_link :Resources.instagramUrl);
                 },
               ),
               IconButton(
@@ -229,7 +239,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                   color: AppColors.primary,
                 ),
                 onPressed: () {
-                  openSocialSites(Resources.twitterUrl);
+                  openSocialSites(webSettings != null && webSettings.twitter_link != null ? webSettings.twitter_link :Resources.twitterUrl);
                 },
               ),
             ],

@@ -2,6 +2,7 @@ import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
 import 'package:coupon_app/domain/entities/models/HomeData.dart';
+import 'package:coupon_app/domain/entities/models/WebSetting.dart';
 import 'package:coupon_app/domain/repositories/home_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:logging/logging.dart';
@@ -34,6 +35,20 @@ class DataHomeRepository extends HomeRepository{
        _logger.finest(e);
        rethrow;
      }
+  }
+
+  @override
+  Future<WebSetting> getWebSettings() async {
+    try{
+      var uri = Constants.createUriWithParams(Constants.webSettingRoute, {
+      });
+      dynamic data = await HttpHelper.invokeHttp(uri, RequestType.get);
+      var result =  WebSetting.fromJson(data);
+      return result;
+    }catch(e){
+      _logger.finest(e);
+      rethrow;
+    }
   }
 
 }

@@ -4,6 +4,7 @@ import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/data/repositories/data_country_repository.dart';
+import 'package:coupon_app/data/repositories/data_home_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -15,7 +16,7 @@ class SettingsPage extends View {
 }
 
 class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
-  _SettingsPageState() : super(SettingsController(DataCountryRepository()));
+  _SettingsPageState() : super(SettingsController(DataCountryRepository(), DataHomeRepository()));
 
   @override
   Widget get view => Scaffold(

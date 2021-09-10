@@ -15,7 +15,7 @@ class Resources {
   static const String shoe = 'assets/images/shoe.png';
   static const String recommended = 'assets/images/recommended.png';
 
-  static const String mainLogo = "assets/images/main_logo.png";
+  static const String mainLogo = "assets/images/main_logo.jpg";
 
   static const String offerTag = "assets/images/tag.png";
   static const String button = "assets/images/button.png";
@@ -45,10 +45,11 @@ class Resources {
   static String facebook = "assets/images/social/facebook.png";
   static String twitter = "assets/images/social/twitter.png";
   static String whatsapp = "assets/images/social/whatsapp.png";
-  static String facebookUrl = "https://www.facebook.com/";
+  static String facebookUrl = "https://www.facebook.com/cartupon";
   static String youtubeUrl = "https://www.youtube.com/";
-  static String instagramUrl = "https://www.instagram.com/";
-  static String twitterUrl = "https://twitter.com/?lang=en";
+  static String linkedinUrl = "https://www.linkedin.com/company/cartupon";
+  static String instagramUrl = "https://www.instagram.com/cart_upon";
+  static String twitterUrl = "https://twitter.com/CartUpon?lang=en";
 }
 
 class AppColors {

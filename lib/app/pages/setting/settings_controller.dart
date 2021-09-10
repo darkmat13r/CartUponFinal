@@ -4,6 +4,7 @@ import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/repositories/coutry_repository.dart';
+import 'package:coupon_app/domain/repositories/home_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
@@ -12,7 +13,7 @@ import 'package:logger/logger.dart';
 import 'package:devicelocale/devicelocale.dart';
 
 class SettingsController extends SplashController {
-  SettingsController(CountryRepository repo) : super(repo) {
+  SettingsController(CountryRepository repo, HomeRepository _homeRepo) : super(repo, _homeRepo) {
     newSelectedCountry = Config().selectedCountry;
     getLanguageCode();
   }

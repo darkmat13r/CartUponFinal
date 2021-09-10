@@ -30,8 +30,12 @@ class _ProductItemState extends State<ProductItem>
     with TickerProviderStateMixin {
   final _cartStream = CartStream();
   bool _showTimer = false;
+
   @override
   Widget build(BuildContext context) {
+    if(mounted){
+      _showTimer = _isValidToValid();
+    }
     return Padding(
         padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
         child: InkWell(
@@ -111,11 +115,8 @@ class _ProductItemState extends State<ProductItem>
                                       color: AppColors.error),
                                 ),
                               ),
-                              widget.product != null &&
-                                      double.parse(
-                                              widget.product.product.price) >
-                                          double.parse(
-                                              widget.product.product.sale_price)
+                              Utility.checkOfferPrice(
+                                      widget.product, _showTimer)
                                   ? Text(
                                       Utility.currencyFormat(
                                           widget.product != null
@@ -127,10 +128,13 @@ class _ProductItemState extends State<ProductItem>
                                               TextDecoration.lineThrough),
                                     )
                                   : SizedBox(),
+
                               Text(
                                 Utility.currencyFormat(widget.product != null
-                                    ? _showTimer ? widget.product.product.offer_price :  widget.product.product.sale_price
-                                    : "0"),
+                                    ? _showTimer && widget.product.product.offer_price != "0"
+                                        ? widget.product.product.offer_price
+                                        : widget.product.product.sale_price
+                                    : 0),
                                 style: bodyTextNormal1.copyWith(
                                     color: AppColors.primary),
                               )
@@ -170,22 +174,32 @@ class _ProductItemState extends State<ProductItem>
   void dispose() {
     super.dispose();
   }
-
+  bool _isValidToValid() {
+    if (widget.product.product == null) return false;
+    var isValid = false;
+    if (widget.product.product.offer_from == null && widget.product.product.offer_to == null) {
+      return false;
+    }
+    var validFrom = widget.product.product.offer_from;
+    var validTo = widget.product.product.offer_to;
+    return DateHelper.isValidTime(DateHelper.parseServerDateTime(validFrom), DateHelper.parseServerDateTime(validTo));
+  }
   _countdownView(ProductDetail product) {
     if (product.product == null) return SizedBox();
     if (product.product.offer_from != null &&
         product.product.offer_to != null) {
       return Visibility(
-        visible: true,
+          visible: true,
           child: CountdownView(
-        isValidTime: (showTimer ){
-          setState(() {
-            _showTimer = showTimer;
-          });
-        },
-        validFrom: DateHelper.parseServerDateTime(product.product.offer_from),
-        validTo: DateHelper.parseServerDateTime(product.product.offer_to),
-      ));
+            isValidTime: (showTimer) {
+              setState(() {
+                _showTimer = showTimer;
+              });
+            },
+            validFrom:
+                DateHelper.parseServerDateTime(product.product.offer_from),
+            validTo: DateHelper.parseServerDateTime(product.product.offer_to),
+          ));
     }
     return SizedBox();
   }

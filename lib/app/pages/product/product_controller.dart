@@ -152,7 +152,6 @@ class ProductController extends BaseController {
 
   void isValidTime(isValid) {
     showTimer = isValid;
-    Logger().e("IsValidTime ${showTimer}");
     refreshUI();
   }
 

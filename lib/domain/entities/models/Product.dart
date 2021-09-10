@@ -73,7 +73,7 @@ class Product {
           .toList()
           : null,
       sale_price: json['sale_price'].toString(),
-      offer_price: json['offer_price'].toString(),
+      offer_price: json['offer_price'] != null ? json['offer_price'].toString() : "0",
       sku: json['sku'],
       stock: json['stock'],
       thumb_img: json['thumb_img'] != null ? json['thumb_img'].toString().contains("http") ? json['thumb_img'] : "${Constants.baseUrlWithoutV1}${json['thumb_img']}" : "",
@@ -113,6 +113,7 @@ class Product {
     data['thumb_img'] = this.thumb_img;
     data['category_id'] = this.category_id;
     data['title'] = this.title;
+    data['sale_price'] = this.offer_price;
     data['uid'] = this.uid;
     if (this.product_gallery != null) {
       data['product_gallery'] =
