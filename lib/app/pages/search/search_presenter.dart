@@ -6,7 +6,7 @@ import 'package:coupon_app/domain/usercases/category/get_category_usecase.dart';
 import 'package:coupon_app/domain/usercases/product/get_product_list_use_case.dart';
 import 'package:coupon_app/domain/usercases/product/search_product_use_case.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:logging/logging.dart';
+import 'package:logger/logger.dart';
 
 class SearchPresenter extends Presenter {
   GetProductListUseCase _getProductListUseCase;
@@ -30,11 +30,11 @@ class SearchPresenter extends Presenter {
       : _getProductListUseCase = GetProductListUseCase(productRepository),
        _searchProductUseCase = SearchProductUseCase(productRepository),
         _getCategoryUseCase = GetCategoryUseCase(categoryRepository) {
-    _logger = Logger("SearchPresenter");
+    _logger = Logger();
   }
 
   searchCategory(CategoryType category, {String filter}) {
-    _logger.finest(category);
+    _logger.e(category);
     if (category != null) {
       _getProductListUseCase.execute(_GetProductListObserver(this),
           ProductFilterParams(categoryId: category.category.id.toString(), filterBy: filter));
@@ -42,7 +42,7 @@ class SearchPresenter extends Presenter {
   }
 
   searchCategoryById(String categoryId, {String filter}) {
-    _logger.finest(categoryId);
+    _logger.e("SearchCategoryByID ${categoryId}");
     if (categoryId != null) {
       _getProductListUseCase.execute(_GetProductListObserver(this),
           ProductFilterParams(categoryId: categoryId.toString(), filterBy: filter));

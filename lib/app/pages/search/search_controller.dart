@@ -10,6 +10,7 @@ import 'package:coupon_app/domain/repositories/category_repository.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:logger/logger.dart';
 
 class Filter {
   String key;
@@ -44,14 +45,13 @@ class SearchController extends BaseController {
 
   fetch() {
     showLoading();
-    if (categoryType != null)
-      _presenter.searchCategory(categoryType,
-          filter: selectedFilter != null ? selectedFilter.key : null);
-    else if (categoryId != null) {
+    if (categoryId != null) {
       _presenter.searchCategoryById(categoryId,
           filter: selectedFilter != null ? selectedFilter.key : null);
-    }
-    if (query != null) {
+    } else if (categoryType != null)
+      _presenter.searchCategory(categoryType,
+          filter: selectedFilter != null ? selectedFilter.key : null);
+    else if (query != null) {
       _presenter.searchByQuery(query,
           filter: selectedFilter != null ? selectedFilter.key : null);
     } else {
