@@ -346,5 +346,8 @@ class LocaleKeys {
   static var hintLandmark = "hintLandmark";
   static var errorLandmarkRequired = "errorLandmarkRequired";
   static var whatIsCartUpon = "whatIsCartUpon";
+  static var inBox = "inBox";
+  static var warranty = "warranty";
+  static var notes = "notes";
 
 }

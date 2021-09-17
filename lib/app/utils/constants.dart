@@ -56,6 +56,7 @@ class AppColors {
   static const Color background = const Color(0xFFFCFCFC);
   static const Color primary = const Color(0xff053e7c);
   static const Color accent = const Color(0xff45c2b5);
+  static const Color expandableBackground = const Color(0x2245c2b5);
   static const Color neutralLight = const Color(0xffffffff);
   static const Color neutralLightGray = const Color(0xffd9dada);
   static const Color neutralGray = const Color(0xffadafaf);

@@ -15,7 +15,7 @@ class Constants {
   static const String loginRoute = '$baseUrl/login/';
   static const String forgotPasswordRoute = '$baseUrl/password/reset/';
   static const String registerRoute = '$baseUrl/customerwebapi/';
-  static const String facebookRoute = '$baseUrlWithoutV1/rest-auth/facebook/';
+  static const String facebookRoute = '$baseUrlWithoutV1/rest-auth/facebook';
   static const String googleRoute = '$baseUrlWithoutV1/rest-auth/google';
   static const String userProfileRoute = '$baseUrl/userCustomerapi/';
   static const String areaRoute = '$baseUrl/areawebapi/';

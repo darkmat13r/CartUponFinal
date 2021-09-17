@@ -40,7 +40,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb4304477512950423</string>
+				<string>fb1521286938230675</string>
 			</array>
 		</dict>
 		<dict>
@@ -48,14 +48,14 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.930867921270-ircfme3e5f3e77ejti61rg462ceb3jic</string>
+				<string>com.googleusercontent.apps.244170329800-96m7bj6ch6obtlrcajb2rh8jpv8u034j</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
-	<string>4304477512950423</string>
+	<string>1521286938230675</string>
 	<key>FacebookDisplayName</key>
 	<string>CartUpon</string>
 	<key>LSApplicationQueriesSchemes</key>

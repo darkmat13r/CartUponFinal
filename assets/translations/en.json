@@ -310,5 +310,8 @@
   "outOfStockMessage": "There are items in your cart that are Out of Stock",
   "landmark" : "Landmark",
   "hintLandmark" : "Enter landmark",
-  "errorLandmarkRequired": "Landmark Required"
+  "errorLandmarkRequired": "Landmark Required",
+  "inBox": "In Box",
+  "warranty": "Warranty",
+  "notes": "Notes"
 }

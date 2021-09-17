@@ -65,6 +65,8 @@ class DataProductRepository extends ProductRepository {
     try {
       var params = {
         'lang': Config().getLanguageId().toString(),
+        'status' : 'true',
+        'active' : 'true',
         'country': (await SessionHelper().getSelectedCountryId()).toString()
       };
       if (query != null) {

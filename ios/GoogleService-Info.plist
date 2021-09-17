@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>930867921270-2c3b6vet95vj9j9kmsccibfrrq6se4vk.apps.googleusercontent.com</string>
+	<string>244170329800-96m7bj6ch6obtlrcajb2rh8jpv8u034j.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.930867921270-2c3b6vet95vj9j9kmsccibfrrq6se4vk</string>
+	<string>com.googleusercontent.apps.244170329800-96m7bj6ch6obtlrcajb2rh8jpv8u034j</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>244170329800-p3i76rmv8kbaugmeia04k4ruv7m4rahe.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDRXF7D9GayO-3tUerGdu05HW8oibE1dHY</string>
+	<string>AIzaSyBqeNv_0JcdwerJv9H687JA2JCJwX_LcNQ</string>
 	<key>GCM_SENDER_ID</key>
-	<string>930867921270</string>
+	<string>244170329800</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.cartUpon.app</string>
 	<key>PROJECT_ID</key>
-	<string>cartuponappweb</string>
+	<string>cartupon</string>
 	<key>STORAGE_BUCKET</key>
-	<string>cartuponappweb.appspot.com</string>
+	<string>cartupon.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:930867921270:ios:7d198965016c49f5253a57</string>
+	<string>1:244170329800:ios:8f4a4ac155d4dc82abdffd</string>
 </dict>
 </plist>

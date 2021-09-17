@@ -293,6 +293,9 @@
   "landmark" : "ارشادات اضافية",
   "hintLandmark" : "ادخل ارشادات اضافية",
   "errorLandmarkRequired": "مطلوب ادخال ارشادات اضافية",
-  "whatIsCartUpon": "ما هو Cartupon"
+  "whatIsCartUpon": "ما هو Cartupon",
+  "inBox": "صندوق الوارد",
+  "warranty": "ضمان",
+  "notes": "ملحوظات"
 
 }

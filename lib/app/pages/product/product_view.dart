@@ -80,88 +80,82 @@ class ProductPageView
         );
       });
 
-  Padding _productDescription(ProductController controller) {
-    return Padding(
-      padding: const EdgeInsets.all(Dimens.spacingMedium),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          pricing(controller),
-          SizedBox(
-            height: Dimens.spacingMedium,
+  _productDescription(ProductController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(Dimens.spacingMedium),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              pricing(controller),
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              Text(
+                controller.product != null ? controller.product.name : "",
+                style: heading5.copyWith(color: AppColors.primary),
+              ),
+              SizedBox(
+                height: Dimens.spacingSmall,
+              ),
+              Text(
+                controller.product != null
+                    ? controller.product.short_description
+                    : "",
+                style: bodyTextNormal1.copyWith(
+                    color: AppColors.primary, fontWeight: FontWeight.w400),
+              ),
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              controller.product != null
+                  ? VariantPicker(
+                      controller.product.product.product_variants,
+                      onPickVariant: controller.onSelectVariant,
+                    )
+                  : SizedBox(),
+              SizedBox(
+                height: Dimens.spacingMedium,
+              ),
+              _elapsedTime(controller),
+              SizedBox(
+                height: Dimens.spacingLarge,
+              ),
+              SizedBox(
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      _whishlistButton(controller),
+                      SizedBox(
+                        width: Dimens.spacingLarge,
+                      ),
+                      Visibility(
+                        visible: controller.product.product != null &&
+                            controller.product.product.stock > 0,
+                        child: _addToCartButton(controller),
+                      )
+                    ],
+                  )),
+              SizedBox(
+                height: Dimens.spacingLarge,
+              ),
+              SocialShareButtons(
+                onShare: () {
+                  controller.shareProduct();
+                },
+              ),
+              SizedBox(
+                height: Dimens.spacingLarge,
+              ),
+            ],
           ),
-          Text(
-            controller.product != null ? controller.product.name : "",
-            style: heading5.copyWith(color: AppColors.primary),
-          ),
-          SizedBox(
-            height: Dimens.spacingSmall,
-          ),
-          Text(
-            controller.product != null
-                ? controller.product.short_description
-                : "",
-            style: bodyTextNormal1.copyWith(
-                color: AppColors.primary, fontWeight: FontWeight.w400),
-          ),
-          SizedBox(
-            height: Dimens.spacingMedium,
-          ),
-          controller.product != null
-              ? VariantPicker(
-                  controller.product.product.product_variants,
-                  onPickVariant: controller.onSelectVariant,
-                )
-              : SizedBox(),
-          SizedBox(
-            height: Dimens.spacingMedium,
-          ),
-          _elapsedTime(controller),
-          SizedBox(
-            height: Dimens.spacingLarge,
-          ),
-          SizedBox(
-              width: double.infinity,
-              child: Row(
-                children: [
-                  _whishlistButton(controller),
-                  SizedBox(
-                    width: Dimens.spacingLarge,
-                  ),
-                  Visibility(
-                    visible: controller.product.product != null && controller.product.product.stock > 0,
-                    child: _addToCartButton(controller),
-                  )
-                ],
-              )),
-          SizedBox(
-            height: Dimens.spacingLarge,
-          ),
-          SocialShareButtons(
-            onShare: () {
-              controller.shareProduct();
-            },
-          ),
-          SizedBox(
-            height: Dimens.spacingLarge,
-          ),
-          Text(
-            LocaleKeys.description.tr(),
-            style: heading6,
-          ),
-          SizedBox(
-            height: Dimens.spacingNormal,
-          ),
-          Html(
-            data: controller.product != null
-                ? controller.product.full_description
-                : "",
-            shrinkWrap: true,
-          ),
-          //  _reviews,
-          // _addReview
-        ],
-      ),
+        ),
+        _description(controller)
+        //  _reviews,
+        // _addReview
+      ],
     );
   }
 
@@ -184,7 +178,8 @@ class ProductPageView
                     style: captionNormal2.copyWith(color: AppColors.error),
                   ),
                 ),
-                Utility.checkOfferPrice(controller.product, controller.showTimer)
+                Utility.checkOfferPrice(
+                        controller.product, controller.showTimer)
                     ? Text(
                         Utility.currencyFormat(controller.product != null
                             ? controller.product.product.price
@@ -194,12 +189,12 @@ class ProductPageView
                             decoration: TextDecoration.lineThrough),
                       )
                     : SizedBox(),
-                Text(controller.showTimer.toString()),
                 Text(
                   Utility.currencyFormat(controller.product != null
-                      ? controller.showTimer && controller.product.product.offer_price != "0"
-                      ? controller.product.product.offer_price
-                      :  controller.product.product.sale_price
+                      ? controller.showTimer &&
+                              controller.product.product.offer_price != "0"
+                          ? controller.product.product.offer_price
+                          : controller.product.product.sale_price
                       : 0),
                   style: bodyTextNormal1.copyWith(color: AppColors.primary),
                 )
@@ -241,8 +236,6 @@ class ProductPageView
       ),
     );
   }
-
-
 
   Widget _elapsedTime(ProductController controller) {
     return controller.product.product.valid_from != null &&
@@ -513,6 +506,114 @@ class ProductPageView
                 )
               : SizedBox()
         ],
+      ),
+    );
+  }
+
+  _description(ProductController controller) {
+    return Container(
+      color: AppColors.expandableBackground,
+      child: Padding(
+        padding: const EdgeInsets.all(Dimens.spacingMedium),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Theme(
+              data : Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                tilePadding: EdgeInsets.zero,
+                initiallyExpanded: true,
+                title: Text(
+                  LocaleKeys.description.tr(),
+                  style: heading5.copyWith(color: AppColors.neutralDark),
+                ),
+                children: [
+                  Html(
+                    data: controller.product != null
+                        ? controller.product.full_description
+                        : "",
+                    shrinkWrap: true,
+                  ),
+                ],
+              ),
+            ),
+            Visibility(
+              visible: controller.product != null &&
+                  controller.product.in_box != null,
+              child: Theme(
+                data : Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  tilePadding: EdgeInsets.zero,
+                  title: Text(
+                    LocaleKeys.inBox.tr(),
+                    style: heading5.copyWith(color: AppColors.neutralDark),
+                  ),
+                  expandedAlignment: Alignment.topLeft,
+                  children: [
+                    Html(
+                      data: controller.product != null
+                          ? controller.product.in_box
+                          : "",
+                      shrinkWrap: true,
+                    ),
+                    SizedBox(
+                      height: Dimens.spacingMedium,
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Visibility(
+              visible: controller.product != null &&
+                  controller.product.warranty != null,
+              child: Theme(
+                data : Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  tilePadding: EdgeInsets.zero,
+                  title: Text(
+                    LocaleKeys.warranty.tr(),
+                    style: heading5.copyWith(color: AppColors.neutralDark),
+                  ),
+                  expandedAlignment: Alignment.topLeft,
+                  children: [
+                    Html(
+                      data: controller.product != null
+                          ? controller.product.warranty
+                          : "",
+                      shrinkWrap: true,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Visibility(
+              visible: controller.product != null &&
+                  controller.product.notes != null,
+              child: Theme(
+                data : Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  tilePadding: EdgeInsets.zero,
+                  title: Text(
+                    LocaleKeys.notes.tr(),
+                    style: heading5.copyWith(color: AppColors.neutralDark),
+                  ),
+                  expandedAlignment: Alignment.topLeft,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                         controller.product != null
+                            ? controller.product.notes.replaceAll("\\\n", "<br>")
+                            : "",
+
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
