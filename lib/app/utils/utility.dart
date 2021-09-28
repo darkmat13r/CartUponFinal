@@ -2,6 +2,7 @@ import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
+import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:logger/logger.dart';
 
@@ -61,11 +62,12 @@ class Utility {
 
     return string[0].toUpperCase() + string.substring(1);
   }
-  static bool checkOfferPrice(ProductDetail product, bool showTimer) {
-    var originalPrice = double.parse(product.product.price ?? "0.0");
-    var salePrice = product.product.sale_price != null ?  double.parse(product.product.sale_price ?? "0.0") : 0;
-    var offerPrice = product.product.offer_price != null ? double.parse(product.product.offer_price) :  0.00;
-    return product != null && product.product.price != null &&
+
+  static bool checkOfferPrice(Product product, bool showTimer) {
+    var originalPrice = double.parse(product.price ?? "0.0");
+    var salePrice = product.sale_price != null ?  double.parse(product.sale_price ?? "0.0") : 0;
+    var offerPrice = product.offer_price != null ? double.parse(product.offer_price) :  0.00;
+    return product != null && product.price != null &&
         originalPrice > (showTimer && offerPrice > 0 ? offerPrice : salePrice);
   }
 }

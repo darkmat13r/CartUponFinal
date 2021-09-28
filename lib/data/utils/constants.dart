@@ -30,8 +30,10 @@ class Constants {
   static const String ratingRoute = '$baseUrl/ratingRequest';
   static var slidersRoute = '$baseUrl/sliderreadapi';
   static var categoriesRoute = '$baseUrl/categoryweb';
-  static var productsRoute = '$baseUrl/productweb/';
+  static var productsRoute = '$baseUrl/productlist/';
+  static var productsWebRoute = '$baseUrl/productweb/';
   static var searchRoute = '$baseUrl/search/';
+  static var updateProfileRoute = '$baseUrl/updateprofile';
 
   static var homeRoute = '$baseUrl/homecommon';
   static var webSettingRoute = '$baseUrl/getWebSetting';

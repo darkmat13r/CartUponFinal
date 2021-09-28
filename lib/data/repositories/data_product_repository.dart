@@ -37,10 +37,18 @@ class DataProductRepository extends ProductRepository {
       if (type != null) {
         params['category_type'] = type;
       }
+      if (categoryId != null) {
+        var uri = Constants.createUriWithParams(Constants.productsWebRoute, params);
+        dynamic data = await HttpHelper.invokeHttp(uri, RequestType.get);
+        List<dynamic> response = data.map((e) => ProductDetail.fromJson(e)).toList() ;
+        Logger().e(response.runtimeType);
+        return response.map((e) => e as ProductDetail).toList();
+      }
       var uri = Constants.createUriWithParams(Constants.productsRoute, params);
-      List<dynamic> data = await HttpHelper.invokeHttp(uri, RequestType.get);
-      dynamic response = data.map((e) => ProductDetail.fromJson(e)).toList();
-      return response;
+      dynamic data = await HttpHelper.invokeHttp(uri, RequestType.get);
+      List<dynamic> response = data['data'].map((e) => ProductDetail.fromJson(e)).toList() ;
+      Logger().e(response.runtimeType);
+      return response.map((e) => e as ProductDetail).toList();
     } catch (e) {
       print(e);
       rethrow;

@@ -51,8 +51,10 @@ class SessionHelper {
   void saveCredentials({@required String token, @required Customer user}) async {
     try {
       SharedPreferences preferences = await SharedPreferences.getInstance();
+      if(token !=  null){
+       await preferences.setString(Constants.tokenKey, token);
+      }
       await Future.wait([
-        preferences.setString(Constants.tokenKey, token),
         preferences.setBool(Constants.isAuthenticatedKey, true),
         preferences.setString(Constants.userKey, jsonEncode(user))
       ]);

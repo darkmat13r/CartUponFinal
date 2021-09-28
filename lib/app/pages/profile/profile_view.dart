@@ -80,14 +80,17 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
                 height: Dimens.spacingMedium,
               ),
               dobField(controller, context),
-              SizedBox(
+              /*SizedBox(
                 height: Dimens.spacingMedium,
               ),
               emailField(controller),
               SizedBox(
                 height: Dimens.spacingMedium,
+              ),,*/
+              SizedBox(
+                height: Dimens.spacingMedium,
               ),
-              mobileNumberField(controller),
+              dialCode(controller),
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
@@ -168,17 +171,17 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
     return Row(
       children: [
         dialCode(controller),
-        Expanded(
+       /* Expanded(
           child: TextFormField(
             keyboardType: TextInputType.phone,
             enabled: false,
             controller: controller.mobileNumberController,
-            /*validator: (value) {
+            *//*validator: (value) {
               if (value.isEmpty) {
                 return LocaleKeys.errorPhoneRequired.tr();
               }
               return null;
-            },*/
+            },*//*
             decoration: InputDecoration(
                 // fillColor: AppColors.neutralLightGray,
                 border: OutlineInputBorder(
@@ -190,7 +193,7 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
                 prefixIcon: Icon(MaterialCommunityIcons.phone),
                 hintText: LocaleKeys.phoneNumber.tr()),
           ),
-        ),
+        ),*/
       ],
     );
   }
@@ -221,29 +224,18 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
 
   dialCode(ProfileController controller) {
     return Container(
+      width: double.infinity,
       decoration: BoxDecoration(
           // color: AppColors.neutralLightGray,
           borderRadius: BorderRadius.circular(Dimens.cornerRadius),
           border: Border.all(
               color: AppColors.neutralLightGray, width: Dimens.borderWidth)),
-      child: controller.selectedCountry != null
-          ? Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Dimens.spacingMedium,
-                  vertical: Dimens.spacingNormal + 4),
-              child: Text(
-                (controller.selectedCountry.dial_code.startsWith("+")
-                        ? ""
-                        : "+") +
-                    controller.selectedCountry.dial_code,
-                style: bodyTextMedium2.copyWith(color: AppColors.neutralDark),
-              ),
-            )
-          : Padding(
+      child: Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: Dimens.spacingMedium,
                   vertical: Dimens.spacingNormal + 4),
               child: CountryCodePicker(
+                initialSelection: controller.countryCode,
                 onChanged: (CountryCode value) {
                   controller.countryCode = value.dialCode;
                 },

@@ -384,11 +384,46 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                                     color: AppColors.neutralGray),
                               ),
                             ),
-                            Text(
-                              Utility.getCartItemPrice(cart),
-                              style:
-                                  heading6.copyWith(color: AppColors.primary),
-                            ),
+                            Visibility(
+                                visible: cart.product_id.stock > 0,
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Utility.checkOfferPrice(
+                                        cart.product_id,
+                                        cart.product_id
+                                            .isInOffer())
+                                        ? Text(
+                                      Utility.getCartItemPrice(
+                                          cart),
+                                      style:
+                                      captionNormal1.copyWith(
+                                          color: AppColors
+                                              .neutralGray,
+                                          decoration:
+                                          TextDecoration
+                                              .lineThrough),
+                                    )
+                                        : SizedBox(),
+                                    Text(
+                                      Utility.currencyFormat(cart.product_id !=
+                                          null
+                                          ? cart.product_id
+                                          .isInOffer() &&
+                                          cart.product_id
+                                              .offer_price !=
+                                              "0"
+                                          ?cart.product_id
+                                          .offer_price
+                                          : cart.product_id
+                                          .sale_price
+                                          : 0),
+                                      style: bodyTextNormal1.copyWith(
+                                          color: AppColors.primary),
+                                    ),
+                                  ],
+                                )),
                           ],
                         ),
                       ),

@@ -93,26 +93,29 @@ class _WhishlistPageState
                           SizedBox(height: Dimens.spacingNormal),
                           Row(
                             children: [
+                              Utility.checkOfferPrice(
+                                  item.product_id != null ? item.product_id : null, item.product_id.isInOffer())
+                                  ? Text(
+                                Utility.currencyFormat(
+                                    item.product_id != null
+                                        ? item.product_id.price
+                                        : "0"),
+                                style: captionNormal2.copyWith(
+                                    color: AppColors.neutralGray,
+                                    decoration:
+                                    TextDecoration.lineThrough),
+                              )
+                                  : SizedBox(),
+
                               Text(
                                 Utility.currencyFormat(item.product_id != null
-                                    ? item.product_id.sale_price
-                                    : "0"),
-                                style: captionNormal1,
-                              ),
-                              SizedBox(
-                                width: Dimens.spacingSmall,
-                              ),
-                              double.tryParse(item.product_id.dis_per) > 0
-                                  ? Text(
-                                      Utility.currencyFormat(
-                                          item.product_id != null
-                                              ? item.product_id.sale_price
-                                              : "0"),
-                                      style: captionNormal1.copyWith(
-                                          color: AppColors.neutralGray,
-                                          decoration: TextDecoration.lineThrough),
-                                    )
-                                  : SizedBox(),
+                                    ? item.product_id.isInOffer() && item.product_id.offer_price != "0"
+                                    ? item.product_id.offer_price
+                                    : item.product_id.sale_price
+                                    : 0),
+                                style: bodyTextNormal1.copyWith(
+                                    color: AppColors.primary),
+                              )
                             ],
                           ),
                         ],

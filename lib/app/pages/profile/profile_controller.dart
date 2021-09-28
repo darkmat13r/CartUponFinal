@@ -83,6 +83,7 @@ class ProfileController extends BaseController {
     gender = currentUser.gender;
     title = currentUser.title;
     mobileNumberController.text = currentUser.user.username;
+    countryCode = currentUser.country_code;
     dob = DateFormat("yyyy-MM-dd").parse(currentUser.date_of_birth);
     setDob(dob);
     updateNationality();
@@ -95,6 +96,7 @@ class ProfileController extends BaseController {
       try{
         _logger.e("Countries ${countries}");
         _logger.e("currentUser.country_code ${currentUser.country_code}");
+        countryCode = currentUser.country_code;
         selectedCountry = countries.firstWhere((element) => element.dial_code.replaceAll("+", "") == currentUser.country_code.replaceAll("+", ""));
         refreshUI();
       }catch(e){
@@ -109,7 +111,7 @@ class ProfileController extends BaseController {
         firstName: firstNameController.text,
         lastName: lastNameController.text,
         email: emailController.text,
-        countryCode: selectedCountry.dial_code,
+        countryCode: countryCode,
         nationality: nationality.id,
         gender: gender,
         title: title,

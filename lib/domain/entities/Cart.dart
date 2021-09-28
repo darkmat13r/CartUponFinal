@@ -10,7 +10,7 @@ class Cart {
     factory Cart.fromJson(Map<String, dynamic> json) {
         return Cart(
             cart: json['cart'] != null ? (json['cart'] as List).map((i) => CartItem.fromJson(i)).toList() : null,
-            net_total: json['net_total'], 
+            net_total: double.tryParse(json['net_total'].toString()),
             total_qty: json['total_qty'], 
         );
     }

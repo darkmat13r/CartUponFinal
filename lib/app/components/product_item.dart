@@ -78,7 +78,7 @@ class _ProductItemState extends State<ProductItem>
                               ? widget.product.name
                               : "",
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
+                          maxLines: 3,
                           style: bodyTextNormal1.copyWith(
                               color: AppColors.primary),
                         ),
@@ -116,7 +116,7 @@ class _ProductItemState extends State<ProductItem>
                                 ),
                               ),
                               Utility.checkOfferPrice(
-                                      widget.product, _showTimer)
+                                      widget.product != null ? widget.product.product : null, _showTimer)
                                   ? Text(
                                       Utility.currencyFormat(
                                           widget.product != null

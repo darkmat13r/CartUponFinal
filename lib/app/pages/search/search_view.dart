@@ -51,8 +51,8 @@ class SearchPageState
 
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, SearchController controller) {
-        double cardWidth = MediaQuery.of(context).size.width / 3.3;
-        double cardHeight = 160;
+            double cardWidth = 160;
+            double cardHeight = MediaQuery.of(context).size.width / 1.7;
         return StateView(
             controller.isLoading
                 ? EmptyState.LOADING

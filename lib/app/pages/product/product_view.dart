@@ -179,7 +179,7 @@ class ProductPageView
                   ),
                 ),
                 Utility.checkOfferPrice(
-                        controller.product, controller.showTimer)
+                        controller.product != null ? controller.product.product : null, controller.showTimer)
                     ? Text(
                         Utility.currencyFormat(controller.product != null
                             ? controller.product.product.price
@@ -201,7 +201,7 @@ class ProductPageView
               ],
             ),
           ),
-          Utility.checkOfferPrice(controller.product, controller.showTimer)
+          Utility.checkOfferPrice( controller.product != null ? controller.product.product : null, controller.showTimer)
               ? Stack(
                   children: [
                     Image.asset(
@@ -551,7 +551,7 @@ class ProductPageView
                   expandedAlignment: Alignment.topLeft,
                   children: [
                     Html(
-                      data: controller.product != null
+                      data: controller.product != null && controller.product.in_box != null
                           ? controller.product.in_box
                           : "",
                       shrinkWrap: true,
@@ -577,7 +577,7 @@ class ProductPageView
                   expandedAlignment: Alignment.topLeft,
                   children: [
                     Html(
-                      data: controller.product != null
+                      data: controller.product != null && controller.product.warranty != null
                           ? controller.product.warranty
                           : "",
                       shrinkWrap: true,
@@ -601,12 +601,14 @@ class ProductPageView
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                         controller.product != null
+                      child: Html(
+                        data:  controller.product != null &&
+                            controller.product.notes != null
                             ? controller.product.notes.replaceAll("\\\n", "<br>")
                             : "",
-
-                      ),
+                        shrinkWrap: true,
+                      )
+                      ,
                     ),
                   ],
                 ),

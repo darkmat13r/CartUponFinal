@@ -95,11 +95,47 @@ class CartItemViewState extends State<CartItemView> {
                                           color: AppColors.error),
                                     ),
                                   ),
-                                  Text(
-                                    Utility.getCartItemPrice(widget.item),
-                                    style: heading6.copyWith(
-                                        color: AppColors.primary),
-                                  ),
+                                  Visibility(
+                                      visible: widget.inStock,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Utility.checkOfferPrice(
+                                                  widget.item.product_id,
+                                                  widget.item.product_id
+                                                      .isInOffer())
+                                              ? Text(
+                                                  Utility.getCartItemPrice(
+                                                      widget.item),
+                                                  style:
+                                                      captionNormal1.copyWith(
+                                                          color: AppColors
+                                                              .neutralGray,
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough),
+                                                )
+                                              : SizedBox(),
+                                          Text(
+                                            Utility.currencyFormat(widget
+                                                        .item.product_id !=
+                                                    null
+                                                ? widget.item.product_id
+                                                            .isInOffer() &&
+                                                        widget.item.product_id
+                                                                .offer_price !=
+                                                            "0"
+                                                    ? widget.item.product_id
+                                                        .offer_price
+                                                    : widget.item.product_id
+                                                        .sale_price
+                                                : 0),
+                                            style: bodyTextNormal1.copyWith(
+                                                color: AppColors.primary),
+                                          ),
+                                        ],
+                                      ))
                                 ],
                               ),
                             ),

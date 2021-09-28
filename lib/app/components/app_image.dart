@@ -29,7 +29,7 @@ class _AppImageState extends State<AppImage> {
           child: CachedNetworkImage(
             placeholder: (context, url) =>  Image.asset(Resources.placeholder , fit: BoxFit.cover,),
             imageUrl: widget.url,
-            fit: widget.fit != null ? widget.fit : BoxFit.contain,
+            fit: widget.fit != null ? widget.fit : BoxFit.cover,
             errorWidget: (context, url, error) => Container(
               child: Image.asset(Resources.placeholder , fit: BoxFit.cover,),
             ),
