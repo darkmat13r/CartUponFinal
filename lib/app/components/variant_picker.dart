@@ -1,5 +1,7 @@
+import 'package:coupon_app/app/components/price.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/utility.dart';
+import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariant.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,9 +10,10 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class VariantPicker extends StatefulWidget {
   List<ProductVariant> variants;
+  Product product;
   Function onPickVariant;
 
-  VariantPicker(this.variants, {this.onPickVariant});
+  VariantPicker(this.variants, {@required this.product, this.onPickVariant});
 
 
 
@@ -145,11 +148,7 @@ class _VariantPickerState extends State<VariantPicker> {
                           value.value  == null ? "Select" : value.value,
                           style: heading6.copyWith(color: AppColors.neutralDark),
                         ),
-                        value.value  != null  ? Text(
-                          Utility.currencyFormat(value.price),
-                          style: captionNormal1.copyWith(
-                              color: AppColors.neutralGray),
-                        ) : SizedBox()
+                        value.value  != null  ? VariantPrice(product: widget.product, variantValue: value) : SizedBox()
                       ],
                     ),
                   );

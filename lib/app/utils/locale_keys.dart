@@ -349,5 +349,9 @@ class LocaleKeys {
   static var inBox = "inBox";
   static var warranty = "warranty";
   static var notes = "notes";
+  static var errorSelectVariant = "errorSelectVariant";
+
+  static var deals = "deals";
+  static var features = "features";
 
 }

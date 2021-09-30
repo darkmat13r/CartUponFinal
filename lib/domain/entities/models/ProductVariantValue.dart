@@ -2,11 +2,14 @@ class ProductVariantValue {
     int id;
     String image;
     String price;
+    String costPrice;
+    String salePrice;
+    String offerPrice;
     int stock;
     String value;
-    int variant_id;
+    int variantId;
 
-    ProductVariantValue({this.id, this.image, this.price, this.stock, this.value, this.variant_id});
+    ProductVariantValue({this.id, this.image, this.price, this.stock, this.value, this.variantId, this.costPrice, this.salePrice, this.offerPrice});
 
     factory ProductVariantValue.fromJson(Map<String, dynamic> json) {
         return ProductVariantValue(
@@ -14,8 +17,11 @@ class ProductVariantValue {
             image: json['image'], 
             price: json['price'], 
             stock: json['stock'], 
-            value: json['value'], 
-            variant_id: json['variant_id'], 
+            costPrice: json['cost_price'],
+            salePrice: json['sale_price'],
+            offerPrice: json['offer_price'],
+            value: json['value'],
+            variantId: json['variant_id'],
         );
     }
 
@@ -26,7 +32,12 @@ class ProductVariantValue {
         data['price'] = this.price;
         data['stock'] = this.stock;
         data['value'] = this.value;
-        data['variant_id'] = this.variant_id;
+        data['cost_price'] = this.costPrice;
+        data['sale_price'] = this.salePrice;
+        data['offer_price'] = this.offerPrice;
+        data['variant_id'] = this.variantId;
         return data;
     }
+
+
 }

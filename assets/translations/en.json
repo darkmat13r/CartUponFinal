@@ -313,5 +313,8 @@
   "errorLandmarkRequired": "Landmark Required",
   "inBox": "In Box",
   "warranty": "Warranty",
-  "notes": "Notes"
+  "notes": "Notes",
+  "errorSelectVariant": "Variant {} required",
+  "features" : "Feature & Specifications",
+  "deals" : "Deals"
 }

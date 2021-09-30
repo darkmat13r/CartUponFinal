@@ -296,6 +296,9 @@
   "whatIsCartUpon": "ما هو Cartupon",
   "inBox": "صندوق الوارد",
   "warranty": "ضمان",
-  "notes": "ملحوظات"
+  "notes": "ملحوظات",
+  "errorSelectVariant": "المتغير {} مطلوب",
+  "features" : "الميزات والمواصفات",
+  "deals" : "صفقات"
 
 }

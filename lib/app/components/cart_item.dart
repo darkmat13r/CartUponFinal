@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/components/price.dart';
 import 'package:coupon_app/app/components/product_thumbnail.dart';
 import 'package:coupon_app/app/components/quantity_button.dart';
 import 'package:coupon_app/app/utils/constants.dart';
@@ -46,9 +47,12 @@ class CartItemViewState extends State<CartItemView> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(Dimens.spacingNormal),
-                  child: ProductThumbnail(
+                  child: widget.item != null  && widget.item.variant_value_id == null ? ProductThumbnail(
                       widget.item != null && widget.item.product_id != null
                           ? widget.item.product_id.thumb_img
+                          : "") : ProductThumbnail(
+                      widget.item != null
+                          ? widget.item.variant_value_id.image
                           : ""),
                 ),
                 Expanded(
@@ -97,45 +101,7 @@ class CartItemViewState extends State<CartItemView> {
                                   ),
                                   Visibility(
                                       visible: widget.inStock,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Utility.checkOfferPrice(
-                                                  widget.item.product_id,
-                                                  widget.item.product_id
-                                                      .isInOffer())
-                                              ? Text(
-                                                  Utility.getCartItemPrice(
-                                                      widget.item),
-                                                  style:
-                                                      captionNormal1.copyWith(
-                                                          color: AppColors
-                                                              .neutralGray,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .lineThrough),
-                                                )
-                                              : SizedBox(),
-                                          Text(
-                                            Utility.currencyFormat(widget
-                                                        .item.product_id !=
-                                                    null
-                                                ? widget.item.product_id
-                                                            .isInOffer() &&
-                                                        widget.item.product_id
-                                                                .offer_price !=
-                                                            "0"
-                                                    ? widget.item.product_id
-                                                        .offer_price
-                                                    : widget.item.product_id
-                                                        .sale_price
-                                                : 0),
-                                            style: bodyTextNormal1.copyWith(
-                                                color: AppColors.primary),
-                                          ),
-                                        ],
-                                      ))
+                                      child: Price(product : widget.item.product_id,variantValue:widget.item.variant_value_id,))
                                 ],
                               ),
                             ),
@@ -179,3 +145,4 @@ class CartItemViewState extends State<CartItemView> {
     );
   }
 }
+

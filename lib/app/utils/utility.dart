@@ -4,6 +4,7 @@ import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
 import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
+import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
 import 'package:logger/logger.dart';
 
 class Utility {
@@ -24,25 +25,14 @@ class Utility {
   }
 
 
-  static getCartItemPrice(CartItem cartItem) {
-    double price = 0;
-    if (cartItem != null) {
-      if (cartItem.variant_value_id != null) {
-        price = double.tryParse(cartItem.variant_value_id.price);
-      } else {
-        price = double.tryParse(cartItem.product_id.sale_price);
-      }
-    }
-    return Utility.currencyFormat(price);
-  }
 
-  static getOrderItemPrice(OrderDetail orderDetail) {
+  static getOrderItemPrice(Product product, ProductVariantValue variantValue) {
     double price = 0;
-    if (orderDetail != null) {
-      if (orderDetail.variant_value_id != null) {
-        price = double.tryParse(orderDetail.variant_value_id.price);
+    if (product != null) {
+      if (variantValue != null) {
+        price = double.tryParse(variantValue.price);
       } else {
-        price = double.tryParse(orderDetail.product_id.sale_price);
+        price = double.tryParse(product.sale_price);
       }
     }
     return Utility.currencyFormat(price);
@@ -63,11 +53,14 @@ class Utility {
     return string[0].toUpperCase() + string.substring(1);
   }
 
-  static bool checkOfferPrice(Product product, bool showTimer) {
+  static bool checkOfferPrice(Product product, bool showTimer,{ ProductVariantValue variantValue}) {
     var originalPrice = double.parse(product.price ?? "0.0");
     var salePrice = product.sale_price != null ?  double.parse(product.sale_price ?? "0.0") : 0;
     var offerPrice = product.offer_price != null ? double.parse(product.offer_price) :  0.00;
+    double price = 0;
+    var variantOffer =  double.tryParse(product.getOfferPriceByVariant(variantValue));
+
     return product != null && product.price != null &&
-        originalPrice > (showTimer && offerPrice > 0 ? offerPrice : salePrice);
+        originalPrice > (showTimer && offerPrice > 0 ? variantOffer : salePrice);
   }
 }

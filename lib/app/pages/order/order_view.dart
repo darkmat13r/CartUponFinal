@@ -237,30 +237,34 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
       });
 
   Widget _paymentDetails(OrderController controller) {
-    return
-        Visibility(child: Padding(
-          padding: const EdgeInsets.all(Dimens.spacingNormal),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(Dimens.spacingMedium),
-              child: Column(
-                children: [
-                  _detailItem(LocaleKeys.items.tr(args: [controller.orderDetail.qty.toString()]),
-                      Utility.currencyFormat(controller.orderDetail.price)),
-                  DotWidget(
-                    color: AppColors.neutralGray,
-                  ),
-                  _detailItem(
-                      LocaleKeys.shipping.tr(),
-                      Utility.currencyFormat(
-                          controller.orderDetail.order.shipping_total)),
-                  _detailItem(LocaleKeys.totalPrice.tr(),
-                      Utility.currencyFormat(controller.orderDetail.order.total)),
-                ],
-              ),
+    return Visibility(
+      child: Padding(
+        padding: const EdgeInsets.all(Dimens.spacingNormal),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(Dimens.spacingMedium),
+            child: Column(
+              children: [
+                _detailItem(
+                    LocaleKeys.items
+                        .tr(args: [controller.orderDetail.qty.toString()]),
+                    Utility.currencyFormat(controller.orderDetail.price)),
+                DotWidget(
+                  color: AppColors.neutralGray,
+                ),
+                _detailItem(
+                    LocaleKeys.shipping.tr(),
+                    Utility.currencyFormat(
+                        controller.orderDetail.order.shipping_total)),
+                _detailItem(LocaleKeys.totalPrice.tr(),
+                    Utility.currencyFormat(controller.orderDetail.order.total)),
+              ],
             ),
           ),
-        ), visible: controller.orderDetail != null,);
+        ),
+      ),
+      visible: controller.orderDetail != null,
+    );
   }
 
   Widget _orderDetails(OrderController controller) {
@@ -385,9 +389,13 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(Dimens.spacingNormal),
-                  child: ProductThumbnail(
-                      orderDetail != null && orderDetail.product_id != null
-                          ? orderDetail.product_id.thumb_img
+                  child: orderDetail.variant_value_id == null
+                      ? ProductThumbnail(
+                          orderDetail != null && orderDetail.product_id != null
+                              ? orderDetail.product_id.thumb_img
+                              : "")
+                      : ProductThumbnail(orderDetail != null
+                          ? orderDetail.variant_value_id.image
                           : ""),
                 ),
                 Expanded(
@@ -438,7 +446,8 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                               ),
                             ),
                             Text(
-                              Utility.getOrderItemPrice(orderDetail),
+                              Utility.getOrderItemPrice(orderDetail.product_id,
+                                  orderDetail.variant_value_id),
                               style:
                                   heading6.copyWith(color: AppColors.primary),
                             ),

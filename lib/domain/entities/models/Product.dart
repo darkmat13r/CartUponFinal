@@ -7,6 +7,7 @@ import 'package:coupon_app/domain/entities/models/Category.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/entities/models/ProductGallery.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariant.dart';
+import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
 import 'package:logger/logger.dart';
 
 class Product {
@@ -151,5 +152,48 @@ class Product {
       return DateHelper.isValidTime(DateHelper.parseServerDateTime(offer_from),
           DateHelper.parseServerDateTime(offer_to));
     return false;
+  }
+
+  String getOfferPriceByVariant(ProductVariantValue value) {
+    if (isInOffer() && value != null) {
+      return value.offerPrice;
+    }
+    try {
+      if (offer_price != null && double.tryParse(offer_price) > 0)
+        return offer_price;
+      return sale_price;
+    } catch (e) {}
+    return sale_price;
+  }
+  String getVariantOfferPriceByVariant(ProductVariantValue value) {
+    if (isInOffer() && value != null) {
+      return value.offerPrice;
+    }
+    try {
+      if (value.offerPrice != null && double.tryParse(value.offerPrice) > 0)
+        return value.offerPrice;
+      return value.salePrice;
+    } catch (e) {}
+    return value.salePrice;
+  }
+  bool isVariantRequired() {
+    if (product_variants != null) {
+      product_variants.forEach((element) {
+        if (element.required) {
+          return true;
+        }
+      });
+    }
+    return false;
+  }
+  ProductVariant getRequiredVariant() {
+    if (product_variants != null) {
+      product_variants.forEach((element) {
+        if (element.required) {
+          return element;
+        }
+      });
+    }
+    return null;
   }
 }

@@ -5,6 +5,7 @@ import 'package:coupon_app/app/pages/image/zoom_image.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/product/product_presenter.dart';
 import 'package:coupon_app/app/pages/reviews/create/create_review_view.dart';
+import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/date_helper.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
@@ -29,6 +30,7 @@ class ProductController extends BaseController {
   bool isAddedToWhishlist = false;
   String productId;
   bool showTimer = false;
+  bool isVariantRequired = false;
 
   ProductPresenter _presenter;
 
@@ -92,11 +94,12 @@ class ProductController extends BaseController {
     };
   }
 
-  _checkValidTimer(){
-    if(product.product.offer_from != null && product.product.offer_to != null){
-      isValidTime(DateHelper.isValidTime(DateHelper.parseServerDateTime(
-          product.product.offer_from), DateHelper.parseServerDateTime(
-          product.product.offer_to)));
+  _checkValidTimer() {
+    if (product.product.offer_from != null &&
+        product.product.offer_to != null) {
+      isValidTime(DateHelper.isValidTime(
+          DateHelper.parseServerDateTime(product.product.offer_from),
+          DateHelper.parseServerDateTime(product.product.offer_to)));
     }
   }
 
@@ -129,7 +132,8 @@ class ProductController extends BaseController {
     final PackageInfo info = await PackageInfo.fromPlatform();
     final RenderBox box = getContext().findRenderObject() as RenderBox;
     Share.share(
-        LocaleKeys.fmtShareProduct.tr(args:  ["https://mallzaad.com/product/detail/${this.product.id}"]),
+        LocaleKeys.fmtShareProduct.tr(
+            args: ["https://mallzaad.com/product/detail/${this.product.id}"]),
         subject: "CartUpon",
         sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }
@@ -145,9 +149,8 @@ class ProductController extends BaseController {
   }
 
   void openImage(String image) {
-    Navigator.of(getContext()).push(MaterialPageRoute(
-        builder: (context) => ZoomImage(image
-        )));
+    Navigator.of(getContext())
+        .push(MaterialPageRoute(builder: (context) => ZoomImage(image)));
   }
 
   void isValidTime(isValid) {
@@ -155,5 +158,13 @@ class ProductController extends BaseController {
     refreshUI();
   }
 
+  void addToCartWithVariant(
+      Product product, ProductVariantValue selectedProductVariant) {
+    if (product.isVariantRequired() && selectedProductVariant == null) {
+      showGenericSnackbar(getContext(), LocaleKeys.errorSelectVariant.tr(args: [product.getRequiredVariant().name]), isError: true);
+      return;
+    }
 
+    CartStream().addToCart(product, selectedProductVariant);
+  }
 }

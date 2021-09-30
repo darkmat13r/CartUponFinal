@@ -32,23 +32,21 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
       : super(OrdersController(status, DataOrderRepository()));
 
   @override
-  Widget get view =>
-      Scaffold(
+  Widget get view => Scaffold(
         key: globalKey,
         body: _body,
       );
 
-  get _body =>
-      ControlledWidgetBuilder(
+  get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, OrdersController controller) {
-            return StateView(
-                controller.isLoading
-                    ? EmptyState.LOADING
-                    : controller.orders != null && controller.orders.length > 0
+        return StateView(
+            controller.isLoading
+                ? EmptyState.LOADING
+                : controller.orders != null && controller.orders.length > 0
                     ? EmptyState.CONTENT
                     : EmptyState.EMPTY,
-                _orders(controller));
-          });
+            _orders(controller));
+      });
 
   Widget _orders(OrdersController controller) {
     return ListView.builder(
@@ -75,10 +73,13 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(Dimens.spacingNormal),
-                  child: ProductThumbnail(
-                      order != null && order.product_id != null
-                          ? order.product_id.thumb_img
-                          : ""),
+                  child: order.variant_value_id != null
+                      ? ProductThumbnail(
+                          order != null && order.product_id != null
+                              ? order.product_id.thumb_img
+                              : "")
+                      : ProductThumbnail(
+                          order != null ? order.variant_value_id.image : ""),
                 ),
                 Expanded(
                   child: Column(
@@ -90,38 +91,40 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
                       ),
                       order.order != null
                           ? Padding(
-                        padding: const EdgeInsets.only(
-                            left: Dimens.spacingMedium),
-                        child: Text(
-                          "${LocaleKeys.orderDetailId.tr()} : ${order.id}",
-                          style: heading5.copyWith(
-                              color: AppColors.neutralDark),
-                        ),
-                      )
+                              padding: const EdgeInsets.only(
+                                  left: Dimens.spacingMedium),
+                              child: Text(
+                                "${LocaleKeys.orderDetailId.tr()} : ${order.id}",
+                                style: heading5.copyWith(
+                                    color: AppColors.neutralDark),
+                              ),
+                            )
                           : SizedBox(),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: Dimens.spacingMedium),
+                        padding:
+                            const EdgeInsets.only(left: Dimens.spacingMedium),
                         child: Text(
-                          order != null && order.order != null && order.order
-                              .order_no != null ?
-                          "${LocaleKeys.orderNumber.tr()}. : ${order.order.order_no}" : "-",
+                          order != null &&
+                                  order.order != null &&
+                                  order.order.order_no != null
+                              ? "${LocaleKeys.orderNumber.tr()}. : ${order.order.order_no}"
+                              : "-",
                           style: bodyTextNormal2.copyWith(
                               color: AppColors.neutralGray),
                         ),
                       ),
                       Padding(
                         padding:
-                        const EdgeInsets.only(left: Dimens.spacingMedium),
+                            const EdgeInsets.only(left: Dimens.spacingMedium),
                         child: Text(
                           order != null &&
-                              order.product_id != null &&
-                              order.product_id.product_detail != null
+                                  order.product_id != null &&
+                                  order.product_id.product_detail != null
                               ? order.product_id.product_detail.name ?? "-"
                               : "-",
                           maxLines: 1,
                           style:
-                          heading6.copyWith(color: AppColors.neutralDark),
+                              heading6.copyWith(color: AppColors.neutralDark),
                         ),
                       ),
                       SizedBox(
@@ -129,38 +132,39 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
                       ),
                       Padding(
                         padding:
-                        const EdgeInsets.only(left: Dimens.spacingMedium),
+                            const EdgeInsets.only(left: Dimens.spacingMedium),
                         child: order != null && order.order != null
                             ? Row(
-                          children: [
-                            Text(Utility.currencyFormat(order.order.total),
-                                style: bodyTextNormal1.copyWith(
-                                    color: AppColors.primary)),
-                            Expanded(
-                              child: SizedBox(),
-                            ),
-                            Text(Utility.capitalize(
-                                order.detail_status.toLowerCase())),
-                          ],
-                        )
+                                children: [
+                                  Text(
+                                      Utility.currencyFormat(order.order.total),
+                                      style: bodyTextNormal1.copyWith(
+                                          color: AppColors.primary)),
+                                  Expanded(
+                                    child: SizedBox(),
+                                  ),
+                                  Text(Utility.capitalize(
+                                      order.detail_status.toLowerCase())),
+                                ],
+                              )
                             : SizedBox(),
                       ),
                       Padding(
                         padding:
-                        const EdgeInsets.only(left: Dimens.spacingMedium),
+                            const EdgeInsets.only(left: Dimens.spacingMedium),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             order.order != null
                                 ? Text(
-                              LocaleKeys.orderAt.tr(namedArgs: {
-                                "location": "",
-                                "date": DateHelper.formatServerDate(
-                                    order.order.created_at)
-                              }),
-                              style: bodyTextNormal2.copyWith(
-                                  color: AppColors.neutralGray),
-                            )
+                                    LocaleKeys.orderAt.tr(namedArgs: {
+                                      "location": "",
+                                      "date": DateHelper.formatServerDate(
+                                          order.order.created_at)
+                                    }),
+                                    style: bodyTextNormal2.copyWith(
+                                        color: AppColors.neutralGray),
+                                  )
                                 : SizedBox(),
                             SizedBox(
                               height: Dimens.spacingNormal,
@@ -186,8 +190,7 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
     );
   }
 
-  Widget _orderItem(OrderDetail order) =>
-      ControlledWidgetBuilder(
+  Widget _orderItem(OrderDetail order) => ControlledWidgetBuilder(
         builder: (BuildContext context, OrdersController controller) {
           return InkWell(
             onTap: () {
@@ -200,66 +203,66 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
                   right: Dimens.spacingNormal),
               child: Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(Dimens.spacingMedium),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                padding: const EdgeInsets.all(Dimens.spacingMedium),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    order.order != null
+                        ? Text(
+                            "#${order.id}",
+                            style:
+                                heading5.copyWith(color: AppColors.neutralDark),
+                          )
+                        : SizedBox(),
+                    order.order != null
+                        ? Text(
+                            order.order.shipping_address != null
+                                ? Utility.addressFormatter(
+                                    order.order.shipping_address)
+                                : "",
+                            style: captionNormal1.copyWith(
+                                color: AppColors.neutralGray),
+                          )
+                        : SizedBox(),
+                    order.order != null
+                        ? Text(
+                            LocaleKeys.orderAt.tr(namedArgs: {
+                              "location": "",
+                              "date": DateHelper.formatServerDate(
+                                  order.order.created_at)
+                            }),
+                            style: bodyTextNormal2.copyWith(
+                                color: AppColors.neutralGray),
+                          )
+                        : SizedBox(),
+                    SizedBox(
+                      height: Dimens.spacingSmall,
+                    ),
+                    DotWidget(
+                      color: AppColors.neutralLightGray,
+                      width: 8,
+                      height: Dimens.borderWidth,
+                    ),
+                    SizedBox(
+                      height: Dimens.spacingSmall,
+                    ),
+                    Row(
                       children: [
-                        order.order != null
-                            ? Text(
-                          "#${order.id}",
-                          style:
-                          heading5.copyWith(color: AppColors.neutralDark),
-                        )
-                            : SizedBox(),
-                        order.order != null
-                            ? Text(
-                          order.order.shipping_address != null
-                              ? Utility.addressFormatter(
-                              order.order.shipping_address)
-                              : "",
-                          style: captionNormal1.copyWith(
-                              color: AppColors.neutralGray),
-                        )
-                            : SizedBox(),
-                        order.order != null
-                            ? Text(
-                          LocaleKeys.orderAt.tr(namedArgs: {
-                            "location": "",
-                            "date": DateHelper.formatServerDate(
-                                order.order.created_at)
-                          }),
+                        Expanded(
+                            child: Text(
+                          LocaleKeys.orderStatus.tr(),
                           style: bodyTextNormal2.copyWith(
                               color: AppColors.neutralGray),
-                        )
-                            : SizedBox(),
-                        SizedBox(
-                          height: Dimens.spacingSmall,
-                        ),
-                        DotWidget(
-                          color: AppColors.neutralLightGray,
-                          width: 8,
-                          height: Dimens.borderWidth,
-                        ),
-                        SizedBox(
-                          height: Dimens.spacingSmall,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Text(
-                                  LocaleKeys.orderStatus.tr(),
-                                  style: bodyTextNormal2.copyWith(
-                                      color: AppColors.neutralGray),
-                                )),
-                            Text(Utility.capitalize(order.detail_status),
-                                style: bodyTextNormal2.copyWith(
-                                    color: AppColors.neutralDark))
-                          ],
-                        ),
-                        SizedBox(
-                          height: Dimens.spacingSmall,
-                        ),
-                        /* Row(
+                        )),
+                        Text(Utility.capitalize(order.detail_status),
+                            style: bodyTextNormal2.copyWith(
+                                color: AppColors.neutralDark))
+                      ],
+                    ),
+                    SizedBox(
+                      height: Dimens.spacingSmall,
+                    ),
+                    /* Row(
                       children: [
                         Expanded(child: Text(LocaleKeys.orderItems.tr(),
                           style: bodyTextNormal2.copyWith(
@@ -269,27 +272,27 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
                                 .neutralDark))
                       ],
                     ),*/
-                        SizedBox(
-                          height: Dimens.spacingSmall,
-                        ),
-                        order.order != null
-                            ? Row(
-                          children: [
-                            Expanded(
-                                child: Text(
-                                  LocaleKeys.price.tr(),
-                                  style: bodyTextNormal2.copyWith(
-                                      color: AppColors.neutralGray),
-                                )),
-                            Text(Utility.currencyFormat(order.order.total),
-                                style: bodyTextNormal1.copyWith(
-                                    color: AppColors.primary))
-                          ],
-                        )
-                            : SizedBox()
-                      ],
+                    SizedBox(
+                      height: Dimens.spacingSmall,
                     ),
-                  )),
+                    order.order != null
+                        ? Row(
+                            children: [
+                              Expanded(
+                                  child: Text(
+                                LocaleKeys.price.tr(),
+                                style: bodyTextNormal2.copyWith(
+                                    color: AppColors.neutralGray),
+                              )),
+                              Text(Utility.currencyFormat(order.order.total),
+                                  style: bodyTextNormal1.copyWith(
+                                      color: AppColors.primary))
+                            ],
+                          )
+                        : SizedBox()
+                  ],
+                ),
+              )),
             ),
           );
         },

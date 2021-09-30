@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/date_helper.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:logger/logger.dart';
 
 class CountdownView extends StatefulWidget{
 
@@ -61,6 +62,7 @@ class _CountdownViewState extends State<CountdownView>{
     }
     var validFrom = widget.validFrom;
     var validTo = widget.validTo;
+
     return DateHelper.isValidTime(validFrom, validTo);
   }
 

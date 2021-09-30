@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:coupon_app/app/components/app_image.dart';
 import 'package:coupon_app/app/components/banner_product.dart';
 import 'package:coupon_app/app/components/countdown.dart';
+import 'package:coupon_app/app/components/price.dart';
 import 'package:coupon_app/app/components/product_item.dart';
 import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/product_colors.dart';
@@ -114,6 +115,7 @@ class ProductPageView
                   ? VariantPicker(
                       controller.product.product.product_variants,
                       onPickVariant: controller.onSelectVariant,
+                      product: controller.product.product,
                     )
                   : SizedBox(),
               SizedBox(
@@ -178,30 +180,17 @@ class ProductPageView
                     style: captionNormal2.copyWith(color: AppColors.error),
                   ),
                 ),
-                Utility.checkOfferPrice(
-                        controller.product != null ? controller.product.product : null, controller.showTimer)
-                    ? Text(
-                        Utility.currencyFormat(controller.product != null
-                            ? controller.product.product.price
-                            : 0),
-                        style: captionNormal1.copyWith(
-                            color: AppColors.neutralGray,
-                            decoration: TextDecoration.lineThrough),
-                      )
-                    : SizedBox(),
-                Text(
-                  Utility.currencyFormat(controller.product != null
-                      ? controller.showTimer &&
-                              controller.product.product.offer_price != "0"
-                          ? controller.product.product.offer_price
-                          : controller.product.product.sale_price
-                      : 0),
-                  style: bodyTextNormal1.copyWith(color: AppColors.primary),
+                Price(
+                  product: controller.product.product,
                 )
               ],
             ),
           ),
-          Utility.checkOfferPrice( controller.product != null ? controller.product.product : null, controller.showTimer)
+          Utility.checkOfferPrice(
+                  controller.product != null
+                      ? controller.product.product
+                      : null,
+                  controller.showTimer)
               ? Stack(
                   children: [
                     Image.asset(
@@ -238,13 +227,53 @@ class ProductPageView
   }
 
   Widget _elapsedTime(ProductController controller) {
+    return Visibility(
+      visible: controller.product != null && controller.product.product.isInOffer(),
+      child: Row(
+        children: [
+          Image.asset(
+            Resources.timerIcon,
+            width: 24,
+            height: 24,
+            color: AppColors.primary,
+          ),
+          SizedBox(
+            width: Dimens.spacingMedium,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                LocaleKeys.timeLeft.tr(),
+                style: bodyTextMedium1.copyWith(
+                  color: AppColors.primary,
+                ),
+              ),
+              CountdownView(
+                showIcon: false,
+                textStyle:
+                heading5.copyWith(color: AppColors.accent),
+                isValidTime: (isValid) {
+                  controller.isValidTime(isValid);
+                },
+                validTo: DateHelper.parseServerDateTime(
+                    controller.product.product.offer_to),
+                validFrom: DateHelper.parseServerDateTime(
+                    controller.product.product.offer_from),
+              )
+            ],
+          )
+        ],
+      ),
+    );
     return controller.product.product.valid_from != null &&
             controller.product.product.valid_to != null
         ? Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              controller.product != null && controller.showTimer
+              controller.product != null && controller.product.product.isInOffer()
                   ? Row(
                       children: [
                         Image.asset(
@@ -292,7 +321,7 @@ class ProductPageView
     return Expanded(
       child: RaisedButton.icon(
         onPressed: () {
-          CartStream().addToCart(
+          controller.addToCartWithVariant(
               controller.product.product, controller.selectedProductVariant);
         },
         icon: Icon(
@@ -452,6 +481,11 @@ class ProductPageView
       );
 
   _banners(ProductController controller) {
+    if (controller.selectedProductVariant != null) {
+      return SizedBox(
+          height: 240,
+          child: AppImage(controller.selectedProductVariant.image));
+    }
     return controller.product != null &&
             controller.product.product != null &&
             controller.product.product.product_gallery != null &&
@@ -490,22 +524,25 @@ class ProductPageView
   }
 
   _sliderIndicator(ProductController controller) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          controller.product != null &&
-                  controller.product.product != null &&
-                  controller.product.product.product_gallery != null &&
-                  controller.product.product.product_gallery.length > 0
-              ? AnimatedSmoothIndicator(
-                  activeIndex: sliderImageIndex,
-                  count: controller.product.product.product_gallery.length,
-                  effect: WormEffect(dotWidth: 8, dotHeight: 8),
-                )
-              : SizedBox()
-        ],
+    return Visibility(
+      visible: controller.selectedProductVariant == null,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            controller.product != null &&
+                    controller.product.product != null &&
+                    controller.product.product.product_gallery != null &&
+                    controller.product.product.product_gallery.length > 0
+                ? AnimatedSmoothIndicator(
+                    activeIndex: sliderImageIndex,
+                    count: controller.product.product.product_gallery.length,
+                    effect: WormEffect(dotWidth: 8, dotHeight: 8),
+                  )
+                : SizedBox()
+          ],
+        ),
       ),
     );
   }
@@ -519,12 +556,13 @@ class ProductPageView
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Theme(
-              data : Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              data:
+                  Theme.of(context).copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(
                 tilePadding: EdgeInsets.zero,
                 initiallyExpanded: true,
                 title: Text(
-                  LocaleKeys.description.tr(),
+                  LocaleKeys.deals.tr(),
                   style: heading5.copyWith(color: AppColors.neutralDark),
                 ),
                 children: [
@@ -541,7 +579,8 @@ class ProductPageView
               visible: controller.product != null &&
                   controller.product.in_box != null,
               child: Theme(
-                data : Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                data: Theme.of(context)
+                    .copyWith(dividerColor: Colors.transparent),
                 child: ExpansionTile(
                   tilePadding: EdgeInsets.zero,
                   title: Text(
@@ -551,7 +590,8 @@ class ProductPageView
                   expandedAlignment: Alignment.topLeft,
                   children: [
                     Html(
-                      data: controller.product != null && controller.product.in_box != null
+                      data: controller.product != null &&
+                              controller.product.in_box != null
                           ? controller.product.in_box
                           : "",
                       shrinkWrap: true,
@@ -567,7 +607,8 @@ class ProductPageView
               visible: controller.product != null &&
                   controller.product.warranty != null,
               child: Theme(
-                data : Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                data: Theme.of(context)
+                    .copyWith(dividerColor: Colors.transparent),
                 child: ExpansionTile(
                   tilePadding: EdgeInsets.zero,
                   title: Text(
@@ -577,7 +618,8 @@ class ProductPageView
                   expandedAlignment: Alignment.topLeft,
                   children: [
                     Html(
-                      data: controller.product != null && controller.product.warranty != null
+                      data: controller.product != null &&
+                              controller.product.warranty != null
                           ? controller.product.warranty
                           : "",
                       shrinkWrap: true,
@@ -590,11 +632,12 @@ class ProductPageView
               visible: controller.product != null &&
                   controller.product.notes != null,
               child: Theme(
-                data : Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                data: Theme.of(context)
+                    .copyWith(dividerColor: Colors.transparent),
                 child: ExpansionTile(
                   tilePadding: EdgeInsets.zero,
                   title: Text(
-                    LocaleKeys.notes.tr(),
+                    controller.product.product.category_type ? LocaleKeys.features.tr() :LocaleKeys.notes.tr(),
                     style: heading5.copyWith(color: AppColors.neutralDark),
                   ),
                   expandedAlignment: Alignment.topLeft,
@@ -602,13 +645,13 @@ class ProductPageView
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Html(
-                        data:  controller.product != null &&
-                            controller.product.notes != null
-                            ? controller.product.notes.replaceAll("\\\n", "<br>")
+                        data: controller.product != null &&
+                                controller.product.notes != null
+                            ? controller.product.notes
+                                .replaceAll("\\\n", "<br>")
                             : "",
                         shrinkWrap: true,
-                      )
-                      ,
+                      ),
                     ),
                   ],
                 ),

@@ -1,5 +1,6 @@
 import 'package:coupon_app/app/components/cart_item.dart';
 import 'package:coupon_app/app/components/custom_app_bar.dart';
+import 'package:coupon_app/app/components/price.dart';
 import 'package:coupon_app/app/components/product_thumbnail.dart';
 import 'package:coupon_app/app/components/state_view.dart';
 import 'package:coupon_app/app/pages/checkout/checkout_controller.dart';
@@ -340,10 +341,14 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(Dimens.spacingNormal),
-                  child: ProductThumbnail(
+                  child: cart.variant_value_id == null ? ProductThumbnail(
                       cart != null && cart.product_id != null
                           ? cart.product_id.thumb_img
-                          : ""),
+                          : ""): ProductThumbnail(
+                      cart != null
+                          ? cart.variant_value_id.image
+                          : "")
+                  ,
                 ),
                 Expanded(
                   child: Column(
@@ -386,44 +391,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                             ),
                             Visibility(
                                 visible: cart.product_id.stock > 0,
-                                child: Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    Utility.checkOfferPrice(
-                                        cart.product_id,
-                                        cart.product_id
-                                            .isInOffer())
-                                        ? Text(
-                                      Utility.getCartItemPrice(
-                                          cart),
-                                      style:
-                                      captionNormal1.copyWith(
-                                          color: AppColors
-                                              .neutralGray,
-                                          decoration:
-                                          TextDecoration
-                                              .lineThrough),
-                                    )
-                                        : SizedBox(),
-                                    Text(
-                                      Utility.currencyFormat(cart.product_id !=
-                                          null
-                                          ? cart.product_id
-                                          .isInOffer() &&
-                                          cart.product_id
-                                              .offer_price !=
-                                              "0"
-                                          ?cart.product_id
-                                          .offer_price
-                                          : cart.product_id
-                                          .sale_price
-                                          : 0),
-                                      style: bodyTextNormal1.copyWith(
-                                          color: AppColors.primary),
-                                    ),
-                                  ],
-                                )),
+                                child: Price(product: cart.product_id, variantValue: cart.variant_value_id,)),
                           ],
                         ),
                       ),
