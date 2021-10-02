@@ -54,6 +54,7 @@ class DataOrderRepository extends OrderRepository {
           'address': address.address,
           'user_sessid': userId.toString(),
           'pay_mode': payMode,
+          'lang_type': Config().getLanguageId().toString(),
           "CurrencyCode": country != null ? country.country_currency_symbol : "KWD",
         };
       } else {
@@ -61,6 +62,7 @@ class DataOrderRepository extends OrderRepository {
           'shipping_address': shippingAddressId,
           'billing_address': shippingAddressId,
           'pay_mode': payMode,
+          'lang_type': Config().getLanguageId().toString(),
           'wallet' : useWallet.toString(),
           "CurrencyCode": country != null ? country.country_currency_symbol : "KWD",
         };

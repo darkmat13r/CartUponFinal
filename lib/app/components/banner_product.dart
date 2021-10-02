@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:coupon_app/app/components/app_image.dart';
 import 'package:coupon_app/app/components/buy_now_button.dart';
+import 'package:coupon_app/app/components/price.dart';
 import 'package:coupon_app/app/components/product_colors.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
@@ -33,6 +34,7 @@ class _BannerProductState extends State<BannerProduct> {
 
   @override
   Widget build(BuildContext context) {
+    var haveGallery = widget.productDetail != null && widget.productDetail.product != null &&  widget.productDetail.product.product_gallery != null;
     if (_isValidToValid()) {
       _elapsedTime =
           DateHelper.formatExpiry(DateTime.now(), widget.productDetail.product.valid_to);
@@ -43,43 +45,52 @@ class _BannerProductState extends State<BannerProduct> {
       child: Card(
         child: Column(
           children: [
-            CarouselSlider.builder(
-                itemCount:  widget.productDetail != null
-                    ?  widget.productDetail.product.product_gallery.length
-                    : 0,
-                itemBuilder: (BuildContext context, int index) {
-                  var gallery =  widget.productDetail.product.product_gallery ?? [];
-                  return AppImage(gallery[index].image);
-                },
-                options: CarouselOptions(
-                  height: 240,
-                  aspectRatio: 16 / 9,
-                  viewportFraction: 1,
-                  initialPage: 0,
-                  onPageChanged: (index, page) {
-                    setState(() {
-                      sliderImageIndex = index;
-                    });
+            Visibility(
+              visible: haveGallery,
+              child: CarouselSlider.builder(
+                  itemCount:  haveGallery
+                      ?  widget.productDetail.product.product_gallery.length
+                      : 0,
+                  itemBuilder: (BuildContext context, int index) {
+                    var gallery =  widget.productDetail.product.product_gallery ?? [];
+                    return AppImage(gallery[index].image);
                   },
-                  enableInfiniteScroll: true,
-                  reverse: false,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  scrollDirection: Axis.horizontal,
-                )),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedSmoothIndicator(
-                    activeIndex: sliderImageIndex,
-                    count: widget.productDetail != null
-                        ? widget.productDetail.product.product_gallery.length
-                        : 0,
-                    effect: WormEffect(dotWidth: 8, dotHeight: 8),
-                  )
-                ],
+                  options: CarouselOptions(
+                    height: 240,
+                    aspectRatio: 16 / 9,
+                    viewportFraction: 1,
+                    initialPage: 0,
+                    onPageChanged: (index, page) {
+                      setState(() {
+                        sliderImageIndex = index;
+                      });
+                    },
+                    enableInfiniteScroll: true,
+                    reverse: false,
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 3),
+                    scrollDirection: Axis.horizontal,
+                  )),
+            ),
+            Visibility(
+              visible:  !haveGallery,
+                child: AppImage(widget.productDetail.product.thumb_img)),
+            Visibility(
+              visible: haveGallery,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AnimatedSmoothIndicator(
+                      activeIndex: sliderImageIndex,
+                      count: haveGallery
+                          ? widget.productDetail.product.product_gallery.length
+                          : 0,
+                      effect: WormEffect(dotWidth: 8, dotHeight: 8),
+                    )
+                  ],
+                ),
               ),
             ),
             Padding(
@@ -97,21 +108,7 @@ class _BannerProductState extends State<BannerProduct> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              widget.productDetail != null &&
-                                      double.parse(widget.productDetail.product.dis_per) > 0
-                                  ? Text(
-                                      "KD${widget.productDetail != null ? widget.productDetail.product.price : ""}",
-                                      style: captionNormal2.copyWith(
-                                          color: AppColors.neutralGray,
-                                          decoration:
-                                              TextDecoration.lineThrough),
-                                    )
-                                  : SizedBox(),
-                              Text(
-                                "KD${widget.productDetail.product.sale_price}",
-                                style:
-                                    heading4.copyWith(color: AppColors.primary),
-                              )
+                              Price(product: widget.productDetail.product, variantValue: null)
                             ],
                           ),
                         ),
@@ -156,6 +153,7 @@ class _BannerProductState extends State<BannerProduct> {
                   ),
                   Text(
                     widget.productDetail.name,
+                    maxLines: 2,
                     style: heading3.copyWith(color: AppColors.primary),
                   ),
                   SizedBox(
@@ -163,6 +161,7 @@ class _BannerProductState extends State<BannerProduct> {
                   ),
                   Text(
                     widget.productDetail.short_description,
+                    maxLines: 2,
                     style: heading4.copyWith(
                         color: AppColors.primary, fontWeight: FontWeight.w400),
                   ),

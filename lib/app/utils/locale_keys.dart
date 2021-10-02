@@ -354,4 +354,6 @@ class LocaleKeys {
   static var deals = "deals";
   static var features = "features";
 
+  static var dealsAndOutlet = "dealsAndOutlet";
+
 }

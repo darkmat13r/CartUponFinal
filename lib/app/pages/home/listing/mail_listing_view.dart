@@ -48,7 +48,7 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
                     height: Dimens.spacingMedium,
                   ),
                   _adBanners,
-                  //BannerProduct(),//TODO Banner Products
+                  _featuredProducts(controller),//TODO Banner Products
                   SizedBox(
                     height: Dimens.spacingNormal,
                   ),
@@ -244,4 +244,50 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
               ],
             );
           });
+
+  _featuredProducts(MainListingController controller) {
+    return Visibility(
+      visible: controller.homeResponse != null &&  controller.homeResponse.featured_products != null  ? controller.homeResponse.featured_products.length > 0 : false,
+      child: Column(
+        children: [
+          SizedBox(height: Dimens.spacingMedium,),
+          Padding(
+            padding:
+            const EdgeInsets.symmetric(horizontal: Dimens.spacingMedium),
+            child: Row(
+              children: [
+                Expanded(
+                    child: Text(
+                      LocaleKeys.dealsAndOutlet.tr(),
+                      maxLines: 2,
+                      style: heading5.copyWith(color: AppColors.primary),
+                    )),
+
+              ],
+            ),
+          ),
+          Container(
+            height: 264,
+            width: double.infinity,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: controller.homeResponse != null && controller.homeResponse.featured_products != null ? controller.homeResponse.featured_products.length :0,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 2,
+                  child: ProductItem(
+                    product: controller.homeResponse.featured_products[index],
+                  ),
+                );
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }

@@ -45,9 +45,10 @@ class AddAddressController extends BaseController {
 
   Country selectedCountry;
   List<Country> countries;
-  AddAddressController(
-      this.address,
-      AddressRepository addressRepository, AuthenticationRepository authRepo,  { this.askPersonalDetails, this.guest})
+
+  AddAddressController(this.address, AddressRepository addressRepository,
+      AuthenticationRepository authRepo,
+      {this.askPersonalDetails, this.guest})
       : _presenter = AddAddressPresenter(addressRepository, authRepo) {
     _logger = Logger("AddAddressController");
     firstNameText = TextEditingController();
@@ -65,8 +66,8 @@ class AddAddressController extends BaseController {
     refreshUI();
     _presenter.fetchAreas();
     fillValues();
-
   }
+
   void getCachedCountry() async {
     selectedCountry = Config().selectedCountry;
     refreshUI();
@@ -74,34 +75,32 @@ class AddAddressController extends BaseController {
 
   void getCachedCountries() async {
     countries = await SessionHelper().cachedCounties();
-    if(address != null){
-      try{
-      //  selectedCountry = countries.firstWhere((element) => element.dial_code == address.)
-      }catch(e){
-
-      }
+    if (address != null) {
+      try {
+        //  selectedCountry = countries.firstWhere((element) => element.dial_code == address.)
+      } catch (e) {}
     }
     refreshUI();
   }
-  fillValues(){
-    if(this.address != null){
-        firstNameText.text = this.address.first_name;
-        lastNameText.text = this.address.last_name;
-        flatText.text = this.address.floor_flat;
-        buildingText.text = this.address.building;
-        addressText.text = this.address.address;
-        phoneText.text= this.address.phone_no;
 
-        if(this.address.area != null){
-          areaText.text = this.address.area.area_name;
-          selectedArea = this.address.area;
-        }
-        if(this.address.block != null){
-          blockText.text = this.address.block.block_name;
-          selectedBlock = this.address.block;
-        }
-        isDefault = this.address.is_default;
+  fillValues() {
+    if (this.address != null) {
+      firstNameText.text = this.address.first_name;
+      lastNameText.text = this.address.last_name;
+      flatText.text = this.address.floor_flat;
+      buildingText.text = this.address.building;
+      addressText.text = this.address.address;
+      phoneText.text = this.address.phone_no;
 
+      if (this.address.area != null) {
+        areaText.text = this.address.area.area_name;
+        selectedArea = this.address.area;
+      }
+      if (this.address.block != null) {
+        blockText.text = this.address.block.block_name;
+        selectedBlock = this.address.block;
+      }
+      isDefault = this.address.is_default;
     }
   }
 
@@ -110,6 +109,9 @@ class AddAddressController extends BaseController {
     areaText.text = area.area_name;
     print("============>areaText.text ${areaText.text}");
     selectedArea = area;
+    selectedBlock = null;
+    blockText.text = "";
+    if (blocks != null) blocks.clear();
     refreshUI();
     _presenter.fetchBlocks(area.id.toString());
     Navigator.of(getContext()).pop();
@@ -118,6 +120,7 @@ class AddAddressController extends BaseController {
   onSelectBlock(Block block) {
     blockText.text = block.block_name;
     selectedBlock = block;
+    dismissProgressDialog();
     refreshUI();
     Navigator.of(getContext()).pop();
   }
@@ -156,6 +159,7 @@ class AddAddressController extends BaseController {
     _presenter.getBlocksOnError = (e) {
       isLoadingBlocks = false;
       refreshUI();
+
       showGenericSnackbar(getContext(), e.message, isError: true);
     };
 
@@ -182,10 +186,10 @@ class AddAddressController extends BaseController {
     };
   }
 
-  void editAddress(){
+  void editAddress() {
     showLoading();
     Address data = Address(
-        id: address!= null ? address.id : null,
+        id: address != null ? address.id : null,
         first_name: firstNameText.text,
         last_name: lastNameText.text,
         area: selectedArea,
@@ -213,9 +217,9 @@ class AddAddressController extends BaseController {
         countryCode: selectedCountry.dial_code,
         phone_no: phoneText.text,
         is_default: isDefault);
-    if(guest){
+    if (guest) {
       Navigator.of(getContext()).pop(data);
-    }else{
+    } else {
       _presenter.createAddress(data);
     }
   }
@@ -231,9 +235,9 @@ class AddAddressController extends BaseController {
     // Validate params
     assert(formKey is GlobalKey<FormState>);
     if (formKey.currentState.validate()) {
-      if(address == null){
+      if (address == null) {
         addAddress();
-      }else{
+      } else {
         editAddress();
       }
     }

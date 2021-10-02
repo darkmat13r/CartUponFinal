@@ -299,6 +299,7 @@
   "notes": "ملحوظات",
   "errorSelectVariant": "المتغير {} مطلوب",
   "features" : "الميزات والمواصفات",
-  "deals" : "صفقات"
+  "deals" : "صفقة",
+  "dealsAndOutlet" : "الصفقات ومنافذ البيع"
 
 }

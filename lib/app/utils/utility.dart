@@ -32,7 +32,7 @@ class Utility {
       if (variantValue != null) {
         price = double.tryParse(variantValue.price);
       } else {
-        price = double.tryParse(product.sale_price);
+        price = double.tryParse(product.price);
       }
     }
     return Utility.currencyFormat(price);
@@ -59,7 +59,6 @@ class Utility {
     var offerPrice = product.offer_price != null ? double.parse(product.offer_price) :  0.00;
     double price = 0;
     var variantOffer =  double.tryParse(product.getOfferPriceByVariant(variantValue));
-
     return product != null && product.price != null &&
         originalPrice > (showTimer && offerPrice > 0 ? variantOffer : salePrice);
   }

@@ -148,9 +148,11 @@ class Product {
   }
 
   bool isInOffer() {
-    if (offer_from != null && offer_to != null)
-      return DateHelper.isValidTime(DateHelper.parseServerDateTime(offer_from),
-          DateHelper.parseServerDateTime(offer_to));
+    if (offer_from != null && offer_to != null){
+      var offerFrom = DateHelper.parseServerDateTime(offer_from);
+      var offerTo = DateHelper.parseServerDateTime(offer_to);
+      return DateHelper.isValidTime(offerFrom, offerTo);
+    }
     return false;
   }
 
@@ -158,23 +160,26 @@ class Product {
     if (isInOffer() && value != null) {
       return value.offerPrice;
     }
+    if(isInOffer()){
+      return offer_price;
+    }
     try {
-      if (offer_price != null && double.tryParse(offer_price) > 0)
-        return offer_price;
-      return sale_price;
+      if (sale_price != null && double.tryParse(sale_price) > 0)
+        return sale_price;
+      return price;
     } catch (e) {}
-    return sale_price;
+    return price;
   }
   String getVariantOfferPriceByVariant(ProductVariantValue value) {
     if (isInOffer() && value != null) {
       return value.offerPrice;
     }
     try {
-      if (value.offerPrice != null && double.tryParse(value.offerPrice) > 0)
-        return value.offerPrice;
-      return value.salePrice;
+      if (value.salePrice != null && double.tryParse(value.salePrice) > 0)
+        return value.salePrice;
+      return value.price;
     } catch (e) {}
-    return value.salePrice;
+    return value.price;
   }
   bool isVariantRequired() {
     if (product_variants != null) {

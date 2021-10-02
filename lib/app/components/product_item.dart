@@ -154,8 +154,12 @@ class _ProductItemState extends State<ProductItem>
                               onTap: () {
                                 /* showGenericSnackbar(
                               context, LocaleKeys.itemAddedToCart.tr());*/
-                                _cartStream.addToCart(
-                                    widget.product.product, null);
+                                if(widget.product.product != null && widget.product.product.isVariantRequired()){
+                                  AppRouter().productDetails(context, widget.product);
+                                }else{
+                                  _cartStream.addToCart(
+                                      widget.product.product, null);
+                                }
                               },
                             ),
                           ),

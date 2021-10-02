@@ -316,5 +316,6 @@
   "notes": "Notes",
   "errorSelectVariant": "Variant {} required",
   "features" : "Feature & Specifications",
-  "deals" : "Deals"
+  "deals" : "Deal",
+  "dealsAndOutlet" : "Deals & Outlet"
 }
