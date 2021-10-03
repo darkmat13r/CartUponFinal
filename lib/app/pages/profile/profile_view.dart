@@ -10,6 +10,7 @@ import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
 import 'package:coupon_app/data/repositories/data_authentication_repository.dart';
+import 'package:coupon_app/data/repositories/data_country_repository.dart';
 import 'package:coupon_app/data/repositories/data_nationality_repository.dart';
 import 'package:coupon_app/domain/entities/models/Nationality.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -29,7 +30,7 @@ class ProfilePage extends View {
 class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
   ProfilePageState()
       : super(ProfileController(
-            DataAuthenticationRepository(), DataNationalityRepository()));
+            DataAuthenticationRepository(), DataNationalityRepository(), DataCountryRepository()));
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -96,7 +97,7 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
               SizedBox(
                 height: Dimens.spacingSmall,
               ),
-              dialCode(controller),
+              countryCode(controller),
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
@@ -340,9 +341,38 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
     );
     if (picked != null && picked != controller.dob) controller.setDob(picked);
   }
-
+  countryCode(ProfileController controller) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        // color: AppColors.neutralLightGray,
+          borderRadius: BorderRadius.circular(Dimens.cornerRadius),
+          border: Border.all(
+              color: AppColors.neutralLightGray, width: Dimens.borderWidth)),
+      child: InkWell(
+        onTap: (){
+          showCountryPicker(controller);
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+              horizontal: Dimens.spacingMedium,
+              vertical: Dimens.spacingNormal + 4),
+          child: Padding(
+            padding: const EdgeInsets.only(right: Dimens.spacingMedium),
+            child: Row(
+              children: [
+                Text(
+                  " ${controller.selectedCountry.country_name}",
+                  style: bodyTextNormal1,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
   void showCountryPicker(ProfileController controller) {
-    return;
     showDialog(
         context: context,
         builder: (BuildContext context) {

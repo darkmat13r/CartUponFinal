@@ -8,6 +8,7 @@ import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/entities/models/Nationality.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
+import 'package:coupon_app/domain/repositories/coutry_repository.dart';
 import 'package:coupon_app/domain/repositories/nationality_repository.dart';
 import 'package:coupon_app/domain/usercases/auth/register_usecase.dart';
 import 'package:coupon_app/domain/usercases/auth/update_profile_usecase.dart';
@@ -32,8 +33,8 @@ class ProfileController extends BaseController {
   ProfilePresenter _presenter;
   List<Country> countries;
   ProfileController(AuthenticationRepository authRepo,
-      NationalityRepository nationalityRepository)
-      : _presenter = ProfilePresenter(authRepo, nationalityRepository) {
+      NationalityRepository nationalityRepository, CountryRepository countryRepo)
+      : _presenter = ProfilePresenter(authRepo, nationalityRepository, countryRepo) {
     _logger = Logger();
     firstNameController = TextEditingController();
     lastNameController = TextEditingController();
@@ -83,7 +84,7 @@ class ProfileController extends BaseController {
     gender = currentUser.gender;
     title = currentUser.title;
     mobileNumberController.text = currentUser.user.username;
-    countryCode = currentUser.country_code;
+    countryCode = selectedCountry.country_code;
     dob = DateFormat("yyyy-MM-dd").parse(currentUser.date_of_birth);
     setDob(dob);
     updateNationality();
@@ -94,10 +95,10 @@ class ProfileController extends BaseController {
   updateCountryCode(){
     if(currentUser != null){
       try{
-        _logger.e("Countries ${countries}");
+        _logger.e("Countries ${countries.map((e) => e.toJson())}");
         _logger.e("currentUser.country_code ${currentUser.country_code}");
         countryCode = currentUser.country_code;
-        selectedCountry = countries.firstWhere((element) => element.dial_code.replaceAll("+", "") == currentUser.country_code.replaceAll("+", ""));
+        selectedCountry = countries.firstWhere((element) => element.country_code == currentUser.country_code);
         refreshUI();
       }catch(e){
         _logger.e(e);
@@ -111,7 +112,7 @@ class ProfileController extends BaseController {
         firstName: firstNameController.text,
         lastName: lastNameController.text,
         email: emailController.text,
-        countryCode: countryCode,
+        countryCode: selectedCountry.country_code,
         nationality: nationality.id,
         gender: gender,
         title: title,
