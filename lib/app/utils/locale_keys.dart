@@ -356,4 +356,10 @@ class LocaleKeys {
 
   static var dealsAndOutlet = "dealsAndOutlet";
 
+  static var details = "details";
+
+  static var location = "location";
+  static var validity = "validity";
+  static var valueOfCoupon = "valueOfCoupon";
+
 }

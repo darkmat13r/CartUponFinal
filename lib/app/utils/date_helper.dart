@@ -61,4 +61,7 @@ class DateHelper {
   static formatServerDate(String createdAt) {
     return DateFormat.yMMMd().add_Hm().format(DateHelper.parseServerDateTime(createdAt));
   }
+  static formatServerDateOnly(String createdAt) {
+    return DateFormat.yMMMd().format(DateHelper.parseServerDateTime(createdAt));
+  }
 }

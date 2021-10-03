@@ -300,6 +300,10 @@
   "errorSelectVariant": "المتغير {} مطلوب",
   "features" : "الميزات والمواصفات",
   "deals" : "صفقة",
+  "details" : "تفاصيل",
+  "location" : "موقع",
+  "validity" : "صلاحية",
+  "valueOfCoupon" : "قيمة القسيمة",
   "dealsAndOutlet" : "الصفقات ومنافذ البيع"
 
 }

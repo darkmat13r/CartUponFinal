@@ -228,7 +228,8 @@ class ProductPageView
 
   Widget _elapsedTime(ProductController controller) {
     return Visibility(
-      visible: controller.product != null && controller.product.product.isInOffer(),
+      visible:
+          controller.product != null && controller.product.product.isInOffer(),
       child: Row(
         children: [
           Image.asset(
@@ -252,8 +253,7 @@ class ProductPageView
               ),
               CountdownView(
                 showIcon: false,
-                textStyle:
-                heading5.copyWith(color: AppColors.accent),
+                textStyle: heading5.copyWith(color: AppColors.accent),
                 isValidTime: (isValid) {
                   controller.isValidTime(isValid);
                 },
@@ -273,7 +273,8 @@ class ProductPageView
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              controller.product != null && controller.product.product.isInOffer()
+              controller.product != null &&
+                      controller.product.product.isInOffer()
                   ? Row(
                       children: [
                         Image.asset(
@@ -555,12 +556,53 @@ class ProductPageView
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Visibility(
+              visible: controller.product != null &&
+                  controller.product.product != null &&
+                  !controller.product.product.category_type,
+              child: Theme(
+                data: Theme.of(context)
+                    .copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  tilePadding: EdgeInsets.zero,
+                  initiallyExpanded: true,
+                  title: Text(
+                    LocaleKeys.details.tr(),
+                    style: heading5.copyWith(color: AppColors.neutralDark),
+                  ),
+                  children: [
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Text(LocaleKeys.validity.tr() + " : ", style: heading6,),
+                            Text(DateHelper.formatServerDateOnly(controller.product.product.valid_from) + " - ${DateHelper.formatServerDateOnly(controller.product.product.valid_to)}",)
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(LocaleKeys.valueOfCoupon.tr() + " : ", style: heading6,),
+                            Text(Utility.currencyFormat(controller.product.product.price),)
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(LocaleKeys.location.tr() + " : ", style: heading6,),
+                            Text(controller.product.product.seller.address)
+                          ],
+                        ),
+                      ],
+                    ),
+
+                  ],
+                ),
+              ),
+            ),
             Theme(
               data:
                   Theme.of(context).copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(
                 tilePadding: EdgeInsets.zero,
-                initiallyExpanded: true,
                 title: Text(
                   LocaleKeys.deals.tr(),
                   style: heading5.copyWith(color: AppColors.neutralDark),
@@ -637,7 +679,9 @@ class ProductPageView
                 child: ExpansionTile(
                   tilePadding: EdgeInsets.zero,
                   title: Text(
-                    controller.product.product.category_type ? LocaleKeys.features.tr() :LocaleKeys.notes.tr(),
+                    controller.product.product.category_type
+                        ? LocaleKeys.features.tr()
+                        : LocaleKeys.notes.tr(),
                     style: heading5.copyWith(color: AppColors.neutralDark),
                   ),
                   expandedAlignment: Alignment.topLeft,

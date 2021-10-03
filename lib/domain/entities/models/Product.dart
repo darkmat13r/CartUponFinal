@@ -7,6 +7,7 @@ import 'package:coupon_app/domain/entities/models/Category.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/entities/models/ProductGallery.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariant.dart';
+import 'package:coupon_app/domain/entities/models/Seller.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
 import 'package:logger/logger.dart';
 
@@ -29,6 +30,7 @@ class Product {
   String offer_to;
   int category_id;
   Category category;
+  Seller seller;
   String valid_to;
   ProductDetail product_detail;
   List<ProductDetail> product_details;
@@ -53,6 +55,7 @@ class Product {
       this.valid_to,
       this.offer_from,
       this.offer_to,
+      this.seller,
       this.product_detail,
       this.product_details});
 
@@ -69,6 +72,11 @@ class Product {
           ? (json['category_id'] is Map
               ? Category.fromJson(json['category_id'])
               : null)
+          : null,
+      seller: json.containsKey('seller_id')
+          ? (json['seller_id'] is Map
+          ? Seller.fromJson(json['seller_id'])
+          : null)
           : null,
       product_gallery: json['product_gallery'] != null
           ? (json['product_gallery'] as List)

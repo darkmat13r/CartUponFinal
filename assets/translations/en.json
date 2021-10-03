@@ -317,5 +317,9 @@
   "errorSelectVariant": "Variant {} required",
   "features" : "Feature & Specifications",
   "deals" : "Deal",
+  "details" : "Details",
+  "location" : "Location",
+  "validity" : "Validity",
+  "valueOfCoupon" : "Value of Coupon",
   "dealsAndOutlet" : "Deals & Outlet"
 }
