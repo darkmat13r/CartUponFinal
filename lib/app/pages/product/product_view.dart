@@ -484,7 +484,7 @@ class ProductPageView
   _banners(ProductController controller) {
     if (controller.selectedProductVariant != null) {
       return SizedBox(
-          height: 240,
+          height: MediaQuery.of(context).size.width,
           child: AppImage(controller.selectedProductVariant.image));
     }
     return controller.product != null &&
@@ -502,8 +502,7 @@ class ProductPageView
                   child: AppImage(gallery[index].image));
             },
             options: CarouselOptions(
-              height: 240,
-              aspectRatio: 16 / 9,
+              height: MediaQuery.of(context).size.width,
               viewportFraction: 1,
               initialPage: 0,
               enableInfiniteScroll: true,
@@ -519,7 +518,7 @@ class ProductPageView
             ))
         : controller.product != null && controller.product.product != null
             ? SizedBox(
-                height: 240,
+                height: MediaQuery.of(context).size.width,
                 child: AppImage(controller.product.product.thumb_img))
             : SizedBox();
   }
