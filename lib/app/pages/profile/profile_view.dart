@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:coupon_app/app/components/custom_app_bar.dart';
 import 'package:coupon_app/app/components/loading_button.dart';
@@ -89,6 +91,10 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
               ),,*/
               SizedBox(
                 height: Dimens.spacingMedium,
+              ),
+              Text(LocaleKeys.chooseCountry.tr(), style: heading6,),
+              SizedBox(
+                height: Dimens.spacingSmall,
               ),
               dialCode(controller),
               SizedBox(
@@ -243,15 +249,19 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
                   controller.countryCode = value.dialCode;
                 },
                 showCountryOnly: false,
-                showFlag: false,
+                showFlag: true,
                 showOnlyCountryWhenClosed: false,
                 padding: EdgeInsets.all(12),
                 builder: (CountryCode countryCode) {
                   return Padding(
                     padding: const EdgeInsets.only(right: Dimens.spacingMedium),
-                    child: Text(
-                      countryCode.dialCode,
-                      style: bodyTextNormal1,
+                    child: Row(
+                      children: [
+                        Text(
+                          " ${countryCode.name}",
+                          style: bodyTextNormal1,
+                        ),
+                      ],
                     ),
                   );
                 },
