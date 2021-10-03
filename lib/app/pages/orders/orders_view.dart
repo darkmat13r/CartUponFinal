@@ -73,13 +73,15 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(Dimens.spacingNormal),
-                  child: order.variant_value_id != null
+                  child: order.variant_value_id == null
                       ? ProductThumbnail(
                           order != null && order.product_id != null
                               ? order.product_id.thumb_img
                               : "")
                       : ProductThumbnail(
-                          order != null ? order.variant_value_id.image : ""),
+                          order != null && order.variant_value_id != null ? order.variant_value_id.image : order != null && order.product_id != null
+                              ? order.product_id.thumb_img
+                              : ""),
                 ),
                 Expanded(
                   child: Column(
@@ -87,7 +89,7 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: Dimens.spacingMedium,
+                        height: Dimens.spacingNormal,
                       ),
                       order.order != null
                           ? Padding(
@@ -127,8 +129,21 @@ class OrdersPageState extends ViewState<OrdersPage, OrdersController> {
                               heading6.copyWith(color: AppColors.neutralDark),
                         ),
                       ),
+                      Visibility(
+                        visible:  order != null && order.variant_value_id != null,
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.only(left: Dimens.spacingMedium),
+                          child: Text(
+                            order != null && order.variant_value_id != null ? order.variant_value_id.value : "",
+                            maxLines: 1,
+                            style:
+                            captionNormal1.copyWith(color: AppColors.neutralGray),
+                          ),
+                        ),
+                      ),
                       SizedBox(
-                        height: Dimens.spacingNormal,
+                        height: Dimens.spacingSmall,
                       ),
                       Padding(
                         padding:

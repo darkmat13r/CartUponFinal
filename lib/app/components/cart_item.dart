@@ -61,7 +61,7 @@ class CartItemViewState extends State<CartItemView> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: Dimens.spacingMedium,
+                        height: Dimens.spacingNormal,
                       ),
                       Padding(
                         padding:
@@ -78,9 +78,20 @@ class CartItemViewState extends State<CartItemView> {
                               heading6.copyWith(color: AppColors.neutralDark),
                         ),
                       ),
-                      SizedBox(
-                        height: Dimens.spacingNormal,
+                      Visibility(
+                        visible: widget.item != null && widget.item.variant_value_id != null,
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.only(left: Dimens.spacingMedium),
+                          child: Text(
+                            widget.item != null && widget.item.variant_value_id != null ? widget.item.variant_value_id.value : "",
+                            maxLines: 1,
+                            style:
+                            captionNormal1.copyWith(color: AppColors.neutralGray),
+                          ),
+                        ),
                       ),
+
                       Padding(
                         padding:
                             const EdgeInsets.only(left: Dimens.spacingMedium),

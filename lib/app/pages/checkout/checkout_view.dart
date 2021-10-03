@@ -356,7 +356,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: Dimens.spacingMedium,
+                        height: Dimens.spacingNormal,
                       ),
                       Padding(
                         padding:
@@ -372,14 +372,28 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                               heading6.copyWith(color: AppColors.neutralDark),
                         ),
                       ),
+                      Visibility(
+                        visible:  cart != null && cart.variant_value_id != null,
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.only(left: Dimens.spacingMedium),
+                          child: Text(
+                            cart != null && cart.variant_value_id != null ? cart.variant_value_id.value : "",
+                            maxLines: 1,
+                            style:
+                            captionNormal1.copyWith(color: AppColors.neutralGray),
+                          ),
+                        ),
+                      ),
                       SizedBox(
-                        height: Dimens.spacingNormal,
+                        height: Dimens.spacingSmall,
                       ),
                       Padding(
                         padding:
                             const EdgeInsets.only(left: Dimens.spacingMedium),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
                               child: Text(

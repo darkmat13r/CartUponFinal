@@ -404,7 +404,7 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: Dimens.spacingMedium,
+                        height: Dimens.spacingNormal,
                       ),
                       Padding(
                         padding:
@@ -421,8 +421,22 @@ class OrderPageState extends ViewState<OrderPage, OrderController> {
                               heading6.copyWith(color: AppColors.neutralDark),
                         ),
                       ),
+
+                      Visibility(
+                        visible:  orderDetail != null && orderDetail.variant_value_id != null,
+                        child: Padding(
+                          padding:
+                          const EdgeInsets.only(left: Dimens.spacingMedium),
+                          child: Text(
+                            orderDetail != null && orderDetail.variant_value_id != null ? orderDetail.variant_value_id.value : "",
+                            maxLines: 1,
+                            style:
+                            captionNormal1.copyWith(color: AppColors.neutralGray),
+                          ),
+                        ),
+                      ),
                       SizedBox(
-                        height: Dimens.spacingNormal,
+                        height: Dimens.spacingSmall,
                       ),
                       Padding(
                         padding:

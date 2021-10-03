@@ -313,6 +313,7 @@ class CheckoutController extends BaseController {
         paymentMethod == 1 && paymentMethod != 3 ? "cash" : "online",
         isGuest: currentUser == null,
         address: defaultAddress,
+        onlyCoupon: containsOnlyCoupon,
         useWallet: useWallet);
   }
 

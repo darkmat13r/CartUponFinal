@@ -575,25 +575,40 @@ class ProductPageView
                       children: [
                         Row(
                           children: [
-                            Text(LocaleKeys.validity.tr() + " : ", style: heading6,),
-                            Text(DateHelper.formatServerDateOnly(controller.product.product.valid_from) + " - ${DateHelper.formatServerDateOnly(controller.product.product.valid_to)}",)
+                            Text(
+                              LocaleKeys.validity.tr() + " : ",
+                              style: heading6,
+                            ),
+                            Text(
+                                controller.product.product.valid_from != null && controller.product.product.valid_to != null ? DateHelper.formatServerDateOnly(
+                                      controller.product.product.valid_from) +
+                                  " - ${DateHelper.formatServerDateOnly(controller.product.product.valid_to)}" : "",
+                            )
                           ],
                         ),
                         Row(
                           children: [
-                            Text(LocaleKeys.valueOfCoupon.tr() + " : ", style: heading6,),
-                            Text(Utility.currencyFormat(controller.product.product.price),)
+                            Text(
+                              LocaleKeys.valueOfCoupon.tr() + " : ",
+                              style: heading6,
+                            ),
+                            Text(
+                              Utility.currencyFormat(
+                                  controller.product.product.price),
+                            )
                           ],
                         ),
                         Row(
                           children: [
-                            Text(LocaleKeys.location.tr() + " : ", style: heading6,),
+                            Text(
+                              LocaleKeys.location.tr() + " : ",
+                              style: heading6,
+                            ),
                             Text(controller.product.product.seller.address)
                           ],
                         ),
                       ],
                     ),
-
                   ],
                 ),
               ),

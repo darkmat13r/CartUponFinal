@@ -49,12 +49,12 @@ class CheckoutPresenter extends AuthPresenter {
   }
 
   placeOrder(int shippingAddressId, int billingAddressId, String payMode,
-      {bool isGuest, Address address, bool useWallet}) {
+      {bool isGuest, Address address, bool useWallet, bool onlyCoupon}) {
     _placeOrderUseCase.execute(
         _PlaceOrderObserver(this),
         PlaceOrderParams(
-            shippingAddress: shippingAddressId.toString(),
-            billingAddress: billingAddressId.toString(),
+            shippingAddress: onlyCoupon ?  "" : shippingAddressId.toString(),
+            billingAddress:onlyCoupon ?  "" :  billingAddressId.toString(),
             payMode: payMode,
             isGuest: isGuest,
             useWallet: useWallet,
