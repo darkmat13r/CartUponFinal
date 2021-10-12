@@ -12,7 +12,8 @@
    <application
         android:label="Cart Upon"
         android:icon="@mipmap/ic_launcher">
-
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyD00RiCdlFZyHG0yPYcUcKJo_Hqjq90QGg"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

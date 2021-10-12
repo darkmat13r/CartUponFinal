@@ -220,7 +220,7 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
                   ),
                 ),
                 Container(
-                  height: 264,
+                  height: MediaQuery.of(context).size.width/1.4,
                   width: double.infinity,
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -230,10 +230,7 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       return SizedBox(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width / 2,
+                        width: Dimens.productCardWidth,
                         child: ProductItem(
                           product: section.category.products[index],
                         ),
@@ -267,7 +264,7 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
             ),
           ),
           Container(
-            height: 264,
+            height: MediaQuery.of(context).size.width/1.3,
             width: double.infinity,
             child: ListView.builder(
               shrinkWrap: true,
@@ -275,10 +272,7 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
                 return SizedBox(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width / 2,
+                  width: Dimens.productCardWidth,
                   child: ProductItem(
                     product: controller.homeResponse.featured_products[index],
                   ),

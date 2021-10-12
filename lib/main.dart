@@ -81,7 +81,7 @@ class MyAppState extends State<MyApp> {
   final _splashPage = SplashPage();
   @override
   Widget build(BuildContext context) {
-   // return _myApp();
+    return _myApp();
     return FutureBuilder(
       // Initialize FlutterFire:
       future: initialize(),

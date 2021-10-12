@@ -9,8 +9,10 @@ class Seller {
     int id;
     String seller_name;
     int user_id;
+    String latitude;
+    String longitude;
 
-    Seller({this.account_holder, this.account_no, this.address, this.bank_name, this.contact_no, this.country, this.iban, this.id, this.seller_name, this.user_id});
+    Seller({this.account_holder, this.account_no, this.address, this.bank_name, this.contact_no, this.country, this.iban, this.id, this.seller_name, this.user_id, this.latitude, this.longitude});
 
     factory Seller.fromJson(Map<String, dynamic> json) {
         return Seller(
@@ -22,7 +24,9 @@ class Seller {
             country: json['country'], 
             iban: json['iban'], 
             id: json['id'], 
-            seller_name: json['seller_name'], 
+            latitude: json['latitude'],
+            longitude: json['longitude'],
+            seller_name: json['seller_name'],
             user_id: json['user_id'], 
         );
     }
@@ -37,6 +41,8 @@ class Seller {
         data['country'] = this.country;
         data['iban'] = this.iban;
         data['id'] = this.id;
+        data['latitude'] = this.latitude;
+        data['longitude'] = this.longitude;
         data['seller_name'] = this.seller_name;
         data['user_id'] = this.user_id;
         return data;

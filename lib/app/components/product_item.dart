@@ -55,13 +55,19 @@ class _ProductItemState extends State<ProductItem>
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Expanded(
-                  child: Container(
-                      width: double.infinity,
-                      height: Dimens.thumbImageHeight,
-                      child: AppImage(widget.product.product != null
-                          ? widget.product.product.thumb_img
-                          : "")),
+                SizedBox(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: Dimens.productCardWidth*0.75,
+                          height: Dimens.productCardWidth*0.75,
+                          child: AppImage(widget.product.product != null
+                              ? widget.product.product.thumb_img
+                              : "", fit: BoxFit.contain,)),
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -73,14 +79,17 @@ class _ProductItemState extends State<ProductItem>
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Flexible(
-                        child: Text(
-                          widget.product != null && widget.product.name != null
-                              ? widget.product.name
-                              : "",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
-                          style: bodyTextNormal1.copyWith(
-                              color: AppColors.primary),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.width/10,
+                          child: Text(
+                            widget.product != null && widget.product.name != null
+                                ? widget.product.name
+                                : "",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: bodyTextNormal1.copyWith(
+                                color: AppColors.primary),
+                          ),
                         ),
                       ),
                       /*Text(

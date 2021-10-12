@@ -292,6 +292,8 @@ class Dimens {
   static const double thumbImageHeight = 140;
 
   static const double elevation = 0;
+
+  static var productCardWidth = 200.0;
 }
 
 final TextStyle heading1 = TextStyle(fontSize: 36, fontWeight: FontWeight.bold);

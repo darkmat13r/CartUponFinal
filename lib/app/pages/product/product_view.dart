@@ -32,6 +32,7 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -154,7 +155,8 @@ class ProductPageView
             ],
           ),
         ),
-        _description(controller)
+        _description(controller),
+        _map(controller)
         //  _reviews,
         // _addReview
       ],
@@ -717,6 +719,23 @@ class ProductPageView
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  _map(ProductController controller) {
+    if(!controller.canShowLocation()){
+      return SizedBox();
+    }
+    return SizedBox(
+      height: 240,
+      child: GoogleMap(
+        markers: Set<Marker>.of(controller.markers.values),
+        mapType: MapType.hybrid,
+        initialCameraPosition: controller.getSellerPosition(),
+        onMapCreated: (GoogleMapController mapController) {
+          controller.mapController.complete(mapController);
+        },
       ),
     );
   }

@@ -66,6 +66,7 @@ dependencies:
   dart_ipify: ^1.0.2
   google_sign_in: ^5.0.4
   json_annotation: ^3.0.1
+  google_maps_flutter: ^2.0.11
   # Do not change this version to anything newer for now due to AndroidX dependency issues
   webview_flutter: 2.0.9
   package_info: ^0.4.0+3

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/image/zoom_image.dart';
@@ -21,6 +22,7 @@ import 'package:coupon_app/domain/repositories/whishlist_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:package_info/package_info.dart';
 import 'package:share/share.dart';
@@ -31,13 +33,13 @@ class ProductController extends BaseController {
   String productId;
   bool showTimer = false;
   bool isVariantRequired = false;
-
+  Completer<GoogleMapController> mapController = Completer();
   ProductPresenter _presenter;
 
   ProductVariantValue selectedProductVariant;
 
   ProductDetail product;
-
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   ProductController(
       this.productId,
       AuthenticationRepository authRepo,
@@ -107,6 +109,7 @@ class ProductController extends BaseController {
     _presenter.getProductOnNext = (ProductWithRelated details) {
       this.product = details.productDetail;
       this.similarProducts = details.relatedProducts;
+      loadMarkers();
       _checkValidTimer();
       refreshUI();
     };
@@ -161,10 +164,51 @@ class ProductController extends BaseController {
   void addToCartWithVariant(
       Product product, ProductVariantValue selectedProductVariant) {
     if (product.isVariantRequired() && selectedProductVariant == null) {
-      showGenericSnackbar(getContext(), LocaleKeys.errorSelectVariant.tr(args: [product.getRequiredVariant().name]), isError: true);
+      showGenericSnackbar(
+          getContext(),
+          LocaleKeys.errorSelectVariant
+              .tr(args: [product.getRequiredVariant().name]),
+          isError: true);
       return;
     }
 
     CartStream().addToCart(product, selectedProductVariant);
+  }
+
+  getSellerPosition() {
+    if (canShowLocation()){
+      return CameraPosition(
+        target: LatLng(double.tryParse(product.product.seller.latitude), double.tryParse(product.product.seller.longitude)),
+        zoom: 14.4746,
+      );
+    }
+      return CameraPosition(
+        target: LatLng(0, 0),
+        zoom: 14.4746,
+      );
+  }
+  int _markerIdCounter = 1;
+
+  canShowLocation(){
+    return product != null &&
+        product.product != null &&
+        product.product.seller != null &&
+        product.product.seller.latitude != null &&
+        product.product.seller.longitude != null;
+  }
+  void loadMarkers() {
+    markers.clear();
+    if (canShowLocation()){
+       MarkerId markerId = MarkerId(product.product.seller.id.toString());
+        Marker marker = Marker(
+         markerId: markerId,
+         position: LatLng(
+           double.tryParse(product.product.seller.latitude) + sin(_markerIdCounter * pi / 6.0) / 20.0,
+           double.tryParse(product.product.seller.longitude) + cos(_markerIdCounter * pi / 6.0) / 20.0,
+         ),
+         infoWindow: InfoWindow(title: product.product.seller.address, snippet: '*'),
+       );
+
+    }
   }
 }
