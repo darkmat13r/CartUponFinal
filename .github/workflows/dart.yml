@@ -25,12 +25,22 @@ jobs:
           channel: 'stable'
       - run: flutter pub get
       - run: flutter build apk
+      - run: flutter build appbundle
 
       - name: Deploy
         uses: garygrossgarten/github-action-scp@release
         with:
           local: build/app/outputs/flutter-apk/app-release.apk
           remote: /var/www/api/media/app_release_v2.apk
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          rmRemote: true
+      - name: Deploy Aab
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: build/app/outputs/bundle/app.aab
+          remote: /var/www/api/media/app_bundle.aab
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
