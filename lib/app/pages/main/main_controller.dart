@@ -50,7 +50,7 @@ class MainController extends BaseController {
   setKey(drawerKey) {
     if (_drawerKey == null) {
       _drawerKey = drawerKey;
-      Future.delayed(const Duration(milliseconds: 500), () {
+      Future.delayed(const Duration(minutes: 10), () {
         showLoginDialog();
       });
     }

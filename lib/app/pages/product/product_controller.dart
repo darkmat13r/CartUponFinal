@@ -40,6 +40,8 @@ class ProductController extends BaseController {
 
   ProductDetail product;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
+  CameraPosition cameraPosition;
   ProductController(
       this.productId,
       AuthenticationRepository authRepo,
@@ -110,6 +112,7 @@ class ProductController extends BaseController {
       this.product = details.productDetail;
       this.similarProducts = details.relatedProducts;
       loadMarkers();
+      getSellerPosition();
       _checkValidTimer();
       refreshUI();
     };
@@ -177,18 +180,17 @@ class ProductController extends BaseController {
 
   getSellerPosition() {
     if (canShowLocation()){
-      return CameraPosition(
+      cameraPosition =  CameraPosition(
         target: LatLng(double.tryParse(product.product.seller.latitude), double.tryParse(product.product.seller.longitude)),
         zoom: 14.4746,
       );
     }
-      return CameraPosition(
+    cameraPosition =  CameraPosition(
         target: LatLng(0, 0),
         zoom: 14.4746,
       );
   }
   int _markerIdCounter = 1;
-
   canShowLocation(){
     return product != null &&
         product.product != null &&
@@ -208,7 +210,9 @@ class ProductController extends BaseController {
          ),
          infoWindow: InfoWindow(title: product.product.seller.address, snippet: '*'),
        );
-
+      markers[markerId] = marker;
     }
+    Logger().e("Markers ${markers}");
+    //refreshUI();
   }
 }

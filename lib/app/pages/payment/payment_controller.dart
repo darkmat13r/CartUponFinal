@@ -33,6 +33,7 @@ class PaymentController extends BaseController {
 
   void processResponse(String message, bool isWallet) async {
     Map<String, dynamic> response = jsonDecode(message);
+    Logger().e("PaymentResponse ${message}");
     loadEmptyUrl();
     if (response['Result'] == "COMPLETED" ||
         response['Result'] == "APPROVED" ||

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/date_helper.dart';
+import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/domain/entities/models/Category.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
@@ -208,5 +209,17 @@ class Product {
       });
     }
     return null;
+  }
+
+  String getDiscount(ProductVariantValue value) {
+
+    try{
+      var offerPrice =  getOfferPriceByVariant(value);
+      if(double.parse(price) > 0)
+       return ((1 - double.parse(offerPrice)/ double.parse(price))*100).ceil().toString();
+    }catch(e){
+
+    }
+    return "0";
   }
 }

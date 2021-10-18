@@ -183,16 +183,14 @@ class ProductPageView
                   ),
                 ),
                 Price(
-                  product: controller.product.product,
+                  product: controller.product.product, variantValue: controller.selectedProductVariant,
                 )
               ],
             ),
           ),
-          Utility.checkOfferPrice(
-                  controller.product != null
-                      ? controller.product.product
-                      : null,
-                  controller.showTimer)
+          controller.product != null &&
+                  controller.product.product != null &&
+                  double.tryParse(controller.product.product.getDiscount(controller.selectedProductVariant)) > 0
               ? Stack(
                   children: [
                     Image.asset(
@@ -211,7 +209,7 @@ class ProductPageView
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                                "${double.parse(controller.product.product.dis_per).toInt()}%\nOFF",
+                                "${controller.product.product.getDiscount(controller.selectedProductVariant)}%\n${LocaleKeys.off.tr()}",
                                 style: heading5.copyWith(
                                     color: AppColors.neutralLight,
                                     fontSize: 10,
@@ -451,7 +449,7 @@ class ProductPageView
                     ),
                   ),
                   Container(
-                    height: 260,
+                    height: MediaQuery.of(context).size.width * 0.75,
                     width: double.infinity,
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -581,9 +579,13 @@ class ProductPageView
                               style: heading6,
                             ),
                             Text(
-                                controller.product.product.valid_from != null && controller.product.product.valid_to != null ? DateHelper.formatServerDateOnly(
-                                      controller.product.product.valid_from) +
-                                  " - ${DateHelper.formatServerDateOnly(controller.product.product.valid_to)}" : "",
+                              controller.product.product.valid_from != null &&
+                                      controller.product.product.valid_to !=
+                                          null
+                                  ? DateHelper.formatServerDateOnly(controller
+                                          .product.product.valid_from) +
+                                      " - ${DateHelper.formatServerDateOnly(controller.product.product.valid_to)}"
+                                  : "",
                             )
                           ],
                         ),
@@ -724,7 +726,7 @@ class ProductPageView
   }
 
   _map(ProductController controller) {
-    if(!controller.canShowLocation()){
+    if (!controller.canShowLocation()) {
       return SizedBox();
     }
     return SizedBox(
@@ -732,7 +734,7 @@ class ProductPageView
       child: GoogleMap(
         markers: Set<Marker>.of(controller.markers.values),
         mapType: MapType.hybrid,
-        initialCameraPosition: controller.getSellerPosition(),
+        initialCameraPosition: controller.cameraPosition,
         onMapCreated: (GoogleMapController mapController) {
           controller.mapController.complete(mapController);
         },

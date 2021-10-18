@@ -304,6 +304,7 @@
   "location" : "موقع",
   "validity" : "صلاحية",
   "valueOfCoupon" : "قيمة القسيمة",
-  "dealsAndOutlet" : "الصفقات ومنافذ البيع"
+  "dealsAndOutlet" : "الصفقات ومنافذ البيع",
+  "off" : "إيقاف"
 
 }
