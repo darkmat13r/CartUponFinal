@@ -729,14 +729,35 @@ class ProductPageView
     if (!controller.canShowLocation()) {
       return SizedBox();
     }
+    return AppGoogleMap(
+      markers: controller.markers,
+      cameraPosition: controller.cameraPosition,
+      mapController: controller.mapController,
+    );
+  }
+}
+
+class AppGoogleMap extends StatelessWidget {
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  CameraPosition cameraPosition;
+  Completer<GoogleMapController> mapController = Completer();
+   AppGoogleMap({
+    Key key,
+    this.markers,
+    this.cameraPosition,
+    this.mapController
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       height: 240,
       child: GoogleMap(
-        markers: Set<Marker>.of(controller.markers.values),
-        mapType: MapType.hybrid,
-        initialCameraPosition: controller.cameraPosition,
+        markers: Set<Marker>.of(markers.values),
+        mapType: MapType.satellite,
+        initialCameraPosition: cameraPosition,
         onMapCreated: (GoogleMapController mapController) {
-          controller.mapController.complete(mapController);
+          this.mapController.complete(mapController);
         },
       ),
     );

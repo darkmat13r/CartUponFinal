@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/login/login_presenter.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/constants.dart';
@@ -7,7 +8,7 @@ import 'package:coupon_app/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 
-class LoginController extends Controller{
+class LoginController extends BaseController{
   TextEditingController emailTextController;
   TextEditingController passwordTextController;
   bool isLoading =  false;

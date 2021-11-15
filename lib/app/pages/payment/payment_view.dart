@@ -31,6 +31,7 @@ class _PaymentPageState extends ViewState<PaymentPage, PaymentController> {
     return WillPopScope(
       onWillPop: controller.onWillPop,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: customAppBar(title: Text(LocaleKeys.payment.tr(), style: heading5.copyWith(color: AppColors.primary),)),
         key: globalKey,
 
