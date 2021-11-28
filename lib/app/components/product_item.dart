@@ -11,13 +11,14 @@ import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class ProductItem extends StatefulWidget {
   final ProductDetail product;
-
+  final FirebaseAnalytics analytics = FirebaseAnalytics();
   ProductItem({
     @required this.product,
   });
@@ -42,6 +43,13 @@ class _ProductItemState extends State<ProductItem>
           onTap: () {
             //if (widget.coupon != null)
             AppRouter().productDetails(context, widget.product);
+            widget.analytics.logViewItem(
+              itemId: widget.product.product.id.toString(),
+              itemName: widget.product.name,
+              itemCategory: widget.product.product.category != null ? widget.product.product.category.category_title  : widget.product.product.category_id.toString(),
+              price: double.tryParse(widget.product.product.getVariantOfferPriceByVariant(null)),
+              currency: 'KD',
+            );
           },
           child: _buildProductCard(),
         ));

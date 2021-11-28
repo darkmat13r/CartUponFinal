@@ -8,6 +8,7 @@ import 'package:coupon_app/domain/entities/models/CategoryType.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/repositories/category_repository.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logger/logger.dart';
@@ -21,7 +22,7 @@ class Filter {
 
 class SearchController extends BaseController {
   List<ProductDetail> products = [];
-
+  final FirebaseAnalytics analytics = FirebaseAnalytics();
   final filters = [
     Filter("low-price", LocaleKeys.sortLowPrice.tr()),
     Filter("high-price", LocaleKeys.sortHighPrice.tr()),
@@ -58,6 +59,9 @@ class SearchController extends BaseController {
       /* showGenericSnackbar(getContext(), LocaleKeys.errorInvalidCategory.tr(),
           isError: true);*/
     }
+    analytics.logSearch(
+      searchTerm: query,
+    );
   }
 
   @override

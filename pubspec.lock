@@ -862,6 +862,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.8"
+  pushwoosh:
+    dependency: "direct main"
+    description:
+      name: pushwoosh
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.20.1"
   quiver:
     dependency: transitive
     description:

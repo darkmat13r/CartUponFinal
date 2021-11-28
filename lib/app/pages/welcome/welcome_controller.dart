@@ -4,6 +4,7 @@ import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -12,7 +13,7 @@ import 'package:logger/logger.dart';
 
 class WelcomeController extends Controller {
   final facebookLogin = FacebookLogin();
-
+  final FirebaseAnalytics analytics = FirebaseAnalytics();
   final WelcomePresenter _presenter;
 
 
@@ -64,6 +65,9 @@ class WelcomeController extends Controller {
       case FacebookLoginStatus.loggedIn:
         Logger().e("FB Token ${result.accessToken.token}");
         _presenter.facebookLogin(accessToken: result.accessToken.token);
+        analytics.logSignUp(
+          signUpMethod: 'Facebook',
+        );
         break;
       case FacebookLoginStatus.cancelledByUser:
         showGenericSnackbar(
@@ -88,6 +92,9 @@ class WelcomeController extends Controller {
       if(user != null){
         final GoogleSignInAuthentication googleAuth = await user.authentication;
         _presenter.googleLogin(accessToken: googleAuth.accessToken);
+        analytics.logSignUp(
+          signUpMethod: 'Google',
+        );
       }
     } catch (error) {
       showGenericSnackbar(getContext(), error.message, isError: true);

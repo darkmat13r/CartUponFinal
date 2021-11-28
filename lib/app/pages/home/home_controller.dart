@@ -10,7 +10,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logger/logger.dart';
 import 'package:path/path.dart';
-
 import 'package:uni_links/uni_links.dart';
 import 'package:flutter/services.dart' show PlatformException;
 class HomeController extends BaseController{
@@ -31,17 +30,7 @@ class HomeController extends BaseController{
   }
 
   openLink(String link) {
-    if(link  ==null || link == "#"){
-      return;
-    }
-    var parts = split(link);
-    if (parts.length > 0 && parts[parts.length - 1] != "#") {
-      AppRouter().productDetailsById(
-          getContext(), parts[parts.length - 1]);
-    } else {
-      showGenericSnackbar(getContext(), LocaleKeys.invalidLink.tr(),
-          isError: true);
-    }
+
   }
   @override
   void onResumed() {

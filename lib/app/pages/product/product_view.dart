@@ -25,6 +25,7 @@ import 'package:coupon_app/data/repositories/data_authentication_repository.dart
 import 'package:coupon_app/data/repositories/data_product_repository.dart';
 import 'package:coupon_app/data/repositories/data_whishlist_repository.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -38,8 +39,9 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductPage extends View {
   final String productId;
-
+  final FirebaseAnalytics analytics = FirebaseAnalytics();
   ProductPage(this.productId) {
+
     Logger().e("PRoduct Id ${this.productId}");
   }
 
@@ -342,6 +344,15 @@ class ProductPageView
       child: OutlinedButton.icon(
         onPressed: () {
           controller.addItemToWhishlist(controller.product.product);
+          widget.analytics.logAddToWishlist(
+            currency: 'KD',
+            value: double.tryParse(controller.product.product.getVariantOfferPriceByVariant(controller.selectedProductVariant)),
+            itemId: controller.product.product.id.toString(),
+            itemName: controller.product.name,
+            itemCategory: controller.product.product.category_id.toString(),
+            quantity: 1,
+            price: double.tryParse(controller.product.product.getVariantOfferPriceByVariant(controller.selectedProductVariant)),
+          );
         },
         icon: Icon(
             !controller.isAddedToWhishlist

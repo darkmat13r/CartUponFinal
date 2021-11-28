@@ -11,12 +11,14 @@ import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/repositories/nationality_repository.dart';
 import 'package:coupon_app/domain/usercases/auth/register_usecase.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logger/logger.dart';
 
 class RegisterController extends BaseController {
+  final FirebaseAnalytics analytics = FirebaseAnalytics();
   TextEditingController firstNameController;
   TextEditingController lastNameController;
   TextEditingController emailController;
@@ -92,7 +94,9 @@ class RegisterController extends BaseController {
       }else{
         goToHome();
       }
-
+      analytics.logSignUp(
+        signUpMethod: 'Email',
+      );
     };
     _presenter.registerOnError = (e) {
       _logger.e(e);

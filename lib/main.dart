@@ -16,7 +16,7 @@ import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:logger/logger.dart';
-
+import 'package:pushwoosh/pushwoosh.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -75,25 +75,36 @@ class MyAppState extends State<MyApp> {
     }
     var locale = Config().locale != null ? Config().locale : deviceLocale;
     EasyLocalization.of(context).setLocale(locale);
-    return Firebase.initializeApp();
+    await Firebase.initializeApp();
+    Pushwoosh.initialize({"app_id": "EE86C-B7FB7", "sender_id": "244170329800"});
+    Pushwoosh pushwoosh = Pushwoosh.getInstance;
+    pushwoosh.registerForPushNotifications();
+    pushwoosh.onPushReceived.listen((event) {
+      var message = event.pushwooshMessage;
+      print("onPushAccepted" + message.payload.toString());
+    });
+    pushwoosh.onPushAccepted.listen((event) {
+    });
+    pushwoosh.setShowForegroundAlert(true);
+    pushwoosh.onDeepLinkOpened.listen((link) {
+      var message = "Link opened:\n" + link;
+      print(message);
+    });
+    return Future(null);
   }
 
   final _splashPage = SplashPage();
   @override
   Widget build(BuildContext context) {
-    return _myApp();
+
     return FutureBuilder(
       // Initialize FlutterFire:
       future: initialize(),
       builder: (context, snapshot) {
-        // Check for errors
-       
-
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           return _myApp();
         }
-
         // Otherwise, show something whilst waiting for initialization to complete
         return _splashPage;
       },

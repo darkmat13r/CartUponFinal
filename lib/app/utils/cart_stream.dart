@@ -7,11 +7,12 @@ import 'package:coupon_app/domain/entities/models/CartItem.dart';
 import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:vibration/vibration.dart';
 
 class CartStream {
   static final CartStream _instance = CartStream._internal();
-
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
   StreamController<int> stream;
   int _cartItem = 0;
   final _repo = DataCartRepository();
@@ -35,6 +36,15 @@ class CartStream {
     if (await Vibration.hasVibrator()) {
       Vibration.vibrate();
     }
+    analytics.logAddToCart(
+      currency: 'KD',
+      value: double.tryParse(productDetail.getVariantOfferPriceByVariant(variantValue)),
+      itemId: productDetail.id.toString(),
+      itemName: productDetail.product_detail.name,
+      itemCategory: productDetail.category_id.toString(),
+      quantity: 1,
+      price: double.tryParse(productDetail.getVariantOfferPriceByVariant(variantValue)),
+    );
   }
 
   fetchQuantity() async {
