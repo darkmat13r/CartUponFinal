@@ -29,8 +29,8 @@ class ProfilePage extends View {
 
 class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
   ProfilePageState()
-      : super(ProfileController(
-            DataAuthenticationRepository(), DataNationalityRepository(), DataCountryRepository()));
+      : super(ProfileController(DataAuthenticationRepository(),
+            DataNationalityRepository(), DataCountryRepository()));
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -83,17 +83,41 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
                 height: Dimens.spacingMedium,
               ),
               dobField(controller, context),
-              /*SizedBox(
+              SizedBox(
                 height: Dimens.spacingMedium,
               ),
               emailField(controller),
               SizedBox(
                 height: Dimens.spacingMedium,
-              ),,*/
+              ),
+              Visibility(
+                visible: !controller.mobileNumberController.text.contains(RegExp(r'[A-Za-z]')),
+                child: TextFormField(
+                  keyboardType: TextInputType.phone,
+                  enabled: false,
+                  controller: controller.mobileNumberController,
+                  validator: (value) {
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                      // fillColor: AppColors.neutralLightGray,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: AppColors.neutralLightGray,
+                            width: Dimens.borderWidth),
+                      ),
+                      labelText: LocaleKeys.phoneNumber.tr(),
+                      prefixIcon: Icon(MaterialCommunityIcons.phone),
+                      hintText: LocaleKeys.phoneNumber.tr()),
+                ),
+              ),
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
-              Text(LocaleKeys.chooseCountry.tr(), style: heading6,),
+              Text(
+                LocaleKeys.chooseCountry.tr(),
+                style: heading6,
+              ),
               SizedBox(
                 height: Dimens.spacingSmall,
               ),
@@ -178,17 +202,17 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
     return Row(
       children: [
         dialCode(controller),
-       /* Expanded(
+        /* Expanded(
           child: TextFormField(
             keyboardType: TextInputType.phone,
             enabled: false,
             controller: controller.mobileNumberController,
-            *//*validator: (value) {
+            */ /*validator: (value) {
               if (value.isEmpty) {
                 return LocaleKeys.errorPhoneRequired.tr();
               }
               return null;
-            },*//*
+            },*/ /*
             decoration: InputDecoration(
                 // fillColor: AppColors.neutralLightGray,
                 border: OutlineInputBorder(
@@ -238,36 +262,36 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
           border: Border.all(
               color: AppColors.neutralLightGray, width: Dimens.borderWidth)),
       child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Dimens.spacingMedium,
-                  vertical: Dimens.spacingNormal + 4),
-              child: CountryCodePicker(
-                initialSelection: controller.countryCode,
-                onChanged: (CountryCode value) {
-                  controller.countryCode = value.dialCode;
-                },
-                onInit: (CountryCode value) {
-                  controller.countryCode = value.dialCode;
-                },
-                showCountryOnly: false,
-                showFlag: true,
-                showOnlyCountryWhenClosed: false,
-                padding: EdgeInsets.all(12),
-                builder: (CountryCode countryCode) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: Dimens.spacingMedium),
-                    child: Row(
-                      children: [
-                        Text(
-                          " ${countryCode.name}",
-                          style: bodyTextNormal1,
-                        ),
-                      ],
-                    ),
-                  );
-                },
+        padding: const EdgeInsets.symmetric(
+            horizontal: Dimens.spacingMedium,
+            vertical: Dimens.spacingNormal + 4),
+        child: CountryCodePicker(
+          initialSelection: controller.countryCode,
+          onChanged: (CountryCode value) {
+            controller.countryCode = value.dialCode;
+          },
+          onInit: (CountryCode value) {
+            controller.countryCode = value.dialCode;
+          },
+          showCountryOnly: false,
+          showFlag: true,
+          showOnlyCountryWhenClosed: false,
+          padding: EdgeInsets.all(12),
+          builder: (CountryCode countryCode) {
+            return Padding(
+              padding: const EdgeInsets.only(right: Dimens.spacingMedium),
+              child: Row(
+                children: [
+                  Text(
+                    " ${countryCode.name}",
+                    style: bodyTextNormal1,
+                  ),
+                ],
               ),
-            ),
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -341,16 +365,17 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
     );
     if (picked != null && picked != controller.dob) controller.setDob(picked);
   }
+
   countryCode(ProfileController controller) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        // color: AppColors.neutralLightGray,
+          // color: AppColors.neutralLightGray,
           borderRadius: BorderRadius.circular(Dimens.cornerRadius),
           border: Border.all(
               color: AppColors.neutralLightGray, width: Dimens.borderWidth)),
       child: InkWell(
-        onTap: (){
+        onTap: () {
           showCountryPicker(controller);
         },
         child: Padding(
@@ -372,6 +397,7 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
       ),
     );
   }
+
   void showCountryPicker(ProfileController controller) {
     showDialog(
         context: context,
