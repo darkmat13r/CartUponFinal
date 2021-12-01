@@ -63,11 +63,11 @@ dependencies:
   firebase_core: "^1.3.0"
   firebase_analytics: ^8.2.0
   firebase_messaging: ^10.0.3
-  dart_ipify: ^1.0.2
+  dart_ipify: ^1.1.1
   google_sign_in: ^5.0.4
   json_annotation: ^3.0.1
   google_maps_flutter: ^2.0.11
-  pushwoosh: ^1.8.0
+  pushwoosh: 2.2.1
   # Do not change this version to anything newer for now due to AndroidX dependency issues
   webview_flutter: 2.3.1
   package_info: ^0.4.0+3

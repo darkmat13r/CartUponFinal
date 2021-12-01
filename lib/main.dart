@@ -78,18 +78,21 @@ class MyAppState extends State<MyApp> {
     await Firebase.initializeApp();
     Pushwoosh.initialize({"app_id": "EE86C-B7FB7", "sender_id": "244170329800"});
     Pushwoosh pushwoosh = Pushwoosh.getInstance;
-    pushwoosh.registerForPushNotifications();
+
     pushwoosh.onPushReceived.listen((event) {
       var message = event.pushwooshMessage;
-      print("onPushAccepted" + message.payload.toString());
+      Logger().e("onPushReceived" + message.payload.toString());
     });
     pushwoosh.onPushAccepted.listen((event) {
+      var message = event.pushwooshMessage;
+      Logger().e("onPushAccepted" + message.payload.toString());
     });
-    pushwoosh.setShowForegroundAlert(true);
     pushwoosh.onDeepLinkOpened.listen((link) {
       var message = "Link opened:\n" + link;
-      print(message);
+      Logger().e(message);
     });
+    pushwoosh.setShowForegroundAlert(true);
+    await pushwoosh.registerForPushNotifications();
     return Future(null);
   }
 

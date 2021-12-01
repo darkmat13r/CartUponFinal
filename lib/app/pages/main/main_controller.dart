@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logger/logger.dart';
 import 'package:path/path.dart';
+import 'package:pushwoosh/pushwoosh.dart';
 
 class MainController extends BaseController {
   bool isLoggedIn = false;
