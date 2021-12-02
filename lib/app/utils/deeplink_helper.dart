@@ -6,7 +6,7 @@ import 'package:path/path.dart';
 
 class DeeplinkHelper {
 
-  handle(BuildContext context, String link) {
+  static handle(BuildContext context, String link) {
     if (link == null || link == "#") {
       return;
     }

@@ -3,6 +3,7 @@ import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/product/product_presenter.dart';
 import 'package:coupon_app/app/pages/home/listing/main_listing_presenter.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/deeplink_helper.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/entities/models/Adbanner.dart';
@@ -78,13 +79,7 @@ class MainListingController extends BaseController{
   }
 
   openLink(String link){
-    var parts = split(link );
-    _logger.e(parts[parts.length-1]);
-    if(parts.length > 0 && parts[parts.length-1] != null && parts[parts.length-1].length >  0  &&  parts[parts.length-1]  != "#"  ){
-      AppRouter().productDetailsById(getContext(), parts[parts.length-1]);
-    }else{
-    //  showGenericSnackbar(getContext(), LocaleKeys.invalidLink.tr(), isError: true);
-    }
+   DeeplinkHelper.handle(getContext(), link);
   }
 
   onClickSlider(BannerSlider slider){

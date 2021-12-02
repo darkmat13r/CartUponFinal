@@ -3,6 +3,7 @@ import 'package:coupon_app/app/pages/main/main_presenter.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/pages/payment/payment_view.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/deeplink_helper.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';

@@ -2,6 +2,7 @@ import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/home/home_presenter.dart';
 import 'package:coupon_app/app/pages/pages.dart';
 import 'package:coupon_app/app/utils/constants.dart';
+import 'package:coupon_app/app/utils/deeplink_helper.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/domain/repositories/home_repository.dart';
@@ -30,7 +31,7 @@ class HomeController extends BaseController{
   }
 
   openLink(String link) {
-
+    DeeplinkHelper.handle(getContext(), link);
   }
   @override
   void onResumed() {
