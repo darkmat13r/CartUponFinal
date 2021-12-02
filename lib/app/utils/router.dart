@@ -4,6 +4,7 @@ import 'package:coupon_app/app/pages/account/change_password/change_password_vie
 import 'package:coupon_app/app/pages/cart/cart_view.dart';
 import 'package:coupon_app/app/pages/cart/cart_with_toolbar.dart';
 import 'package:coupon_app/app/pages/checkout/checkout_view.dart';
+import 'package:coupon_app/app/pages/contact/contact_us_view.dart';
 import 'package:coupon_app/app/pages/filters/filter_view.dart';
 import 'package:coupon_app/app/pages/forgot_password/forgot_password_view.dart';
 import 'package:coupon_app/app/pages/home/home_view.dart';
@@ -88,6 +89,8 @@ class AppRouter {
         return buildRoute(settings, SettingsPage());
       case Pages.requestOtp :
         return buildRoute(settings, RequestOtpPage());
+      case Pages.contactUs :
+        return buildRoute(settings, ContactUsPage());
 
     }
   }

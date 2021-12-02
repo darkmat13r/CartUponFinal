@@ -305,6 +305,7 @@
   "validity" : "صلاحية",
   "valueOfCoupon" : "قيمة القسيمة",
   "dealsAndOutlet" : "الصفقات ومنافذ البيع",
-  "off" : "إيقاف"
+  "off" : "إيقاف",
+  "officeAddress" : "عنوان المكتب"
 
 }

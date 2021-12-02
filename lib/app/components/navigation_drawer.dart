@@ -176,18 +176,36 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             ],
           ),
           SizedBox(height: 10),
-          InkWell(
-            onTap: () {
-              openUrl(context, LocaleKeys.aboutUs.tr(), Constants.aboutUsUrl);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                LocaleKeys.aboutUs.tr(),
-                style: captionNormal1.copyWith(color: AppColors.accent),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InkWell(
+                onTap: () {
+                  openUrl(context, LocaleKeys.aboutUs.tr(), Constants.aboutUsUrl);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    LocaleKeys.aboutUs.tr(),
+                    style: captionNormal1.copyWith(color: AppColors.accent),
+                  ),
+                ),
               ),
-            ),
-          ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pushNamed(Pages.contactUs);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    LocaleKeys.contactUs.tr(),
+                    style: captionNormal1.copyWith(color: AppColors.accent),
+                  ),
+                ),
+              ),
+            ],
+          )
+          ,
         ],
       ),
     );

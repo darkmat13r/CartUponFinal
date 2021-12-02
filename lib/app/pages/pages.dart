@@ -32,4 +32,5 @@ class Pages{
   static const String settings = "/settings";
   static const String requestOtp = "/requestOtp";
   static const String verifyOtp = "/verifyOtp";
+  static const String contactUs = "/contactUs";
 }

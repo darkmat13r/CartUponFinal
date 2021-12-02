@@ -322,5 +322,6 @@
   "validity" : "Validity",
   "valueOfCoupon" : "Value of Coupon",
   "dealsAndOutlet" : "Deals & Outlet",
-  "off" : "Off"
+  "off" : "Off",
+  "officeAddress" : "Office Address"
 }

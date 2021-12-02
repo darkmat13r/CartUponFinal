@@ -68,6 +68,7 @@ dependencies:
   json_annotation: ^3.0.1
   google_maps_flutter: ^2.0.11
   pushwoosh: 2.2.1
+  flutter_phone_direct_caller: ^2.1.0
   # Do not change this version to anything newer for now due to AndroidX dependency issues
   webview_flutter: 2.3.1
   package_info: ^0.4.0+3
