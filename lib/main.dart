@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:coupon_app/app/pages/error/something_went_wrong.dart';
 import 'package:coupon_app/app/pages/splash/splash_view.dart';
 import 'package:coupon_app/app/utils/config.dart';
+import 'package:coupon_app/app/utils/deeplink_helper.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -92,6 +93,7 @@ class MyAppState extends State<MyApp> {
     pushwoosh.onDeepLinkOpened.listen((link) {
       var message = "Link opened:\n" + link;
       Logger().e(message);
+      DeeplinkHelper.handle(context, link);
     });
     pushwoosh.setShowForegroundAlert(true);
 

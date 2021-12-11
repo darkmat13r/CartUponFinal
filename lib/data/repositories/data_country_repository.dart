@@ -39,7 +39,6 @@ class DataCountryRepository extends CountryRepository {
       final ipv4 = await Ipify.ipv4();
       var detechIp = await HttpHelper.invokeHttp(
           "${Constants.ipDetechApi}/$ipv4", RequestType.get);
-      _logger.e("Respinse ${detechIp}");
       IPDetectResponse ipDetect = IPDetectResponse.fromJson(detechIp);
       return ipDetect;
     } catch (e) {

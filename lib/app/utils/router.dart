@@ -98,6 +98,10 @@ class AppRouter {
     return Navigator.of(context)
         .push(buildRoute(RouteSettings(), OrderPage(order: order,)));
   }
+  Future<dynamic> orderDetailsById(BuildContext context, String orderId) {
+    return Navigator.of(context)
+        .push(buildRoute(RouteSettings(), OrderPage(orderId: orderId,)));
+  }
   productDetails(BuildContext context, ProductDetail product) {
     Navigator.of(context)
         .push(buildRoute(RouteSettings(), ProductPage(product.id.toString())));

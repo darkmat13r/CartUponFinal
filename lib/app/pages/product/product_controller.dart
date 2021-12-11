@@ -122,6 +122,7 @@ class ProductController extends BaseController {
     _presenter.getProductOnError = (e) {
       dismissLoading();
       showGenericSnackbar(getContext(), e.message, isError: true);
+      Navigator.pop(getContext());
     };
   }
 

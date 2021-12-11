@@ -94,7 +94,17 @@
                     android:pathPrefix="/category/"
                     android:scheme="https" />
             </intent-filter>
+            <!-- App Links -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with https://YOUR_HOST -->
+                <data
+                    android:scheme="cartupon" />
+
+            </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
@@ -110,7 +120,16 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:exported="false"
             android:label="@string/app_name" />
+        <service
+            android:name="com.pushwoosh.firebase.PushFcmIntentService"
+            android:exported="false">
 
+            <intent-filter>
+
+                <action
+                    android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">

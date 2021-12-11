@@ -19,15 +19,20 @@ import 'package:logger/logger.dart';
 
 class OrderController extends BaseController {
   OrderDetail orderDetail;
+  String orderId;
   Rating rating;
 
   final OrderPresenter _presenter;
 
-  OrderController(AuthenticationRepository authRepo, OrderRepository orderRepository, {this.orderDetail})
+  OrderController(AuthenticationRepository authRepo, OrderRepository orderRepository, {this.orderDetail, this.orderId})
       : _presenter = OrderPresenter(authRepo, orderRepository) {
     if (orderDetail != null) {
       showLoading();
       _presenter.fetchOrderDetails(orderDetail.id.toString());
+    }
+    if(orderId != null){
+      showLoading();
+      _presenter.fetchOrderDetails(orderId.toString());
     }
   }
 

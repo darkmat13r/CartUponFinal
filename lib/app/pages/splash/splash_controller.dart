@@ -32,7 +32,7 @@ class SplashController extends Controller {
       this.ipDetectResponse = response;
 
     };
-    _presenter.detectCountryOnError = (){
+    _presenter.detectCountryOnError = (e){
       home();
     };
     _presenter.getCountriesOnNext = (response) {

@@ -180,6 +180,9 @@ class Product {
     return price;
   }
   String getVariantOfferPriceByVariant(ProductVariantValue value) {
+    if(value == null){
+      return "0";
+    }
     if (isInOffer() && value != null) {
       return value.offerPrice;
     }

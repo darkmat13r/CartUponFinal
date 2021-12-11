@@ -22,7 +22,6 @@ class GetCategoryListUseCase extends CompletableUseCase<String>{
       controller.add(categories);
       controller.close();
     }catch(e){
-      print(e.stackTrace);
       _logger.shout('Couldn\'t load sliders', e);
       controller.addError(e);
     }

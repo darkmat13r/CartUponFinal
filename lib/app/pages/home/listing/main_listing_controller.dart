@@ -68,7 +68,7 @@ class MainListingController extends BaseController{
     refreshUI();
   }
 
-  getHomeOnError(NoSuchMethodError e) {
+  getHomeOnError( e) {
     dismissLoading();
     _logger.e(e);
     showGenericSnackbar(getContext(), e.toString());

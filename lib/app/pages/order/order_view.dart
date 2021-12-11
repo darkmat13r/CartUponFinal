@@ -24,18 +24,19 @@ import 'package:easy_localization/easy_localization.dart';
 
 class OrderPage extends View {
   final OrderDetail order;
+  final String orderId;
 
-  OrderPage({this.order});
+  OrderPage({this.order, this.orderId});
 
   @override
   State<StatefulWidget> createState() => OrderPageState(order: order);
 }
 
 class OrderPageState extends ViewState<OrderPage, OrderController> {
-  OrderPageState({OrderDetail order})
+  OrderPageState({OrderDetail order, String orderId})
       : super(OrderController(
             DataAuthenticationRepository(), DataOrderRepository(),
-            orderDetail: order));
+            orderDetail: order, orderId: orderId));
 
   @override
   Widget get view => Scaffold(

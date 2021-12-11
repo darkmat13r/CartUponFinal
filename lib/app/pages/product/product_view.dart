@@ -166,6 +166,9 @@ class ProductPageView
   }
 
   SizedBox pricing(ProductController controller) {
+    if(controller.product == null){
+      return SizedBox();
+    }
     return SizedBox(
       width: double.infinity,
       child: Row(
@@ -177,16 +180,16 @@ class ProductPageView
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Visibility(
-                  visible: controller.product.product != null &&
+                  visible:  controller.product != null && controller.product.product != null &&
                       controller.product.product.stock <= 0,
                   child: Text(
                     LocaleKeys.outOfStock.tr(),
                     style: captionNormal2.copyWith(color: AppColors.error),
                   ),
                 ),
-                Price(
+                controller.product != null ? Price(
                   product: controller.product.product, variantValue: controller.selectedProductVariant,
-                )
+                 ) : SizedBox()
               ],
             ),
           ),
