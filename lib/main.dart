@@ -11,6 +11,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:coupon_app/app/pages/login/login_view.dart';
 import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
@@ -116,16 +117,19 @@ class MyAppState extends State<MyApp> {
 
     _myApp(){
       FirebaseAnalytics analytics = FirebaseAnalytics();
-      return MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: appTheme(context),
-        home: SplashPage(),
-        onGenerateRoute: _router.getRoute,
-        navigatorObservers: [_router.routeObserver, FirebaseAnalyticsObserver(analytics: analytics),],
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
+      return ScreenUtilInit(
+        designSize: Size(360, 690),
+        builder: () => MaterialApp(
+          title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
+          theme: appTheme(context),
+          home: SplashPage(),
+          onGenerateRoute: _router.getRoute,
+          navigatorObservers: [_router.routeObserver, FirebaseAnalyticsObserver(analytics: analytics),],
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+        ),
       );
 
     }

@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class SearchPage extends View {
   CategoryType category;
   String categoryId;
@@ -52,7 +52,7 @@ class SearchPageState
   get _body => ControlledWidgetBuilder(
           builder: (BuildContext context, SearchController controller) {
             double cardWidth = Dimens.productCardWidth;
-            double cardHeight = MediaQuery.of(context).size.width / 1.53;
+            double cardHeight = 280.h;
         return StateView(
             controller.isLoading
                 ? EmptyState.LOADING
