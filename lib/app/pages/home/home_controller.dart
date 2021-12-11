@@ -61,6 +61,12 @@ class HomeController extends BaseController{
 
   }
 
+  @override
+  void onDisposed() {
+    _sub.cancel();
+    super.onDisposed();
+  }
+
 
   void goToProductDetails(){
     Navigator.of(getContext()).pushNamed('/product');
