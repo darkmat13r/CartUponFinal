@@ -90,11 +90,7 @@ class MyAppState extends State<MyApp> {
       var message = event.pushwooshMessage;
       Logger().e("onPushAccepted" + message.payload.toString());
     });
-    pushwoosh.onDeepLinkOpened.listen((link) {
-      var message = "Link opened:\n" + link;
-      Logger().e(message);
-      DeeplinkHelper.handle(context, link);
-    });
+
     pushwoosh.setShowForegroundAlert(true);
 
     return Future(null);
