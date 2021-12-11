@@ -32,6 +32,7 @@ class ProductController extends BaseController {
   bool isAddedToWhishlist = false;
   String productId;
   bool showTimer = false;
+  bool isMarkerLoaded = false;
   bool isVariantRequired = false;
   Completer<GoogleMapController> mapController = Completer();
   ProductPresenter _presenter;
@@ -49,7 +50,9 @@ class ProductController extends BaseController {
       WhishlistRepository whishlistRepository)
       : _presenter = ProductPresenter(
             authRepo, productRepository, whishlistRepository,
-            productId: productId);
+            productId: productId){
+
+  }
 
   String elapsedTime;
 
@@ -183,13 +186,10 @@ class ProductController extends BaseController {
     if (canShowLocation()){
       cameraPosition =  CameraPosition(
         target: LatLng(double.tryParse(product.product.seller.latitude), double.tryParse(product.product.seller.longitude)),
-        zoom: 14.4746,
+        zoom: 20,
       );
     }
-    cameraPosition =  CameraPosition(
-        target: LatLng(0, 0),
-        zoom: 14.4746,
-      );
+    refreshUI();
   }
   int _markerIdCounter = 1;
   canShowLocation(){
@@ -206,14 +206,13 @@ class ProductController extends BaseController {
         Marker marker = Marker(
          markerId: markerId,
          position: LatLng(
-           double.tryParse(product.product.seller.latitude) + sin(_markerIdCounter * pi / 6.0) / 20.0,
-           double.tryParse(product.product.seller.longitude) + cos(_markerIdCounter * pi / 6.0) / 20.0,
+           double.tryParse(product.product.seller.latitude),
+           double.tryParse(product.product.seller.longitude),
          ),
-         infoWindow: InfoWindow(title: product.product.seller.address, snippet: '*'),
+         infoWindow: InfoWindow(title: product.product.seller.seller_name, snippet: product.product.seller.address),
        );
       markers[markerId] = marker;
     }
-    Logger().e("Markers ${markers}");
-    //refreshUI();
+    refreshUI();
   }
 }

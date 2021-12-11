@@ -768,7 +768,7 @@ class AppGoogleMap extends StatelessWidget {
       height: 240,
       child: GoogleMap(
         markers: Set<Marker>.of(markers.values),
-        mapType: MapType.satellite,
+        mapType: MapType.normal,
         initialCameraPosition: cameraPosition,
         onMapCreated: (GoogleMapController mapController) {
           this.mapController.complete(mapController);
