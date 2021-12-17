@@ -306,6 +306,7 @@
   "valueOfCoupon" : "قيمة القسيمة",
   "dealsAndOutlet" : "الصفقات ومنافذ البيع",
   "off" : "إيقاف",
-  "officeAddress" : "عنوان المكتب"
+  "officeAddress" : "عنوان المكتب",
+  "maxQty" : "الكمية القصوى: {}"
 
 }

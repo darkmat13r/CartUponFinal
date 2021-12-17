@@ -30,6 +30,7 @@ class Product {
   String offer_from;
   String offer_to;
   int category_id;
+  int maxQty;
   Category category;
   Seller seller;
   String valid_to;
@@ -48,6 +49,7 @@ class Product {
       this.offer_price,
       this.sku,
       this.stock,
+      this.maxQty,
       this.thumb_img,
       this.title,
       this.uid,
@@ -94,6 +96,7 @@ class Product {
           json['offer_price'] != null ? json['offer_price'].toString() : "0",
       sku: json['sku'],
       stock: json['stock'],
+      maxQty: json['max_qty'],
       thumb_img: json['thumb_img'] != null
           ? json['thumb_img'].toString().contains("http")
               ? json['thumb_img']
@@ -130,6 +133,7 @@ class Product {
     data['price'] = this.price;
     data['sale_price'] = this.sale_price;
     data['sku'] = this.sku;
+    data['max_qty'] = this.maxQty;
     data['stock'] = this.stock;
     data['thumb_img'] = this.thumb_img;
     data['category_id'] = this.category_id;
@@ -213,6 +217,7 @@ class Product {
     }
     return null;
   }
+
 
   String getDiscount(ProductVariantValue value) {
 

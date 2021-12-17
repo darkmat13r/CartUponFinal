@@ -363,5 +363,6 @@ class LocaleKeys {
   static var valueOfCoupon = "valueOfCoupon";
   static var off = "off";
   static var officeAddress = "officeAddress";
+  static var maxQty = "maxQty";
 
 }

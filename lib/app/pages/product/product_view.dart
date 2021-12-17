@@ -124,12 +124,14 @@ class ProductPageView
                 height: Dimens.spacingMedium,
               ),
               _elapsedTime(controller),
+
               SizedBox(
                 height: Dimens.spacingLarge,
               ),
               SizedBox(
                   width: double.infinity,
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _whishlistButton(controller),
                       SizedBox(
@@ -322,21 +324,40 @@ class ProductPageView
         : SizedBox();
   }
 
-  Expanded _addToCartButton(ProductController controller) {
-    return Expanded(
-      child: RaisedButton.icon(
-        onPressed: () {
-          controller.addToCartWithVariant(
-              controller.product.product, controller.selectedProductVariant);
-        },
-        icon: Icon(
-          MaterialCommunityIcons.cart_plus,
-          color: AppColors.neutralLight,
-        ),
-        label: Text(
-          LocaleKeys.buyNow.tr(),
-          style: buttonText,
-        ),
+   _addToCartButton(ProductController controller) {
+    return Flexible(
+      flex: 1,
+      child: Column(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: RaisedButton.icon(
+              onPressed: () {
+                controller.addToCartWithVariant(
+                    controller.product.product, controller.selectedProductVariant);
+              },
+              icon: Icon(
+                MaterialCommunityIcons.cart_plus,
+                color: AppColors.neutralLight,
+              ),
+              label: Text(
+                LocaleKeys.buyNow.tr(),
+                style: buttonText,
+              ),
+            ),
+          ),
+          Visibility(
+            visible: controller.product != null && controller.product.product != null && controller.product.product.maxQty > 0,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 8,
+                ),
+                Text(LocaleKeys.maxQty.tr(args : [controller.product.product.maxQty.toString()])),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -643,7 +664,7 @@ class ProductPageView
                     data: controller.product != null
                         ? controller.product.full_description
                         : "",
-                    shrinkWrap: true,
+                    shrinkWrap: false,
                   ),
                 ],
               ),
@@ -667,7 +688,7 @@ class ProductPageView
                               controller.product.in_box != null
                           ? controller.product.in_box
                           : "",
-                      shrinkWrap: true,
+                      shrinkWrap: false,
                     ),
                     SizedBox(
                       height: Dimens.spacingMedium,
@@ -695,7 +716,7 @@ class ProductPageView
                               controller.product.warranty != null
                           ? controller.product.warranty
                           : "",
-                      shrinkWrap: true,
+                      shrinkWrap: false,
                     ),
                   ],
                 ),
@@ -725,7 +746,7 @@ class ProductPageView
                             ? controller.product.notes
                                 .replaceAll("\\\n", "<br>")
                             : "",
-                        shrinkWrap: true,
+                        shrinkWrap: false,
                       ),
                     ),
                   ],

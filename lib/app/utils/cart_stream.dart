@@ -40,7 +40,7 @@ class CartStream {
       currency: 'KD',
       value: double.tryParse(productDetail.getVariantOfferPriceByVariant(variantValue)),
       itemId: productDetail.id.toString(),
-      itemName: productDetail.product_detail.name,
+      itemName: productDetail.product_detail?.name ?? "",
       itemCategory: productDetail.category_id.toString(),
       quantity: 1,
       price: double.tryParse(productDetail.getVariantOfferPriceByVariant(variantValue)),

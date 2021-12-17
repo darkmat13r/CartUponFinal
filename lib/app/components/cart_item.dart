@@ -31,6 +31,12 @@ class CartItemViewState extends State<CartItemView> {
 
   @override
   Widget build(BuildContext context) {
+    var isMaxQtyContains =  (widget.item.product_id?.maxQty ?? 0) > 0;
+    var maxQty =  (widget.item.product_id?.maxQty ?? 0);
+    var stock = widget.item.variant_value_id != null
+        ? widget.item.variant_value_id.stock
+        : widget.item.product_id.stock;
+    var isMaxQty =  (widget.item.qty < (widget.item.product_id?.maxQty ?? 0) ||  (widget.item.product_id?.maxQty ?? 0) == 0);
     return Padding(
       padding: const EdgeInsets.fromLTRB(
           Dimens.spacingNormal, Dimens.spacingNormal, Dimens.spacingNormal, 0),
@@ -103,6 +109,14 @@ class CartItemViewState extends State<CartItemView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Visibility(
+                                    visible: widget.item != null && widget.item.product_id != null && widget.item.product_id.maxQty > 0,
+                                    child: Column(
+                                      children: [
+                                        Text(LocaleKeys.maxQty.tr(args : [widget.item.product_id.maxQty.toString()])),
+                                      ],
+                                    ),
+                                  ),
+                                  Visibility(
                                     visible: !widget.inStock,
                                     child: Text(
                                       LocaleKeys.outOfStock.tr(),
@@ -116,28 +130,29 @@ class CartItemViewState extends State<CartItemView> {
                                 ],
                               ),
                             ),
-                            QuantityButton(
-                              widget.item.qty,
-                              inStock: widget.inStock,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              max: widget.item.variant_value_id != null
-                                  ? widget.item.variant_value_id.stock
-                                  : widget.item.product_id.stock,
-                              onAdd: (qty) {
-                                if (widget.onAdd != null) {
-                                  widget.onAdd(widget.item, qty);
-                                }
-                              },
-                              onDelete: () {
-                                if (widget.onDelete != null) {
-                                  widget.onDelete(widget.item);
-                                }
-                              },
-                              onRemove: (qty) {
-                                if (widget.onRemove != null) {
-                                  widget.onRemove(widget.item, qty);
-                                }
-                              },
+                            Padding(
+                              padding: const EdgeInsets.only(top : 8.0),
+                              child: QuantityButton(
+                                widget.item.qty,
+                                inStock: widget.inStock && isMaxQty,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                max: maxQty < stock ? maxQty : stock,
+                                onAdd: (qty) {
+                                  if (widget.onAdd != null) {
+                                    widget.onAdd(widget.item, qty);
+                                  }
+                                },
+                                onDelete: () {
+                                  if (widget.onDelete != null) {
+                                    widget.onDelete(widget.item);
+                                  }
+                                },
+                                onRemove: (qty) {
+                                  if (widget.onRemove != null) {
+                                    widget.onRemove(widget.item, qty);
+                                  }
+                                },
+                              ),
                             ),
                           ],
                         ),

@@ -323,5 +323,6 @@
   "valueOfCoupon" : "Value of Coupon",
   "dealsAndOutlet" : "Deals & Outlet",
   "off" : "Off",
-  "officeAddress" : "Office Address"
+  "officeAddress" : "Office Address",
+  "maxQty" : "Max Qty : {}"
 }
