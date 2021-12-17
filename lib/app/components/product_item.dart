@@ -198,7 +198,7 @@ class _ProductItemState extends State<ProductItem>
   bool _isValidToValid() {
     if (widget.product.product == null) return false;
     var isValid = false;
-    if (widget.product.product.offer_from == null && widget.product.product.offer_to == null) {
+    if (widget.product.product.offer_from == null || widget.product.product.offer_to == null) {
       return false;
     }
     var validFrom = widget.product.product.offer_from;

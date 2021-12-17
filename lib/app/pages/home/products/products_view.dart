@@ -9,7 +9,7 @@ import 'package:coupon_app/data/repositories/data_product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ProductsPage extends View {
   final String type;
 
@@ -72,8 +72,8 @@ class _ProductsPageState extends ViewState<ProductsPage, ProductsController> {
 
   get _products => ControlledWidgetBuilder(
           builder: (BuildContext context, ProductsController controller) {
-        double cardWidth = 160;
-        double cardHeight = MediaQuery.of(context).size.width / 1.7;
+        double cardWidth = 160.h;
+        double cardHeight = 260.h;
         return StateView(
           controller.isLoading ? EmptyState.LOADING : EmptyState.CONTENT,
           GridView.builder(

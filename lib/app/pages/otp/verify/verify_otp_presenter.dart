@@ -18,9 +18,9 @@ class VerifyOtpPresenter extends Presenter {
       : _verifyOtpUseCase = VerifyOtpUseCase(verificationRepository),
         _requestOtpUseCase = RequestOtpUseCase(verificationRepository);
 
-  requestOtp({String mobileNumber, String countryCode}) {
+  requestOtp({String mobileNumber, String countryCode, int countryId}) {
     _requestOtpUseCase.execute(_RequestOtpObserver(this),
-        RequestOtpParams(mobileNumber: mobileNumber, countryCode: countryCode));
+        RequestOtpParams(mobileNumber: mobileNumber,countryId: countryId, countryCode: countryCode));
   }
 
   @override
@@ -29,9 +29,9 @@ class VerifyOtpPresenter extends Presenter {
     _requestOtpUseCase.dispose();
   }
 
-  void verifyOtp({String mobileNumber, String countryCode, String text}) {
+  void verifyOtp({String mobileNumber, String countryCode,int countryId, String text}) {
     _verifyOtpUseCase.execute(
-        _VerifyOtpObserver(this), VerifyOtpParams(mobileNumber: mobileNumber, countryCode: countryCode, otp: text));
+        _VerifyOtpObserver(this), VerifyOtpParams(mobileNumber: mobileNumber, countryId : countryId, countryCode: countryCode, otp: text));
   }
 }
 

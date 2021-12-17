@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class MainListingPage extends View {
   @override
   State<StatefulWidget> createState() => _MainListingState();
@@ -220,7 +220,7 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
                   ),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.width/1.4,
+                  height: 320.h,
                   width: double.infinity,
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -264,7 +264,7 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.width/1.3,
+            height: 320.h,
             width: double.infinity,
             child: ListView.builder(
               shrinkWrap: true,

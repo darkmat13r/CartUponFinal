@@ -14,17 +14,19 @@ class DeeplinkHelper {
     Logger().e("link.contains(product) ${link.contains("product/")}");
     Logger().e("link.contains(product/details/) ${link.contains("category")}");
     var parts = split(link);
-    var id = "0";
+    var id = "";
     if (parts.length > 0 && parts[parts.length - 1] != "#") {
       id = parts[parts.length - 1];
     }
-    if (id == "0") {
+    if (id.isEmpty) {
       return;
     }
     Uri uri = Uri.parse(link);
     if (link.contains("product/details") || link.contains("product")) {
       if (uri.queryParameters != null && uri.queryParameters.containsKey("id")){
         AppRouter().productDetailsById(context,uri.queryParameters["id"]);
+      }else if(id.isNotEmpty){
+        AppRouter().productDetailsBySlug(context, id);
       }
     } else if (link.contains("category")) {
       if (uri.queryParameters != null && uri.queryParameters.containsKey("id")){

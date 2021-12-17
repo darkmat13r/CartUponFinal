@@ -104,11 +104,15 @@ class AppRouter {
   }
   productDetails(BuildContext context, ProductDetail product) {
     Navigator.of(context)
-        .push(buildRoute(RouteSettings(), ProductPage(product.id.toString())));
+        .push(buildRoute(RouteSettings(), ProductPage(productId : product.id.toString())));
   }
   productDetailsById(BuildContext context, String productId) {
     Navigator.of(context)
-        .push(buildRoute(RouteSettings(), ProductPage(productId)));
+        .push(buildRoute(RouteSettings(), ProductPage(productId : productId)));
+  }
+  productDetailsBySlug(BuildContext context, String productId) {
+    Navigator.of(context)
+        .push(buildRoute(RouteSettings(), ProductPage(slug : productId)));
   }
   Future<dynamic> payment(BuildContext context, String paymentUrl, {bool isWallet }) {
     return Navigator.of(context).push(buildRoute(RouteSettings(), PaymentPage(paymentUrl, wallet: isWallet,)));
@@ -120,11 +124,11 @@ class AppRouter {
           category: category,
         )));
   }
-  verifyOtp(BuildContext context, String countryCode, String mobileNumber,{ bool returnResult}) {
+  verifyOtp(BuildContext context, String countryCode,int countryId, String mobileNumber,{ bool returnResult}) {
    return Navigator.of(context).push(buildRoute(
         RouteSettings(),
         VerifyOtpPage(
-          countryCode, mobileNumber,returnResult: returnResult,
+          countryCode,countryId, mobileNumber,returnResult: returnResult,
         )));
   }
   querySearch(BuildContext context, String query) {
@@ -153,13 +157,13 @@ class AppRouter {
     return new MaterialPageRoute(settings: settings, builder: (ctx) => builder);
   }
 
-   signup(BuildContext context, String countryCode, String mobileNumber,{bool returnResult}) {
+   signup(BuildContext context, String countryCode,int countryId, String mobileNumber,{bool returnResult}) {
    return Navigator.of(context).push(buildRoute(
         RouteSettings(),
         RegisterPage(
           countryCode: countryCode,
           mobileNumber: mobileNumber,
-          returnResult: returnResult,
+          returnResult: returnResult, countryId: countryId,
         )));
   }
 }

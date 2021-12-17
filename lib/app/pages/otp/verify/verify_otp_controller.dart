@@ -14,6 +14,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyOtpController extends BaseController {
   final String countryCode;
+  final int countryId;
   final String mobileNumber;
 
   final VerifyOtpPresenter _presenter;
@@ -24,7 +25,7 @@ class VerifyOtpController extends BaseController {
   bool hasError = false;
   bool returnResult;
 
-  VerifyOtpController(this.countryCode, this.mobileNumber,
+  VerifyOtpController(this.countryCode,this.countryId, this.mobileNumber,
       VerificationRepository verificationRepository,
       {this.returnResult})
       : _presenter = VerifyOtpPresenter(verificationRepository) {
@@ -74,10 +75,10 @@ class VerifyOtpController extends BaseController {
     _presenter.verifyOtpOnComplete = () async {
       if (returnResult != null && returnResult) {
         Navigator.pop(getContext(),
-            {'country_code': countryCode, 'mobile': mobileNumber});
+            {'country_code': countryCode, 'mobile': mobileNumber, 'country_id' : countryId});
       } else {
         var result = await AppRouter().signup(
-            getContext(), countryCode, mobileNumber,
+            getContext(), countryCode, countryId, mobileNumber,
             returnResult: returnResult);
         if (returnResult != null && returnResult) {
           Navigator.pop(getContext(), result);
@@ -105,11 +106,12 @@ class VerifyOtpController extends BaseController {
     _presenter.verifyOtp(
         mobileNumber: mobileNumber,
         countryCode: countryCode,
+        countryId: countryId,
         text: otpController.text);
   }
 
   void resendOtp() {
     showProgressDialog();
-    _presenter.requestOtp(mobileNumber: mobileNumber, countryCode: countryCode);
+    _presenter.requestOtp(mobileNumber: mobileNumber,countryId: countryId,countryCode: countryCode);
   }
 }

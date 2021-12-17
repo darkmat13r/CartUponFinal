@@ -32,6 +32,7 @@ class ProductPresenter extends AuthPresenter {
 
   Logger _logger;
   String productId;
+  String productSlug;
   ProductDetail productDetail;
 
   ProductPresenter(
@@ -40,6 +41,7 @@ class ProductPresenter extends AuthPresenter {
     WhishlistRepository whishlistRepository, {
     this.productDetail,
     this.productId,
+    this.productSlug,
   })  : _getProductUseCase = GetProductWithRelatedUseCase(productRepository),
         _addToWhishlistUseCase = AddToWhishlistUseCase(whishlistRepository),
         _productListUseCase = GetProductListUseCase(productRepository),
@@ -67,7 +69,8 @@ class ProductPresenter extends AuthPresenter {
   void fetchProduct() {
     _getProductUseCase.execute(
         _GetProductObserver(this),
-        getProductId());
+        ProductsParams(id: getProductId(), slug: productSlug)
+        );
   }
 
   String getProductId() {

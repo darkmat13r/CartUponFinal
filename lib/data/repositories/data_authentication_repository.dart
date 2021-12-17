@@ -110,6 +110,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
     String username,
     String email,
     String countryCode,
+    int countryId,
     String mobileNo,
     String dateOfBirth,
     String isActive,
@@ -129,6 +130,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
               headers: headers,
               body: jsonEncode({
                 'country_code': countryCode,
+                'country': countryId.toString(),
                 'date_of_birth': dateOfBirth,
                 'nationlity': nationality,
                 'title': title,

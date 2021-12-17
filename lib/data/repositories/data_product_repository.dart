@@ -75,6 +75,7 @@ class DataProductRepository extends ProductRepository {
         'lang': Config().getLanguageId().toString(),
         'status' : 'true',
         'active' : 'true',
+        'expired' : 'false',
         'country': (await SessionHelper().getSelectedCountryId()).toString()
       };
       if (query != null) {
@@ -94,18 +95,21 @@ class DataProductRepository extends ProductRepository {
   }
 
   @override
-  Future<ProductWithRelated> getProductWithRelated(String slug) async {
+  Future<ProductWithRelated> getProductWithRelated({String slug, String id}) async {
     try {
       var params = {
         'lang': Config().getLanguageId().toString(),
         'country': (await SessionHelper().getSelectedCountryId()).toString()
       };
-      var id = int.tryParse(slug);
-      if (id != null) {
-        params['id'] = slug;
-      } else {
+      if (slug != null) {
         params['slug'] = slug;
+      } else {
+        params['id'] = id;
       }
+
+      Logger().e("Id ${id}");
+      Logger().e("Slug ${params}");
+
       var uri = Constants.createUriWithParams(
           "${Constants.productDetailRoute}", params);
       Map<String, dynamic> data =

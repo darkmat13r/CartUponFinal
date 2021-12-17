@@ -11,19 +11,20 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 class VerifyOtpPage extends View {
   final String countryCode;
   final String mobileNumber;
+  final int countryId;
   final bool returnResult;
-  VerifyOtpPage(this.countryCode, this.mobileNumber,{this.returnResult});
+  VerifyOtpPage(this.countryCode, this.countryId, this.mobileNumber,{this.returnResult});
 
   @override
   State<StatefulWidget> createState() =>
-      _VerifyOtpPageState(this.countryCode, this.mobileNumber, returnResult: returnResult);
+      _VerifyOtpPageState(this.countryCode,this.countryId, this.mobileNumber, returnResult: returnResult);
 }
 
 class _VerifyOtpPageState
     extends ViewState<VerifyOtpPage, VerifyOtpController> {
-  _VerifyOtpPageState(String countryCode, String mobileNumber, {bool returnResult})
+  _VerifyOtpPageState(String countryCode,int countryId, String mobileNumber, {bool returnResult})
       : super(VerifyOtpController(
-            countryCode, mobileNumber, DataVerificationRepository(), returnResult : returnResult));
+            countryCode,countryId, mobileNumber, DataVerificationRepository(), returnResult : returnResult));
 
   @override
   Widget get view => Scaffold(

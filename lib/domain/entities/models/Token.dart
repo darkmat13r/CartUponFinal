@@ -8,18 +8,20 @@ class Customer {
     String token;
     String mobile_no;
     int nationality;
+    int country;
     int gender;
     int title;
     String wallet_balance;
     User user;
 
-    Customer({this.country_code, this.date_of_birth, this.id, this.key,this.token, this.mobile_no, this.user, this.wallet_balance,this.nationality, this.gender, this.title});
+    Customer({this.country_code, this.date_of_birth, this.id,this.country, this.key,this.token, this.mobile_no, this.user, this.wallet_balance,this.nationality, this.gender, this.title});
 
     factory Customer.fromJson(Map<String, dynamic> json) {
         return Customer(
             country_code: json['country_code'] ?? "",
             date_of_birth: json['date_of_birth'] ?? "",
             id: json['id'] ?? 0,
+            country: json['country'] ?? 0,
             key: json['key'] ?? "",
             token: json['token'] ?? "",
             nationality: json['nationlity'] ?? 0,
@@ -39,6 +41,7 @@ class Customer {
         data['mobile_no'] = this.mobile_no;
         data['nationlity'] = this.nationality;
         data['gender'] = this.gender;
+        data['country'] = this.country;
         data['title'] = this.title;
         data['wallet_balance'] = this.wallet_balance;
         if (this.user != null) {

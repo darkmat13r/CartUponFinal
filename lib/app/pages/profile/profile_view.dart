@@ -107,24 +107,30 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
                             width: Dimens.borderWidth),
                       ),
                       labelText: LocaleKeys.phoneNumber.tr(),
-                      prefixIcon: Icon(MaterialCommunityIcons.phone),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(MaterialCommunityIcons.phone),
+                            SizedBox(
+                              width: 8,
+                            ),
+                            Text(controller.selectedCountry.dial_code),
+                          ],
+                        ),
+                      ),
                       hintText: LocaleKeys.phoneNumber.tr()),
                 ),
               ),
               SizedBox(
                 height: Dimens.spacingMedium,
               ),
-              Text(
-                LocaleKeys.chooseCountry.tr(),
-                style: heading6,
-              ),
-              SizedBox(
-                height: Dimens.spacingSmall,
-              ),
-              countryCode(controller),
-              SizedBox(
+
+              //countryCode(controller),
+              /*SizedBox(
                 height: Dimens.spacingMedium,
-              ),
+              ),*/
               nationalities(controller),
               SizedBox(
                 height: Dimens.spacingLarge,

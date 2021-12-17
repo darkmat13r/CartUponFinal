@@ -26,6 +26,7 @@ class RegisterUseCase extends CompletableUseCase<RegisterParams> {
           username: params.email,
           email: params.email,
           countryCode: params.countryCode,
+          countryId: params.countryId,
           mobileNo: params.mobileNo,
           dateOfBirth: params.dateOfBirth,
           isActive: "1",
@@ -53,6 +54,7 @@ class RegisterParams {
   int nationality;
   int gender;
   int title;
+  int countryId;
   String password;
 
   RegisterParams(
@@ -63,6 +65,7 @@ class RegisterParams {
       @required this.mobileNo,
       @required this.dateOfBirth,
       @required this.password,
+      @required this.countryId,
       @required this.nationality,
       @required this.gender,
       @required this.title,

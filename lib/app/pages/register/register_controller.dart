@@ -28,6 +28,7 @@ class RegisterController extends BaseController {
   final String countryCode;
   final String mobileNumber;
   DateTime dob;
+  int countryId;
   int title;
   int gender;
   Nationality nationality;
@@ -44,6 +45,7 @@ class RegisterController extends BaseController {
       AuthenticationRepository authRepo,
       NationalityRepository nationalityRepository,
       this.countryCode,
+      this.countryId,
       this.mobileNumber,
       {this.returnResult})
       : _presenter = RegisterPresenter(authRepo, nationalityRepository) {
@@ -153,6 +155,7 @@ class RegisterController extends BaseController {
         lastName: lastNameController.text,
         email: emailController.text,
         countryCode: countryCode,
+        countryId: countryId,
         nationality: nationality.id,
         gender: gender,
         title: title,

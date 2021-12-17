@@ -17,23 +17,26 @@ import 'package:group_radio_button/group_radio_button.dart';
 
 class RegisterPage extends View {
   final String countryCode;
+  final int  countryId;
   final String mobileNumber;
   final bool returnResult;
 
   RegisterPage(
-      {@required this.countryCode,
+      {
+        @required this.countryCode,
+      @required this.countryId,
       @required this.mobileNumber,
       this.returnResult});
 
   @override
   State<StatefulWidget> createState() =>
-      RegisterPageState(countryCode, mobileNumber, returnResult: returnResult);
+      RegisterPageState(countryCode,countryId, mobileNumber, returnResult: returnResult);
 }
 
 class RegisterPageState extends ViewState<RegisterPage, RegisterController> {
-  RegisterPageState(countryCode, mobileNumber, {bool returnResult})
+  RegisterPageState(countryCode,countryId, mobileNumber, {bool returnResult})
       : super(RegisterController(DataAuthenticationRepository(),
-            DataNationalityRepository(), countryCode, mobileNumber,
+            DataNationalityRepository(), countryCode, countryId,mobileNumber,
             returnResult: returnResult));
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordHidden = true;

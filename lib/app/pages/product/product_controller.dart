@@ -31,6 +31,7 @@ class ProductController extends BaseController {
   List<ProductDetail> similarProducts = [];
   bool isAddedToWhishlist = false;
   String productId;
+  String productSlug;
   bool showTimer = false;
   bool isMarkerLoaded = false;
   bool isVariantRequired = false;
@@ -44,13 +45,12 @@ class ProductController extends BaseController {
 
   CameraPosition cameraPosition;
   ProductController(
-      this.productId,
       AuthenticationRepository authRepo,
       ProductRepository productRepository,
-      WhishlistRepository whishlistRepository)
+      WhishlistRepository whishlistRepository, {this.productId, this.productSlug})
       : _presenter = ProductPresenter(
             authRepo, productRepository, whishlistRepository,
-            productId: productId){
+            productId: productId, productSlug: productSlug){
 
   }
 

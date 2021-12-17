@@ -7,7 +7,7 @@ import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logging/logging.dart';
 
-class GetProductWithRelatedUseCase extends CompletableUseCase<String> {
+class GetProductWithRelatedUseCase extends CompletableUseCase<ProductsParams> {
   ProductRepository productRepository;
 
   Logger _logger;
@@ -17,11 +17,10 @@ class GetProductWithRelatedUseCase extends CompletableUseCase<String> {
   }
 
   @override
-  Future<Stream<ProductWithRelated>> buildUseCaseStream(String id) async{
+  Future<Stream<ProductWithRelated>> buildUseCaseStream(ProductsParams params) async{
     StreamController<ProductWithRelated> controller = StreamController();
-    _logger.finest("-=---------> PRoductId ${id}");
     try{
-      ProductWithRelated productDetail = await productRepository.getProductWithRelated(id);
+      ProductWithRelated productDetail = await productRepository.getProductWithRelated(id: params.id, slug: params.slug);
       controller.add(productDetail);
       controller.close();
     }catch(e){
@@ -31,4 +30,10 @@ class GetProductWithRelatedUseCase extends CompletableUseCase<String> {
     return controller.stream;
 
   }
+}
+
+class ProductsParams{
+  String id;
+  String slug;
+  ProductsParams({this.id, this.slug});
 }

@@ -73,11 +73,11 @@ class RequestOtpController extends BaseController {
 
   void requestOtp() async{
     showLoading();
-    _presenter.requestOtp(mobileNumber: mobileNumberController.text  , countryCode: selectedCountry.dial_code);
+    _presenter.requestOtp(mobileNumber: mobileNumberController.text  , countryCode: selectedCountry.dial_code, countryId: selectedCountry.id);
   }
 
   void openVerification() async{
-    dynamic result = await  AppRouter().verifyOtp(getContext(), selectedCountry.dial_code, mobileNumberController.text, returnResult  : returnResult);
+    dynamic result = await  AppRouter().verifyOtp(getContext(), selectedCountry.dial_code,selectedCountry.id, mobileNumberController.text, returnResult  : returnResult);
     if (returnResult != null && returnResult){
       Navigator.pop(getContext(), result);
     }

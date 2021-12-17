@@ -13,6 +13,7 @@ abstract class AuthenticationRepository {
       @required String username,
       @required String email,
       @required String countryCode,
+      @required int countryId,
       @required String mobileNo,
       @required String dateOfBirth,
       @required String isActive,

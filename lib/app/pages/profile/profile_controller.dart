@@ -32,6 +32,8 @@ class ProfileController extends BaseController {
   Country selectedCountry;
   ProfilePresenter _presenter;
   List<Country> countries;
+
+  int countryId;
   ProfileController(AuthenticationRepository authRepo,
       NationalityRepository nationalityRepository, CountryRepository countryRepo)
       : _presenter = ProfilePresenter(authRepo, nationalityRepository, countryRepo) {
@@ -77,6 +79,7 @@ class ProfileController extends BaseController {
 
   @override
   onAuthComplete() {
+    Logger().e(currentUser.toJson());
     firstNameController.text = currentUser.user.first_name;
     lastNameController.text = currentUser.user.last_name;
     emailController.text = currentUser.user.email;
@@ -84,7 +87,8 @@ class ProfileController extends BaseController {
     gender = currentUser.gender;
     title = currentUser.title;
     mobileNumberController.text = currentUser.user.username;
-    countryCode = selectedCountry.country_code;
+    countryCode = currentUser.country_code;
+    countryId = currentUser.country;
     dob = DateFormat("yyyy-MM-dd").parse(currentUser.date_of_birth);
     setDob(dob);
     updateNationality();
@@ -98,7 +102,7 @@ class ProfileController extends BaseController {
         _logger.e("Countries ${countries.map((e) => e.toJson())}");
         _logger.e("currentUser.country_code ${currentUser.country_code}");
         countryCode = currentUser.country_code;
-        selectedCountry = countries.firstWhere((element) => element.country_code == currentUser.country_code);
+        selectedCountry = countries.firstWhere((element) => element.id == countryId);
         refreshUI();
       }catch(e){
         _logger.e(e);

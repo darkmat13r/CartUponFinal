@@ -33,27 +33,26 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductPage extends View {
   final String productId;
+  final String slug;
   final FirebaseAnalytics analytics = FirebaseAnalytics();
-  ProductPage(this.productId) {
-
-    Logger().e("PRoduct Id ${this.productId}");
-  }
+  ProductPage( { this.slug, this.productId,});
 
   @override
-  State<StatefulWidget> createState() => ProductPageView(this.productId);
+  State<StatefulWidget> createState() => ProductPageView(productId: this.productId, slug: slug);
 }
 
 class ProductPageView
     extends SearchableViewState<ProductPage, ProductController> {
-  ProductPageView(productSlug)
-      : super(ProductController(productSlug, DataAuthenticationRepository(),
-            DataProductRepository(), DataWhishlistRepository()));
+  ProductPageView({String productId, String slug})
+      : super(ProductController( DataAuthenticationRepository(),
+            DataProductRepository(), DataWhishlistRepository(), productId: productId,productSlug:  slug));
 
   @override
   Widget get title => ControlledWidgetBuilder(
@@ -743,8 +742,12 @@ class ProductPageView
     if (!controller.canShowLocation()) {
       return SizedBox();
     }
+    if(controller.cameraPosition == null){
+      return SizedBox();
+    }
     return AppGoogleMap(
       markers: controller.markers,
+
       cameraPosition: controller.cameraPosition,
       mapController: controller.mapController,
     );
@@ -765,7 +768,7 @@ class AppGoogleMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 240,
+      height: 240.h,
       child: GoogleMap(
         markers: Set<Marker>.of(markers.values),
         mapType: MapType.normal,
