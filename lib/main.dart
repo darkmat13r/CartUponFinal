@@ -77,6 +77,7 @@ class MyAppState extends State<MyApp> {
     }
     var locale = Config().locale != null ? Config().locale : deviceLocale;
     EasyLocalization.of(context).setLocale(locale);
+
     await Firebase.initializeApp();
     Pushwoosh.initialize({"app_id": "EE86C-B7FB7", "sender_id": "244170329800"});
 

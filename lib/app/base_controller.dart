@@ -99,6 +99,10 @@ abstract class BaseController extends Controller {
     super.onDisposed();
   }
 
+  bool isLocaleEnglish(){
+    return  EasyLocalization.of(getContext()).currentLocale.languageCode == "en";
+  }
+
   void startSearch(GlobalKey<State<StatefulWidget>> globalKey, String query) {
     AppRouter().querySearch(globalKey.currentContext, query);
   }

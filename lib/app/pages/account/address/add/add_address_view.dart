@@ -433,7 +433,7 @@ class AddAddressPageState
                               padding: const EdgeInsets.symmetric(
                                   vertical: Dimens.spacingNormal),
                               child: Text(
-                                block.block_name,
+                                controller.isLocaleEnglish() ? block.block_name : block.block_name_ar,
                                 style: bodyTextNormal1.copyWith(
                                     color: AppColors.neutralGray),
                               ),
@@ -472,7 +472,7 @@ class AddAddressPageState
                               padding: const EdgeInsets.symmetric(
                                   vertical: Dimens.spacingNormal),
                               child: Text(
-                                area.area_name,
+                                controller.isLocaleEnglish() ? area.area_name : area.area_name_ar,
                                 style: bodyTextNormal1.copyWith(
                                     color: AppColors.neutralGray),
                               ),

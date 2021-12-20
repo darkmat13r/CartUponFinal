@@ -93,11 +93,18 @@ class AddAddressController extends BaseController {
       phoneText.text = this.address.phone_no;
 
       if (this.address.area != null) {
-        areaText.text = this.address.area.area_name;
+        if (isLocaleEnglish()) {
+          areaText.text = this.address.area.area_name;
+        } else {
+          areaText.text = this.address.area.area_name_ar;
+        }
+
         selectedArea = this.address.area;
       }
       if (this.address.block != null) {
-        blockText.text = this.address.block.block_name;
+        blockText.text = isLocaleEnglish()
+            ? this.address.block.block_name
+            : this.address.block.block_name_ar;
         selectedBlock = this.address.block;
       }
       isDefault = this.address.is_default;
@@ -106,8 +113,12 @@ class AddAddressController extends BaseController {
 
   onSelectArea(Area area) {
     isLoadingBlocks = true;
-    areaText.text = area.area_name;
-    print("============>areaText.text ${areaText.text}");
+
+    if (isLocaleEnglish()) {
+      areaText.text = area.area_name;
+    } else {
+      areaText.text = area.area_name_ar;
+    }
     selectedArea = area;
     selectedBlock = null;
     blockText.text = "";
@@ -118,7 +129,7 @@ class AddAddressController extends BaseController {
   }
 
   onSelectBlock(Block block) {
-    blockText.text = block.block_name;
+    blockText.text = isLocaleEnglish() ? block.block_name : block.block_name_ar;
     selectedBlock = block;
     dismissProgressDialog();
     refreshUI();
@@ -150,8 +161,11 @@ class AddAddressController extends BaseController {
   }
 
   initBlocksListeners() {
-    _presenter.getBlocksOnNext = (blocks) {
+    _presenter.getBlocksOnNext = (List<Block> blocks) {
       this.blocks = blocks;
+      this.blocks.sort((a, b) => isLocaleEnglish()
+          ? a.block_name.toLowerCase().compareTo(a.block_name.toLowerCase())
+          : a.block_name_ar.toLowerCase().compareTo(a.block_name_ar.toLowerCase()));
       isLoadingBlocks = false;
       refreshUI();
     };
@@ -170,8 +184,11 @@ class AddAddressController extends BaseController {
   }
 
   initAreasListeners() {
-    _presenter.getAreasOnNext = (areas) {
+    _presenter.getAreasOnNext = (List<Area> areas) {
       this.areas = areas;
+      this.areas.sort((a, b) => isLocaleEnglish()
+          ? a.area_name.toLowerCase().compareTo(a.area_name.toLowerCase())
+          : a.area_name_ar.toLowerCase().compareTo(a.area_name_ar.toLowerCase()));
       isLoadingAreas = false;
       refreshUI();
     };
