@@ -174,8 +174,8 @@ class _ProductItemState extends State<ProductItem>
                                 if(widget.product.product != null && widget.product.product.isVariantRequired()){
                                   AppRouter().productDetails(context, widget.product);
                                 }else{
-                                  _cartStream.addToCart(
-                                      widget.product.product, null);
+                                   addToCart();
+
                                 }
                               },
                             ),
@@ -189,6 +189,18 @@ class _ProductItemState extends State<ProductItem>
             )
           : SizedBox(),
     );
+  }
+
+  Future<void> addToCart() async {
+    try{
+      await _cartStream.addToCart(
+          widget.product.product, null);;
+    }catch(e){
+      showGenericDialog(
+          context,
+          LocaleKeys.error.tr(),
+          e.message);
+    }
   }
 
   @override

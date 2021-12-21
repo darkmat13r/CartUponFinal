@@ -30,21 +30,27 @@ class CartStream {
     }
     _cartItem++;
 
-    await _repo.addToCart(productDetail.id.toString(),
-        variantValue != null ? variantValue.id.toString() : "");
-    fetchQuantity();
-    if (await Vibration.hasVibrator()) {
-      Vibration.vibrate();
+    try{
+      await _repo.addToCart(productDetail.id.toString(),
+          variantValue != null ? variantValue.id.toString() : "");
+      fetchQuantity();
+      if (await Vibration.hasVibrator()) {
+        Vibration.vibrate();
+      }
+      analytics.logAddToCart(
+        currency: 'KD',
+        value: double.tryParse(productDetail.getVariantOfferPriceByVariant(variantValue)),
+        itemId: productDetail.id.toString(),
+        itemName: productDetail.product_detail?.name ?? "",
+        itemCategory: productDetail.category_id.toString(),
+        quantity: 1,
+        price: double.tryParse(productDetail.getVariantOfferPriceByVariant(variantValue)),
+      );
+    }catch(e){
+      fetchQuantity();
+      rethrow;
     }
-    analytics.logAddToCart(
-      currency: 'KD',
-      value: double.tryParse(productDetail.getVariantOfferPriceByVariant(variantValue)),
-      itemId: productDetail.id.toString(),
-      itemName: productDetail.product_detail?.name ?? "",
-      itemCategory: productDetail.category_id.toString(),
-      quantity: 1,
-      price: double.tryParse(productDetail.getVariantOfferPriceByVariant(variantValue)),
-    );
+
   }
 
   fetchQuantity() async {

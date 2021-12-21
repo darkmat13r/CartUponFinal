@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/utility.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,6 +75,7 @@ class HttpHelper {
     }else if(!headers.containsKey(HttpHeaders.authorizationHeader)){
       headers[HttpHeaders.authorizationHeader] = "Token ${await SessionHelper().getToken()}";
     }
+    headers["language"] = Config().locale.languageCode ?? "en";
     try {
       var uri = Uri.parse(url);
       switch (type) {
@@ -112,6 +115,10 @@ class HttpHelper {
                 throw APIException(
                     "${Utility.capitalize(key)} : ${firstValue.first.toString()}",
                     response.statusCode,  firstValue.first.toString());
+              }else if(firstValue["message"]){
+                throw APIException(
+                    firstValue["message"] ,
+                    response.statusCode, firstValue.toString());
               }else{
                 throw APIException(
                    "${Utility.capitalize(key)} : ${firstValue.toString()}" ,

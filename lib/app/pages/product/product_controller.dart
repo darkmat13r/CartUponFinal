@@ -169,7 +169,7 @@ class ProductController extends BaseController {
   }
 
   void addToCartWithVariant(
-      Product product, ProductVariantValue selectedProductVariant) {
+      Product product, ProductVariantValue selectedProductVariant) async{
     if (product.isVariantRequired() && selectedProductVariant == null) {
       showGenericSnackbar(
           getContext(),
@@ -179,7 +179,14 @@ class ProductController extends BaseController {
       return;
     }
 
-    CartStream().addToCart(product, selectedProductVariant);
+    try{
+     await CartStream().addToCart(product, selectedProductVariant);
+    }catch(e){
+      showGenericDialog(
+          getContext(),
+          LocaleKeys.error.tr(),
+          e.message);
+    }
   }
 
   getSellerPosition() {

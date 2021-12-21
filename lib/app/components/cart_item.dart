@@ -9,6 +9,7 @@ import 'package:coupon_app/domain/mapper/cart_item_mapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:logger/logger.dart';
 
 class CartItemView extends StatefulWidget {
   final CartItem item;
@@ -36,7 +37,8 @@ class CartItemViewState extends State<CartItemView> {
     var stock = widget.item.variant_value_id != null
         ? widget.item.variant_value_id.stock
         : widget.item.product_id.stock;
-    var isMaxQty =  (widget.item.qty < (widget.item.product_id?.maxQty ?? 0) ||  (widget.item.product_id?.maxQty ?? 0) == 0);
+    var isMaxQty =  (widget.item.qty == maxQty || maxQty == 0);
+    Logger().e("Current qty ${widget.item.qty }");
     return Padding(
       padding: const EdgeInsets.fromLTRB(
           Dimens.spacingNormal, Dimens.spacingNormal, Dimens.spacingNormal, 0),
@@ -130,27 +132,34 @@ class CartItemViewState extends State<CartItemView> {
                                 ],
                               ),
                             ),
+
                             Padding(
                               padding: const EdgeInsets.only(top : 8.0),
                               child: QuantityButton(
                                 widget.item.qty,
-                                inStock: widget.inStock && isMaxQty,
+                                inStock: widget.inStock,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 max: maxQty < stock ? maxQty : stock,
                                 onAdd: (qty) {
-                                  if (widget.onAdd != null) {
-                                    widget.onAdd(widget.item, qty);
-                                  }
+                                  setState(() {
+                                    if (widget.onAdd != null) {
+                                      widget.onAdd(widget.item, qty);
+                                    }
+                                  });
                                 },
                                 onDelete: () {
-                                  if (widget.onDelete != null) {
-                                    widget.onDelete(widget.item);
-                                  }
+                                 setState(() {
+                                   if (widget.onDelete != null) {
+                                     widget.onDelete(widget.item);
+                                   }
+                                 });
                                 },
                                 onRemove: (qty) {
-                                  if (widget.onRemove != null) {
-                                    widget.onRemove(widget.item, qty);
-                                  }
+                                  setState(() {
+                                    if (widget.onRemove != null) {
+                                      widget.onRemove(widget.item, qty);
+                                    }
+                                  });
                                 },
                               ),
                             ),

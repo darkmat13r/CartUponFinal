@@ -61,7 +61,7 @@ class CartController extends BaseController {
 
   updateCart(CartItem cartItem, int qty) {
     showProgressDialog();
-    cartItem.qty = qty;
+    //cartItem.qty = qty;
     _presenter.updateQty(cartItem);
     refreshUI();
   }

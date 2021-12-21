@@ -4,6 +4,7 @@ import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:logger/logger.dart';
 
 class QuantityButton extends StatefulWidget {
   final int initialQuantity;
@@ -20,7 +21,9 @@ class QuantityButton extends StatefulWidget {
       this.onRemove,
       this.max,
       this.crossAxisAlignment,
-      this.inStock});
+      this.inStock}){
+    Logger().e("Max ${inStock}");
+  }
 
   @override
   State<StatefulWidget> createState() => _QuantityButtonState(initialQuantity);
@@ -35,7 +38,7 @@ class _QuantityButtonState extends State<QuantityButton> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(),
-      child: widget.inStock ? _normalQuantity() : _outOfStockQuantity(),
+      child: widget.inStock && currentQty != widget.max ? _normalQuantity() : _outOfStockQuantity(),
     );
   }
 
