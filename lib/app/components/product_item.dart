@@ -15,6 +15,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductItem extends StatefulWidget {
   final ProductDetail product;
@@ -78,7 +79,7 @@ class _ProductItemState extends State<ProductItem>
                     children: [
                       Container(
                           width: Dimens.productCardWidth * 0.75,
-                          height: Dimens.productCardWidth * 0.75,
+                          height: 120.h,
                           child: AppImage(
                             widget.product.product != null
                                 ? widget.product.product.thumb_img
@@ -97,19 +98,18 @@ class _ProductItemState extends State<ProductItem>
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Flexible(
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.width / 10,
-                          child: Text(
-                            widget.product != null &&
-                                    widget.product.name != null
-                                ? widget.product.name
-                                : "",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: bodyTextNormal1.copyWith(
-                                color: AppColors.primary),
-                          ),
+                      SizedBox(
+                        height : 40.h,
+                        child: Text(
+                          widget.product != null &&
+                                  widget.product.name != null
+                              ? widget.product.name
+                              : "",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+
+                          style: bodyTextNormal1.copyWith(
+                              color: AppColors.primary),
                         ),
                       ),
                       /*Text(
@@ -213,7 +213,6 @@ class _ProductItemState extends State<ProductItem>
   Future<void> addToCart() async {
     try {
       await _cartStream.addToCart(widget.product.product, null);
-      ;
     } catch (e) {
       showGenericDialog(context, LocaleKeys.error.tr(), e.message);
     }

@@ -220,7 +220,7 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
                   ),
                 ),
                 Container(
-                  height: 320.h,
+                  height: 280.h,
                   width: double.infinity,
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -264,7 +264,7 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
             ),
           ),
           Container(
-            height: 320.h,
+            height: 280.h,
             width: double.infinity,
             child: ListView.builder(
               shrinkWrap: true,
