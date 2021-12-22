@@ -18,7 +18,8 @@ import 'package:flutter_icons/flutter_icons.dart';
 
 class ProductItem extends StatefulWidget {
   final ProductDetail product;
-  final FirebaseAnalytics analytics = FirebaseAnalytics();
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
   ProductItem({
     @required this.product,
   });
@@ -34,7 +35,7 @@ class _ProductItemState extends State<ProductItem>
 
   @override
   Widget build(BuildContext context) {
-    if(mounted){
+    if (mounted) {
       _showTimer = _isValidToValid();
     }
     return Padding(
@@ -44,10 +45,17 @@ class _ProductItemState extends State<ProductItem>
             //if (widget.coupon != null)
             AppRouter().productDetails(context, widget.product);
             widget.analytics.logViewItem(
-              itemId: widget.product.product.id.toString(),
-              itemName: widget.product.name,
-              itemCategory: widget.product.product.category != null ? widget.product.product.category.category_title  : widget.product.product.category_id.toString(),
-              price: double.tryParse(widget.product.product.getVariantOfferPriceByVariant(null)),
+              items: [
+                AnalyticsEventItem(
+                  itemId: widget.product.product.id.toString(),
+                  itemName: widget.product.name,
+                  itemCategory: widget.product.product.category != null
+                      ? widget.product.product.category.category_title
+                      : widget.product.product.category_id.toString(),
+                )
+              ],
+              value: double.tryParse(
+                  widget.product.product.getVariantOfferPriceByVariant(null)),
               currency: 'KD',
             );
           },
@@ -69,11 +77,14 @@ class _ProductItemState extends State<ProductItem>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                          width: Dimens.productCardWidth*0.75,
-                          height: Dimens.productCardWidth*0.75,
-                          child: AppImage(widget.product.product != null
-                              ? widget.product.product.thumb_img
-                              : "", fit: BoxFit.contain,)),
+                          width: Dimens.productCardWidth * 0.75,
+                          height: Dimens.productCardWidth * 0.75,
+                          child: AppImage(
+                            widget.product.product != null
+                                ? widget.product.product.thumb_img
+                                : "",
+                            fit: BoxFit.contain,
+                          )),
                     ],
                   ),
                 ),
@@ -88,9 +99,10 @@ class _ProductItemState extends State<ProductItem>
                     children: [
                       Flexible(
                         child: SizedBox(
-                          height: MediaQuery.of(context).size.width/10,
+                          height: MediaQuery.of(context).size.width / 10,
                           child: Text(
-                            widget.product != null && widget.product.name != null
+                            widget.product != null &&
+                                    widget.product.name != null
                                 ? widget.product.name
                                 : "",
                             overflow: TextOverflow.ellipsis,
@@ -133,7 +145,10 @@ class _ProductItemState extends State<ProductItem>
                                 ),
                               ),
                               Utility.checkOfferPrice(
-                                      widget.product != null ? widget.product.product : null, _showTimer)
+                                      widget.product != null
+                                          ? widget.product.product
+                                          : null,
+                                      _showTimer)
                                   ? Text(
                                       Utility.currencyFormat(
                                           widget.product != null
@@ -145,10 +160,12 @@ class _ProductItemState extends State<ProductItem>
                                               TextDecoration.lineThrough),
                                     )
                                   : SizedBox(),
-
                               Text(
                                 Utility.currencyFormat(widget.product != null
-                                    ? _showTimer && widget.product.product.offer_price != "0"
+                                    ? _showTimer &&
+                                            widget.product.product
+                                                    .offer_price !=
+                                                "0"
                                         ? widget.product.product.offer_price
                                         : widget.product.product.sale_price
                                     : 0),
@@ -171,11 +188,13 @@ class _ProductItemState extends State<ProductItem>
                               onTap: () {
                                 /* showGenericSnackbar(
                               context, LocaleKeys.itemAddedToCart.tr());*/
-                                if(widget.product.product != null && widget.product.product.isVariantRequired()){
-                                  AppRouter().productDetails(context, widget.product);
-                                }else{
-                                   addToCart();
-
+                                if (widget.product.product != null &&
+                                    widget.product.product
+                                        .isVariantRequired()) {
+                                  AppRouter()
+                                      .productDetails(context, widget.product);
+                                } else {
+                                  addToCart();
                                 }
                               },
                             ),
@@ -192,14 +211,11 @@ class _ProductItemState extends State<ProductItem>
   }
 
   Future<void> addToCart() async {
-    try{
-      await _cartStream.addToCart(
-          widget.product.product, null);;
-    }catch(e){
-      showGenericDialog(
-          context,
-          LocaleKeys.error.tr(),
-          e.message);
+    try {
+      await _cartStream.addToCart(widget.product.product, null);
+      ;
+    } catch (e) {
+      showGenericDialog(context, LocaleKeys.error.tr(), e.message);
     }
   }
 
@@ -207,16 +223,20 @@ class _ProductItemState extends State<ProductItem>
   void dispose() {
     super.dispose();
   }
+
   bool _isValidToValid() {
     if (widget.product.product == null) return false;
     var isValid = false;
-    if (widget.product.product.offer_from == null || widget.product.product.offer_to == null) {
+    if (widget.product.product.offer_from == null ||
+        widget.product.product.offer_to == null) {
       return false;
     }
     var validFrom = widget.product.product.offer_from;
     var validTo = widget.product.product.offer_to;
-    return DateHelper.isValidTime(DateHelper.parseServerDateTime(validFrom), DateHelper.parseServerDateTime(validTo));
+    return DateHelper.isValidTime(DateHelper.parseServerDateTime(validFrom),
+        DateHelper.parseServerDateTime(validTo));
   }
+
   _countdownView(ProductDetail product) {
     if (product.product == null) return SizedBox();
     if (product.product.offer_from != null &&

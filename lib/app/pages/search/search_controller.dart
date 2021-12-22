@@ -22,7 +22,7 @@ class Filter {
 
 class SearchController extends BaseController {
   List<ProductDetail> products = [];
-  final FirebaseAnalytics analytics = FirebaseAnalytics();
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   final filters = [
     Filter("low-price", LocaleKeys.sortLowPrice.tr()),
     Filter("high-price", LocaleKeys.sortHighPrice.tr()),

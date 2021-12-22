@@ -18,7 +18,7 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:logger/logger.dart';
 
 class RegisterController extends BaseController {
-  final FirebaseAnalytics analytics = FirebaseAnalytics();
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   TextEditingController firstNameController;
   TextEditingController lastNameController;
   TextEditingController emailController;

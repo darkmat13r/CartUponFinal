@@ -12,7 +12,7 @@ import 'package:vibration/vibration.dart';
 
 class CartStream {
   static final CartStream _instance = CartStream._internal();
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   StreamController<int> stream;
   int _cartItem = 0;
   final _repo = DataCartRepository();
@@ -40,11 +40,15 @@ class CartStream {
       analytics.logAddToCart(
         currency: 'KD',
         value: double.tryParse(productDetail.getVariantOfferPriceByVariant(variantValue)),
-        itemId: productDetail.id.toString(),
-        itemName: productDetail.product_detail?.name ?? "",
-        itemCategory: productDetail.category_id.toString(),
-        quantity: 1,
-        price: double.tryParse(productDetail.getVariantOfferPriceByVariant(variantValue)),
+        items: [
+          AnalyticsEventItem(
+              itemId: productDetail.id.toString(),
+              itemName: productDetail.product_detail?.name ?? "",
+              itemCategory: productDetail.category_id.toString(),
+              quantity: 1,
+              price: double.tryParse(productDetail.getVariantOfferPriceByVariant(variantValue))
+          )
+        ],
       );
     }catch(e){
       fetchQuantity();

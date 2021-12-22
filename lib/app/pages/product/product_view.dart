@@ -41,18 +41,24 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 class ProductPage extends View {
   final String productId;
   final String slug;
-  final FirebaseAnalytics analytics = FirebaseAnalytics();
-  ProductPage( { this.slug, this.productId,});
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
+  ProductPage({
+    this.slug,
+    this.productId,
+  });
 
   @override
-  State<StatefulWidget> createState() => ProductPageView(productId: this.productId, slug: slug);
+  State<StatefulWidget> createState() =>
+      ProductPageView(productId: this.productId, slug: slug);
 }
 
 class ProductPageView
     extends SearchableViewState<ProductPage, ProductController> {
   ProductPageView({String productId, String slug})
-      : super(ProductController( DataAuthenticationRepository(),
-            DataProductRepository(), DataWhishlistRepository(), productId: productId,productSlug:  slug));
+      : super(ProductController(DataAuthenticationRepository(),
+            DataProductRepository(), DataWhishlistRepository(),
+            productId: productId, productSlug: slug));
 
   @override
   Widget get title => ControlledWidgetBuilder(
@@ -124,7 +130,6 @@ class ProductPageView
                 height: Dimens.spacingMedium,
               ),
               _elapsedTime(controller),
-
               SizedBox(
                 height: Dimens.spacingLarge,
               ),
@@ -167,7 +172,7 @@ class ProductPageView
   }
 
   SizedBox pricing(ProductController controller) {
-    if(controller.product == null){
+    if (controller.product == null) {
       return SizedBox();
     }
     return SizedBox(
@@ -181,22 +186,28 @@ class ProductPageView
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Visibility(
-                  visible:  controller.product != null && controller.product.product != null &&
+                  visible: controller.product != null &&
+                      controller.product.product != null &&
                       controller.product.product.stock <= 0,
                   child: Text(
                     LocaleKeys.outOfStock.tr(),
                     style: captionNormal2.copyWith(color: AppColors.error),
                   ),
                 ),
-                controller.product != null ? Price(
-                  product: controller.product.product, variantValue: controller.selectedProductVariant,
-                 ) : SizedBox()
+                controller.product != null
+                    ? Price(
+                        product: controller.product.product,
+                        variantValue: controller.selectedProductVariant,
+                      )
+                    : SizedBox()
               ],
             ),
           ),
           controller.product != null &&
                   controller.product.product != null &&
-                  double.tryParse(controller.product.product.getDiscount(controller.selectedProductVariant)) > 0
+                  double.tryParse(controller.product.product
+                          .getDiscount(controller.selectedProductVariant)) >
+                      0
               ? Stack(
                   children: [
                     Image.asset(
@@ -324,7 +335,7 @@ class ProductPageView
         : SizedBox();
   }
 
-   _addToCartButton(ProductController controller) {
+  _addToCartButton(ProductController controller) {
     return Flexible(
       flex: 1,
       child: Column(
@@ -333,8 +344,8 @@ class ProductPageView
             width: double.infinity,
             child: RaisedButton.icon(
               onPressed: () {
-                controller.addToCartWithVariant(
-                    controller.product.product, controller.selectedProductVariant);
+                controller.addToCartWithVariant(controller.product.product,
+                    controller.selectedProductVariant);
               },
               icon: Icon(
                 MaterialCommunityIcons.cart_plus,
@@ -347,13 +358,16 @@ class ProductPageView
             ),
           ),
           Visibility(
-            visible: controller.product != null && controller.product.product != null && controller.product.product.maxQty > 0,
+            visible: controller.product != null &&
+                controller.product.product != null &&
+                controller.product.product.maxQty > 0,
             child: Column(
               children: [
                 SizedBox(
                   height: 8,
                 ),
-                Text(LocaleKeys.maxQty.tr(args : [controller.product.product.maxQty.toString()])),
+                Text(LocaleKeys.maxQty
+                    .tr(args: [controller.product.product.maxQty.toString()])),
               ],
             ),
           ),
@@ -369,12 +383,20 @@ class ProductPageView
           controller.addItemToWhishlist(controller.product.product);
           widget.analytics.logAddToWishlist(
             currency: 'KD',
-            value: double.tryParse(controller.product.product.getVariantOfferPriceByVariant(controller.selectedProductVariant)),
-            itemId: controller.product.product.id.toString(),
-            itemName: controller.product.name,
-            itemCategory: controller.product.product.category_id.toString(),
-            quantity: 1,
-            price: double.tryParse(controller.product.product.getVariantOfferPriceByVariant(controller.selectedProductVariant)),
+            value: double.tryParse(controller.product.product
+                .getVariantOfferPriceByVariant(
+                    controller.selectedProductVariant)),
+            items: [
+              AnalyticsEventItem(
+                  itemId: controller.product.product.id.toString(),
+                  itemName: controller.product.name,
+                  itemCategory:
+                      controller.product.product.category_id.toString(),
+                  quantity: 1,
+                  price: double.tryParse(controller.product.product
+                      .getVariantOfferPriceByVariant(
+                          controller.selectedProductVariant)))
+            ],
           );
         },
         icon: Icon(
@@ -527,13 +549,13 @@ class ProductPageView
             controller.product.product.product_gallery.length > 0
         ? CarouselSlider.builder(
             itemCount: controller.product.product.product_gallery.length,
-            itemBuilder: (BuildContext context, int index) {
+            itemBuilder: (BuildContext context, int index, int realIndex) {
               var gallery = controller.product.product.product_gallery ?? [];
               return InkWell(
                   onTap: () {
-                    controller.openImage(gallery[index].image);
+                    controller.openImage(gallery[realIndex].image);
                   },
-                  child: AppImage(gallery[index].image));
+                  child: AppImage(gallery[realIndex].image));
             },
             options: CarouselOptions(
               height: MediaQuery.of(context).size.width,
@@ -763,12 +785,11 @@ class ProductPageView
     if (!controller.canShowLocation()) {
       return SizedBox();
     }
-    if(controller.cameraPosition == null){
+    if (controller.cameraPosition == null) {
       return SizedBox();
     }
     return AppGoogleMap(
       markers: controller.markers,
-
       cameraPosition: controller.cameraPosition,
       mapController: controller.mapController,
     );
@@ -779,12 +800,9 @@ class AppGoogleMap extends StatelessWidget {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   CameraPosition cameraPosition;
   Completer<GoogleMapController> mapController = Completer();
-   AppGoogleMap({
-    Key key,
-    this.markers,
-    this.cameraPosition,
-    this.mapController
-  }) : super(key: key);
+
+  AppGoogleMap({Key key, this.markers, this.cameraPosition, this.mapController})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

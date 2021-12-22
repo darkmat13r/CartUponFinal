@@ -82,8 +82,8 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
                 controller.homeResponse.sliders.length > 0 ? CarouselSlider
                 .builder(
                 itemCount: controller.homeResponse.sliders.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var slider =  controller.homeResponse.sliders[index];
+                itemBuilder: (BuildContext context, int index, int realIndex) {
+                  var slider =  controller.homeResponse.sliders[realIndex];
                   var bannerUrl = slider
                       .mobile_banner;
                   return InkWell(
@@ -167,8 +167,8 @@ class _MainListingState extends ViewState<MainListingPage, MainListingController
                 controller.homeResponse.adbanners.length > 0 ? CarouselSlider
                 .builder(
                 itemCount: controller.homeResponse.adbanners.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var adBanner = controller.homeResponse.adbanners[index];
+                itemBuilder: (BuildContext context, int index, int realIndex) {
+                  var adBanner = controller.homeResponse.adbanners[realIndex];
                   var bannerUrl =
                       adBanner.mobile_banner;
                   return InkWell(

@@ -19,8 +19,7 @@ class _ZoomImageState extends State<ZoomImage>{
       appBar: customAppBar(),
       body: Container(
           child:PinchZoom(
-            image: Image.network(widget.url),
-            zoomedBackgroundColor: Colors.black.withOpacity(0.5),
+            child: Image.network(widget.url),
             resetDuration: const Duration(milliseconds: 100),
             maxScale: 2.5,
             onZoomStart: (){print('Start zooming');},

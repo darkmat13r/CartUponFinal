@@ -13,7 +13,7 @@ import 'package:logger/logger.dart';
 
 class WelcomeController extends Controller {
   final facebookLogin = FacebookLogin();
-  final FirebaseAnalytics analytics = FirebaseAnalytics();
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   final WelcomePresenter _presenter;
 
 

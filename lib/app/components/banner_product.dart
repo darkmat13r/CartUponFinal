@@ -51,9 +51,9 @@ class _BannerProductState extends State<BannerProduct> {
                   itemCount:  haveGallery
                       ?  widget.productDetail.product.product_gallery.length
                       : 0,
-                  itemBuilder: (BuildContext context, int index) {
+                  itemBuilder: (BuildContext context, int index, int realIndex) {
                     var gallery =  widget.productDetail.product.product_gallery ?? [];
-                    return AppImage(gallery[index].image);
+                    return AppImage(gallery[realIndex].image);
                   },
                   options: CarouselOptions(
                     height: 240,

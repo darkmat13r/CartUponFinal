@@ -7,7 +7,6 @@ import 'package:coupon_app/app/utils/deeplink_helper.dart';
 import 'package:coupon_app/app/utils/theme_data.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -117,7 +116,7 @@ class MyAppState extends State<MyApp> {
   }
 
     _myApp(){
-      FirebaseAnalytics analytics = FirebaseAnalytics();
+      FirebaseAnalytics analytics = FirebaseAnalytics.instance;
       return ScreenUtilInit(
         designSize: Size(360, 690),
         builder: () => MaterialApp(
