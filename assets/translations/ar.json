@@ -304,7 +304,7 @@
   "location" : "موقع",
   "validity" : "صلاحية",
   "valueOfCoupon" : "قيمة القسيمة",
-  "dealsAndOutlet" : "الصفقات ومنافذ البيع",
+  "dealsAndOutlet" : "صفقات",
   "off" : "إيقاف",
   "officeAddress" : "عنوان المكتب",
   "maxQty" : "الكمية القصوى: {}"
