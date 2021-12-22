@@ -553,9 +553,9 @@ class ProductPageView
               var gallery = controller.product.product.product_gallery ?? [];
               return InkWell(
                   onTap: () {
-                    controller.openImage(gallery[realIndex].image);
+                    controller.openImage(gallery[index].image);
                   },
-                  child: AppImage(gallery[realIndex].image));
+                  child: AppImage(gallery[index].image));
             },
             options: CarouselOptions(
               height: MediaQuery.of(context).size.width,

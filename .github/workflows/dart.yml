@@ -38,6 +38,7 @@ jobs:
           rmRemote: true
       - name: Deploy Aab
         uses: garygrossgarten/github-action-scp@release
+        continue-on-error: true
         with:
           local: build/app/outputs/release/app-release.aab
           remote: /var/www/api/media/app_bundle.aab
