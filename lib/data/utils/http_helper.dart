@@ -65,14 +65,11 @@ class HttpHelper {
   /// Invoke the `http` request, returning the [http.Response] unparsed.
   static Future<http.Response> _invoke(dynamic url, RequestType type, {Map<String, String> headers, dynamic body, Encoding encoding}) async {
     http.Response response;
-    if(headers == null || headers.isEmpty){
-      var token = await SessionHelper().getToken();
-      if(token != null){
-        headers = {
-          HttpHeaders.authorizationHeader : "Token ${token}"
-        };
-      }
-    }else if(!headers.containsKey(HttpHeaders.authorizationHeader)){
+    if(headers == null || headers.isEmpty) {
+      headers = {};
+    }
+    var token = await SessionHelper().getToken();
+    if(token != null){
       headers[HttpHeaders.authorizationHeader] = "Token ${await SessionHelper().getToken()}";
     }
     headers["language"] = Config().locale.languageCode ?? "en";
