@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/Area.dart';
 import 'package:coupon_app/domain/entities/models/Block.dart';
+import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:coupon_app/domain/repositories/address_repository.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
@@ -130,8 +132,9 @@ class DataAddressRepository extends AddressRepository {
   @override
   Future<List<Area>> getAreas() async{
     try {
+      Country country = Config().selectedCountry;
       List<dynamic> data = await HttpHelper.invokeHttp(
-          Constants.areaRoute, RequestType.get,);
+          Constants.areaRoute + "?country=${country != null ? country.id : ""}", RequestType.get,);
       List<Area> areas = data.map((e) => Area.fromJson(e)).toList();
       return areas;
     } catch (e) {

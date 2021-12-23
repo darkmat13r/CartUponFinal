@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
 import 'package:coupon_app/domain/entities/models/Country.dart';
@@ -22,8 +23,9 @@ class DataCountryRepository extends CountryRepository {
   Future<List<Country>> getCountries() async {
     List<Country> countries = await SessionHelper().cachedCounties();
     try {
+
       List<dynamic> response = await HttpHelper.invokeHttp(
-          Constants.countriesRoute, RequestType.get);
+          "${Constants.countriesRoute}", RequestType.get);
       countries = response.map((e) => Country.fromJson(e)).toList();
       SessionHelper().cacheCounties(countries);
     } catch (e) {
