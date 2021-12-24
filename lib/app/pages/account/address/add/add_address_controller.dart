@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:coupon_app/app/base_controller.dart';
 import 'package:coupon_app/app/pages/account/address/add/add_address_presenter.dart';
 import 'package:coupon_app/app/utils/config.dart';
@@ -65,7 +67,9 @@ class AddAddressController extends BaseController {
     isLoadingAreas = true;
     refreshUI();
     _presenter.fetchAreas();
-    fillValues();
+    Timer.periodic(Duration(microseconds: 400), (Timer timer){
+      fillValues();
+    });
   }
 
   void getCachedCountry() async {
@@ -98,7 +102,6 @@ class AddAddressController extends BaseController {
         } else {
           areaText.text = this.address.area.area_name_ar;
         }
-
         selectedArea = this.address.area;
       }
       if (this.address.block != null) {
