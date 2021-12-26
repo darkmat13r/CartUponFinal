@@ -98,7 +98,7 @@ class HttpHelper {
       if (response.statusCode != 200 && response.statusCode != 201) {
         if(response.body.length > 0){
           dynamic responseBody = jsonDecode(utf8.decode(response.bodyBytes));
-          Logger().i(responseBody);
+          Logger().e(responseBody);
           if(responseBody is Map){
             var values = (responseBody as Map).entries.first.value;
             var key = (responseBody as Map).entries.first.key;

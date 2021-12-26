@@ -24,6 +24,7 @@ class UpdateProfileUseCase extends CompletableUseCase<UpdateProfileParams> {
           lastName: params.lastName,
           username: params.email,
           email: params.email,
+          country: params.country,
           countryCode: params.countryCode,
           mobileNo: params.mobileNo,
           nationality: params.nationality.toString(),
@@ -50,6 +51,7 @@ class UpdateProfileParams {
   String email;
   String countryCode;
   String mobileNo;
+  int country;
   String dateOfBirth;
   int nationality;
   int gender;
@@ -60,5 +62,6 @@ class UpdateProfileParams {
         @required this.nationality,
         @required this.gender,
         @required this.title,
+        @required this.country,
       @required this.mobileNo, @required this.dateOfBirth});
 }

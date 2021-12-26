@@ -323,11 +323,13 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
     );
   }
 
-  static var titles = [
-    LocaleKeys.titleMr.tr(),
-    LocaleKeys.titleMs.tr(),
-    LocaleKeys.titleMrs.tr()
-  ];
+   var titles = (){
+    return [
+      LocaleKeys.titleMr.tr(),
+      LocaleKeys.titleMs.tr(),
+      LocaleKeys.titleMrs.tr()
+    ];
+   };
   static var genders = [
     LocaleKeys.genderMale.tr(),
     LocaleKeys.genderFemale.tr()
@@ -342,7 +344,7 @@ class ProfilePageState extends ViewState<ProfilePage, ProfileController> {
       onChanged: (value) => {controller.setTitle(value)},
       items: [0, 1, 2],
       itemBuilder: (item) => RadioButtonBuilder(
-        titles[item],
+        titles()[item],
       ),
     );
   }

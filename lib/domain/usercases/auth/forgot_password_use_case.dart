@@ -20,7 +20,6 @@ class ForgotPasswordUseCase extends UseCase<void, ForgotPasswordUseCaseParams>{
          params._email);
       controller.close();
     } catch (e) {
-      _logger.shout('Could not login the user.', e.stackTrace.toString());
       controller.addError(e);
     }
     return controller.stream;

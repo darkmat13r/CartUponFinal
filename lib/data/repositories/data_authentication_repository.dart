@@ -199,6 +199,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       String email,
       String countryCode,
       String gender,
+      int country,
       String nationality,
       String title,
       String mobileNo,
@@ -221,6 +222,7 @@ class DataAuthenticationRepository implements AuthenticationRepository {
             'nationlity': nationality,
             'country_code': countryCode,
             'title': title,
+            'country': country.toString(),
             'first_name': firstName,
             'last_name': lastName,
           });
@@ -239,7 +241,6 @@ class DataAuthenticationRepository implements AuthenticationRepository {
       _logger.finest('Update is successful');
       return token;
     } catch (error) {
-      _logger.warning('Could not Update user.', error);
       rethrow;
     }
   }

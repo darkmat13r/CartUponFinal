@@ -51,6 +51,7 @@ abstract class AuthenticationRepository {
       String email,
       String nationality,
       String gender,
+      int country,
       String title,
       String countryCode,
       String mobileNo,

@@ -119,6 +119,7 @@ class ProfileController extends BaseController {
         countryCode: selectedCountry.country_code,
         nationality: nationality.id,
         gender: gender,
+        country: selectedCountry.id,
         title: title,
         mobileNo: mobileNumberController.text,
         dateOfBirth: DateFormat('yyyy-MM-dd').format(dob)));

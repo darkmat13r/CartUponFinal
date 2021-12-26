@@ -40,6 +40,7 @@ class ForgotPasswordController extends BaseController {
   void dismissLoading() {
     isLoading = false;
     //ProgressHUD.of(getContext()).dismiss();
+    refreshUI();
   }
 
   void sentResetLink() {
@@ -56,6 +57,6 @@ class ForgotPasswordController extends BaseController {
 
   _onResetLinkSentError(error) {
     dismissLoading();
-    showGenericSnackbar(getContext(), error.message.toString(), isError: true);
+    showGenericConfirmDialog(getContext(), LocaleKeys.error.tr(),error.message.toString());
   }
 }
