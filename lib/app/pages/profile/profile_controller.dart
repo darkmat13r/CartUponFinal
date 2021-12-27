@@ -79,7 +79,7 @@ class ProfileController extends BaseController {
 
   @override
   onAuthComplete() {
-    Logger().e(currentUser.toJson());
+
     firstNameController.text = currentUser.user.first_name;
     lastNameController.text = currentUser.user.last_name;
     emailController.text = currentUser.user.email;

@@ -69,6 +69,7 @@ class AddAddressController extends BaseController {
     _presenter.fetchAreas();
     Timer.periodic(Duration(microseconds: 400), (Timer timer){
       fillValues();
+      timer.cancel();
     });
   }
 

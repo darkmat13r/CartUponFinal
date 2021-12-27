@@ -6,6 +6,7 @@ import 'package:coupon_app/domain/usercases/auth/logout_usecase.dart';
 import 'package:coupon_app/domain/utils/session_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:logger/logger.dart';
 
 class AccountController extends BaseController {
 
@@ -35,9 +36,10 @@ class AccountController extends BaseController {
     }
     return super.onLoggedOut();
   }
-  void goToPage(page) {
+  void goToPage(page) async{
     if (currentUser != null) {
-      Navigator.of(getContext()).pushNamed(page);
+     await Navigator.of(getContext()).pushNamed(page);
+     fetchUser();
     } else {
       login();
     }
