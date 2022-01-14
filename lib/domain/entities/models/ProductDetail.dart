@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:coupon_app/domain/entities/models/Product.dart';
+import 'package:coupon_app/domain/entities/models/Rating.dart';
 import 'package:logger/logger.dart';
 
 class ProductDetail {

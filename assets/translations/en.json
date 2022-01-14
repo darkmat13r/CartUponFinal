@@ -324,5 +324,6 @@
   "dealsAndOutlet" : "Deals",
   "off" : "Off",
   "officeAddress" : "Office Address",
-  "maxQty" : "Max Qty : {}"
+  "maxQty" : "Max Qty : {}",
+  "ratings" : "Ratings"
 }

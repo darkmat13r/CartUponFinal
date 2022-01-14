@@ -16,6 +16,7 @@ import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariant.dart';
 import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
 import 'package:coupon_app/domain/entities/models/ProductWithRelated.dart';
+import 'package:coupon_app/domain/entities/models/Rating.dart';
 import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:coupon_app/domain/repositories/product_repository.dart';
 import 'package:coupon_app/domain/repositories/whishlist_repository.dart';
@@ -29,6 +30,7 @@ import 'package:share/share.dart';
 
 class ProductController extends BaseController {
   List<ProductDetail> similarProducts = [];
+  List<Rating> ratings = [];
   bool isAddedToWhishlist = false;
   String productId;
   String productSlug;
@@ -114,6 +116,7 @@ class ProductController extends BaseController {
     _presenter.getProductOnNext = (ProductWithRelated details) {
       this.product = details.productDetail;
       this.similarProducts = details.relatedProducts;
+      this.ratings = details.ratings;
       loadMarkers();
       getSellerPosition();
       _checkValidTimer();
@@ -126,6 +129,7 @@ class ProductController extends BaseController {
       dismissLoading();
       showGenericSnackbar(getContext(), e.message, isError: true);
       Navigator.pop(getContext());
+      Logger().e(e.stackTrace);
     };
   }
 

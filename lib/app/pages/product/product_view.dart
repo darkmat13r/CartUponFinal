@@ -164,8 +164,23 @@ class ProductPageView
           ),
         ),
         _description(controller),
-        _map(controller)
-        //  _reviews,
+        _map(controller),
+         Visibility(
+           visible: controller.ratings.length > 0,
+           child: Padding(
+             padding: EdgeInsets.all(8),
+             child: Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
+                 Padding(
+                   padding: const EdgeInsets.only(top: 16, left: 8, right: 8),
+                   child: Text(LocaleKeys.ratings.tr(), style: heading6,),
+                 ),
+                 _reviews,
+               ],
+             ),
+           ),
+         )
         // _addReview
       ],
     );
@@ -414,57 +429,49 @@ class ProductPageView
     );
   }
 
-  /* get _reviews => ControlledWidgetBuilder(
+   get _reviews => ControlledWidgetBuilder(
         builder: (BuildContext context, ProductController controller) {
-          return Column(
-            children: [
-              Row(
-                children: [
-                  Text(
-                    LocaleKeys.productReviews.tr(),
-                    style: heading5.copyWith(color: AppColors.neutralDark),
+          return ListView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.all(8),
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: controller.ratings != null ? controller.ratings.length  : 0,
+            itemBuilder: (BuildContext context, int index) {
+              var rating  = controller.ratings[index];
+              return Card(
+                child: Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                rating != null && rating.rating != null ?  RatingBar(size: 20,initialRating: rating.rating,) : SizedBox()
+                              ],
+                            ),
+                          ),
+                          Text(rating.rating != null && rating.created != null ? DateHelper
+                              .formatServerDate(rating.created) : "",
+                            style: captionNormal2.copyWith(color: AppColors.neutralGray),)
+                        ],
+                      ),
+                      SizedBox(
+                        height: Dimens.spacingNormal,
+                      ),
+                      Text(rating.review, style: bodyTextNormal2.copyWith(color: AppColors.neutralDark),),
+                    ],
                   ),
-                  Expanded(child: SizedBox()),
-                  controller.currentUser != null ? TextButton(
-                    onPressed: () {
-                      controller.addReview();
-                    },
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(FontAwesome.pencil, size: 12 , color: AppColors.primary,),
-                        ),
-                        Text(
-                          LocaleKeys.writeReview.tr(),
-                          style: linkText,
-                        ),
-                      ],
-                    ),
-                  ) : SizedBox()
-                ],
-              ),
-              Row(
-                children: [
-                  RatingBar(
-                    size: 20,
-                  ),
-                  Text("4.5",
-                      style: captionNormal1.copyWith(
-                          color: AppColors.neutralGray)),
-                  Text(" (5 Review)",
-                      style: captionNormal2.copyWith(
-                          color: AppColors.neutralGray)),
-                ],
-              ),
-              SizedBox(
-                height: Dimens.spacingMedium,
-              ),
-              ReviewItem(),
-            ],
+                ),
+              );
+            },
           );
         },
-      );*/
+      );
 
   get _view => ControlledWidgetBuilder(
           builder: (BuildContext context, ProductController controller) {

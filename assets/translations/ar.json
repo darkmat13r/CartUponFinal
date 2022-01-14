@@ -307,6 +307,7 @@
   "dealsAndOutlet" : "صفقات",
   "off" : "خصم",
   "officeAddress" : "عنوان المكتب",
-  "maxQty" : "الكمية القصوى: {}"
+  "maxQty" : "الكمية القصوى: {}",
+  "ratings" : "التقييمات"
 
 }
