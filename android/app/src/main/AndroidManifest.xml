@@ -70,7 +70,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with YOUR_SCHEME://YOUR_HOST -->
                 <data
-                    android:host="mallzaad.com"
+                    android:host="cartupon.com"
                     android:pathPrefix="/product/detail/"
                     android:scheme="http" />
             </intent-filter>
@@ -83,14 +83,14 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with https://YOUR_HOST -->
                 <data
-                    android:host="mallzaad.com"
+                    android:host="cartupon.com"
                     android:scheme="https" />
                 <data
-                    android:host="mallzaad.com"
+                    android:host="cartupon.com"
                     android:pathPrefix="/product/detail/"
                     android:scheme="https" />
                 <data
-                    android:host="mallzaad.com"
+                    android:host="cartupon.com"
                     android:pathPrefix="/category/"
                     android:scheme="https" />
             </intent-filter>

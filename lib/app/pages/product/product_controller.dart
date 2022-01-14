@@ -147,7 +147,7 @@ class ProductController extends BaseController {
     final RenderBox box = getContext().findRenderObject() as RenderBox;
     Share.share(
         LocaleKeys.fmtShareProduct.tr(
-            args: ["https://mallzaad.com/product/detail/${this.product.slug}"]),
+            args: ["https://cartupon.com/product/detail/${this.product.slug}"]),
         subject: "CartUpon",
         sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
   }

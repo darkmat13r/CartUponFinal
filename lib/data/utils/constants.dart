@@ -63,8 +63,8 @@ class Constants {
 
   // APIs no prefix
   //static const String baseUrlNoPrefix = 'cart-upon-api.herokuapp.com';
-  static const String baseUrlNoPrefix = 'api.mallzaad.com';
-  static const String websiteBaseUrlNoPrefix = 'mallzaad.com';
+  static const String baseUrlNoPrefix = 'api.cartupon.com';
+  static const String websiteBaseUrlNoPrefix = 'cartupon.com';
   static const String forgotPasswordPath = '/forgot-password';
 
   // Local Storage

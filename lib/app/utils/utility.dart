@@ -1,6 +1,8 @@
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/domain/entities/models/Address.dart';
 import 'package:coupon_app/domain/entities/models/CartItem.dart';
+import 'package:coupon_app/domain/entities/models/Country.dart';
 import 'package:coupon_app/domain/entities/models/OrderDetail.dart';
 import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
@@ -12,16 +14,25 @@ class Utility {
     if(price == null){
       return "";
     }
+    String symbol = "KD";
+    try{
+      Country selectedCountry = Config().selectedCountry;
+      if(selectedCountry != null){
+        symbol = selectedCountry.country_currency_symbol ?? "KD";
+      }
+    }catch(e){
+
+    }
     try{
       if (price is String){
         var convertedPrice = double.tryParse(price);
-        return NumberFormat.currency(symbol: "KD").format(convertedPrice);
+        return NumberFormat.currency(symbol: symbol).format(convertedPrice);
       }
-      return NumberFormat.currency(symbol: "KD").format(price);
+      return NumberFormat.currency(symbol: symbol).format(price);
     }catch(e){
       Logger().e("NumberFormatException ${price} ${e}");
     }
-    return NumberFormat.currency(symbol: "KD").format(0);
+    return NumberFormat.currency(symbol: symbol).format(0);
   }
 
 

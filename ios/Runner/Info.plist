@@ -39,7 +39,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>mallzaad.com</string>
+			<string>cartupon.com</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>https</string>
