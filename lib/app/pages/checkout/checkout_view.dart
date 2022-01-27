@@ -96,7 +96,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                     SizedBox(
                       height: Dimens.spacingNormal,
                     ),
-                    !controller.containsCoupon
+                   /* !controller.containsCoupon
                         ? RadioListTile(
                             contentPadding: const EdgeInsets.all(0),
                             title: Text(LocaleKeys.cashOnDeliver.tr()),
@@ -106,7 +106,7 @@ class _CheckoutPageState extends ViewState<CheckoutPage, CheckoutController> {
                               controller.setPaymentMethod(value);
                             },
                           )
-                        : SizedBox(),
+                        : SizedBox(),*/
                     RadioListTile(
                       contentPadding: const EdgeInsets.all(0),
                       title: Text(LocaleKeys.payOnline.tr()),
