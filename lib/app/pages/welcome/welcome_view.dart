@@ -154,7 +154,7 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
   Widget get googleLogin => ControlledWidgetBuilder(
           builder: (BuildContext context, WelcomeController controller) {
         return Padding(
-          padding: const EdgeInsets.fromLTRB(50, 0, 50, 16),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           child: SizedBox(
             width: double.infinity,
             height: 48,
@@ -201,7 +201,7 @@ class WelcomePageView extends ViewState<WelcomePage, WelcomeController> {
   Widget get facebookLogin => ControlledWidgetBuilder(
           builder: (BuildContext context, WelcomeController controller) {
         return Padding(
-          padding: const EdgeInsets.fromLTRB(50, 0, 50, 16),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           child: SizedBox(
             width: double.infinity,
             height: 48,

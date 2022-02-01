@@ -52,6 +52,9 @@ abstract class BaseController extends Controller {
 
   onAuthError(e) {
     // showGenericSnackbar(getContext(), e.message, isError : true);
+    if (_authPresenter != null) {
+      _authPresenter.logout();
+    }
   }
 
   onLoggedOut() {
