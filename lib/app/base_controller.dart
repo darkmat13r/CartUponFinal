@@ -6,9 +6,11 @@ import 'package:coupon_app/app/utils/auth_state_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/router.dart';
+import 'package:coupon_app/data/exceptions/authentication_exception.dart';
 import 'package:coupon_app/domain/entities/models/Token.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:logger/logger.dart';
 
 abstract class BaseController extends Controller {
   bool isLoading = false;
@@ -52,9 +54,13 @@ abstract class BaseController extends Controller {
 
   onAuthError(e) {
     // showGenericSnackbar(getContext(), e.message, isError : true);
-    if (_authPresenter != null) {
-      _authPresenter.logout();
+    if(e is APIException){
+      Logger().e(e.statusCode);
+      if (e.statusCode == 401 && _authPresenter != null) {
+        _authPresenter.logout();
+      }
     }
+
   }
 
   onLoggedOut() {

@@ -43,6 +43,7 @@ class SplashController extends Controller {
     };
     _presenter.getCountriesOnError = (e) {
       home();
+      Logger().e("GetCOuntries error ${e}");
     };
     _presenter.getCountriesOnComplete = () {
      // home();
@@ -66,9 +67,16 @@ class SplashController extends Controller {
   void onLoadCountries() async{
     var selectCountryId = await SessionHelper().getSelectedCountryId();
     Logger().e(selectCountryId);
-
-    if(selectCountryId == null || selectCountryId == 0){
+    if(countries != null && countries.length > 0){
+      try{
+        selectedCountry = countries.firstWhere((element) => element.id == selectCountryId);
+      }catch(e){
+        Logger().e("Selected country selectCountryId ${countries.map((e) => e.id)}");
+      }
+    }
+    if(selectedCountry == null || selectCountryId == null || selectCountryId == 0){
       Logger().e("Countries  ${countries}");
+
       if(countries != null && countries.length > 0){
         var firstFind;
         var locale = await Devicelocale.currentLocale;
@@ -111,9 +119,11 @@ class SplashController extends Controller {
       try{
         selectedCountry = countries.firstWhere((element) => element.id == selectCountryId);
       }catch(e){
-
+        Logger().e("Selected country selectCountryId ${countries.map((e) => e.id)}");
       }
     }
+    Logger().e("Selected country selectCountryId ${selectCountryId}");
+    Logger().e("Selected country ${selectedCountry}");
     Config().selectedCountry = selectedCountry;
 
   }

@@ -69,6 +69,8 @@ class HttpHelper {
       headers = {};
     }
     var token = await SessionHelper().getToken();
+    Logger().e(token);
+    Logger().e("Url ${url}");
     if(token != null){
       headers[HttpHeaders.authorizationHeader] = "Token ${await SessionHelper().getToken()}";
     }

@@ -99,8 +99,6 @@ class ProfileController extends BaseController {
   updateCountryCode(){
     if(currentUser != null){
       try{
-        _logger.e("Countries ${countries.map((e) => e.toJson())}");
-        _logger.e("currentUser.country_code ${currentUser.country_code}");
         countryCode = currentUser.country_code;
         selectedCountry = countries.firstWhere((element) => element.id == countryId);
         refreshUI();
