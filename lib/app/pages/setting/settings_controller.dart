@@ -13,9 +13,11 @@ import 'package:logger/logger.dart';
 import 'package:devicelocale/devicelocale.dart';
 
 class SettingsController extends SplashController {
+  bool isLoading = false;
   SettingsController(CountryRepository repo, HomeRepository _homeRepo) : super(repo, _homeRepo) {
     newSelectedCountry = Config().selectedCountry;
     getLanguageCode();
+    isLoading = true;
   }
 
   Country newSelectedCountry;
@@ -27,6 +29,7 @@ class SettingsController extends SplashController {
   @override
   void onLoadCountries() async {
     super.onLoadCountries();
+    isLoading = false;
     refreshUI();
   }
 

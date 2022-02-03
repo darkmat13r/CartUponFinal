@@ -68,7 +68,12 @@ class _SettingsPageState extends ViewState<SettingsPage, SettingsController> {
             padding: const EdgeInsets.symmetric(
                 horizontal: Dimens.spacingMedium,
                 vertical: Dimens.spacingSmall),
-            child: Row(
+            child: controller.isLoading ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator( )
+              ],
+            ) :  Row(
               children: [
                 Expanded(
                   child: Text(
