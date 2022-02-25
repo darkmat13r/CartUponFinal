@@ -143,8 +143,7 @@ class ProductPageView
                         width: Dimens.spacingLarge,
                       ),
                       Visibility(
-                        visible: controller.product.product != null &&
-                            controller.product.product.stock > 0,
+                        visible: !isNotInStock(controller),
                         child: _addToCartButton(controller),
                       )
                     ],
@@ -201,9 +200,7 @@ class ProductPageView
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Visibility(
-                  visible: controller.product != null &&
-                      controller.product.product != null &&
-                      controller.product.product.stock <= 0,
+                  visible: isNotInStock(controller),
                   child: Text(
                     LocaleKeys.outOfStock.tr(),
                     style: captionNormal2.copyWith(color: AppColors.error),
@@ -256,6 +253,13 @@ class ProductPageView
         ],
       ),
     );
+  }
+
+  bool isNotInStock(ProductController controller) {
+    return controller.product != null &&
+                    controller.product.product != null &&
+        (controller.product.product.stock <= 0 ||
+            (controller.selectedProductVariant != null && controller.selectedProductVariant.stock <= 0));
   }
 
   Widget _elapsedTime(ProductController controller) {

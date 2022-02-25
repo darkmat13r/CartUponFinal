@@ -1,3 +1,4 @@
+import 'package:coupon_app/app/utils/config.dart';
 import 'package:coupon_app/data/utils/constants.dart';
 import 'package:coupon_app/data/utils/http_helper.dart';
 import 'package:coupon_app/domain/entities/models/Country.dart';
@@ -21,12 +22,13 @@ class DataWalletRepository extends WalletRepository{
 
   @override
   Future<PlaceOrderResponse> addMoneyToWallet(String amount) async {
-    Country country = await SessionHelper().getSelectedCountry();
+    Country country = Config().selectedCountry != null ? Config().selectedCountry :  await SessionHelper().getSelectedCountry();
     try {
       Map<String, dynamic> response = await HttpHelper.invokeHttp(
           Constants.walletRequestRoute, RequestType.post,
           body: {
             "amount": amount,
+            "country":  country.id.toString(),
             "CurrencyCode": country != null ? country.country_currency_symbol : "KWD"});
       PlaceOrderResponse  item = PlaceOrderResponse.fromJson(response);
       return item;
@@ -38,8 +40,12 @@ class DataWalletRepository extends WalletRepository{
   @override
   Future<WalletHistoryResponse> walletHistory() async{
     try {
+      var url = Constants.createUriWithParams(Constants.walletHistoryRoute,
+          {
+            "country":  Config().selectedCountry.id.toString(),
+          });
       dynamic response = await HttpHelper.invokeHttp(
-          Constants.walletHistoryRoute, RequestType.get);
+          url , RequestType.get);
       WalletHistoryResponse  item =WalletHistoryResponse.fromJson(response);
       return item;
     } catch (e) {

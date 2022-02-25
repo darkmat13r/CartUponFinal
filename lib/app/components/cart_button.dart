@@ -24,13 +24,16 @@ class _CartButtonState extends State<CartButton> with SingleTickerProviderStateM
   AnimationController controller;
   _CartButtonState() {
     _cartItemCount = cartStream.getCurrentItemCount();
-    controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 400),
-      reverseDuration: Duration(milliseconds: 400),
-    );
+   if(mounted){
+     controller = AnimationController(
+       vsync: this,
+       duration: Duration(milliseconds: 400),
+       reverseDuration: Duration(milliseconds: 400),
+     );
+   }
    streamSubscription = cartStream.onAddToCart().listen((event) {
       setState(() {
+
         _cartItemCount = event;
         _enabled =  true;
         Timer(Duration(milliseconds: 500), () {

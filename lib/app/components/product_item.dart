@@ -70,24 +70,18 @@ class _ProductItemState extends State<ProductItem>
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Container(
+                    height: 120.h,
+                    child: AppImage(
+                      widget.product.product != null
+                          ? widget.product.product.thumb_img
+                          : "",
+                      fit: BoxFit.fitWidth,
+                    )),
                 SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                          width: Dimens.productCardWidth * 0.75,
-                          height: 120.h,
-                          child: AppImage(
-                            widget.product.product != null
-                                ? widget.product.product.thumb_img
-                                : "",
-                            fit: BoxFit.contain,
-                          )),
-                    ],
-                  ),
+                height: 16.h,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(

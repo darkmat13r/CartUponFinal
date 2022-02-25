@@ -70,6 +70,7 @@
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>whatsapp</string>
 		<string>https</string>
 		<string>http</string>
 		<string>fbapi</string>

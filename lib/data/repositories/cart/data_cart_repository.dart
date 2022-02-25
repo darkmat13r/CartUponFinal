@@ -32,6 +32,7 @@ class DataCartRepository extends CartRepository {
           "${Constants.cartRoute}${cartId}/", RequestType.patch,
           body: {
             "qty": (qty ?? 1).toString(),
+            "country":  Config().selectedCountry.id.toString(),
             "lang" : Config().getLanguageId().toString()
           });
       CartItem cartItem = CartItem.fromJson(cart);
@@ -52,6 +53,7 @@ class DataCartRepository extends CartRepository {
           body: {
             "user_id": userId,
             "product_id": productId,
+            "country":  Config().selectedCountry.id.toString(),
             "qty": (qty ?? 1).toString(),
             "variant_value_id": variantValueId
           });
@@ -68,7 +70,9 @@ class DataCartRepository extends CartRepository {
     try {
       String userId = await SessionHelper().getUserId();
       var url = Constants.createUriWithParams(
-          Constants.cartGetRoute, {"user_id": userId,
+          Constants.cartGetRoute, {
+            "user_id": userId,
+            "country":  Config().selectedCountry.id.toString(),
         "lang" : Config().getLanguageId().toString()});
       dynamic items = await HttpHelper.invokeHttp(url, RequestType.get);
       var cart = Cart.fromJson(items);

@@ -136,11 +136,12 @@ class MainPageView extends ViewState<MainPage, MainController> {
       ];
     }
     return [
+      CartButton(),
+
       IconButton(
         icon: Icon(MaterialIcons.search),
         onPressed: _startSearch,
       ),
-      CartButton(),
       IconButton(
         icon: Icon(MaterialIcons.menu),
         onPressed: () {

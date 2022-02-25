@@ -36,7 +36,7 @@ class _GetSettingsObserver extends Observer<WebSetting> {
   @override
   void onError(e) {
     assert(_presenter.getSettingsOnError != null);
-    _presenter.getSettingsOnError();
+    _presenter.getSettingsOnError(e);
   }
 
   @override

@@ -52,7 +52,8 @@ class _ContactUsPageState extends ViewState<ContactUsPage, ContactUsController>{
                 },
                 title: Text(controller.webSetting?.support_email ?? ""),
                 leading: Icon(Feather.mail, color: AppColors.accent,),
-              )
+              ),
+
             ],
           ),
         ),

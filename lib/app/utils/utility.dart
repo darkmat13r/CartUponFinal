@@ -66,6 +66,9 @@ class Utility {
 
   static bool checkOfferPrice(Product product, bool showTimer,{ ProductVariantValue variantValue}) {
     var originalPrice = double.parse(product.price ?? "0.0");
+    if(variantValue != null){
+      originalPrice = double.parse(variantValue.price ?? "0.0");
+    }
     var salePrice = product.sale_price != null ?  double.parse(product.sale_price ?? "0.0") : 0;
     var offerPrice = product.offer_price != null ? double.parse(product.offer_price) :  0.00;
     double price = 0;

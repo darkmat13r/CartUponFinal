@@ -25,7 +25,7 @@ class DataWhishlistRepository extends WhishlistRepository {
       var token = await SessionHelper().getCurrentUser();
       Map<String, dynamic> response = await HttpHelper.invokeHttp(
           Constants.whishlistRoute, RequestType.post,
-          body: {"user": token.user.id.toString(), "product_id": product.id.toString(), "variant_value_id" : ""});
+          body: {"user": token.user.id.toString(), "country":  Config().selectedCountry.id.toString(), "product_id": product.id.toString(), "variant_value_id" : ""});
       WhishlistItem item = WhishlistItem.fromJson(response);
       return item;
     } catch (e) {
@@ -41,6 +41,7 @@ class DataWhishlistRepository extends WhishlistRepository {
       var token = await SessionHelper().getCurrentUser();
       var uri = Constants.createUriWithParams(Constants.whishlistRoute, {
         "user_id": token.user.id.toString(),
+        "country":  Config().selectedCountry.id.toString(),
         "lang": Config().getLanguageId().toString()
       });
       List<dynamic> response =

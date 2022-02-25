@@ -22,6 +22,7 @@ import 'package:coupon_app/app/pages/reviews/create/create_review_view.dart';
 import 'package:coupon_app/app/pages/reviews/reviews_view.dart';
 import 'package:coupon_app/app/pages/search/search_view.dart';
 import 'package:coupon_app/app/pages/setting/settings_view.dart';
+import 'package:coupon_app/app/pages/splash/splash_view.dart';
 import 'package:coupon_app/app/pages/wallet/add/add_to_wallet_view.dart';
 import 'package:coupon_app/app/pages/wallet/wallet_view.dart';
 import 'package:coupon_app/app/pages/welcome/welcome_view.dart';
@@ -44,6 +45,8 @@ class AppRouter {
 
   Route<dynamic> getRoute(RouteSettings settings) {
     switch (settings.name) {
+      case Pages.splash:
+        return buildRoute(settings, SplashPage());
       case Pages.login:
         return buildRoute(settings, LoginPage());
       case Pages.forgotPassword:

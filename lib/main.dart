@@ -119,11 +119,22 @@ class MyAppState extends State<MyApp> {
       FirebaseAnalytics analytics = FirebaseAnalytics.instance;
       return ScreenUtilInit(
         designSize: Size(360, 690),
+        minTextAdapt: true,
+        splitScreenMode: true,
         builder: () => MaterialApp(
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           theme: appTheme(context),
           home: SplashPage(),
+          builder: (context, widget) {
+            //add this line
+            ScreenUtil.setContext(context);
+            return MediaQuery(
+              //Setting font does not change with system font size
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: widget,
+            );
+          },
           onGenerateRoute: _router.getRoute,
           navigatorObservers: [_router.routeObserver, FirebaseAnalyticsObserver(analytics: analytics),],
           localizationsDelegates: context.localizationDelegates,

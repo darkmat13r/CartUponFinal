@@ -1,6 +1,7 @@
-import 'package:flutter/src/widgets/navigator.dart';
+
 
 class Pages{
+  static const String splash = '/';
   static const String home = '/home';
   static const String login = '/login';
   static const String forgotPassword = '/forgotPassword';

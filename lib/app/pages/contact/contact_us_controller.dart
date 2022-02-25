@@ -48,4 +48,20 @@ class ContactUsController extends BaseController {
     );
     launch(emailLaunchUri.toString());
   }
+
+  void openWhatsapp(String s) async{
+    try{
+      final Uri emailLaunchUri = Uri(
+        scheme: 'whatsapp',
+        path: "send?phone=${s.replaceAll("+", "").replaceAll("-", "").replaceAll(" ", "")}&text=Hello%20Cartupon",
+      );
+      Logger().e(emailLaunchUri);
+      if(await canLaunch(emailLaunchUri.toString())){
+       await launch(emailLaunchUri.toString());
+      }
+
+    }catch(e){
+
+    }
+  }
 }
