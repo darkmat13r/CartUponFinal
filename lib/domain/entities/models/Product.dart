@@ -223,8 +223,12 @@ class Product {
 
     try{
       var offerPrice =  getOfferPriceByVariant(value);
-      if(double.parse(price) > 0)
-       return ((1 - double.parse(offerPrice)/ double.parse(price))*100).ceil().toString();
+      var selectedPrice = price;
+      if(value != null){
+        selectedPrice = value.price;
+      }
+      if(double.parse(selectedPrice) > 0)
+       return ((1 - double.parse(offerPrice)/ double.parse(selectedPrice))*100).ceil().toString();
     }catch(e){
 
     }

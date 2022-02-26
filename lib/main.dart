@@ -122,7 +122,7 @@ class MyAppState extends State<MyApp> {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: () => MaterialApp(
-          title: 'Flutter Demo',
+          title: 'CartUpon',
           debugShowCheckedModeBanner: false,
           theme: appTheme(context),
           home: SplashPage(),

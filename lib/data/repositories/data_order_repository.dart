@@ -34,7 +34,7 @@ class DataOrderRepository extends OrderRepository {
       Address address}) async {
     try {
       String userId = await SessionHelper().getUserId();
-      Country country = await SessionHelper().getSelectedCountry();
+      Country country = Config().selectedCountry != null ? Config().selectedCountry : await SessionHelper().getSelectedCountry();
       var body = Map<String, String>();
       _logger.e(isGuest ?? false);
       if (isGuest ?? false) {
@@ -54,6 +54,7 @@ class DataOrderRepository extends OrderRepository {
           'address': address.address,
           'user_sessid': userId.toString(),
           'pay_mode': payMode,
+          'country': country.id.toString(),
           'lang_type': Config().getLanguageId().toString(),
           "CurrencyCode": country != null ? country.country_currency_symbol : "KWD",
         };
@@ -62,6 +63,7 @@ class DataOrderRepository extends OrderRepository {
           'shipping_address': shippingAddressId,
           'billing_address': shippingAddressId,
           'pay_mode': payMode,
+          'country': country.id.toString(),
           'lang_type': Config().getLanguageId().toString(),
           'wallet' : useWallet.toString(),
           "CurrencyCode": country != null ? country.country_currency_symbol : "KWD",
@@ -82,9 +84,11 @@ class DataOrderRepository extends OrderRepository {
 
   @override
   Future<List<OrderDetail>> getOrders(String status) async {
+    Country country = Config().selectedCountry != null ? Config().selectedCountry : await SessionHelper().getSelectedCountry();
     try {
       var url = Constants.createUriWithParams(Constants.orderRoute, {
         "status": status,
+        "country" : country.id.toString(),
         'lang': Config().getLanguageId().toString(),
       });
       List<dynamic> data = await HttpHelper.invokeHttp(url, RequestType.get);

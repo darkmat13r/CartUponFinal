@@ -73,16 +73,15 @@ class _ProductItemState extends State<ProductItem>
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                    height: 120.h,
-                    child: AppImage(
-                      widget.product.product != null
-                          ? widget.product.product.thumb_img
-                          : "",
-                      fit: BoxFit.fitWidth,
-                    )),
-                SizedBox(
-                height: 16.h,
-                ),
+                    height : 140.sp,
+                    child:AppImage(
+                  widget.product.product != null
+                      ? widget.product.product.thumb_img
+                      : "",
+                  fit: BoxFit.fitWidth,
+                )),
+                Expanded(child: SizedBox(),
+                   ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: Dimens.spacingMedium,
@@ -106,15 +105,7 @@ class _ProductItemState extends State<ProductItem>
                               color: AppColors.primary),
                         ),
                       ),
-                      /*Text(
-                  widget.product != null &&
-                          widget.product.short_description != null
-                      ? widget.product.short_description
-                      : "",
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: captionNormal1.copyWith(color: AppColors.neutralGray),
-                ),*/
+
                       SizedBox(
                         height: Dimens.spacingSmall,
                       ),
@@ -122,6 +113,7 @@ class _ProductItemState extends State<ProductItem>
                       SizedBox(
                         height: Dimens.spacingSmall,
                       ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -197,7 +189,9 @@ class _ProductItemState extends State<ProductItem>
                       )
                     ],
                   ),
-                )
+                ),
+                Expanded(child: SizedBox(),
+                ),
               ],
             )
           : SizedBox(),
