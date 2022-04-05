@@ -308,6 +308,7 @@
   "off" : "خصم",
   "officeAddress" : "عنوان المكتب",
   "maxQty" : "الكمية القصوى: {}",
-  "ratings" : "التقييمات"
+  "ratings" : "التقييمات",
+  "selectVariant" : "اختر البديل"
 
 }

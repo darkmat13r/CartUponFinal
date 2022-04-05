@@ -4,13 +4,18 @@ import 'package:coupon_app/app/components/app_image.dart';
 import 'package:coupon_app/app/components/buy_now_button.dart';
 import 'package:coupon_app/app/components/countdown.dart';
 import 'package:coupon_app/app/components/rating_bar.dart';
+import 'package:coupon_app/app/components/variant_picker.dart';
 import 'package:coupon_app/app/utils/cart_stream.dart';
 import 'package:coupon_app/app/utils/constants.dart';
 import 'package:coupon_app/app/utils/date_helper.dart';
 import 'package:coupon_app/app/utils/locale_keys.dart';
 import 'package:coupon_app/app/utils/router.dart';
 import 'package:coupon_app/app/utils/utility.dart';
+import 'package:coupon_app/data/repositories/data_product_repository.dart';
+import 'package:coupon_app/domain/entities/models/Product.dart';
 import 'package:coupon_app/domain/entities/models/ProductDetail.dart';
+import 'package:coupon_app/domain/entities/models/ProductVariantValue.dart';
+import 'package:coupon_app/domain/entities/models/ProductWithRelated.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -74,14 +79,13 @@ class _ProductItemState extends State<ProductItem>
               children: [
                 Container(
                     height : 140.sp,
-                    child:AppImage(
+                    child: AppImage(
                   widget.product.product != null
                       ? widget.product.product.thumb_img
                       : "",
-                  fit: BoxFit.fitWidth,
+                  fit: BoxFit.contain,
                 )),
-                Expanded(child: SizedBox(),
-                   ),
+                Expanded(child: SizedBox(),),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: Dimens.spacingMedium,
@@ -174,14 +178,7 @@ class _ProductItemState extends State<ProductItem>
                               onTap: () {
                                 /* showGenericSnackbar(
                               context, LocaleKeys.itemAddedToCart.tr());*/
-                                if (widget.product.product != null &&
-                                    widget.product.product
-                                        .isVariantRequired()) {
-                                  AppRouter()
-                                      .productDetails(context, widget.product);
-                                } else {
-                                  addToCart();
-                                }
+                                addToCart();
                               },
                             ),
                           ),
@@ -198,9 +195,63 @@ class _ProductItemState extends State<ProductItem>
     );
   }
 
+  ProductVariantValue selectedVariant;
   Future<void> addToCart() async {
     try {
-      await _cartStream.addToCart(widget.product.product, null);
+      if(widget.product.product != null && widget.product.product.product_variants != null ){
+        if(!widget.product.product.isVariantRequired()){
+           await _cartStream.addToCart(widget.product.product, null);
+        return;
+        }
+      }
+      showLoadingDialog(context);
+      ProductWithRelated productDetail = await DataProductRepository().getProductWithRelated(id : widget.product.id.toString());
+      dismissDialog();
+      if(!productDetail.productDetail.product.isVariantRequired()){
+        await _cartStream.addToCart(widget.product.product, null);
+        return;
+      }
+      showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 240,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                 Padding(
+                   padding: const EdgeInsets.all(16.0),
+                   child: VariantPicker(
+                       productDetail.productDetail.product.product_variants,
+                       product: productDetail.productDetail.product,
+                   onPickVariant: (variant){
+                     selectedVariant = variant;
+                   },),
+                 ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: RaisedButton(
+                      child:  Text(LocaleKeys.addToCart.tr(), style: buttonText,),
+                      onPressed: ()  async {
+                        if(selectedVariant == null){
+                          showGenericDialog(context, LocaleKeys.error.tr(), LocaleKeys.errorSelectVariant.tr(args: [""]));
+                          return;
+                        }
+                        Navigator.of(context).pop();
+                        await _cartStream.addToCart(widget.product.product, selectedVariant);
+                      },
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      );
+
     } catch (e) {
       showGenericDialog(context, LocaleKeys.error.tr(), e.message);
     }

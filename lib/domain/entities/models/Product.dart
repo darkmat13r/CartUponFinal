@@ -199,11 +199,11 @@ class Product {
   }
   bool isVariantRequired() {
     if (product_variants != null) {
-      product_variants.forEach((element) {
-        if (element.required) {
+      for(var i = 0; i<product_variants.length ; i++){
+        if(product_variants[i].required){
           return true;
         }
-      });
+      }
     }
     return false;
   }

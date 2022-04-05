@@ -23,6 +23,10 @@ class _AppImageState extends State<AppImage> {
             .of(context)
             .size
             .width,
+        height: MediaQuery
+            .of(context)
+            .size
+            .width,
 
         child: CachedNetworkImage(
           placeholder: (context, url) =>  Image.asset(Resources.placeholder , fit: BoxFit.cover,),

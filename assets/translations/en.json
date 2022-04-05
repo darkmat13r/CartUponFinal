@@ -325,5 +325,6 @@
   "off" : "Off",
   "officeAddress" : "Office Address",
   "maxQty" : "Max Qty : {}",
-  "ratings" : "Ratings"
+  "ratings" : "Ratings",
+  "selectVariant" : "Choose Variant"
 }
