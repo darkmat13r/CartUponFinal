@@ -77,14 +77,15 @@ class _ProductItemState extends State<ProductItem>
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                    height : 140.sp,
-                    child: AppImage(
-                  widget.product.product != null
-                      ? widget.product.product.thumb_img
-                      : "",
-                  fit: BoxFit.contain,
-                )),
+                AspectRatio(
+                  aspectRatio: 1/1,
+                  child: AppImage(
+                    widget.product.product != null
+                        ? widget.product.product.thumb_img
+                        : "",
+                    fit: BoxFit.contain,
+                  ),
+                ),
                 Expanded(child: SizedBox(),),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -237,7 +238,8 @@ class _ProductItemState extends State<ProductItem>
                       child:  Text(LocaleKeys.addToCart.tr(), style: buttonText,),
                       onPressed: ()  async {
                         if(selectedVariant == null){
-                          showGenericDialog(context, LocaleKeys.error.tr(), LocaleKeys.errorSelectVariant.tr(args: [""]));
+                          showGenericDialog(context, LocaleKeys.error.tr(),
+                              LocaleKeys.errorSelectVariant.tr(args: [productDetail.productDetail.product.getRequiredVariant().name.toLowerCase()]));
                           return;
                         }
                         Navigator.of(context).pop();

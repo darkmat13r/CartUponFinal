@@ -175,10 +175,11 @@ class ProductController extends BaseController {
   void addToCartWithVariant(
       Product product, ProductVariantValue selectedProductVariant) async{
     if (product.isVariantRequired() && selectedProductVariant == null) {
+      Logger().e("Varaint is required");
       showGenericSnackbar(
           getContext(),
           LocaleKeys.errorSelectVariant
-              .tr(args: [product.getRequiredVariant().name]),
+              .tr(args: [product.getRequiredVariant().name.toLowerCase()]),
           isError: true);
       return;
     }

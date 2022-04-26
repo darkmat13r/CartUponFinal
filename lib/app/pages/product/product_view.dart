@@ -516,7 +516,7 @@ class ProductPageView
                     ),
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.width * 0.75,
+                    height: 300.sp,
                     width: double.infinity,
                     child: ListView.builder(
                       shrinkWrap: true,
