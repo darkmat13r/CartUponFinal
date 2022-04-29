@@ -1,9 +1,11 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.darkmat13r.coupon_app">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -24,6 +26,8 @@
             <action android:name="android.intent.action.SEND" />
             <data android:mimeType="*/*" />
         </intent>
+
+        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
     </queries>
     <application
         android:name="androidx.multidex.MultiDexApplication"
@@ -111,9 +115,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
 
         <activity
             android:name="com.facebook.FacebookActivity"

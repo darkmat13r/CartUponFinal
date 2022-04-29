@@ -7,12 +7,11 @@ import 'package:coupon_app/domain/repositories/authentication_repository.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
-
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 class WelcomeController extends Controller {
-  final facebookLogin = FacebookLogin();
+
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   final WelcomePresenter _presenter;
 
@@ -60,7 +59,22 @@ class WelcomeController extends Controller {
   }
 
   loginWithFacebook() async {
-    final result = await facebookLogin.logIn(['email','public_profile']);
+    final LoginResult result = await FacebookAuth.instance.login(); // by default we request the email and the public profile
+// or FacebookAuth.i.login()
+    if (result.status == LoginStatus.success) {
+      // you are logged
+      final AccessToken accessToken = result.accessToken;
+      _presenter.facebookLogin(accessToken: result.accessToken.token);
+      analytics.logSignUp(
+        signUpMethod: 'Facebook',
+      );
+    } else {
+      print(result.status);
+      print(result.message);
+      showGenericSnackbar(
+          getContext(), result.message, isError: true);
+    }
+   /* final result = await facebookLogin.logIn(['email','public_profile']);
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         Logger().e("FB Token ${result.accessToken.token}");
@@ -77,7 +91,7 @@ class WelcomeController extends Controller {
         showGenericSnackbar(getContext(), result.errorMessage, isError: true);
         print(result.errorMessage);
         break;
-    }
+    }*/
   }
 
   loginWithGoogle() async {
