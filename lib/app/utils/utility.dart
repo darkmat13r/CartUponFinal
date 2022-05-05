@@ -72,7 +72,7 @@ class Utility {
     var salePrice = product.sale_price != null ?  double.parse(product.sale_price ?? "0.0") : 0;
     var offerPrice = product.offer_price != null ? double.parse(product.offer_price) :  0.00;
     double price = 0;
-    var variantOffer =  double.tryParse(product.getOfferPriceByVariant(variantValue));
+    var variantOffer =  double.tryParse(product.getVariantOfferPriceByVariant(variantValue));
     return product != null && product.price != null &&
         originalPrice > (showTimer && offerPrice > 0 ? variantOffer : salePrice);
   }

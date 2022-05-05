@@ -40,7 +40,7 @@ class Price extends StatelessWidget {
         Text(
           Utility.currencyFormat(product!=
               null
-              ? product.getOfferPriceByVariant(variantValue)
+              ? product.getVariantOfferPriceByVariant(variantValue)
               : 0),
           style: bodyTextNormal1.copyWith(
               color: AppColors.primary),
@@ -89,7 +89,7 @@ class VariantPrice extends StatelessWidget {
         Text(
           Utility.currencyFormat(product!=
               null
-              ? product.getOfferPriceByVariant(variantValue)
+              ? product.getVariantOfferPriceByVariant(variantValue)
               : 0),
           style: bodyTextNormal1.copyWith(
               color: AppColors.primary),

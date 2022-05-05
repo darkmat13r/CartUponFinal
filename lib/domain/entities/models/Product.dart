@@ -169,10 +169,10 @@ class Product {
     return false;
   }
 
-  String getOfferPriceByVariant(ProductVariantValue value) {
-    if (isInOffer() && value != null) {
-      return value.offerPrice;
-    }
+  String getOfferPrice(ProductVariantValue value) {
+   /* if (isInOffer() && value != null) {
+      return value.offerPrice != null ? value.offerPrice : value.salePrice;
+    }*/
     if(isInOffer()){
       return offer_price;
     }
@@ -185,7 +185,7 @@ class Product {
   }
   String getVariantOfferPriceByVariant(ProductVariantValue value) {
     if(value == null){
-      return "0";
+      return getOfferPrice(value);
     }
     if (isInOffer() && value != null) {
       return value.offerPrice;
@@ -222,7 +222,7 @@ class Product {
   String getDiscount(ProductVariantValue value) {
 
     try{
-      var offerPrice =  getOfferPriceByVariant(value);
+      var offerPrice =  getOfferPrice(value);
       var selectedPrice = price;
       if(value != null){
         selectedPrice = value.price;

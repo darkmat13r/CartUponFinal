@@ -64,6 +64,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>1521286938230675</string>
+	<key>FacebookClientToken</key>
+    <string>e7541256aa08644de05311e9a718416a</string>
 	<key>FacebookDisplayName</key>
 	<string>CartUpon</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
